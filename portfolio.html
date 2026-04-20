@@ -1,63 +1,176 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Projects — Niik's Digital Garden</title>
-    <meta name="description" content="Placeholder projects page in Niik's Digital Garden design system." />
-    <link rel="stylesheet" href="tailwind-built.css" />
-  </head>
-  <body>
-    <div id="site-root">
-      <main class="mx-auto w-full max-w-screen-sm px-8 pb-24 font-sans md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-2xl">
-        <nav class="pointer-events-none sticky top-0 isolate z-10 flex items-center justify-center py-4 px-1 md:justify-between">
-          <div class="pointer-events-auto relative flex rounded-lg border border-neutral-200 bg-white/70 p-1 shadow-md backdrop-blur-md">
-            <div class="absolute left-0 -z-10 h-7 rounded bg-neutral-200 backdrop-blur transition-[width,transform,opacity]"></div>
-            <a class="rounded py-1 px-2 text-sm tracking-tight text-neutral-400 transition-colors hover:text-neutral-900" href="index.html">Niik</a>
-            <a class="rounded py-1 px-2 text-sm tracking-tight text-neutral-900" href="portfolio.html">Projects</a>
-            <a class="rounded py-1 px-2 text-sm tracking-tight text-neutral-400 transition-colors hover:text-neutral-900" href="writing.html">Writing</a>
-            <a class="rounded py-1 px-2 text-sm tracking-tight text-neutral-400 transition-colors hover:text-neutral-900" href="reading.html">Reading</a>
-            <a class="rounded py-1 px-2 text-sm tracking-tight text-neutral-400 transition-colors hover:text-neutral-900" href="hobbies.html">Hobbies</a>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>projects — niik</title>
+  <link rel="stylesheet" href="design-system/colors_and_type.css" />
+  <link rel="stylesheet" href="shared/shell.css" />
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="shared/data.js"></script>
+  <script src="shared/components.js"></script>
+  <style>
+    .port-head { padding: 72px 0 40px; }
+    .port-head h1 {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5.5vw, 64px);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      line-height: 1.04;
+      color: var(--fg-1);
+      margin: 14px 0 0;
+      max-width: 18ch;
+    }
+    .port-head h1 em { font-style: italic; color: var(--electric-200); font-weight: 300; }
+    .port-head p {
+      font-size: 16px; color: var(--fg-2);
+      line-height: 1.6; margin: 20px 0 0; max-width: 56ch;
+    }
+    .port-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .port-count {
+      font-family: var(--font-mono); font-size: 12px; color: var(--fg-3);
+    }
+
+    /* grid layout */
+    .grid-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 18px;
+    }
+
+    /* masonry-ish index (year groups) */
+    .year-group { margin-bottom: 48px; }
+    .year-group__head {
+      display: flex; align-items: baseline; gap: 14px;
+      padding: 6px 0 14px;
+      border-bottom: 1px dashed var(--border-2);
+      margin-bottom: 6px;
+    }
+    .year-group__year {
+      font-family: var(--font-display);
+      font-size: 30px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--electric-200);
+      letter-spacing: -0.01em;
+    }
+    .year-group__count {
+      font-family: var(--font-mono); font-size: 12px; color: var(--fg-3);
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="env,react">
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "layout": "grid",
+      "showThumbs": true
+    }/*EDITMODE-END*/;
+
+    function App() {
+      const [tweaks, setTweaks] = React.useState(TWEAK_DEFAULTS);
+      const [open] = useTweaksHost();
+      const update = (k, v) => { setTweaks(t => ({ ...t, [k]: v })); persistTweak(k, v); };
+
+      const [filter, setFilter] = React.useState('all');
+      const projects = window.PROJECTS;
+      const filtered = filter === 'all' ? projects : projects.filter(p => p.kind === filter);
+
+      const byYear = React.useMemo(() => {
+        const m = {};
+        filtered.forEach(p => { (m[p.year] = m[p.year] || []).push(p); });
+        return Object.keys(m).sort().reverse().map(y => ({ year: y, items: m[y] }));
+      }, [filtered]);
+
+      return (
+        <>
+          <Nav current="portfolio" />
+          <main className="page hero-backdrop">
+            <header className="port-head">
+              <Eyebrow>projects · {projects.length} in the garden</Eyebrow>
+              <h1>things i've <em>designed</em> and <em>built</em>.</h1>
+              <p>
+                a mix of product design, engineering, and the occasional tools-for-myself experiment. each card links to a case study — some are long-form deep dives, others are short skims.
+              </p>
+            </header>
+
+            <div className="port-toolbar">
+              <div className="filterbar">
+                {[
+                  { key: 'all', label: 'all' },
+                  { key: 'uiux', label: 'ui/ux' },
+                  { key: 'code', label: 'code' },
+                ].map(f => (
+                  <button key={f.key} aria-pressed={filter === f.key} onClick={() => setFilter(f.key)}>
+                    {f.label}
+                  </button>
+                ))}
+              </div>
+              <div className="port-count">
+                {filtered.length} shown · {tweaks.layout} view
+              </div>
+            </div>
+
+            {tweaks.layout === 'grid' && (
+              <div className="grid-layout">
+                {filtered.map(p => <ProjectCard key={p.slug} project={p} showThumb={tweaks.showThumbs} />)}
+              </div>
+            )}
+
+            {tweaks.layout === 'list' && (
+              <div>
+                {filtered.map(p => <ListRow key={p.slug} project={p} />)}
+              </div>
+            )}
+
+            {tweaks.layout === 'years' && (
+              <div>
+                {byYear.map(group => (
+                  <div className="year-group" key={group.year}>
+                    <div className="year-group__head">
+                      <span className="year-group__year">{group.year}</span>
+                      <span className="year-group__count">{group.items.length} project{group.items.length === 1 ? '' : 's'}</span>
+                    </div>
+                    {group.items.map(p => <ListRow key={p.slug} project={p} />)}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <Footer />
+          </main>
+
+          <div className={`tweaks ${open ? 'tweaks--open' : ''}`}>
+            <h3 className="tweaks__title">Tweaks</h3>
+            <div className="tweaks__sub">portfolio layout</div>
+            <div className="tweaks__row">
+              <label className="tweaks__label">layout</label>
+              <div className="tweaks__seg">
+                {['grid','list','years'].map(k => (
+                  <button key={k} aria-pressed={tweaks.layout === k} onClick={() => update('layout', k)}>{k}</button>
+                ))}
+              </div>
+            </div>
+            <div className="tweaks__row">
+              <label className="tweaks__label">thumbnails (grid)</label>
+              <div className="tweaks__seg">
+                <button aria-pressed={tweaks.showThumbs} onClick={() => update('showThumbs', true)}>on</button>
+                <button aria-pressed={!tweaks.showThumbs} onClick={() => update('showThumbs', false)}>off</button>
+              </div>
+            </div>
           </div>
-        </nav>
+        </>
+      );
+    }
 
-        <header class="mt-6 border-b border-neutral-200 pb-12">
-          <p class="text-sm tracking-tight text-neutral-400">Projects</p>
-          <h1 class="font-serif-variation font-serif mt-2 text-2xl font-light !leading-tight text-neutral-900 sm:text-3xl lg:text-4xl">
-            Portfolio placeholders using your garden card system.
-          </h1>
-          <p class="mt-6 max-w-2xl text-sm leading-relaxed tracking-tight text-neutral-600">
-            Replace each block with a real case study while preserving the same visual rhythm.
-          </p>
-        </header>
-
-        <section class="space-y-3 pt-10">
-          <article class="rounded-lg border border-neutral-200 bg-neutral-50 p-5 shadow-skeuo">
-            <div class="bg-violet-400/40 text-violet-900 inline-block rounded px-1.5 pt-0.5 pb-1 font-mono text-xs tracking-tight shadow-inset-skeuo">UI/UX</div>
-            <h2 class="font-serif-variation font-serif mt-3 text-2xl font-light tracking-tight text-neutral-900">Project Placeholder One</h2>
-            <p class="mt-2 text-sm leading-relaxed tracking-tight text-neutral-600">Insert a short overview of the problem, approach, and key outcome.</p>
-            <span class="mt-3 block text-xs tracking-tight text-neutral-400">Tooling · Timeline · Role</span>
-          </article>
-
-          <article class="rounded-lg border border-neutral-200 bg-neutral-50 p-5 shadow-skeuo">
-            <div class="bg-pink-400/40 text-pink-900 inline-block rounded px-1.5 pt-0.5 pb-1 font-mono text-xs tracking-tight shadow-inset-skeuo">GRAPHIC</div>
-            <h2 class="font-serif-variation font-serif mt-3 text-2xl font-light tracking-tight text-neutral-900">Project Placeholder Two</h2>
-            <p class="mt-2 text-sm leading-relaxed tracking-tight text-neutral-600">Insert visual direction, brand system decisions, and deliverables.</p>
-            <span class="mt-3 block text-xs tracking-tight text-neutral-400">Tooling · Timeline · Role</span>
-          </article>
-
-          <article class="rounded-lg border border-neutral-200 bg-neutral-50 p-5 shadow-skeuo">
-            <div class="bg-amber-400/40 text-amber-900 inline-block rounded px-1.5 pt-0.5 pb-1 font-mono text-xs tracking-tight shadow-inset-skeuo">VIDEO</div>
-            <h2 class="font-serif-variation font-serif mt-3 text-2xl font-light tracking-tight text-neutral-900">Project Placeholder Three</h2>
-            <p class="mt-2 text-sm leading-relaxed tracking-tight text-neutral-600">Insert story context, production role, and post-production notes.</p>
-            <span class="mt-3 block text-xs tracking-tight text-neutral-400">Tooling · Timeline · Role</span>
-          </article>
-        </section>
-
-        <footer class="flex justify-center pt-24">
-          <span class="text-sm tracking-tight text-neutral-400">Planted by Niik Seah</span>
-        </footer>
-      </main>
-    </div>
-  </body>
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
 </html>

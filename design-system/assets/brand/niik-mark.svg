@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120" role="img" aria-label="niik mark — n with star drawn in one motion">
+  
+  <g fill="none" stroke="#f3f5ff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="&#xA;      M 50 30&#xA;      L 67.63 84.27&#xA;      L 21.47 50.73&#xA;      L 78.53 50.73&#xA;      L 32.37 84.27&#xA;      L 50 30&#xA;      C 72 18  108 24  110 96&#xA;      L 110 50&#xA;      C 110 40  120 34  128 34&#xA;      C 140 34  148 42  148 96&#xA;    "></path>
+  </g>
+  
+  <circle cx="50" cy="60" r="1.8" fill="#7cb8ff"></circle>
+</svg>

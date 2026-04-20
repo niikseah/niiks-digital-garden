@@ -1,0 +1,264 @@
+/* ─────────────────────────────────────────────────────────────
+   niik's digital garden — colors & type
+   A whimsical-minimalism system built on midnight + electric blues.
+   ───────────────────────────────────────────────────────────── */
+
+@import url('./fonts/fonts.css');
+
+:root {
+  /* ── MIDNIGHT (backgrounds, surfaces, structure) ─────────── */
+  --midnight-950: #070b1a;  /* deep void — full-bleed backgrounds */
+  --midnight-900: #0b1024;  /* primary bg */
+  --midnight-850: #0f1530;  /* app surface */
+  --midnight-800: #131a3c;  /* raised card */
+  --midnight-700: #1b2350;  /* hover surface / elevated */
+  --midnight-600: #252e66;  /* borders on dark */
+  --midnight-500: #3a437f;  /* muted dividers */
+
+  /* ── ELECTRIC (accent, links, glow) ──────────────────────── */
+  --electric-50:  #eaf3ff;
+  --electric-100: #c9defe;
+  --electric-200: #93befd;
+  --electric-300: #5b9cff;
+  --electric-400: #3b82f6;
+  --electric-500: #2a6bff;  /* primary link / brand blue */
+  --electric-600: #1e57e8;
+  --electric-700: #1847c4;
+  --electric-glow: #7cb8ff; /* used for glows / highlights */
+
+  /* ── PAPER (light mode surfaces — a warm off-white) ──────── */
+  --paper-50:  #fbfaf7;
+  --paper-100: #f5f2ea;
+  --paper-200: #ebe6d9;
+  --paper-300: #d9d1be;
+  --ink-900:   #0b1024;     /* same as midnight-900 — ink on paper */
+  --ink-700:   #2a3358;
+  --ink-500:   #4b5583;
+  --ink-400:   #6b75a6;
+
+  /* ── GARDEN SEMANTIC (soft, natural accents — used sparingly) */
+  --moss:   #6fb38a;   /* "seedling / fresh" note state */
+  --bloom:  #e89bc2;   /* "budding" state */
+  --amber:  #f0b35a;   /* "evergreen / featured" */
+  --rose:   #e8697a;   /* destructive / removal */
+
+  /* ── SEMANTIC (NIGHT — default) ──────────────────────────── */
+  --fg-1: #f3f5ff;
+  --fg-2: rgba(243,245,255,.78);
+  --fg-3: rgba(243,245,255,.56);
+  --fg-4: rgba(243,245,255,.36);
+  --fg-link: var(--electric-300);
+  --fg-link-hover: var(--electric-glow);
+
+  --bg-1: var(--midnight-900);
+  --bg-2: var(--midnight-850);
+  --bg-3: var(--midnight-800);
+  --bg-4: var(--midnight-700);
+
+  --border-1: rgba(124,184,255,.10);
+  --border-2: rgba(124,184,255,.18);
+  --border-strong: rgba(124,184,255,.32);
+
+  /* ── AURORA (grainy mesh gradient stops) ─────────────────── */
+  --aurora-a: #2a6bff;
+  --aurora-b: #7cb8ff;
+  --aurora-c: #1847c4;
+  --aurora-d: #93befd;
+}
+
+/* ── DAY MODE (electric) ───────────────────────────────────── */
+[data-theme="day"] {
+  --fg-1: #0b1024;
+  --fg-2: rgba(11,16,36,.78);
+  --fg-3: rgba(11,16,36,.56);
+  --fg-4: rgba(11,16,36,.32);
+  --fg-link: var(--electric-600);
+  --fg-link-hover: var(--electric-700);
+
+  --bg-1: #eaf3ff;      /* sky */
+  --bg-2: #dce9ff;
+  --bg-3: #ffffff;      /* cards pop white */
+  --bg-4: #f4f8ff;
+
+  --border-1: rgba(30,87,232,.12);
+  --border-2: rgba(30,87,232,.22);
+  --border-strong: rgba(30,87,232,.40);
+
+  --aurora-a: #c9defe;
+  --aurora-b: #93befd;
+  --aurora-c: #eaf3ff;
+  --aurora-d: #7cb8ff;
+
+  /* ── TYPOGRAPHY ──────────────────────────────────────────── */
+  --font-display: 'Apple Garamond', ui-serif, Georgia, 'Times New Roman', serif;
+  --font-body:    'Helvetica Neue', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Fluid type scale — display uses Fraunces optical sizing */
+  --step--1: clamp(0.80rem, 0.78rem + 0.10vw, 0.875rem);
+  --step-0:  clamp(0.95rem, 0.92rem + 0.15vw, 1.05rem);
+  --step-1:  clamp(1.15rem, 1.08rem + 0.30vw, 1.35rem);
+  --step-2:  clamp(1.40rem, 1.28rem + 0.55vw, 1.75rem);
+  --step-3:  clamp(1.80rem, 1.55rem + 1.10vw, 2.50rem);
+  --step-4:  clamp(2.40rem, 1.90rem + 2.20vw, 3.80rem);
+  --step-5:  clamp(3.00rem, 2.20rem + 3.80vw, 5.50rem);
+
+  /* ── SPACING (4 + 8 hybrid, breathes generously) ─────────── */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+  --s-10: 144px;
+
+  /* ── RADII ───────────────────────────────────────────────── */
+  --radius-1: 4px;
+  --radius-2: 8px;
+  --radius-3: 14px;   /* default card */
+  --radius-4: 22px;   /* large card */
+  --radius-pill: 999px;
+
+  /* ── SHADOWS + GLOW ──────────────────────────────────────── */
+  --shadow-1: 0 1px 2px rgba(0,0,0,.25);
+  --shadow-2: 0 6px 20px -8px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.20);
+  --shadow-3: 0 20px 60px -20px rgba(0,0,0,.60), 0 6px 16px rgba(0,0,0,.25);
+  --glow-sm: 0 0 0 1px rgba(124,184,255,.18), 0 0 24px -6px rgba(60,130,255,.35);
+  --glow-md: 0 0 0 1px rgba(124,184,255,.28), 0 0 48px -8px rgba(60,130,255,.55);
+  --glow-lg: 0 0 0 1px rgba(124,184,255,.40), 0 0 80px -10px rgba(60,130,255,.75);
+
+  /* ── MOTION ──────────────────────────────────────────────── */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);  /* gentle overshoot */
+  --dur-1: 120ms;
+  --dur-2: 200ms;
+  --dur-3: 320ms;
+  --dur-4: 520ms;
+}
+
+/* ─────────── Semantic element defaults ─────────── */
+/* ── AURORA background — grainy mesh gradient ──────────────── */
+.aurora-bg {
+  position: relative;
+  background: var(--bg-1);
+  isolation: isolate;
+}
+.aurora-bg::before {
+  content: "";
+  position: absolute; inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(40% 50% at 18% 22%, var(--aurora-a) 0%, transparent 60%),
+    radial-gradient(35% 45% at 82% 18%, var(--aurora-b) 0%, transparent 60%),
+    radial-gradient(50% 55% at 28% 88%, var(--aurora-c) 0%, transparent 60%),
+    radial-gradient(40% 45% at 78% 82%, var(--aurora-d) 0%, transparent 60%),
+    var(--bg-1);
+  filter: blur(40px) saturate(1.1);
+  opacity: 0.65;
+}
+.aurora-bg::after {
+  content: "";
+  position: absolute; inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.18;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+html, body {
+  background: var(--bg-1);
+  color: var(--fg-1);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--fg-1);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  font-weight: 400;
+  /* Apple Garamond runs light — weights 300/400/700 exist. */
+}
+
+h1 { font-size: var(--step-5); font-weight: 400; letter-spacing: -0.025em; }
+h2 { font-size: var(--step-4); font-weight: 400; letter-spacing: -0.02em; }
+h3 { font-size: var(--step-3); font-weight: 400; letter-spacing: -0.015em; }
+h4 { font-size: var(--step-2); font-weight: 700; letter-spacing: -0.01em; }
+
+/* Display italic — Fraunces italic is gorgeous, use for pull-quotes / flourishes */
+.display-italic { font-style: italic; font-weight: 400; }
+
+/* Body-copy eyebrows / metadata */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  font-weight: 500;
+}
+
+p { color: var(--fg-2); max-width: 62ch; }
+p + p { margin-top: 1em; }
+
+a {
+  color: var(--fg-link);
+  text-decoration: underline;
+  text-decoration-color: rgba(124,184,255,.35);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color var(--dur-2) var(--ease-out),
+              text-decoration-color var(--dur-2) var(--ease-out);
+}
+a:hover {
+  color: var(--fg-link-hover);
+  text-decoration-color: var(--fg-link-hover);
+}
+
+code, pre, kbd {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+code {
+  background: var(--midnight-800);
+  padding: 0.12em 0.4em;
+  border-radius: var(--radius-1);
+  border: 1px solid var(--border-1);
+  color: var(--electric-200);
+}
+pre {
+  background: var(--midnight-850);
+  padding: var(--s-5);
+  border-radius: var(--radius-3);
+  border: 1px solid var(--border-1);
+  overflow-x: auto;
+  line-height: 1.55;
+}
+pre code { background: none; border: 0; padding: 0; color: var(--fg-1); }
+
+blockquote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--step-2);
+  line-height: 1.35;
+  color: var(--fg-1);
+  border-left: 2px solid var(--electric-400);
+  padding: var(--s-3) 0 var(--s-3) var(--s-5);
+  margin: var(--s-6) 0;
+}
+
+hr {
+  border: 0;
+  border-top: 1px dashed var(--border-2);
+  margin: var(--s-7) 0;
+}
+
+::selection { background: var(--electric-500); color: white; }

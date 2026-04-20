@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" width="200" height="240" role="img" aria-label="botanical sprig with stars">
+  <g fill="none" stroke="#5b9cff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M100 230 C100 180 98 140 102 100 C104 70 108 45 112 20"></path>
+    <path d="M102 200 C 80 195 66 180 62 165 C 80 168 96 180 102 200 Z"></path>
+    <path d="M101 175 C 122 170 138 158 142 142 C 122 146 106 158 101 175 Z"></path>
+    <path d="M100 148 C 78 142 62 130 58 115 C 78 118 94 128 100 148 Z"></path>
+    <path d="M103 120 C 124 115 138 104 142 88 C 122 92 108 104 103 120 Z"></path>
+    <path d="M106 92 C 88 85 76 72 72 58 C 90 62 102 72 106 92 Z"></path>
+    <path d="M110 64 C 128 58 140 48 142 34 C 124 38 112 48 110 64 Z"></path>
+    <path d="M100 230 C 94 234 90 236 82 238" stroke-opacity="0.5"></path>
+    <path d="M100 230 C 106 234 112 236 120 238" stroke-opacity="0.5"></path>
+  </g>
+  
+  <g fill="#7cb8ff" stroke="none">
+    <path d="M112 6 C112 18 112.8 22 118 23 C112.8 24 112 28 112 40 C112 28 111.2 24 106 23 C111.2 22 112 18 112 6 Z"></path>
+  </g>
+  
+  <g fill="#c9defe">
+    <circle cx="40" cy="60" r="1.2" opacity="0.7"></circle>
+    <circle cx="160" cy="90" r="1" opacity="0.65"></circle>
+    <circle cx="30" cy="130" r="0.8" opacity="0.55"></circle>
+    <circle cx="170" cy="180" r="1.1" opacity="0.75"></circle>
+    <circle cx="50" cy="200" r="0.7" opacity="0.5"></circle>
+  </g>
+  <g fill="#7cb8ff" opacity="0.8">
+    <path d="M148 142 C148 146 148.4 147 150 147 C148.4 147 148 148 148 152 C148 148 147.6 147 146 147 C147.6 147 148 146 148 142 Z"></path>
+    <path d="M58 82 C58 86 58.4 87 60 87 C58.4 87 58 88 58 92 C58 88 57.6 87 56 87 C57.6 87 58 86 58 82 Z"></path>
+  </g>
+</svg>

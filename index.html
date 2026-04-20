@@ -1,92 +1,237 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Niik's Digital Garden</title>
-    <meta name="description" content="Placeholder homepage for Niik's Digital Garden design system." />
-    <link rel="stylesheet" href="tailwind-built.css" />
-    <style>
-      html {
-        -webkit-text-size-adjust: 100%;
-      }
-      img,
-      video {
-        max-width: 100%;
-        height: auto;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="site-root">
-      <main class="mx-auto w-full max-w-screen-sm px-8 pb-24 font-sans md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-2xl">
-        <nav class="pointer-events-none sticky top-0 isolate z-10 flex items-center justify-center py-4 px-1 md:justify-between">
-          <div class="pointer-events-auto relative flex rounded-lg border border-neutral-200 bg-white/70 p-1 shadow-md backdrop-blur-md">
-            <div class="absolute left-0 -z-10 h-7 rounded bg-neutral-200 backdrop-blur transition-[width,transform,opacity]"></div>
-            <a class="rounded py-1 px-2 text-sm tracking-tight text-neutral-900" href="index.html">Niik</a>
-            <a class="rounded py-1 px-2 text-sm tracking-tight text-neutral-400 transition-colors hover:text-neutral-900" href="portfolio.html">Projects</a>
-            <a class="rounded py-1 px-2 text-sm tracking-tight text-neutral-400 transition-colors hover:text-neutral-900" href="writing.html">Writing</a>
-            <a class="rounded py-1 px-2 text-sm tracking-tight text-neutral-400 transition-colors hover:text-neutral-900" href="reading.html">Reading</a>
-            <a class="rounded py-1 px-2 text-sm tracking-tight text-neutral-400 transition-colors hover:text-neutral-900" href="hobbies.html">Hobbies</a>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>niik — digital garden</title>
+  <meta name="description" content="niik's digital garden — notes, projects, and half-baked thoughts." />
+  <link rel="stylesheet" href="design-system/colors_and_type.css" />
+  <link rel="stylesheet" href="shared/shell.css" />
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="shared/data.js"></script>
+  <script src="shared/components.js"></script>
+  <style>
+    .hero {
+      padding: 88px 0 56px;
+    }
+    .hero__name {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 7vw, 88px);
+      font-weight: 400;
+      letter-spacing: -0.035em;
+      line-height: 1.02;
+      color: var(--fg-1);
+      margin: 18px 0 0;
+    }
+    .hero__name em { font-style: italic; color: var(--electric-200); font-weight: 300; }
+    .hero__lede {
+      margin-top: 22px;
+      font-size: 18px;
+      line-height: 1.55;
+      color: var(--fg-2);
+      max-width: 58ch;
+    }
+    .hero__lede .slot { font-size: 0.9em; }
+    .hero__actions {
+      display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap;
+    }
+
+    .now-strip {
+      margin-top: 56px;
+      padding: 18px 22px;
+      border-left: 2px solid var(--electric-400);
+      background: linear-gradient(90deg, rgba(124,184,255,.04), transparent 70%);
+      color: var(--fg-2);
+      font-size: 15px;
+      line-height: 1.55;
+      max-width: 62ch;
+    }
+    .now-strip .eyebrow { margin-bottom: 6px; }
+
+    .section-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin: 80px 0 28px;
+      gap: 16px;
+    }
+    .section-head h2 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3vw, 36px);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      color: var(--fg-1);
+      margin: 0;
+    }
+    .section-head em { font-style: italic; color: var(--electric-200); font-weight: 300; }
+    .section-head a {
+      font-size: 13px;
+      color: var(--electric-300);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .section-head a:hover { color: var(--electric-glow); }
+
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
+    }
+
+    /* small sections grid */
+    .garden-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .garden-card {
+      display: flex; flex-direction: column; gap: 8px;
+      padding: 20px;
+      border-radius: 14px;
+      background: var(--midnight-850);
+      border: 1px solid var(--border-1);
+      text-decoration: none; color: inherit;
+      transition: border-color var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
+    }
+    .garden-card:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+    .garden-card h3 {
+      font-family: var(--font-display);
+      font-size: 20px; font-weight: 400;
+      letter-spacing: -0.015em;
+      color: var(--fg-1); margin: 0;
+    }
+    .garden-card p { font-size: 13px; color: var(--fg-3); line-height: 1.55; margin: 0; }
+    .garden-card .eyebrow { color: var(--electric-300); font-size: 10px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="env,react">
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "accent": "electric",
+      "showNowStrip": true
+    }/*EDITMODE-END*/;
+
+    function App() {
+      const [tweaks, setTweaks] = React.useState(TWEAK_DEFAULTS);
+      const [open, setOpen] = useTweaksHost();
+      const update = (k, v) => { setTweaks(t => ({ ...t, [k]: v })); persistTweak(k, v); };
+
+      React.useEffect(() => {
+        const accentMap = {
+          electric: { a: 'var(--electric-500)', b: 'var(--electric-200)', c: 'var(--electric-300)' },
+          moss:     { a: '#3d8c63',            b: '#a9d6bd',            c: '#6fb38a' },
+          bloom:    { a: '#c25e8c',            b: '#f0c3d9',            c: '#e89bc2' },
+        };
+        const t = accentMap[tweaks.accent] || accentMap.electric;
+        document.documentElement.style.setProperty('--accent-solid', t.a);
+        document.documentElement.style.setProperty('--accent-soft', t.b);
+        document.documentElement.style.setProperty('--accent-link', t.c);
+      }, [tweaks.accent]);
+
+      const featured = window.FEATURED.map(s => window.PROJECTS.find(p => p.slug === s)).filter(Boolean);
+
+      return (
+        <>
+          <Nav current="home" />
+          <main className="page hero-backdrop">
+            <section className="hero">
+              <Eyebrow>a digital garden · tended since 2023</Eyebrow>
+              <h1 className="hero__name">
+                hi, i'm <em>niik</em>.
+              </h1>
+              <p className="hero__lede">
+                i'm a <Slot>role / discipline</Slot> based in <Slot>city</Slot>.
+                i design and build <Slot>one-line pitch — what you make and who it's for</Slot>.
+                this is my garden — a place for projects, writing, and half-formed thoughts that i come back to and tend.
+              </p>
+
+              <div className="hero__actions">
+                <a className="btn btn--primary" href="portfolio.html">
+                  see the work <Icon name="arrowR" size={14}/>
+                </a>
+                <a className="btn btn--ghost" href="public/resume.pdf">résumé (pdf)</a>
+              </div>
+
+              <div className="bio-row">
+                <a href="#" aria-label="github"><Icon name="github" size={14}/> github</a>
+                <span className="sep">·</span>
+                <a href="#" aria-label="twitter"><Icon name="twitter" size={14}/> twitter</a>
+                <span className="sep">·</span>
+                <a href="#" aria-label="email"><Icon name="mail" size={14}/> email</a>
+                <span className="sep">·</span>
+                <a href="writing.html" aria-label="rss"><Icon name="rss" size={14}/> rss</a>
+              </div>
+            </section>
+
+            {tweaks.showNowStrip && (
+              <div className="now-strip">
+                <div className="eyebrow">currently</div>
+                <Slot>what you're up to right now — one short sentence. e.g. "building a small note-taking tool, reading dune, learning to weld."</Slot>
+              </div>
+            )}
+
+            {/* featured work */}
+            <div className="section-head">
+              <h2>featured <em>work</em></h2>
+              <a href="portfolio.html">see everything →</a>
+            </div>
+            <div className="featured-grid">
+              {featured.map(p => <ProjectCard key={p.slug} project={p} />)}
+            </div>
+
+            {/* other sections of the garden */}
+            <div className="section-head">
+              <h2>rest of the <em>garden</em></h2>
+            </div>
+            <div className="garden-grid">
+              <a className="garden-card" href="writing.html">
+                <div className="eyebrow">writing</div>
+                <h3>notes & essays</h3>
+                <p>half-baked ideas, tended over time.</p>
+              </a>
+              <a className="garden-card" href="reading.html">
+                <div className="eyebrow">reading</div>
+                <h3>what i'm reading</h3>
+                <p>current book + highlights.</p>
+              </a>
+              <a className="garden-card" href="hobbies.html">
+                <div className="eyebrow">hobbies</div>
+                <h3>outside work</h3>
+                <p>climbing, coffee, keyboards, whatever else has my attention.</p>
+              </a>
+            </div>
+
+            <Footer />
+          </main>
+
+          {/* Tweaks */}
+          <div className={`tweaks ${open ? 'tweaks--open' : ''}`}>
+            <h3 className="tweaks__title">Tweaks</h3>
+            <div className="tweaks__sub">home page knobs</div>
+            <div className="tweaks__row">
+              <label className="tweaks__label">accent</label>
+              <div className="tweaks__seg">
+                {['electric', 'moss', 'bloom'].map(k => (
+                  <button key={k} aria-pressed={tweaks.accent === k} onClick={() => update('accent', k)}>{k}</button>
+                ))}
+              </div>
+            </div>
+            <div className="tweaks__row">
+              <label className="tweaks__label">"currently" strip</label>
+              <div className="tweaks__seg">
+                <button aria-pressed={tweaks.showNowStrip} onClick={() => update('showNowStrip', true)}>on</button>
+                <button aria-pressed={!tweaks.showNowStrip} onClick={() => update('showNowStrip', false)}>off</button>
+              </div>
+            </div>
           </div>
-          <div class="hidden transition-opacity pointer-events-auto md:flex" style="opacity: 1">
-            <span class="rounded py-1 px-2 text-sm tracking-tight text-neutral-400">Placeholder mode</span>
-          </div>
-        </nav>
+        </>
+      );
+    }
 
-        <header class="mt-6 border-b border-neutral-200 pb-12">
-          <p class="text-sm tracking-tight text-neutral-400">Home</p>
-          <h1 class="font-serif-variation font-serif mt-2 text-2xl font-light !leading-tight text-neutral-400 sm:text-3xl lg:text-4xl">
-            Welcome to <span class="text-neutral-900">Niik's Digital Garden</span> with placeholder content.
-          </h1>
-          <p class="mt-6 max-w-2xl text-sm leading-relaxed tracking-tight text-neutral-600">
-            This page follows your garden design language: soft surfaces, serif-forward headings,
-            low-contrast supporting text, and compact metadata chips.
-          </p>
-        </header>
-
-        <div class="grid grid-cols-1 gap-2 pt-10 sm:grid-cols-2 lg:grid-cols-3">
-          <a href="portfolio.html" class="group rounded-lg bg-neutral-50 p-5 transition-colors hover:bg-neutral-100">
-            <div class="bg-violet-400/40 text-violet-900 inline-block rounded px-1.5 pt-0.5 pb-1 font-mono text-xs tracking-tight shadow-inset-skeuo">
-              PROJECTS
-            </div>
-            <h2 class="font-serif-variation font-serif mt-4 text-2xl font-light tracking-tight text-neutral-900">Featured Work Placeholder</h2>
-            <p class="mt-3 text-sm leading-relaxed tracking-tight text-neutral-600">Replace with a highlighted project summary and optional case-study link.</p>
-            <span class="mt-4 block text-xs tracking-tight text-neutral-400">Section card · Placeholder</span>
-          </a>
-
-          <a href="writing.html" class="group rounded-lg bg-neutral-50 p-5 transition-colors hover:bg-neutral-100">
-            <div class="bg-fuchsia-400/40 text-fuchsia-900 inline-block rounded px-1.5 pt-0.5 pb-1 font-mono text-xs tracking-tight shadow-inset-skeuo">
-              WRITING
-            </div>
-            <h2 class="font-serif-variation font-serif mt-4 text-2xl font-light tracking-tight text-neutral-900">Latest Notes Placeholder</h2>
-            <p class="mt-3 text-sm leading-relaxed tracking-tight text-neutral-600">Replace with your latest essay, reflection, or media note excerpt.</p>
-            <span class="mt-4 block text-xs tracking-tight text-neutral-400">Section card · Placeholder</span>
-          </a>
-
-          <a href="reading.html" class="group rounded-lg bg-neutral-50 p-5 transition-colors hover:bg-neutral-100">
-            <div class="bg-amber-400/40 text-amber-900 inline-block rounded px-1.5 pt-0.5 pb-1 font-mono text-xs tracking-tight shadow-inset-skeuo">
-              READING
-            </div>
-            <h2 class="font-serif-variation font-serif mt-4 text-2xl font-light tracking-tight text-neutral-900">Current Book Placeholder</h2>
-            <p class="mt-3 text-sm leading-relaxed tracking-tight text-neutral-600">Replace with now-reading, recent highlights, or recommendation snippets.</p>
-            <span class="mt-4 block text-xs tracking-tight text-neutral-400">Section card · Placeholder</span>
-          </a>
-
-          <a href="hobbies.html" class="group rounded-lg bg-neutral-50 p-5 transition-colors hover:bg-neutral-100 sm:col-span-2 lg:col-span-3">
-            <div class="bg-lime-400/40 text-lime-900 inline-block rounded px-1.5 pt-0.5 pb-1 font-mono text-xs tracking-tight shadow-inset-skeuo">
-              HOBBIES
-            </div>
-            <h2 class="font-serif-variation font-serif mt-4 text-2xl font-light tracking-tight text-neutral-900">Life Outside Work Placeholder</h2>
-            <p class="mt-3 max-w-2xl text-sm leading-relaxed tracking-tight text-neutral-600">Replace with cards for climbing, coffee, film, keyboards, plants, or any living archive entries.</p>
-            <span class="mt-4 block text-xs tracking-tight text-neutral-400">Section card · Placeholder</span>
-          </a>
-        </div>
-
-        <footer class="flex justify-center pt-24">
-          <span class="text-sm tracking-tight text-neutral-400">Planted by Niik Seah</span>
-        </footer>
-      </main>
-    </div>
-  </body>
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
 </html>

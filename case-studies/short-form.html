@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[project title] — niik</title>
+  <link rel="stylesheet" href="../design-system/colors_and_type.css" />
+  <link rel="stylesheet" href="../shared/shell.css" />
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="../shared/components.js"></script>
+  <style>
+    .nav__brand img { content: url("../design-system/assets/brand/niik-mark.svg"); }
+    .hero-backdrop::after {
+      background-image: url("../design-system/assets/stars/starfield.svg") !important;
+    }
+
+    .sf-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 40px;
+      font-family: var(--font-mono); font-size: 12px;
+      color: var(--fg-3); text-decoration: none;
+    }
+    .sf-back:hover { color: var(--fg-1); }
+
+    .sf-body { max-width: 720px; margin: 0 auto; padding-top: 28px; }
+    .sf-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      font-family: var(--font-mono); font-size: 12px; color: var(--fg-3);
+    }
+    .sf-meta .dot { width: 3px; height: 3px; border-radius: 999px; background: currentColor; opacity: .5; }
+    .sf-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 400; letter-spacing: -0.03em;
+      line-height: 1.05; color: var(--fg-1);
+      margin: 18px 0 0;
+    }
+    .sf-title em { font-style: italic; color: var(--electric-200); font-weight: 300; }
+    .sf-sub {
+      font-family: var(--font-display);
+      font-style: italic; font-weight: 300;
+      font-size: 22px; color: var(--fg-2);
+      line-height: 1.4; margin: 16px 0 0; max-width: 52ch;
+    }
+
+    .sf-image {
+      margin: 40px 0;
+      aspect-ratio: 16/9;
+      border-radius: 14px;
+      background:
+        radial-gradient(80% 120% at 30% 20%, rgba(42,107,255,.16), transparent 60%),
+        var(--midnight-800);
+      border: 1px solid var(--border-1);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--fg-4);
+      font-family: var(--font-mono); font-size: 12px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    .sf-para { font-size: 17px; line-height: 1.65; color: var(--fg-2); margin: 0 0 16px; max-width: 62ch; }
+
+    .sf-strip {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+      margin: 40px 0;
+    }
+    .sf-strip > div {
+      aspect-ratio: 1/1;
+      border-radius: 10px;
+      background: var(--midnight-800);
+      border: 1px solid var(--border-1);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--fg-4);
+      font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    @media (max-width: 640px) { .sf-strip { grid-template-columns: 1fr 1fr; } }
+
+    .sf-facts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 20px;
+      margin: 32px 0;
+      padding: 20px;
+      border: 1px solid var(--border-1);
+      border-radius: 14px;
+      background: var(--midnight-850);
+    }
+    .sf-facts dt { font-family: var(--font-body); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-3); font-weight: 500; margin-bottom: 6px; }
+    .sf-facts dd { font-family: var(--font-body); font-size: 13px; color: var(--fg-1); margin: 0; line-height: 1.5; }
+
+    .sf-links {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      margin-top: 32px;
+    }
+
+    .sf-tags {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="env,react">
+    function App() {
+      return (
+        <>
+          <Nav current="portfolio" />
+          <main className="page hero-backdrop">
+            <a href="../portfolio.html" className="sf-back">← back to projects</a>
+
+            <article className="sf-body">
+              <div className="sf-meta">
+                <Kind type="code">code</Kind>
+                <span className="dot"></span>
+                <span><Slot>2025</Slot></span>
+                <span className="dot"></span>
+                <span><Slot>weekend project</Slot></span>
+              </div>
+              <h1 className="sf-title">
+                <Slot>project title</Slot> — <em>the quick version</em>.
+              </h1>
+              <p className="sf-sub">
+                <Slot>one sentence on what it is and why it exists.</Slot>
+              </p>
+
+              <div className="sf-image">cover — 16:9</div>
+
+              <dl className="sf-facts">
+                <div><dt>what</dt><dd><Slot>what you made</Slot></dd></div>
+                <div><dt>why</dt><dd><Slot>the itch you scratched</Slot></dd></div>
+                <div><dt>stack</dt><dd><Slot>tools / tech</Slot></dd></div>
+                <div><dt>status</dt><dd><Slot>live / archived</Slot></dd></div>
+              </dl>
+
+              <p className="sf-para">
+                <Slot>paragraph one — the context. what problem you noticed, or what idea was nagging at you.</Slot>
+              </p>
+
+              <p className="sf-para">
+                <Slot>paragraph two — what you did about it. the one move or design decision that mattered most.</Slot>
+              </p>
+
+              <div className="sf-strip">
+                <div>shot 01</div>
+                <div>shot 02</div>
+                <div>shot 03</div>
+              </div>
+
+              <p className="sf-para">
+                <Slot>paragraph three — how it turned out. what you'd change. one honest sentence about what didn't work.</Slot>
+              </p>
+
+              <div className="sf-tags">
+                <span className="tag">#<Slot>tag</Slot></span>
+                <span className="tag">#<Slot>tag</Slot></span>
+                <span className="tag">#<Slot>tag</Slot></span>
+              </div>
+
+              <div className="sf-links">
+                <a className="btn btn--ghost" href="#"><Icon name="arrowUR" size={14}/> live demo</a>
+                <a className="btn btn--ghost" href="#"><Icon name="github" size={14}/> source</a>
+                <a className="btn btn--ghost" href="long-form.html">full write-up →</a>
+              </div>
+            </article>
+
+            <Footer />
+          </main>
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
