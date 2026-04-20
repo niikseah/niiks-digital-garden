@@ -190,7 +190,11 @@
 
             {/* featured work experience */}
             <div className="section-head">
-              <h2>featured <em>work experience</em></h2>
+              <h2>
+                featured
+                <br />
+                <em>work experience</em>
+              </h2>
             </div>
             <div className="featured-grid">
               {featured.map(p => <ProjectCard key={`experience-${p.slug}`} project={p} />)}
