@@ -34,9 +34,6 @@
     const links = [
       { key: 'home', href: 'index.html', label: 'home' },
       { key: 'portfolio', href: 'portfolio.html', label: 'projects' },
-      { key: 'writing', href: 'writing.html', label: 'writing' },
-      { key: 'reading', href: 'reading.html', label: 'reading' },
-      { key: 'hobbies', href: 'hobbies.html', label: 'hobbies' },
     ];
     return e('header', { className: 'nav' },
       e('a', { href: 'index.html', className: 'nav__brand' },
