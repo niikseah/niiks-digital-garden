@@ -152,24 +152,30 @@
                 <a className="btn btn--primary" href="portfolio.html">
                   see the work <Icon name="arrowR" size={14}/>
                 </a>
-                <a className="btn btn--ghost" href="public/resume.pdf">résumé (pdf)</a>
+                <a className="btn btn--ghost" href="public/resume.pdf" target="_blank" rel="noopener noreferrer">
+                  résumé (pdf)
+                </a>
               </div>
 
               <div className="bio-row">
-                <a href="#" aria-label="github"><Icon name="github" size={14}/> github</a>
+                <a href="https://github.com/niikseah" target="_blank" rel="noopener noreferrer" aria-label="github">
+                  <Icon name="github" size={14}/> github
+                </a>
                 <span className="sep">·</span>
-                <a href="#" aria-label="twitter"><Icon name="twitter" size={14}/> twitter</a>
+                <a href="https://www.linkedin.com/in/niikseah" target="_blank" rel="noopener noreferrer" aria-label="linkedin">
+                  <Icon name="linkedin" size={14}/> linkedin
+                </a>
                 <span className="sep">·</span>
-                <a href="#" aria-label="email"><Icon name="mail" size={14}/> email</a>
-                <span className="sep">·</span>
-                <a href="writing.html" aria-label="rss"><Icon name="rss" size={14}/> rss</a>
+                <a href="public/resume.pdf" target="_blank" rel="noopener noreferrer" aria-label="resume">
+                  <Icon name="mail" size={14}/> resume
+                </a>
               </div>
             </section>
 
             {tweaks.showNowStrip && (
               <div className="now-strip">
                 <div className="eyebrow">currently</div>
-                <Slot>what you're up to right now — one short sentence. e.g. "building a small note-taking tool, reading dune, learning to weld."</Slot>
+                <Slot>Hard at work as a Business Product Manager @ Shopee.</Slot>
               </div>
             )}
 
