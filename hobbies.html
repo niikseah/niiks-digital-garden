@@ -3,8 +3,64 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hobbies — Niik Seah</title>
+    <title>Hobbies — Niik's Digital Garden</title>
+    <meta name="description" content="Placeholder hobbies page layout." />
     <link rel="stylesheet" href="tailwind-built.css" />
   </head>
-  <body></body>
+  <body class="bg-white text-neutral-900">
+    <div id="site-root">
+      <main
+        class="mx-auto w-full max-w-screen-sm px-8 pb-24 font-sans md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-2xl"
+      >
+        <nav
+          class="sticky top-0 z-10 mt-4 flex items-center justify-center rounded-lg border border-neutral-200 bg-white/90 p-1 shadow-sm backdrop-blur md:justify-between"
+        >
+          <div class="flex items-center">
+            <a class="rounded px-2 py-1 text-sm text-neutral-500 hover:text-neutral-900" href="index.html">Niik</a>
+            <a class="rounded px-2 py-1 text-sm text-neutral-500 hover:text-neutral-900" href="portfolio.html"
+              >Projects</a
+            >
+            <a class="rounded px-2 py-1 text-sm text-neutral-500 hover:text-neutral-900" href="writing.html"
+              >Writing</a
+            >
+            <a class="rounded px-2 py-1 text-sm text-neutral-500 hover:text-neutral-900" href="reading.html"
+              >Reading</a
+            >
+            <a class="rounded px-2 py-1 text-sm text-neutral-900" href="hobbies.html">Hobbies</a>
+          </div>
+          <div class="hidden text-sm text-neutral-400 md:block">Placeholder mode</div>
+        </nav>
+
+        <header class="mt-10 border-b border-neutral-200 pb-12">
+          <p class="text-sm tracking-tight text-neutral-400">Hobbies</p>
+          <h1 class="mt-2 text-3xl font-light tracking-tight sm:text-4xl">Life Outside Work Placeholder</h1>
+          <p class="mt-6 max-w-2xl text-sm leading-relaxed tracking-tight text-neutral-600">
+            This page can hold snapshots of interests and routines. These cards are placeholders.
+          </p>
+        </header>
+
+        <section class="grid grid-cols-1 gap-4 pt-10 sm:grid-cols-2 lg:grid-cols-3">
+          <article class="rounded-lg border border-neutral-200 bg-neutral-50 p-5">
+            <p class="text-xs tracking-tight text-neutral-400">Climbing</p>
+            <h2 class="mt-2 text-xl font-light">Session Placeholder</h2>
+            <p class="mt-3 text-sm leading-relaxed text-neutral-600">Route notes and progress updates go here.</p>
+          </article>
+          <article class="rounded-lg border border-neutral-200 bg-neutral-50 p-5">
+            <p class="text-xs tracking-tight text-neutral-400">Coffee</p>
+            <h2 class="mt-2 text-xl font-light">Brew Placeholder</h2>
+            <p class="mt-3 text-sm leading-relaxed text-neutral-600">Bean details, recipe, and taste notes go here.</p>
+          </article>
+          <article class="rounded-lg border border-neutral-200 bg-neutral-50 p-5">
+            <p class="text-xs tracking-tight text-neutral-400">Film</p>
+            <h2 class="mt-2 text-xl font-light">Shot Placeholder</h2>
+            <p class="mt-3 text-sm leading-relaxed text-neutral-600">A caption placeholder for photos and film rolls.</p>
+          </article>
+        </section>
+
+        <footer class="flex justify-center pt-24">
+          <span class="text-sm tracking-tight text-neutral-400">Planted by Niik Seah</span>
+        </footer>
+      </main>
+    </div>
+  </body>
 </html>
