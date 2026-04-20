@@ -179,13 +179,21 @@
               </div>
             )}
 
-            {/* featured work */}
+            {/* featured projects */}
             <div className="section-head">
-              <h2>featured <em>work</em></h2>
+              <h2>featured <em>projects</em></h2>
               <a href="portfolio.html">see everything →</a>
             </div>
             <div className="featured-grid">
               {featured.map(p => <ProjectCard key={p.slug} project={p} />)}
+            </div>
+
+            {/* featured work experience */}
+            <div className="section-head">
+              <h2>featured <em>work experience</em></h2>
+            </div>
+            <div className="featured-grid">
+              {featured.map(p => <ProjectCard key={`experience-${p.slug}`} project={p} />)}
             </div>
 
             <footer className="footer">
