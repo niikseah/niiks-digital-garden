@@ -103,6 +103,16 @@
     }
     .garden-card p { font-size: 13px; color: var(--fg-3); line-height: 1.55; margin: 0; }
     .garden-card .eyebrow { color: var(--electric-300); font-size: 10px; }
+    .experience-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--fg-2);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .experience-list li + li {
+      margin-top: 8px;
+    }
   </style>
 </head>
 <body>
@@ -132,6 +142,18 @@
       }, [tweaks.accent]);
 
       const featured = window.FEATURED.map(s => window.PROJECTS.find(p => p.slug === s)).filter(Boolean);
+      const workExperiences = [
+        {
+          company: 'Shopee',
+          role: 'Business Product Manager Intern',
+          period: 'Jan-Apr 2026',
+          workload: [
+            'Spearheading a strategic initiative to increase Buyer Self-Collection coverage from 30% to 40% through competitor analysis and user journey optimization.',
+            'Authoring comprehensive Business Requirement Documents to simplify complex product solutions for regional engineering teams, ensuring alignment between business goals and technical feasibility.',
+            'Orchestrated User Acceptance Testing for various projects, identifying critical edge cases and gaps between Product Requirements Documents and development implementation.',
+          ],
+        },
+      ];
 
       return (
         <>
@@ -197,7 +219,23 @@
               </h2>
             </div>
             <div className="featured-grid">
-              {featured.map(p => <ProjectCard key={`experience-${p.slug}`} project={p} />)}
+              {workExperiences.map((exp) => (
+                <article className="card" key={`${exp.company}-${exp.period}`}>
+                  <div className="card__meta">
+                    <span className="kind kind--code">WORK EXPERIENCE</span>
+                    <span className="dot"></span>
+                    <span>{exp.company}</span>
+                    <span className="dot"></span>
+                    <span>{exp.period}</span>
+                  </div>
+                  <h3 className="card__title">{exp.role}</h3>
+                  <ul className="experience-list">
+                    {exp.workload.map((item, idx) => (
+                      <li key={idx}>{item}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
             </div>
 
             <footer className="footer">
