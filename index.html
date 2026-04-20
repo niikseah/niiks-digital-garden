@@ -113,6 +113,21 @@
     .experience-list li + li {
       margin-top: 8px;
     }
+    .experience-row {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 8px;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+    }
+    .experience-row .card {
+      flex: 0 0 min(420px, calc(100vw - 64px));
+      height: 460px;
+      overflow-y: auto;
+      scroll-snap-align: start;
+    }
   </style>
 </head>
 <body>
@@ -248,7 +263,7 @@
                 <em>work experience</em>
               </h2>
             </div>
-            <div className="featured-grid">
+            <div className="experience-row">
               {workExperiences.map((exp) => (
                 <article className="card" key={`${exp.company}-${exp.period}`}>
                   <div className="card__meta">
