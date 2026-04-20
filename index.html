@@ -4,90 +4,84 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Niik's Digital Garden</title>
-    <meta
-      name="description"
-      content="Placeholder homepage layout for Niik's Digital Garden."
-    />
+    <meta name="description" content="Placeholder homepage for Niik's Digital Garden design system." />
     <link rel="stylesheet" href="tailwind-built.css" />
+    <style>
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      img,
+      video {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
   </head>
-  <body class="bg-white text-neutral-900">
+  <body>
     <div id="site-root">
-      <main
-        class="mx-auto w-full max-w-screen-sm px-8 pb-24 font-sans md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-2xl"
-      >
-        <nav
-          class="sticky top-0 z-10 mt-4 flex items-center justify-center rounded-lg border border-neutral-200 bg-white/90 p-1 shadow-sm backdrop-blur md:justify-between"
-        >
-          <div class="flex items-center">
-            <a class="rounded px-2 py-1 text-sm text-neutral-900" href="index.html">Niik</a>
-            <a class="rounded px-2 py-1 text-sm text-neutral-500 hover:text-neutral-900" href="portfolio.html"
-              >Projects</a
-            >
-            <a class="rounded px-2 py-1 text-sm text-neutral-500 hover:text-neutral-900" href="writing.html"
-              >Writing</a
-            >
-            <a class="rounded px-2 py-1 text-sm text-neutral-500 hover:text-neutral-900" href="reading.html"
-              >Reading</a
-            >
-            <a class="rounded px-2 py-1 text-sm text-neutral-500 hover:text-neutral-900" href="hobbies.html"
-              >Hobbies</a
-            >
+      <main class="mx-auto w-full max-w-screen-sm px-8 pb-24 font-sans md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-2xl">
+        <nav class="pointer-events-none sticky top-0 isolate z-10 flex items-center justify-center py-4 px-1 md:justify-between">
+          <div class="pointer-events-auto relative flex rounded-lg border border-neutral-200 bg-white/70 p-1 shadow-md backdrop-blur-md">
+            <div class="absolute left-0 -z-10 h-7 rounded bg-neutral-200 backdrop-blur transition-[width,transform,opacity]"></div>
+            <a class="rounded py-1 px-2 text-sm tracking-tight text-neutral-900" href="index.html">Niik</a>
+            <a class="rounded py-1 px-2 text-sm tracking-tight text-neutral-400 transition-colors hover:text-neutral-900" href="portfolio.html">Projects</a>
+            <a class="rounded py-1 px-2 text-sm tracking-tight text-neutral-400 transition-colors hover:text-neutral-900" href="writing.html">Writing</a>
+            <a class="rounded py-1 px-2 text-sm tracking-tight text-neutral-400 transition-colors hover:text-neutral-900" href="reading.html">Reading</a>
+            <a class="rounded py-1 px-2 text-sm tracking-tight text-neutral-400 transition-colors hover:text-neutral-900" href="hobbies.html">Hobbies</a>
           </div>
-          <div class="hidden text-sm text-neutral-400 md:block">Placeholder mode</div>
+          <div class="hidden transition-opacity pointer-events-auto md:flex" style="opacity: 1">
+            <span class="rounded py-1 px-2 text-sm tracking-tight text-neutral-400">Placeholder mode</span>
+          </div>
         </nav>
 
-        <header class="mt-10 border-b border-neutral-200 pb-12">
-          <p class="text-sm tracking-tight text-neutral-400">Homepage</p>
-          <h1 class="mt-2 text-3xl font-light tracking-tight sm:text-4xl">Niik's Digital Garden</h1>
+        <header class="mt-6 border-b border-neutral-200 pb-12">
+          <p class="text-sm tracking-tight text-neutral-400">Home</p>
+          <h1 class="font-serif-variation font-serif mt-2 text-2xl font-light !leading-tight text-neutral-400 sm:text-3xl lg:text-4xl">
+            Welcome to <span class="text-neutral-900">Niik's Digital Garden</span> with placeholder content.
+          </h1>
           <p class="mt-6 max-w-2xl text-sm leading-relaxed tracking-tight text-neutral-600">
-            This is placeholder content for your landing page. Replace this intro whenever you are
-            ready with your final copy.
+            This page follows your garden design language: soft surfaces, serif-forward headings,
+            low-contrast supporting text, and compact metadata chips.
           </p>
         </header>
 
-        <section class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <a
-            href="portfolio.html"
-            class="rounded-lg border border-neutral-200 bg-neutral-50 p-5 transition-colors hover:bg-neutral-100"
-          >
-            <p class="text-xs tracking-tight text-neutral-400">Projects</p>
-            <h2 class="mt-2 text-xl font-light">Featured Work Placeholder</h2>
-            <p class="mt-3 text-sm leading-relaxed text-neutral-600">
-              Add selected case studies or portfolio highlights here.
-            </p>
+        <div class="grid grid-cols-1 gap-2 pt-10 sm:grid-cols-2 lg:grid-cols-3">
+          <a href="portfolio.html" class="group rounded-lg bg-neutral-50 p-5 transition-colors hover:bg-neutral-100">
+            <div class="bg-violet-400/40 text-violet-900 inline-block rounded px-1.5 pt-0.5 pb-1 font-mono text-xs tracking-tight shadow-inset-skeuo">
+              PROJECTS
+            </div>
+            <h2 class="font-serif-variation font-serif mt-4 text-2xl font-light tracking-tight text-neutral-900">Featured Work Placeholder</h2>
+            <p class="mt-3 text-sm leading-relaxed tracking-tight text-neutral-600">Replace with a highlighted project summary and optional case-study link.</p>
+            <span class="mt-4 block text-xs tracking-tight text-neutral-400">Section card · Placeholder</span>
           </a>
-          <a
-            href="writing.html"
-            class="rounded-lg border border-neutral-200 bg-neutral-50 p-5 transition-colors hover:bg-neutral-100"
-          >
-            <p class="text-xs tracking-tight text-neutral-400">Writing</p>
-            <h2 class="mt-2 text-xl font-light">Latest Notes Placeholder</h2>
-            <p class="mt-3 text-sm leading-relaxed text-neutral-600">
-              Add links to posts, essays, or short updates.
-            </p>
+
+          <a href="writing.html" class="group rounded-lg bg-neutral-50 p-5 transition-colors hover:bg-neutral-100">
+            <div class="bg-fuchsia-400/40 text-fuchsia-900 inline-block rounded px-1.5 pt-0.5 pb-1 font-mono text-xs tracking-tight shadow-inset-skeuo">
+              WRITING
+            </div>
+            <h2 class="font-serif-variation font-serif mt-4 text-2xl font-light tracking-tight text-neutral-900">Latest Notes Placeholder</h2>
+            <p class="mt-3 text-sm leading-relaxed tracking-tight text-neutral-600">Replace with your latest essay, reflection, or media note excerpt.</p>
+            <span class="mt-4 block text-xs tracking-tight text-neutral-400">Section card · Placeholder</span>
           </a>
-          <a
-            href="reading.html"
-            class="rounded-lg border border-neutral-200 bg-neutral-50 p-5 transition-colors hover:bg-neutral-100"
-          >
-            <p class="text-xs tracking-tight text-neutral-400">Reading</p>
-            <h2 class="mt-2 text-xl font-light">Current Book Placeholder</h2>
-            <p class="mt-3 text-sm leading-relaxed text-neutral-600">
-              Add your reading log, notes, or recommendations.
-            </p>
+
+          <a href="reading.html" class="group rounded-lg bg-neutral-50 p-5 transition-colors hover:bg-neutral-100">
+            <div class="bg-amber-400/40 text-amber-900 inline-block rounded px-1.5 pt-0.5 pb-1 font-mono text-xs tracking-tight shadow-inset-skeuo">
+              READING
+            </div>
+            <h2 class="font-serif-variation font-serif mt-4 text-2xl font-light tracking-tight text-neutral-900">Current Book Placeholder</h2>
+            <p class="mt-3 text-sm leading-relaxed tracking-tight text-neutral-600">Replace with now-reading, recent highlights, or recommendation snippets.</p>
+            <span class="mt-4 block text-xs tracking-tight text-neutral-400">Section card · Placeholder</span>
           </a>
-          <a
-            href="hobbies.html"
-            class="rounded-lg border border-neutral-200 bg-neutral-50 p-5 transition-colors hover:bg-neutral-100 sm:col-span-2 lg:col-span-3"
-          >
-            <p class="text-xs tracking-tight text-neutral-400">Hobbies</p>
-            <h2 class="mt-2 text-xl font-light">Lifestyle Placeholder</h2>
-            <p class="mt-3 text-sm leading-relaxed text-neutral-600">
-              Add visual snippets from climbing, coffee, film, plants, or anything else you want to
-              share.
-            </p>
+
+          <a href="hobbies.html" class="group rounded-lg bg-neutral-50 p-5 transition-colors hover:bg-neutral-100 sm:col-span-2 lg:col-span-3">
+            <div class="bg-lime-400/40 text-lime-900 inline-block rounded px-1.5 pt-0.5 pb-1 font-mono text-xs tracking-tight shadow-inset-skeuo">
+              HOBBIES
+            </div>
+            <h2 class="font-serif-variation font-serif mt-4 text-2xl font-light tracking-tight text-neutral-900">Life Outside Work Placeholder</h2>
+            <p class="mt-3 max-w-2xl text-sm leading-relaxed tracking-tight text-neutral-600">Replace with cards for climbing, coffee, film, keyboards, plants, or any living archive entries.</p>
+            <span class="mt-4 block text-xs tracking-tight text-neutral-400">Section card · Placeholder</span>
           </a>
-        </section>
+        </div>
 
         <footer class="flex justify-center pt-24">
           <span class="text-sm tracking-tight text-neutral-400">Planted by Niik Seah</span>
