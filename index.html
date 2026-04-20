@@ -188,29 +188,10 @@
               {featured.map(p => <ProjectCard key={p.slug} project={p} />)}
             </div>
 
-            {/* other sections of the garden */}
-            <div className="section-head">
-              <h2>rest of the <em>garden</em></h2>
-            </div>
-            <div className="garden-grid">
-              <a className="garden-card" href="writing.html">
-                <div className="eyebrow">writing</div>
-                <h3>notes & essays</h3>
-                <p>half-baked ideas, tended over time.</p>
-              </a>
-              <a className="garden-card" href="reading.html">
-                <div className="eyebrow">reading</div>
-                <h3>what i'm reading</h3>
-                <p>current book + highlights.</p>
-              </a>
-              <a className="garden-card" href="hobbies.html">
-                <div className="eyebrow">hobbies</div>
-                <h3>outside work</h3>
-                <p>climbing, coffee, keyboards, whatever else has my attention.</p>
-              </a>
-            </div>
-
-            <Footer />
+            <footer className="footer">
+              <span>tended with care · last update <span className="slot">date</span></span>
+              <span>© niik, 2026</span>
+            </footer>
           </main>
 
           {/* Tweaks */}
