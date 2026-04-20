@@ -3,6 +3,13 @@
 
 (function () {
   const e = React.createElement;
+  const pathParts = window.location.pathname.split('/').filter(Boolean);
+  const isGithubPagesHost = window.location.hostname.endsWith('github.io');
+  const basePath =
+    isGithubPagesHost && pathParts.length > 0 && !pathParts[0].includes('.')
+      ? `/${pathParts[0]}/`
+      : '/';
+  const toSitePath = (relativePath) => `${basePath}${relativePath}`;
 
   // ─── Icon (Lucide-style) ───────────────────────────────
   const iconPaths = {
@@ -32,11 +39,11 @@
   // ─── Nav ────────────────────────────────────────────────
   const Nav = ({ current = 'home' }) => {
     const links = [
-      { key: 'home', href: 'index.html', label: 'home' },
-      { key: 'portfolio', href: 'portfolio.html', label: 'projects' },
+      { key: 'home', href: toSitePath('index.html'), label: 'home' },
+      { key: 'portfolio', href: toSitePath('portfolio.html'), label: 'projects' },
     ];
     return e('header', { className: 'nav' },
-      e('a', { href: 'index.html', className: 'nav__brand' },
+      e('a', { href: toSitePath('index.html'), className: 'nav__brand' },
         e('img', { src: 'design-system/assets/brand/niik-mark.svg', alt: '' }),
         e('span', null, 'niik', e('span', { className: 'dot' }, '.')),
       ),
