@@ -44,7 +44,7 @@
     ];
     return e('header', { className: 'nav' },
       e('a', { href: toSitePath('index.html'), className: 'nav__brand' },
-        e('img', { src: 'design-system/assets/brand/niik-mark.svg', alt: '' }),
+        e('img', { src: toSitePath('design-system/assets/brand/niik-mark.svg'), alt: '' }),
         e('span', null, 'niik', e('span', { className: 'dot' }, '.')),
       ),
       e('nav', { className: 'nav__links' },
