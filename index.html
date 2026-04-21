@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="day">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -13,25 +13,53 @@
   <script src="shared/data.js"></script>
   <script src="shared/components.js"></script>
   <style>
+    .home-page {
+      max-width: none;
+      width: 100%;
+      margin: 0;
+    }
+    .home-page.hero-backdrop::before,
+    .home-page.hero-backdrop::after {
+      display: none;
+    }
     .hero {
-      padding: 88px 0 56px;
+      padding-top: 48px;
+      padding-right: 0;
+      padding-bottom: 48px;
+      padding-left: 0;
+      height: fit-content;
+      position: relative;
+      isolation: isolate;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 14px calc(-1 * var(--page-gutter)) auto calc(-1 * var(--page-gutter));
+      min-height: 360px;
+      border-radius: 24px;
+      background: transparent;
+      border: 0;
+      pointer-events: none;
+      z-index: -1;
     }
     .hero__name {
       font-family: var(--font-display);
-      font-size: clamp(48px, 7vw, 88px);
+      font-size: clamp(52px, 8vw, 96px);
       font-weight: 400;
-      letter-spacing: -0.035em;
-      line-height: 1.02;
+      letter-spacing: -0.03em;
+      line-height: 0.98;
       color: var(--fg-1);
-      margin: 18px 0 0;
+      margin: 14px 0 0;
+      max-width: 9ch;
     }
-    .hero__name em { font-style: italic; color: var(--electric-200); font-weight: 300; }
+    .hero__name em { font-style: italic; color: var(--midnight-500); font-weight: 300; }
     .hero__lede {
-      margin-top: 22px;
-      font-size: 18px;
-      line-height: 1.55;
+      margin-top: 18px;
+      font-size: clamp(16px, 1.8vw, 19px);
+      line-height: 1.65;
       color: var(--fg-2);
-      max-width: 58ch;
+      max-width: 62ch;
+      text-wrap: pretty;
     }
     .hero__lede .slot { font-size: 0.9em; }
     .hero__actions {
@@ -39,22 +67,74 @@
     }
 
     .now-strip {
-      margin-top: 56px;
-      padding: 18px 22px;
-      border-left: 2px solid var(--electric-400);
-      background: linear-gradient(90deg, rgba(124,184,255,.04), transparent 70%);
+      margin-top: 48px;
+      box-sizing: content-box;
+      padding: 18px 20px;
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--bg-3) 92%, var(--electric-500) 8%);
+      border: 1px solid var(--border-1);
+      box-shadow: 0 10px 28px -22px rgba(30,87,232,.5);
       color: var(--fg-2);
       font-size: 15px;
-      line-height: 1.55;
-      max-width: 62ch;
+      line-height: 1.6;
+      width: min(100%, 680px);
+      max-width: 100%;
     }
     .now-strip .eyebrow { margin-bottom: 6px; }
+    .now-strip .slot {
+      white-space: normal;
+      font-family: "Apple Garamond";
+      font-size: 20px;
+      color: var(--fg-1);
+      border: 0;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
+    .hero__meta {
+      margin-top: 28px;
+    }
+    .hero__meta--split {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-end;
+      vertical-align: bottom;
+      text-align: left;
+      gap: 24px;
+      padding-left: 0;
+      padding-right: 0;
+      width: fit-content;
+      height: fit-content;
+    }
+    .hero__meta--split .now-strip {
+      margin-top: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      vertical-align: bottom;
+      height: 100%;
+      padding: 14px 18px;
+    }
+    .hero__meta .bio-row {
+      margin-top: 0;
+    }
+    .hero__meta--split .bio-row {
+      align-self: flex-end;
+      width: fit-content;
+      justify-content: center;
+      flex-wrap: nowrap;
+      vertical-align: bottom;
+      height: 100%;
+    }
 
     .section-head {
       display: flex; align-items: baseline; justify-content: space-between;
-      margin: 80px 0 28px;
+      margin: 92px 0 30px;
       gap: 16px;
-      padding-bottom: 10px;
+      padding-bottom: 14px;
       border-bottom: 1px dashed var(--border-2);
     }
     .section-head h2 {
@@ -64,27 +144,43 @@
       letter-spacing: -0.02em;
       color: var(--fg-1);
       margin: 0;
+      display: flex;
+      gap: 12px;
     }
-    .section-head em { font-style: italic; color: var(--electric-200); font-weight: 300; }
+    .section-head em { font-style: italic; color: var(--midnight-500); font-weight: 300; }
     .section-head a {
-      font-size: 13px;
-      color: var(--electric-300);
+      font-family: var(--font-body);
+      font-size: 14px;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--fg-link);
       text-decoration: none;
       white-space: nowrap;
+      border: 0;
+      border-radius: 0;
+      padding: 0;
+      transition: color var(--dur-2) var(--ease-out), text-decoration-color var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
     }
-    .section-head a:hover { color: var(--electric-glow); }
+    .section-head a:hover { color: var(--fg-link-hover); text-decoration-color: var(--fg-link-hover); transform: translateY(-1px); }
 
     .featured-grid {
       display: flex;
-      gap: 18px;
+      gap: 20px;
       overflow-x: auto;
-      overflow-y: hidden;
-      padding-bottom: 8px;
+      overflow-y: visible;
+      padding-top: 32px;
+      padding-bottom: 42px;
+      margin-top: 0;
+      margin-bottom: 0;
       scroll-snap-type: x proximity;
       -webkit-overflow-scrolling: touch;
     }
     .featured-grid .card {
-      flex: 0 0 min(420px, calc(100vw - 64px));
+      flex: 0 0 min(430px, calc(100vw - 64px));
       scroll-snap-align: start;
     }
     .featured-grid::-webkit-scrollbar,
@@ -101,19 +197,54 @@
       background: rgba(124,184,255,.08);
       border-radius: 999px;
     }
+    @media (max-width: 900px) {
+      .hero {
+        padding-top: 52px;
+      }
+      .hero::before {
+        inset: 8px calc(-1 * var(--page-gutter)) auto calc(-1 * var(--page-gutter));
+        min-height: 330px;
+        border-radius: 18px;
+      }
+      .hero__meta--split {
+        justify-content: flex-start;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .hero__meta--split .bio-row {
+        align-self: flex-start;
+      }
+      .hero__meta--split .now-strip {
+        width: 100%;
+      }
+      .now-strip .slot {
+        font-size: 18px;
+      }
+      .section-head {
+        margin-top: 72px;
+        flex-wrap: wrap;
+      }
+      .section-head a {
+        margin-top: 6px;
+      }
+      .experience-row .card {
+        min-height: 0;
+      }
+    }
 
     /* small sections grid */
     .garden-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
       margin-top: 24px;
     }
     .garden-card {
       display: flex; flex-direction: column; gap: 8px;
-      padding: 20px;
+      padding: 22px;
       border-radius: 14px;
-      background: var(--midnight-850);
+      background: var(--bg-3);
       border: 1px solid var(--border-1);
       text-decoration: none; color: inherit;
       transition: border-color var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
@@ -121,12 +252,12 @@
     .garden-card:hover { border-color: var(--border-strong); transform: translateY(-1px); }
     .garden-card h3 {
       font-family: var(--font-display);
-      font-size: 20px; font-weight: 400;
+      font-size: 18px; font-weight: 400;
       letter-spacing: -0.015em;
       color: var(--fg-1); margin: 0;
     }
-    .garden-card p { font-size: 13px; color: var(--fg-3); line-height: 1.55; margin: 0; }
-    .garden-card .eyebrow { color: var(--electric-300); font-size: 10px; }
+    .garden-card p { font-size: var(--step-0); color: var(--fg-3); line-height: 1.55; margin: 0; }
+    .garden-card .eyebrow { color: var(--midnight-600); font-size: 10px; }
     .experience-list {
       margin: 0;
       padding-left: 18px;
@@ -134,27 +265,123 @@
       font-size: 14px;
       line-height: 1.6;
     }
+    .experience-list li {
+      font-size: 14px;
+    }
     .experience-list li + li {
       margin-top: 8px;
     }
+    .experience-list .impact-stat {
+      color: var(--midnight-700);
+      font-weight: 700;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+    }
+    .experience-list .impact-term {
+      color: var(--fg-1);
+      font-weight: 600;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+    }
     .experience-row {
       display: flex;
-      gap: 18px;
+      gap: 20px;
       overflow-x: auto;
-      overflow-y: hidden;
-      padding-bottom: 8px;
+      overflow-y: visible;
+      padding-top: 32px;
+      padding-bottom: 42px;
+      margin-top: 0;
+      margin-bottom: 0;
       scroll-snap-type: x proximity;
       -webkit-overflow-scrolling: touch;
     }
     .experience-row .card {
-      flex: 0 0 min(420px, calc(100vw - 64px));
-      height: 460px;
+      flex: 0 0 min(430px, calc(100vw - 64px));
+      min-height: 430px;
+      max-height: 520px;
       overflow-y: auto;
       scroll-snap-align: start;
+      transition: none;
+    }
+    .experience-row .card:hover {
+      border-color: var(--border-1);
+      background: var(--bg-3);
+      transform: none;
+      box-shadow: none;
+      filter: none;
+    }
+    .experience-row .card:hover .card__title {
+      color: var(--fg-1);
+    }
+    .experience-row .card__meta {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      height: fit-content;
+    }
+    .company-meta-sub {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--fg-3);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+    .company-meta-sub .star-sep {
+      color: #000;
+      font-size: 14px;
+      line-height: 1;
+      transform: translateY(-1px);
+    }
+    .experience-row .kind--role-product {
+      font-size: 12px;
+    }
+    .company-lockup {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .company-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      line-height: 1;
+      color: var(--fg-1);
+    }
+    .company-logo-frame {
+      width: 88px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .company-logo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: transparent;
+      border: 0;
+      padding: 0;
     }
     .experience-row .card__title {
       margin-top: 2px;
       margin-bottom: 2px;
+    }
+    .experience-row .card::-webkit-scrollbar {
+      width: 8px;
+    }
+    .experience-row .card::-webkit-scrollbar-thumb {
+      background: rgba(124,184,255,.24);
+      border-radius: 999px;
+    }
+    .experience-row .card::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    @media (max-width: 1180px) {
+      .home-page {
+        max-width: 100%;
+      }
     }
   </style>
 </head>
@@ -174,7 +401,7 @@
 
       React.useEffect(() => {
         const accentMap = {
-          electric: { a: 'var(--electric-500)', b: 'var(--electric-200)', c: 'var(--electric-300)' },
+          electric: { a: 'var(--midnight-600)', b: 'var(--midnight-500)', c: 'var(--midnight-600)' },
           moss:     { a: '#3d8c63',            b: '#a9d6bd',            c: '#6fb38a' },
           bloom:    { a: '#c25e8c',            b: '#f0c3d9',            c: '#e89bc2' },
         };
@@ -184,12 +411,17 @@
         document.documentElement.style.setProperty('--accent-link', t.c);
       }, [tweaks.accent]);
 
-      const featured = window.PROJECTS;
+      const getProjectYear = (project) => {
+        const yearMatch = String(project.year || '').match(/\d{4}/);
+        return yearMatch ? Number(yearMatch[0]) : 0;
+      };
+      const featured = [...window.PROJECTS].sort((a, b) => getProjectYear(b) - getProjectYear(a));
       const workExperiences = [
         {
           company: 'Shopee',
+          logo: 'public/company-logos/shopee_logo.png',
           role: 'Business Product Manager Intern',
-          period: 'Jan-Apr 2026',
+          period: 'Jan - Apr 2026',
           workload: [
             'Spearheading a strategic initiative to increase Buyer Self-Collection coverage from 30% to 40% through competitor analysis and user journey optimization.',
             'Authoring comprehensive Business Requirement Documents to simplify complex product solutions for regional engineering teams, ensuring alignment between business goals and technical feasibility.',
@@ -198,8 +430,9 @@
         },
         {
           company: 'GovTech',
+          logo: 'public/company-logos/govtech_logo.gif',
           role: 'Product Design Intern',
-          period: 'May-Aug 2025',
+          period: 'May - Aug 2025',
           workload: [
             'Spearheaded user research initiative by conducting survey of 6,000 participants; synthesized 450+ responses into data-driven requirements that defined the MVP scope for 70% of target users.',
             'Led cross-functional team leadership efforts between Product Owners, Business Analysts, and Engineers to drive project from initial research to concept validation in the Product Lifecycle.',
@@ -208,8 +441,9 @@
         },
         {
           company: 'DBS Bank',
+          logo: 'public/company-logos/dbs_logo.png',
           role: 'UI/UX Design Intern',
-          period: 'Aug-Dec 2024',
+          period: 'Aug - Dec 2024',
           workload: [
             'Orchestrated planning and execution of 3 large-scale innovation events with 300+ attendees each, driving 40% increase in employee participation in intrapreneurial initiatives and fostering innovation culture across the bank.',
             'Spearheaded innovation challenges, facilitating cross-functional brainstorming sessions that generated 50+ innovative concepts and accelerated time-to-market for new product ideation by 25%.',
@@ -217,9 +451,23 @@
           ],
         },
         {
+          company: 'Micron Technology',
+          logo: 'public/company-logos/micron_logo.png',
+          role: 'UX Design Intern',
+          period: 'May-Jul 2024',
+          workload: [
+            'Provided new perspectives on product development through my design background.',
+            'Redesigned an internal website for over 200 users, enhancing user experience and interface functionality.',
+            'Contributed to wireframe development and platform revamp, receiving positive feedback from stakeholders.',
+            'Presented 4 redesign proposals to stakeholders and supervisors, incorporating user feedback into iterative design improvements.',
+            'Developed clear and comprehensive training materials for PRM to bridge workforce training gaps and support a successful product launch.',
+          ],
+        },
+        {
           company: 'Capital JDI',
+          logo: 'public/company-logos/jdi_logo.png',
           role: 'Project Research Intern',
-          period: '12/25',
+          period: 'Dec 2025',
           workload: [
             "Analyzed Capital JDI's 6-stage startup application process; identified bottlenecks and manual tasks consuming 70-80% of team effort.",
             'Researched and compared 15+ SaaS tools; recommended Zapier + Airtable + Calendly stack for cost-effective, scalable automation.',
@@ -227,21 +475,35 @@
           ],
         },
       ];
+      const impactTokenRegex = /(\b\d[\d,]*(?:-\d+)?(?:\+|%|x)?\b|\b(?:increase|improvement|accelerated|acceleration|generated|delivered|spearheaded|orchestrated|contributed|redesigned|presented|developed|identified|analyzed|launched|coverage|optimization|alignment|automation|stakeholders|participants|responses|users|attendees|organizations|roadmap|MVP|UAT)\b)/gi;
+      const impactStatRegex = /^\d[\d,]*(?:-\d+)?(?:\+|%|x)?$/i;
+      const impactTermRegex = /^(?:increase|improvement|accelerated|acceleration|generated|delivered|spearheaded|orchestrated|contributed|redesigned|presented|developed|identified|analyzed|launched|coverage|optimization|alignment|automation|stakeholders|participants|responses|users|attendees|organizations|roadmap|MVP|UAT)$/i;
+      const formatPeriod = (period) => String(period || '').replace(/\s*-\s*/g, ' - ');
+      const highlightWorkload = (text) => (
+        text.split(impactTokenRegex).map((part, idx) => {
+          if (!part) return null;
+          if (impactStatRegex.test(part)) {
+            return <span key={`stat-${idx}`} className="impact-stat">{part}</span>;
+          }
+          if (impactTermRegex.test(part)) {
+            return <span key={`term-${idx}`} className="impact-term">{part}</span>;
+          }
+          return <React.Fragment key={`txt-${idx}`}>{part}</React.Fragment>;
+        })
+      );
 
       return (
         <>
           <Nav current="home" />
-          <main className="page hero-backdrop">
+          <main className="page hero-backdrop home-page">
             <section className="hero">
-              <Eyebrow>a digital garden · tended since 2023</Eyebrow>
+              <Eyebrow>tending to my digital garden since 2026</Eyebrow>
               <h1 className="hero__name">
-                hi, i'm <em>niik</em>.
+                <em>niik</em>.
               </h1>
               <p className="hero__lede">
-                I'm an aspiring UI/UX designer passionate about curating clean and functional digital
-                experiences. With a major in Communications and New Media, a second major in Computer
-                Science, and a minor in Interactive Media Design, I bring a blend of problem-solving
-                and design thinking to my work.
+                I am passionate about crafting digital products that are <em>intuitive</em> and <em>seamless</em>. 
+                I bring a blend of problem-solving and design thinking to my work.
               </p>
               <p className="hero__lede" style={{ marginTop: 14 }}>
                 I believe good design is more than visual appeal - it should feel intuitive and
@@ -249,36 +511,28 @@
                 engaged, and confident in their interactions.
               </p>
 
-              <div className="hero__actions">
-                <a className="btn btn--primary" href="portfolio.html">
-                  see the work <Icon name="arrowR" size={14}/>
-                </a>
-                <a className="btn btn--ghost" href="public/resume.pdf" target="_blank" rel="noopener noreferrer">
-                  résumé (pdf)
-                </a>
-              </div>
-
-              <div className="bio-row">
-                <a href="https://github.com/niikseah" target="_blank" rel="noopener noreferrer" aria-label="github">
-                  <Icon name="github" size={14}/> github
-                </a>
-                <span className="sep">·</span>
-                <a href="https://www.linkedin.com/in/niikseah" target="_blank" rel="noopener noreferrer" aria-label="linkedin">
-                  <Icon name="linkedin" size={14}/> linkedin
-                </a>
-                <span className="sep">·</span>
-                <a href="public/resume.pdf" target="_blank" rel="noopener noreferrer" aria-label="resume">
-                  <Icon name="mail" size={14}/> resume
-                </a>
+              <div className={`hero__meta ${tweaks.showNowStrip ? 'hero__meta--split' : ''}`}>
+                {tweaks.showNowStrip && (
+                  <div className="now-strip">
+                    <div className="eyebrow">currently</div>
+                    <Slot>Hard at work as a Business Product Manager @ Shopee</Slot>
+                  </div>
+                )}
+                <div className="bio-row">
+                  <a href="https://www.linkedin.com/in/niikseah" target="_blank" rel="noopener noreferrer" aria-label="linkedin">
+                    <Icon name="linkedin" size={14}/> linkedin
+                  </a>
+                  <span className="sep">✦</span>
+                  <a href="public/resume.pdf" target="_blank" rel="noopener noreferrer" aria-label="resume">
+                    <Icon name="mail" size={14}/> resume
+                  </a>
+                  <span className="sep">✦</span>
+                  <a href="https://github.com/niikseah" target="_blank" rel="noopener noreferrer" aria-label="github">
+                    <Icon name="github" size={14}/> github
+                  </a>
+                </div>
               </div>
             </section>
-
-            {tweaks.showNowStrip && (
-              <div className="now-strip">
-                <div className="eyebrow">currently</div>
-                <Slot>Hard at work as a Business Product Manager @ Shopee.</Slot>
-              </div>
-            )}
 
             {/* featured projects */}
             <div className="section-head">
@@ -301,16 +555,24 @@
               {workExperiences.map((exp) => (
                 <article className="card" key={`${exp.company}-${exp.period}`}>
                   <div className="card__meta">
-                    <span className="kind kind--code">WORK EXPERIENCE</span>
-                    <span className="dot"></span>
-                    <span>{exp.company}</span>
-                    <span className="dot"></span>
-                    <span>{exp.period}</span>
+                    <span className="company-lockup">
+                      {exp.logo && (
+                        <span className="company-logo-frame">
+                          <img className="company-logo" src={exp.logo} alt={`${exp.company} logo`} loading="lazy" />
+                        </span>
+                      )}
+                      <span className="company-name">{exp.company}</span>
+                    </span>
+                    <span className="company-meta-sub">
+                      <span className="kind kind--role-product">INTERNSHIP</span>
+                      <span className="star-sep" aria-hidden="true">✦</span>
+                      <span>{formatPeriod(exp.period)}</span>
+                    </span>
                   </div>
                   <h3 className="card__title">{exp.role}</h3>
                   <ul className="experience-list">
                     {exp.workload.map((item, idx) => (
-                      <li key={idx}>{item}</li>
+                      <li key={idx}>{highlightWorkload(item)}</li>
                     ))}
                   </ul>
                 </article>
@@ -318,8 +580,7 @@
             </div>
 
             <footer className="footer">
-              <span>tended with care · last update <span className="slot">date</span></span>
-              <span>© niik, 2026</span>
+              <span>tended with love and care 💫</span>
             </footer>
           </main>
 

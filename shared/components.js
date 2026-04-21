@@ -44,7 +44,7 @@
     ];
     return e('header', { className: 'nav' },
       e('a', { href: toSitePath('index.html'), className: 'nav__brand' },
-        e('img', { src: toSitePath('design-system/assets/brand/niik-mark.svg'), alt: '' }),
+        e('img', { src: toSitePath('design-system/assets/brand/niik_logo.png'), alt: '' }),
         e('span', null, 'niik', e('span', { className: 'dot' }, '.')),
       ),
       e('nav', { className: 'nav__links' },
@@ -79,13 +79,61 @@
   // ─── Slot — marks a replace-me block ────────────────────
   const Slot = ({ children }) => e('span', { className: 'slot' }, children);
 
+  const deriveRoleCategory = (role) => {
+    const normalized = String(role || '').toLowerCase();
+    if (normalized.includes('product')) return { key: 'product', label: 'product' };
+    if (normalized.includes('ux') || normalized.includes('ui') || normalized.includes('designer')) {
+      return { key: 'design', label: 'design' };
+    }
+    if (normalized.includes('research')) return { key: 'research', label: 'research' };
+    if (normalized.includes('graphic')) return { key: 'graphic', label: 'graphic' };
+    if (normalized.includes('director of photography') || normalized.includes('videography')) {
+      return { key: 'video', label: 'video' };
+    }
+    if (normalized.includes('engineer') || normalized.includes('developer') || normalized.includes('coding')) {
+      return { key: 'engineering', label: 'engineering' };
+    }
+    if (normalized.includes('strategy') || normalized.includes('communication')) {
+      return { key: 'strategy', label: 'strategy' };
+    }
+    return { key: 'general', label: 'general' };
+  };
+
   // ─── Kind chip ──────────────────────────────────────────
-  const Kind = ({ type = 'uiux', children }) =>
-    e('span', { className: `kind kind--${type}` }, children);
+  const Kind = ({ type = 'uiux', children, onClick }) => {
+    const interactiveProps = onClick
+      ? {
+          role: 'button',
+          tabIndex: 0,
+          onClick: (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            onClick();
+          },
+          onKeyDown: (ev) => {
+            if (ev.key === 'Enter' || ev.key === ' ') {
+              ev.preventDefault();
+              ev.stopPropagation();
+              onClick();
+            }
+          },
+        }
+      : {};
+    return e('span', { className: `kind kind--${type}${onClick ? ' kind--clickable' : ''}`, ...interactiveProps }, children);
+  };
 
   // ─── Project Card ───────────────────────────────────────
   const ProjectCard = ({ project, showThumb = true, href }) => {
     const p = project;
+    const roleCategory = deriveRoleCategory(p.role);
+    const roleType = `role-${roleCategory.key}`;
+    const roleLabel = (p.roleCategory || roleCategory.label).toUpperCase();
+    const goToKindCategory = () => {
+      window.location.href = toSitePath(`portfolio.html?kind=${encodeURIComponent(p.kind)}`);
+    };
+    const goToRoleCategory = () => {
+      window.location.href = toSitePath(`portfolio.html?role=${encodeURIComponent(roleCategory.key)}`);
+    };
     return e('a', { href: href || p.href || '#', className: 'card' },
       showThumb && e(
         'div',
@@ -100,18 +148,14 @@
           : (p.thumbLabel || 'project image')
       ),
       e('div', { className: 'card__meta' },
-        e(Kind, { type: p.kind }, p.kindLabel),
-        e('span', { className: 'dot' }),
-        e('span', null, p.year || e(Slot, null, 'year')),
-        e('span', { className: 'dot' }),
-        e('span', null, p.role || e(Slot, null, 'role')),
+        e(Kind, { type: p.kind, onClick: goToKindCategory }, p.kindLabel),
+        e('span', { className: 'card__sep', 'aria-hidden': 'true' }, '✦'),
+        e(Kind, { type: p.roleKind || roleType, onClick: goToRoleCategory }, roleLabel),
+        e('span', { className: 'card__year' }, p.year || e(Slot, null, 'year')),
       ),
       e('h3', { className: 'card__title' }, p.title || e(Slot, null, 'project title')),
       e('p', { className: 'card__excerpt' }, p.excerpt || e(Slot, null, 'one–two sentence summary of the problem, approach, and outcome.')),
       e('div', { className: 'card__foot' },
-        e('span', null, (p.tags || []).slice(0, 3).map((t, i) =>
-          e('span', { key: i, className: 'tag', style: { marginRight: 6 } }, '#', t)
-        )),
         e('span', { className: 'arrow' }, 'read →'),
       ),
     );
@@ -120,13 +164,20 @@
   // ─── List row variant ───────────────────────────────────
   const ListRow = ({ project }) => {
     const p = project;
+    const roleCategory = deriveRoleCategory(p.role);
+    const goToRoleCategory = () => {
+      window.location.href = toSitePath(`portfolio.html?role=${encodeURIComponent(roleCategory.key)}`);
+    };
     return e('a', { href: p.href || '#', className: 'list-row' },
       e('span', { className: 'list-row__year' }, p.year || '—'),
       e('span', null,
         e('div', { className: 'list-row__title' }, p.title || e(Slot, null, 'project title')),
         e('div', { className: 'list-row__excerpt' }, p.excerpt || e(Slot, null, 'short line')),
       ),
-      e('span', { className: 'list-row__kind' }, e(Kind, { type: p.kind }, p.kindLabel)),
+      e('span', { className: 'list-row__kind' }, e(Kind, {
+        type: p.roleKind || `role-${roleCategory.key}`,
+        onClick: goToRoleCategory,
+      }, (p.roleCategory || roleCategory.label).toUpperCase())),
       e('span', { className: 'list-row__arrow' }, '→'),
     );
   };
@@ -152,6 +203,7 @@
 
   Object.assign(window, {
     Icon, Nav, Footer, Eyebrow, Slot, Kind, ProjectCard, ListRow,
+    deriveRoleCategory,
     useTweaksHost, persistTweak,
   });
 })();

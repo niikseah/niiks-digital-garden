@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="day">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,7 +12,7 @@
   <script src="../shared/components.js"></script>
   <style>
     /* path rewrites — we're one level deep */
-    .nav__brand img { content: url("../design-system/assets/brand/niik-mark.svg"); }
+    .nav__brand img { content: url("../design-system/assets/brand/niik_logo.png"); }
     .hero-backdrop::after {
       background-image: url("../design-system/assets/stars/starfield.svg") !important;
     }
@@ -20,7 +20,7 @@
     .cs-back {
       display: inline-flex; align-items: center; gap: 6px;
       margin-top: 40px;
-      font-family: var(--font-mono); font-size: 12px;
+      font-family: var(--font-mono); font-size: var(--step--1);
       color: var(--fg-3); text-decoration: none;
     }
     .cs-back:hover { color: var(--fg-1); }
@@ -28,7 +28,7 @@
     .cs-hero { padding: 28px 0 24px; max-width: 780px; }
     .cs-meta-row {
       display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-      font-family: var(--font-mono); font-size: 12px; color: var(--fg-3);
+      font-family: var(--font-mono); font-size: var(--step--1); color: var(--fg-3);
       margin-top: 18px;
     }
     .cs-meta-row .dot { width: 3px; height: 3px; border-radius: 999px; background: currentColor; opacity: .5; }
@@ -43,7 +43,7 @@
     .cs-subtitle {
       font-family: var(--font-display);
       font-style: italic; font-weight: 300;
-      font-size: clamp(20px, 2.2vw, 26px);
+      font-size: var(--step-2);
       color: var(--fg-2);
       line-height: 1.35; margin: 20px 0 0; max-width: 52ch;
     }
@@ -60,7 +60,7 @@
       display: flex; align-items: center; justify-content: center;
       color: var(--fg-4);
       font-family: var(--font-mono);
-      font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+      font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase;
     }
 
     /* summary card */
@@ -76,12 +76,12 @@
     }
     .cs-summary dt {
       font-family: var(--font-body);
-      font-size: 11px; letter-spacing: 0.14em;
+      font-size: var(--step--1); letter-spacing: 0.14em;
       text-transform: uppercase; color: var(--fg-3); font-weight: 500;
       margin-bottom: 8px;
     }
     .cs-summary dd {
-      font-family: var(--font-body); font-size: 14px;
+      font-family: var(--font-body); font-size: var(--step-0);
       color: var(--fg-1); margin: 0; line-height: 1.5;
     }
 
@@ -98,12 +98,12 @@
     .cs-body h2:first-child { margin-top: 0; }
     .cs-body h3 {
       font-family: var(--font-display);
-      font-size: 22px; font-weight: 400;
+      font-size: var(--step-2); font-weight: 400;
       letter-spacing: -0.015em; color: var(--fg-1);
       margin: 40px 0 12px;
     }
     .cs-body p {
-      font-size: 17px; line-height: 1.65; color: var(--fg-2);
+      font-size: var(--step-0); line-height: 1.65; color: var(--fg-2);
       margin: 0 0 16px; max-width: 62ch;
     }
     .cs-body ul { padding-left: 20px; color: var(--fg-2); line-height: 1.65; }
@@ -111,7 +111,7 @@
     .cs-body blockquote {
       font-family: var(--font-display);
       font-style: italic;
-      font-size: 24px; line-height: 1.35;
+      font-size: var(--step-2); line-height: 1.35;
       color: var(--fg-1);
       border-left: 2px solid var(--electric-400);
       padding: 4px 0 4px 22px;
@@ -128,13 +128,13 @@
       border: 1px solid var(--border-1);
       display: flex; align-items: center; justify-content: center;
       color: var(--fg-4);
-      font-family: var(--font-mono); font-size: 11px;
+      font-family: var(--font-mono); font-size: var(--step--1);
       letter-spacing: 0.1em; text-transform: uppercase;
     }
     .cs-image--tall { aspect-ratio: 4/5; }
     .cs-image--wide { aspect-ratio: 21/9; }
     .cs-caption {
-      font-family: var(--font-mono); font-size: 11px;
+      font-family: var(--font-mono); font-size: var(--step--1);
       color: var(--fg-3); text-align: left; margin-top: -20px; margin-bottom: 40px;
     }
 
@@ -154,7 +154,7 @@
       margin: 32px 0;
     }
     .cs-callout .eyebrow { margin-bottom: 8px; }
-    .cs-callout p { margin: 0; color: var(--fg-1); font-size: 16px; }
+    .cs-callout p { margin: 0; color: var(--fg-1); font-size: var(--step-0); }
 
     /* next / prev */
     .cs-next {
@@ -172,11 +172,11 @@
     }
     .cs-next a:hover { border-color: var(--border-strong); transform: translateY(-1px); }
     .cs-next .dir {
-      font-family: var(--font-mono); font-size: 11px;
+      font-family: var(--font-mono); font-size: var(--step--1);
       color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.14em;
     }
     .cs-next .t {
-      font-family: var(--font-display); font-size: 20px; font-weight: 400;
+      font-family: var(--font-display); font-size: var(--step-1); font-weight: 400;
       color: var(--fg-1); margin-top: 8px;
     }
   </style>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="day">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -13,41 +13,76 @@
   <script src="shared/components.js"></script>
   <style>
     .port-head {
-      padding: 84px 0 44px;
+      padding: clamp(72px, 8vw, 104px) 0 40px;
       border-bottom: 1px dashed var(--border-2);
-      margin-bottom: 22px;
+      margin-bottom: 26px;
     }
     .port-head h1 {
       font-family: var(--font-display);
-      font-size: clamp(40px, 5.5vw, 64px);
+      font-size: clamp(44px, 6vw, 72px);
       font-weight: 400;
-      letter-spacing: -0.03em;
-      line-height: 1.04;
+      letter-spacing: -0.028em;
+      line-height: 1.02;
       color: var(--fg-1);
       margin: 14px 0 0;
-      max-width: 18ch;
+      max-width: 14ch;
     }
     .port-head h1 em { font-style: italic; color: var(--electric-200); font-weight: 300; }
     .port-head p {
-      font-size: 16px; color: var(--fg-2);
-      line-height: 1.6; margin: 20px 0 0; max-width: 56ch;
+      font-size: clamp(16px, 1.8vw, 19px); color: var(--fg-2);
+      line-height: 1.65; margin: 18px 0 0; max-width: 62ch;
+    }
+    .port-stat {
+      color: var(--electric-600);
     }
     .port-toolbar {
       display: flex; align-items: center; justify-content: space-between;
       gap: 16px; flex-wrap: wrap;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
+      padding: 12px;
+      border: 1px solid var(--border-1);
+      border-radius: 14px;
+      background: linear-gradient(120deg, rgba(124,184,255,.08), rgba(124,184,255,.02) 60%, transparent 100%);
     }
     .port-count {
-      font-family: var(--font-mono); font-size: 12px; color: var(--fg-3);
+      font-family: var(--font-mono); font-size: var(--step--1); color: var(--fg-3);
+    }
+    .port-empty {
+      margin-top: 20px;
+      padding: 28px;
+      border: 1px dashed var(--border-2);
+      border-radius: 14px;
+      color: var(--fg-2);
+      background: rgba(124,184,255,.03);
+    }
+    .port-grid {
+      column-count: 3;
+      column-gap: 20px;
+    }
+    .port-grid .card {
+      width: 100%;
+      margin: 0 0 20px;
+      break-inside: avoid;
+      -webkit-column-break-inside: avoid;
+    }
+    @media (max-width: 1080px) {
+      .port-grid {
+        column-count: 2;
+      }
+    }
+    @media (max-width: 720px) {
+      .port-grid {
+        column-count: 1;
+      }
     }
 
     /* masonry-ish index (year groups) */
-    .year-group { margin-bottom: 48px; }
+    .year-group { margin-bottom: 52px; }
     .year-group__head {
       display: flex; align-items: baseline; gap: 14px;
-      padding: 10px 0 14px;
+      padding: 12px 0 14px;
       border-bottom: 1px dashed var(--border-2);
-      margin-bottom: 10px;
+      margin-bottom: 14px;
     }
     .year-group__year {
       font-family: var(--font-display);
@@ -58,7 +93,15 @@
       letter-spacing: -0.01em;
     }
     .year-group__count {
-      font-family: var(--font-mono); font-size: 12px; color: var(--fg-3);
+      font-family: var(--font-mono); font-size: var(--step--1); color: var(--fg-3);
+    }
+    @media (max-width: 720px) {
+      .port-head {
+        padding-top: 56px;
+      }
+      .port-toolbar {
+        padding: 10px;
+      }
     }
   </style>
 </head>
@@ -67,7 +110,7 @@
 
   <script type="text/babel" data-presets="env,react">
     const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-      "layout": "list"
+      "layout": "cards"
     }/*EDITMODE-END*/;
 
     function App() {
@@ -75,48 +118,66 @@
       const [open] = useTweaksHost();
       const update = (k, v) => { setTweaks(t => ({ ...t, [k]: v })); persistTweak(k, v); };
 
-      const [filter, setFilter] = React.useState('all');
-      const projects = window.PROJECTS;
-      const filtered = filter === 'all' ? projects : projects.filter(p => p.kind === filter);
+      const search = new URLSearchParams(window.location.search);
+      const initialKind = search.get('kind');
+      const initialRole = search.get('role');
+      const [filter] = React.useState(() => {
+        if (initialRole) return { mode: 'role', value: initialRole };
+        if (initialKind) return { mode: 'kind', value: initialKind };
+        return { mode: 'kind', value: 'all' };
+      });
+      const getProjectYear = (project) => {
+        const yearMatch = String(project.year || '').match(/\d{4}/);
+        return yearMatch ? Number(yearMatch[0]) : 0;
+      };
+      const projects = [...window.PROJECTS].sort((a, b) => getProjectYear(b) - getProjectYear(a));
+      const growingCount = projects.filter((p) => {
+        const title = String(p.title || '').toLowerCase();
+        return p.slug === 'telegram-bot-heymax' || title.includes('nus fintech');
+      }).length;
+      const grownCount = projects.length - growingCount;
+      const filtered = projects.filter((p) => {
+        if (filter.mode === 'role') {
+          return window.deriveRoleCategory(p.role).key === filter.value;
+        }
+        if (filter.value === 'all') return true;
+        return p.kind === filter.value;
+      });
 
       const byYear = React.useMemo(() => {
         const m = {};
         filtered.forEach(p => { (m[p.year] = m[p.year] || []).push(p); });
         return Object.keys(m).sort().reverse().map(y => ({ year: y, items: m[y] }));
       }, [filtered]);
-
       return (
         <>
           <Nav current="portfolio" />
           <main className="page hero-backdrop">
             <header className="port-head">
-              <Eyebrow>projects · {projects.length} in the garden</Eyebrow>
+              <Eyebrow>
+                <span className="port-stat">{projects.length}</span> in the garden ✦ <span className="port-stat">{growingCount}</span> Growing 🪴 ✦ <span className="port-stat">{grownCount}</span> Grown 💐
+              </Eyebrow>
               <h1>things i've <em>designed</em> and <em>built</em>.</h1>
               <p>
                 a mix of product design, engineering, and the occasional tools-for-myself experiment. each card links to a case study — some are long-form deep dives, others are short skims.
               </p>
             </header>
 
-            <div className="port-toolbar">
-              <div className="filterbar">
-                {[
-                  { key: 'all', label: 'all' },
-                  { key: 'uiux', label: 'ui/ux' },
-                  { key: 'code', label: 'code' },
-                ].map(f => (
-                  <button key={f.key} aria-pressed={filter === f.key} onClick={() => setFilter(f.key)}>
-                    {f.label}
-                  </button>
-                ))}
+            {filtered.length === 0 && (
+              <div className="port-empty">
+                nothing in bloom for this filter yet.
               </div>
-              <div className="port-count">
-                {filtered.length} shown · {tweaks.layout} view
-              </div>
-            </div>
+            )}
 
             {tweaks.layout === 'list' && (
               <div>
                 {filtered.map(p => <ListRow key={p.slug} project={p} />)}
+              </div>
+            )}
+
+            {tweaks.layout === 'cards' && (
+              <div className="port-grid">
+                {filtered.map(p => <ProjectCard key={p.slug} project={p} />)}
               </div>
             )}
 
@@ -134,7 +195,9 @@
               </div>
             )}
 
-            <Footer />
+            <footer className="footer">
+              <span>tended with love and care 💫</span>
+            </footer>
           </main>
 
           <div className={`tweaks ${open ? 'tweaks--open' : ''}`}>
@@ -143,7 +206,7 @@
             <div className="tweaks__row">
               <label className="tweaks__label">layout</label>
               <div className="tweaks__seg">
-                {['list','years'].map(k => (
+                {['cards','list','years'].map(k => (
                   <button key={k} aria-pressed={tweaks.layout === k} onClick={() => update('layout', k)}>{k}</button>
                 ))}
               </div>
