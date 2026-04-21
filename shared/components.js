@@ -87,7 +87,18 @@
   const ProjectCard = ({ project, showThumb = true, href }) => {
     const p = project;
     return e('a', { href: href || p.href || '#', className: 'card' },
-      showThumb && e('div', { className: 'card__thumb' }, p.thumbLabel || 'project image'),
+      showThumb && e(
+        'div',
+        { className: 'card__thumb' },
+        p.thumb
+          ? e('img', {
+              src: p.thumb,
+              alt: p.title || 'project image',
+              loading: 'lazy',
+              style: { width: '100%', height: '100%', objectFit: 'cover', borderRadius: 8 },
+            })
+          : (p.thumbLabel || 'project image')
+      ),
       e('div', { className: 'card__meta' },
         e(Kind, { type: p.kind }, p.kindLabel),
         e('span', { className: 'dot' }),

@@ -83,6 +83,38 @@
       color: var(--fg-1);
       line-height: 1.5;
     }
+    .cs-cover {
+      margin-top: 24px;
+      border-radius: 14px;
+      border: 1px solid var(--border-1);
+      overflow: hidden;
+      background: var(--midnight-850);
+    }
+    .cs-cover img {
+      width: 100%;
+      display: block;
+      max-height: 520px;
+      object-fit: cover;
+    }
+    .cs-gallery {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .cs-gallery figure {
+      margin: 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border-1);
+      background: var(--midnight-850);
+    }
+    .cs-gallery img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
     .cs-section {
       margin-top: 48px;
       padding-top: 20px;
@@ -166,6 +198,11 @@
 
               <h1 className="cs-title">{project.title}</h1>
               <p className="cs-subtitle">{details.subtitle}</p>
+              {details.heroImage && (
+                <div className="cs-cover">
+                  <img src={siteHref(details.heroImage)} alt={`${project.title} cover`} loading="lazy" />
+                </div>
+              )}
 
               <dl className="cs-summary">
                 <div>
@@ -201,6 +238,19 @@
                   )}
                 </section>
               ))}
+
+              {details.gallery && details.gallery.length > 0 && (
+                <section className="cs-section">
+                  <h2>Gallery</h2>
+                  <div className="cs-gallery">
+                    {details.gallery.map((imgPath, idx) => (
+                      <figure key={`${project.slug}-gallery-${idx}`}>
+                        <img src={siteHref(imgPath)} alt={`${project.title} visual ${idx + 1}`} loading="lazy" />
+                      </figure>
+                    ))}
+                  </div>
+                </section>
+              )}
 
               <Footer />
             </article>
