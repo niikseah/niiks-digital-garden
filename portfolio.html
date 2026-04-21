@@ -43,9 +43,28 @@
 
     /* grid layout */
     .grid-layout {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      display: flex;
       gap: 20px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 10px;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+    }
+    .grid-layout .card {
+      flex: 0 0 min(420px, calc(100vw - 64px));
+      scroll-snap-align: start;
+    }
+    .grid-layout::-webkit-scrollbar {
+      height: 8px;
+    }
+    .grid-layout::-webkit-scrollbar-thumb {
+      background: rgba(124,184,255,.28);
+      border-radius: 999px;
+    }
+    .grid-layout::-webkit-scrollbar-track {
+      background: rgba(124,184,255,.08);
+      border-radius: 999px;
     }
 
     /* masonry-ish index (year groups) */
