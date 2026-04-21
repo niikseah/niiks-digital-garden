@@ -73,9 +73,17 @@
     .section-head a:hover { color: var(--electric-glow); }
 
     .featured-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      display: flex;
       gap: 18px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 8px;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+    }
+    .featured-grid .card {
+      flex: 0 0 min(420px, calc(100vw - 64px));
+      scroll-snap-align: start;
     }
 
     /* small sections grid */

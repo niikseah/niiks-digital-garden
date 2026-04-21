@@ -132,29 +132,53 @@ window.CASE_STUDIES = {
     ],
     sections: [
       {
-        header: 'Project Overview',
+        header: 'Background & Problem Framing',
         body: [
           'Pantry Pal is a mobile UI/UX concept designed to tackle food waste by simplifying pantry management and meal planning.',
-          'The project centered on helping households track groceries better, reduce duplicate purchases, and turn ingredients into actionable meal plans.',
+          'The project began with a clear behavior gap: users cared about waste but still overbought and forgot existing items, which led to duplication and expiry.',
         ],
       },
       {
-        header: 'Research & Key Findings',
+        header: 'Research Insights',
         bullets: [
-          'Conducted user interviews and synthesized responses into recurring themes around convenience and low visibility of food expiry.',
-          'Built empathy maps and personas to ground feature priorities in real household behaviors.',
-          'Validated that users preferred quicker, low-friction input methods such as barcode scanning and voice entry.',
+          'Awareness of food waste did not reliably translate to daily action.',
+          'Users prioritized convenience over sustainability when shopping under time pressure.',
+          'Waste-reducing behaviors were perceived as tedious without strong in-app support.',
+          'Participants preferred low-friction capture methods (voice, barcode scan, quick add).',
         ],
       },
       {
-        header: 'Design Approach',
+        header: 'Existing User Flow',
         body: [
-          'Designed pantry navigation, meal planning flows, and expiry tracking views to make food state and usage immediately clear.',
-          'Ran low-fidelity prototyping and iterative user testing to refine onboarding, pantry interactions, and recipe recommendations.',
+          'The baseline grocery journey was mapped from purchase to unpacking to identify where duplication, forgotten inventory, and expiry risk occur.',
+          'This revealed that most breakdowns happened before planning (during shopping decisions) and after purchase (during pantry organization).',
         ],
       },
       {
-        header: 'Outcome & Skills',
+        header: 'Lo-Fi Prototype',
+        body: [
+          'A low-fidelity prototype was created to test core workflows: onboarding, pantry setup, grocery input, expiry tracking, and recipe/meal planning loops.',
+          'The focus at this stage was information clarity and step-by-step usability rather than visual polish.',
+        ],
+      },
+      {
+        header: 'User Testing Results',
+        bullets: [
+          'Navigation hierarchy was validated, with Pantry positioned for faster repeated access.',
+          'Grid-style visual treatment for expired items performed better than list-style alternatives.',
+          'Recipe portion controls were seen as highly useful for reducing over-cooking and over-buying.',
+          'Users requested stronger persistence of previously entered groceries for faster repeat actions.',
+        ],
+      },
+      {
+        header: 'Mid-Fi Prototype & Design Considerations',
+        body: [
+          'Mid-fidelity iterations incorporated tested navigation patterns, clearer interaction labels, and more practical pantry/meal planning flows.',
+          'Color, accessibility contrast, and action naming were refined to support both first-time and repeat usage.',
+        ],
+      },
+      {
+        header: 'Outcome & Skills Developed',
         bullets: [
           'Delivered a complete prototype and validated interaction model for pantry and meal workflows.',
           'Strengthened user research, interview synthesis, empathy mapping, and interaction design execution.',
@@ -249,23 +273,40 @@ window.CASE_STUDIES = {
     ],
     sections: [
       {
-        header: 'Project Overview',
+        header: 'Project Scope',
         body: [
           'FlexiJio is a desktop video conferencing platform concept specifically designed for fitness sessions.',
+          'The solution was positioned as a complementary option for users who want social, guided workouts at home.',
         ],
       },
       {
-        header: 'Problem',
+        header: 'Disclaimer & Product Boundaries',
         body: [
-          'General-purpose video tools often miss session-specific controls needed for coaching, class pacing, and participant visibility.',
+          'FlexiJio is not meant to replace in-person gyms or users who prefer solo workouts.',
+          'It is designed for users seeking flexible, community-supported virtual fitness experiences.',
         ],
       },
       {
-        header: 'Approach',
+        header: 'Key Discoveries',
         bullets: [
-          'Researched instructor and participant workflow needs unique to remote fitness.',
-          'Proposed interface patterns that reduce control switching during live sessions.',
-          'Mapped feature priorities to preserve flow between instruction and feedback loops.',
+          'Users wanted virtual training to feel personal and responsive, not generic.',
+          'Community and social accountability improved motivation consistency.',
+          'Sustained engagement depended on personalization, customization, and integrated tracking.',
+        ],
+      },
+      {
+        header: 'Personas & Proposed Use Scenario',
+        body: [
+          'Personas were developed to represent real scheduling, motivation, and family/work constraints.',
+          'Use-scenario mapping validated notification timing, class entry flow, and social touchpoints as key retention moments.',
+        ],
+      },
+      {
+        header: 'Prototype Direction',
+        bullets: [
+          'Defined workflows for class discovery, session participation, and post-session follow-through.',
+          'Integrated health tracking and FAQ/help touchpoints to reduce session friction.',
+          'Storyboarded multi-step feature use to align instructor and participant expectations.',
         ],
       },
       {
@@ -290,24 +331,54 @@ window.CASE_STUDIES = {
     ],
     sections: [
       {
-        header: 'Project Overview',
+        header: 'Project Context',
         body: [
           'Fusion Scanner is a browser extension concept created to support users facing language barriers and reading disabilities.',
+          'The work addressed comprehension friction in everyday long-form digital reading.',
         ],
       },
       {
-        header: 'Problem & User Need',
+        header: 'Limitations of Current Solutions',
         body: [
-          'Web reading often assumes a single comprehension style, which can exclude users who need adaptive support.',
-          'The project explored ways to make reading assistance available in-context without disrupting browsing flow.',
+          'Existing tools either lacked structured editing/regeneration controls or omitted summarization capabilities.',
+          'Users needed in-context support with clearer control over output quality and format.',
         ],
       },
       {
-        header: 'Design Strategy',
+        header: 'Target User Groups',
+        body: [
+          'Primary users included non-native English readers and users with reading-comprehension constraints.',
+          'Secondary users included academic professionals, tutors, and heavy digital readers who benefit from reading acceleration.',
+        ],
+      },
+      {
+        header: 'User Interviews, Affinity Diagram & Personas',
+        body: [
+          'Interviews with target users were synthesized into affinity clusters and translated into personas.',
+          'This process surfaced recurring needs around controllable summaries, transparent feedback, and recovery from weak AI outputs.',
+        ],
+      },
+      {
+        header: 'Wireframes & Interactive Prototype',
+        body: [
+          'The design evolved from structure-first wireframes to interactive prototype states focused on summarization workflows.',
+          'Interaction emphasis was placed on clarity, user control, and minimizing context switches while reading.',
+        ],
+      },
+      {
+        header: 'Evaluation & Analysis',
         bullets: [
-          'Identified critical support moments where users need immediate clarity while reading.',
-          'Designed assistive interaction patterns that stay lightweight and non-intrusive.',
-          'Iterated prototype direction with usability and accessibility priorities at the core.',
+          'Usability tests and heuristics identified gaps in error prevention, status visibility, and guidance.',
+          'Regeneration needed more granularity so users could refine specific summary sections rather than entire outputs.',
+          'Help and documentation had to be explicit for first-time feature discoverability.',
+        ],
+      },
+      {
+        header: 'Redesign Iterations',
+        bullets: [
+          'Added feedback collection before summary regeneration to steer AI output quality.',
+          'Separated regeneration controls across summary sections for better user control.',
+          'Introduced high-risk action warnings, clearer success/error states, and richer help documentation.',
         ],
       },
       {
