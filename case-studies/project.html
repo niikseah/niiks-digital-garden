@@ -61,6 +61,8 @@
       font-size: 18px;
       line-height: 1.6;
       color: var(--fg-2);
+      max-width: none;
+      width: 100%;
     }
     .cs-summary {
       margin-top: 28px;
@@ -137,12 +139,16 @@
       line-height: 1.65;
       color: var(--fg-2);
       margin: 0 0 12px;
+      max-width: none;
+      width: 100%;
     }
     .cs-section ul {
       margin: 0;
       padding-left: 20px;
       color: var(--fg-2);
       line-height: 1.65;
+      max-width: none;
+      width: 100%;
     }
     .cs-section li + li { margin-top: 8px; }
     .cs-section ul li::marker { color: var(--electric-300); }
@@ -200,7 +206,7 @@
               </div>
 
               <h1 className="cs-title">{project.title}</h1>
-              <p className="cs-subtitle">{details.subtitle}</p>
+              <p className="cs-subtitle" style={{ maxWidth: 'none', width: '100%' }}>{details.subtitle}</p>
               {details.heroImage && (
                 <div className="cs-cover">
                   <img src={siteHref(details.heroImage)} alt={`${project.title} cover`} loading="lazy" />
@@ -230,10 +236,10 @@
                 <section className="cs-section" key={`${project.slug}-section-${idx}`}>
                   <h2>{section.header}</h2>
                   {section.body && section.body.map((line, lineIdx) => (
-                    <p key={`${project.slug}-body-${idx}-${lineIdx}`}>{line}</p>
+                    <p key={`${project.slug}-body-${idx}-${lineIdx}`} style={{ maxWidth: 'none', width: '100%' }}>{line}</p>
                   ))}
                   {section.bullets && (
-                    <ul>
+                    <ul style={{ maxWidth: 'none', width: '100%' }}>
                       {section.bullets.map((item, itemIdx) => (
                         <li key={`${project.slug}-bullet-${idx}-${itemIdx}`}>{item}</li>
                       ))}

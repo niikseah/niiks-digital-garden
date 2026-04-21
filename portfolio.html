@@ -44,11 +44,14 @@
     /* grid layout */
     .grid-layout {
       display: flex;
+      flex-wrap: nowrap;
       gap: 18px;
       overflow-x: auto;
       overflow-y: hidden;
       padding-bottom: 8px;
+      width: 100%;
       scroll-snap-type: x proximity;
+      scrollbar-gutter: stable;
       -webkit-overflow-scrolling: touch;
     }
     .grid-layout .card {
