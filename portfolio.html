@@ -41,35 +41,6 @@
       font-family: var(--font-mono); font-size: 12px; color: var(--fg-3);
     }
 
-    /* grid layout */
-    .grid-layout {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 18px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding-bottom: 8px;
-      width: 100%;
-      scroll-snap-type: x proximity;
-      scrollbar-gutter: stable;
-      -webkit-overflow-scrolling: touch;
-    }
-    .grid-layout .card {
-      flex: 0 0 min(420px, calc(100vw - 64px));
-      scroll-snap-align: start;
-    }
-    .grid-layout::-webkit-scrollbar {
-      height: 8px;
-    }
-    .grid-layout::-webkit-scrollbar-thumb {
-      background: rgba(124,184,255,.28);
-      border-radius: 999px;
-    }
-    .grid-layout::-webkit-scrollbar-track {
-      background: rgba(124,184,255,.08);
-      border-radius: 999px;
-    }
-
     /* masonry-ish index (year groups) */
     .year-group { margin-bottom: 48px; }
     .year-group__head {
@@ -96,8 +67,7 @@
 
   <script type="text/babel" data-presets="env,react">
     const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-      "layout": "grid",
-      "showThumbs": true
+      "layout": "list"
     }/*EDITMODE-END*/;
 
     function App() {
@@ -144,12 +114,6 @@
               </div>
             </div>
 
-            {tweaks.layout === 'grid' && (
-              <div className="grid-layout">
-                {filtered.map(p => <ProjectCard key={p.slug} project={p} showThumb={tweaks.showThumbs} />)}
-              </div>
-            )}
-
             {tweaks.layout === 'list' && (
               <div>
                 {filtered.map(p => <ListRow key={p.slug} project={p} />)}
@@ -179,16 +143,9 @@
             <div className="tweaks__row">
               <label className="tweaks__label">layout</label>
               <div className="tweaks__seg">
-                {['grid','list','years'].map(k => (
+                {['list','years'].map(k => (
                   <button key={k} aria-pressed={tweaks.layout === k} onClick={() => update('layout', k)}>{k}</button>
                 ))}
-              </div>
-            </div>
-            <div className="tweaks__row">
-              <label className="tweaks__label">thumbnails (grid)</label>
-              <div className="tweaks__seg">
-                <button aria-pressed={tweaks.showThumbs} onClick={() => update('showThumbs', true)}>on</button>
-                <button aria-pressed={!tweaks.showThumbs} onClick={() => update('showThumbs', false)}>off</button>
               </div>
             </div>
           </div>
