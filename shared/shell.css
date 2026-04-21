@@ -143,15 +143,33 @@ body { min-height: 100vh; font-family: var(--font-body); color: var(--fg-1); }
   border-radius: 14px;
   background: var(--midnight-850);
   border: 1px solid var(--border-1);
+  position: relative;
+  overflow: hidden;
   text-decoration: none; color: inherit;
   transition: border-color var(--dur-2) var(--ease-out),
               transform var(--dur-2) var(--ease-out),
-              box-shadow var(--dur-2) var(--ease-out);
+              box-shadow var(--dur-2) var(--ease-out),
+              background var(--dur-2) var(--ease-out);
+}
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 10%, rgba(124,184,255,.12) 50%, transparent 90%);
+  opacity: 0;
+  transform: translateX(-30%);
+  transition: opacity var(--dur-2) var(--ease-out), transform 420ms var(--ease-out);
+  pointer-events: none;
 }
 .card:hover {
   border-color: var(--border-strong);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-2);
+  background: color-mix(in srgb, var(--midnight-850) 92%, var(--electric-500) 8%);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: var(--shadow-3);
+}
+.card:hover::after {
+  opacity: 1;
+  transform: translateX(35%);
 }
 .card__thumb {
   aspect-ratio: 16/10;
@@ -167,6 +185,13 @@ body { min-height: 100vh; font-family: var(--font-body); color: var(--fg-1); }
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
+.card__thumb img {
+  transition: transform 420ms var(--ease-out), filter 420ms var(--ease-out);
+}
+.card:hover .card__thumb img {
+  transform: scale(1.04);
+  filter: saturate(1.05);
+}
 .card__meta {
   display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
   color: var(--fg-3); font-family: var(--font-mono); font-size: 12px;
@@ -177,6 +202,10 @@ body { min-height: 100vh; font-family: var(--font-body); color: var(--fg-1); }
   font-size: 24px; font-weight: 400;
   letter-spacing: -0.015em; line-height: 1.15;
   color: var(--fg-1); margin: 0;
+  transition: color var(--dur-2) var(--ease-out);
+}
+.card:hover .card__title {
+  color: var(--electric-200);
 }
 .card__excerpt {
   font-size: 14px; color: var(--fg-2);
@@ -191,9 +220,25 @@ body { min-height: 100vh; font-family: var(--font-body); color: var(--fg-1); }
 }
 .card__foot .arrow {
   color: var(--electric-300);
-  transition: transform var(--dur-2) var(--ease-out);
+  transition: transform var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out);
 }
-.card:hover .card__foot .arrow { transform: translateX(3px); }
+.card:hover .card__foot .arrow {
+  transform: translateX(6px);
+  color: var(--electric-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card::after,
+  .card__thumb img,
+  .card__title,
+  .card__foot .arrow {
+    transition: none;
+  }
+  .card:hover {
+    transform: none;
+  }
+}
 
 /* ─── tag pill ─── */
 .tag {
