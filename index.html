@@ -184,7 +184,7 @@
         document.documentElement.style.setProperty('--accent-link', t.c);
       }, [tweaks.accent]);
 
-      const featured = window.FEATURED.map(s => window.PROJECTS.find(p => p.slug === s)).filter(Boolean);
+      const featured = window.PROJECTS;
       const workExperiences = [
         {
           company: 'Shopee',
