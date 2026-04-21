@@ -21,8 +21,9 @@
       font-size: 12px;
       color: var(--fg-3);
       text-decoration: none;
+      transition: color var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
     }
-    .cs-back:hover { color: var(--fg-1); }
+    .cs-back:hover { color: var(--fg-1); transform: translateX(-2px); }
 
     .cs-body {
       max-width: 1020px;
@@ -120,7 +121,7 @@
     }
     .cs-section {
       margin-top: 48px;
-      padding-top: 20px;
+      padding-top: 24px;
       border-top: 1px dashed var(--border-2);
     }
     .cs-section h2 {
@@ -144,6 +145,7 @@
       line-height: 1.65;
     }
     .cs-section li + li { margin-top: 8px; }
+    .cs-section ul li::marker { color: var(--electric-300); }
   </style>
 </head>
 <body>
