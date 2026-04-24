@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pantry Pal — Case Study · Niik Seah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* 60% neutral */
+    --paper: #FAFAF7;
+    --paper-warm: #F4F2EC;
+    --ink: #0F1729;
+    --ink-soft: #3C445A;
+    --ink-mute: #6B7388;
+    --rule: #E4E1D8;
+
+    /* 30% brand blues */
+    --blue-deep: #1E3A8A;
+    --blue: #2E5AAC;
+    --blue-bright: #3B82F6;
+    --blue-tint: #EBF1FB;
+    --blue-faint: #F5F8FD;
+
+    /* 10% star accent */
+    --star: #F5B841;
+    --star-glow: rgba(245, 184, 65, 0.35);
+
+    --display: 'Fraunces', Georgia, serif;
+    --body: 'Inter', -apple-system, system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.6;
+    font-feature-settings: 'ss01', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--blue); color: var(--paper); }
+
+  /* ============================================================
+     NAV
+  ============================================================ */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250, 250, 247, 0.85);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-brand {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-brand em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink-mute);
+  }
+  .nav-modes {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--paper-warm);
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+  }
+  .mode-btn {
+    font-family: var(--body);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--ink-mute);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 7px 16px;
+    border-radius: 999px;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .mode-btn:hover { color: var(--ink); }
+  .mode-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+    box-shadow: 0 1px 3px rgba(15, 23, 41, 0.15);
+  }
+  .mode-btn .star-mark {
+    width: 10px;
+    height: 10px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .mode-btn.active .star-mark { opacity: 1; }
+
+  /* ============================================================
+     HERO
+  ============================================================ */
+  .hero {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 96px 32px 72px;
+    position: relative;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 32px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--blue);
+  }
+  .hero h1 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(48px, 8vw, 96px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    max-width: 980px;
+    margin-bottom: 28px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--blue);
+    position: relative;
+  }
+  /* star easter egg — single star beside 'easy default' */
+  .hero h1 em::after {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-left: 6px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F5B841'%3E%3Cpath d='M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z'/%3E%3C/svg%3E") no-repeat center/contain;
+    transform: translateY(-0.4em) rotate(-8deg);
+    animation: twinkle 3.5s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.5; transform: translateY(-0.4em) rotate(-8deg) scale(1); }
+    50% { opacity: 1; transform: translateY(-0.4em) rotate(-8deg) scale(1.15); }
+  }
+  .hero-deck {
+    font-size: 20px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 680px;
+    margin-bottom: 56px;
+    font-weight: 300;
+  }
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-meta > div {
+    background: var(--paper);
+    padding: 20px 24px;
+  }
+  .meta-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 6px;
+  }
+  .meta-value {
+    font-family: var(--display);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  @media (max-width: 720px) {
+    .hero-meta { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ============================================================
+     TL;DR MODE
+  ============================================================ */
+  .tldr {
+    display: block;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px;
+  }
+  .tldr.hidden { display: none; }
+
+  .tldr-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 48px;
+    margin-bottom: 72px;
+  }
+  @media (max-width: 900px) {
+    .tldr-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  .tldr-headline {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(28px, 3.5vw, 40px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .tldr-headline strong {
+    font-weight: 600;
+    background: linear-gradient(180deg, transparent 65%, var(--blue-tint) 65%);
+    padding: 0 2px;
+  }
+
+  .tldr-side {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    padding: 28px;
+    border-radius: 4px;
+    position: relative;
+  }
+  .tldr-side::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 40px;
+    height: 40px;
+    border-top: 2px solid var(--blue);
+    border-left: 2px solid var(--blue);
+  }
+  .tldr-side h3 {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 20px;
+  }
+  .tldr-side ul { list-style: none; }
+  .tldr-side li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  .tldr-side li:last-child { border-bottom: none; }
+  .tldr-side li strong {
+    display: block;
+    font-family: var(--display);
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 2px;
+    font-weight: 500;
+  }
+
+  /* Impact cards */
+  .impact-section {
+    margin-bottom: 72px;
+  }
+  .section-label {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-label .num {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 32px;
+    color: var(--blue);
+    font-weight: 400;
+  }
+  .section-label h2 {
+    font-family: var(--display);
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .impact-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 900px) { .impact-cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 500px) { .impact-cards { grid-template-columns: 1fr; } }
+
+  .impact-card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 28px 24px;
+    border-radius: 4px;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .impact-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px -12px rgba(30, 58, 138, 0.15);
+  }
+  .impact-card .value {
+    font-family: var(--display);
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--blue);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+  }
+  .impact-card .value sup {
+    font-size: 14px;
+    color: var(--star);
+    margin-left: 4px;
+    top: 8px;
+    position: relative;
+  }
+  .impact-card .label {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+
+  /* Strategy block */
+  .strategy {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 72px 48px;
+    border-radius: 8px;
+    margin-bottom: 72px;
+    position: relative;
+    overflow: hidden;
+  }
+  .strategy::before {
+    content: '';
+    position: absolute;
+    top: 32px;
+    right: 48px;
+    width: 80px;
+    height: 80px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F5B841' stroke-width='0.5'%3E%3Cpath d='M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z'/%3E%3C/svg%3E") no-repeat center/contain;
+    opacity: 0.4;
+  }
+  .strategy .eyebrow {
+    color: var(--star);
+    margin-bottom: 24px;
+  }
+  .strategy .eyebrow::before { background: var(--star); }
+  .strategy h2 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    max-width: 820px;
+    margin-bottom: 24px;
+  }
+  .strategy h2 em {
+    font-style: italic;
+    color: var(--star);
+    font-weight: 300;
+  }
+  .strategy p {
+    max-width: 680px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: #C3C8D2;
+    font-weight: 300;
+  }
+
+  /* Role / decisions grid */
+  .at-a-glance {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    margin-bottom: 72px;
+  }
+  @media (max-width: 780px) { .at-a-glance { grid-template-columns: 1fr; gap: 48px; } }
+
+  .glance-col h3 {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .glance-col ul { list-style: none; }
+  .glance-col li {
+    padding: 14px 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    display: flex;
+    gap: 16px;
+  }
+  .glance-col li .decision {
+    font-family: var(--display);
+    font-weight: 500;
+    color: var(--ink);
+    flex-shrink: 0;
+    width: 130px;
+    font-size: 15px;
+  }
+  @media (max-width: 500px) {
+    .glance-col li { flex-direction: column; gap: 4px; }
+    .glance-col li .decision { width: auto; }
+  }
+
+  .cta-read-full {
+    text-align: center;
+    padding: 64px 0 96px;
+    border-top: 1px solid var(--rule);
+  }
+  .cta-read-full p {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+    font-weight: 400;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    font-family: var(--body);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .cta-btn:hover {
+    background: var(--blue-deep);
+    transform: translateY(-1px);
+    box-shadow: 0 12px 32px -8px rgba(30, 58, 138, 0.4);
+  }
+  .cta-btn svg { transition: transform 0.3s ease; }
+  .cta-btn:hover svg { transform: translateX(3px); }
+
+  /* ============================================================
+     FULL READ MODE
+  ============================================================ */
+  .full { display: none; }
+  .full.active { display: block; }
+
+  .full-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 32px 32px 120px;
+  }
+
+  .chapter {
+    margin-bottom: 96px;
+    position: relative;
+  }
+
+  .chapter-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    color: var(--blue);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .chapter-num::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .chapter h2 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(36px, 5vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 32px;
+  }
+  .chapter h2 em {
+    font-style: italic;
+    color: var(--blue);
+    font-weight: 300;
+  }
+
+  .chapter h3 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin: 48px 0 16px;
+  }
+
+  .chapter p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+  }
+  .chapter p.lead {
+    font-family: var(--display);
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--ink);
+    font-weight: 400;
+    margin-bottom: 32px;
+  }
+  .chapter p strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .chapter p em {
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  .chapter ul, .chapter ol {
+    margin: 20px 0 24px 0;
+    padding-left: 0;
+    list-style: none;
+  }
+  .chapter li {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    padding: 10px 0 10px 28px;
+    position: relative;
+  }
+  .chapter ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 21px;
+    width: 14px;
+    height: 1px;
+    background: var(--blue);
+  }
+  .chapter ol { counter-reset: step; }
+  .chapter ol li {
+    counter-increment: step;
+    padding-left: 40px;
+  }
+  .chapter ol li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 10px;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--blue);
+    font-weight: 500;
+  }
+
+  .pull-quote {
+    margin: 48px -32px;
+    padding: 40px 56px;
+    background: var(--blue-faint);
+    border-left: 3px solid var(--blue);
+    position: relative;
+  }
+  .pull-quote::before {
+    content: '"';
+    position: absolute;
+    top: 8px;
+    left: 20px;
+    font-family: var(--display);
+    font-size: 72px;
+    color: var(--blue);
+    opacity: 0.2;
+    line-height: 1;
+  }
+  .pull-quote p {
+    font-family: var(--display);
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--ink);
+    font-weight: 400;
+    font-style: italic;
+    margin: 0;
+  }
+
+  .decision-block {
+    background: var(--paper-warm);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin: 24px 0;
+    border: 1px solid var(--rule);
+  }
+  .decision-block .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    background: var(--blue-tint);
+    padding: 4px 10px;
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .decision-block h4 {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 16px;
+    line-height: 1.25;
+  }
+  .decision-block dl { margin: 0; }
+  .decision-block dt {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-top: 14px;
+    margin-bottom: 4px;
+  }
+  .decision-block dt:first-child { margin-top: 0; }
+  .decision-block dd {
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin-left: 0;
+  }
+
+  .feature-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0 32px;
+    font-size: 15px;
+  }
+  .feature-table th, .feature-table td {
+    text-align: left;
+    padding: 16px 16px 16px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .feature-table th {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    border-bottom: 1px solid var(--ink);
+  }
+  .feature-table td:first-child {
+    font-family: var(--display);
+    font-weight: 500;
+    color: var(--ink);
+    width: 28%;
+    font-size: 16px;
+  }
+  .feature-table td:last-child { color: var(--ink-soft); }
+
+  .reflection-card {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 40px;
+    border-radius: 4px;
+    margin: 32px 0;
+    position: relative;
+  }
+  .reflection-card .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--star);
+    margin-bottom: 16px;
+    display: inline-block;
+  }
+  .reflection-card p {
+    font-family: var(--display);
+    font-size: 20px;
+    line-height: 1.45;
+    color: var(--paper);
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+  .reflection-card p:last-child { margin-bottom: 0; }
+
+  /* ============================================================
+     FOOTER
+  ============================================================ */
+  .footer {
+    border-top: 1px solid var(--rule);
+    padding: 48px 32px;
+    text-align: center;
+    background: var(--paper-warm);
+  }
+  .footer p {
+    font-family: var(--display);
+    font-size: 16px;
+    color: var(--ink-mute);
+    font-style: italic;
+  }
+  .footer a {
+    color: var(--blue);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    font-style: normal;
+    margin: 0 6px;
+  }
+
+  /* star hidden easter egg — appears only on hover over the final period */
+  .signature {
+    display: inline-block;
+    position: relative;
+    cursor: default;
+  }
+  .signature::after {
+    content: '';
+    position: absolute;
+    right: -16px;
+    top: -4px;
+    width: 10px;
+    height: 10px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F5B841'%3E%3Cpath d='M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z'/%3E%3C/svg%3E") no-repeat center/contain;
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: scale(0.5) rotate(-20deg);
+  }
+  .signature:hover::after {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  /* reveal on load */
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: reveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  @keyframes reveal {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal-1 { animation-delay: 0.05s; }
+  .reveal-2 { animation-delay: 0.15s; }
+  .reveal-3 { animation-delay: 0.25s; }
+  .reveal-4 { animation-delay: 0.35s; }
+
+  /* mobile tweaks */
+  @media (max-width: 640px) {
+    .hero { padding: 64px 24px 48px; }
+    .tldr { padding: 24px; }
+    .full-inner { padding: 24px 24px 96px; }
+    .strategy { padding: 48px 32px; }
+    .pull-quote { margin: 32px -24px; padding: 32px 32px; }
+    .nav-inner { padding: 14px 20px; }
+    .nav-brand { font-size: 15px; }
+    .mode-btn { padding: 6px 12px; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================================= NAV ================================= -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="../portfolio.html" class="nav-brand">Niik Seah <em>/ Selected Work</em></a>
+    <div class="nav-modes" role="tablist">
+      <button class="mode-btn active" data-mode="tldr" role="tab">
+        <svg class="star-mark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg>
+        TL;DR
+      </button>
+      <button class="mode-btn" data-mode="full" role="tab">Full read · 6 min</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ================================= HERO ================================= -->
+<header class="hero">
+  <div class="eyebrow reveal reveal-1">Case Study · 2024</div>
+  <h1 class="reveal reveal-2">Pantry&nbsp;Pal.<br>Making good habits the <em>easy default</em></h1>
+  <p class="hero-deck reveal reveal-3">A mobile app that fights Singapore's 755,000-tonne household food-waste problem — disguised as a diet tracker, because the best way to change behavior is to smuggle it in through one you already have.</p>
+  <div class="hero-meta reveal reveal-4">
+    <div>
+      <div class="meta-label">Role</div>
+      <div class="meta-value">Sole Owner</div>
+    </div>
+    <div>
+      <div class="meta-label">Scope</div>
+      <div class="meta-value">Research → Mid-fi</div>
+    </div>
+    <div>
+      <div class="meta-label">Team</div>
+      <div class="meta-value">1 (me)</div>
+    </div>
+    <div>
+      <div class="meta-label">Context</div>
+      <div class="meta-value">NM4259 · NUS</div>
+    </div>
+  </div>
+</header>
+
+<!-- ================================= TL;DR ================================= -->
+<main class="tldr" id="tldr-view">
+
+  <!-- Problem + research sidebar -->
+  <section class="tldr-grid">
+    <div>
+      <div class="eyebrow">The Problem</div>
+      <h2 class="tldr-headline">Singapore wastes <strong>755,000 tonnes</strong> of food a year, and no mobile app intervenes <strong>before</strong> groceries enter the home — where most waste begins.</h2>
+    </div>
+    <aside class="tldr-side">
+      <h3>Research basis</h3>
+      <ul>
+        <li><strong>2 semi-structured interviews</strong>Singaporean youths aged 23; tested the Trojan-horse hypothesis.</li>
+        <li><strong>3 Wizard-of-Oz usability tests</strong>Think-aloud protocol on mid-fi prototype.</li>
+        <li><strong>Nielsen heuristic evaluation</strong>Full 10-heuristic audit; severity-scored.</li>
+        <li><strong>3 A/B tests</strong>Grid vs. list, expiry display, weekly vs. daily view.</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- Strategy block -->
+  <section class="strategy">
+    <div class="eyebrow">The Bet</div>
+    <h2>Users won't download a pantry app. They <em>will</em> download a calorie counter — and log their groceries as a side-effect.</h2>
+    <p>Existing apps (Treatsure, Olio) fix waste after purchase. KitchenPal fixes it before — but requires users to already care. Pantry Pal pairs a pantry manager with a diet tracker, so the acquisition hook is a habit users already have, and the waste-reduction behaviors ride along for free.</p>
+  </section>
+
+  <!-- Impact metrics -->
+  <section class="impact-section">
+    <div class="section-label">
+      <span class="num">01</span>
+      <h2>Impact, honestly measured</h2>
+    </div>
+    <div class="impact-cards">
+      <div class="impact-card">
+        <div class="value">12<sup>★</sup></div>
+        <div class="label">Usability issues caught pre-launch across 3 user tests + 1 heuristic audit.</div>
+      </div>
+      <div class="impact-card">
+        <div class="value">2</div>
+        <div class="label">Severity-4 catastrophes identified and fixed before mid-fi sign-off.</div>
+      </div>
+      <div class="impact-card">
+        <div class="value">5/5</div>
+        <div class="label">Features each mapped 1:1 to a research-backed "smart consumer" trait.</div>
+      </div>
+      <div class="impact-card">
+        <div class="value">100%</div>
+        <div class="label">Of tested participants validated the diet-tracker-as-hook product bet.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- At a glance: decisions + rejections -->
+  <section class="at-a-glance">
+    <div class="glance-col">
+      <h3>Key decisions</h3>
+      <ul>
+        <li><span class="decision">Acquisition hook</span>Diet tracker, not pantry manager.</li>
+        <li><span class="decision">Pantry UI</span>Grid view — users recognize by packaging, not names.</li>
+        <li><span class="decision">Grocery input</span>Unified Google-style bar with voice + barcode inline.</li>
+        <li><span class="decision">Validation</span>Heuristic audit <em>before</em> user tests to protect users' time.</li>
+      </ul>
+    </div>
+    <div class="glance-col">
+      <h3>What I said no to</h3>
+      <ul>
+        <li><span class="decision">Receipt scanning</span>Abbreviated item names + no expiry data = trains distrust.</li>
+        <li><span class="decision">View toggles</span>3/3 users agreed on grid — no need for a setting.</li>
+        <li><span class="decision">Pantry-first IA</span>Kept it, but moved Diet Tracker opt-in to honor the hierarchy.</li>
+        <li><span class="decision">Tabs for input</span>One bar, three modalities. Lower cognitive load.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA to full read -->
+  <div class="cta-read-full">
+    <p>There's more to the story.</p>
+    <button class="cta-btn" onclick="setMode('full')">
+      Read the full case study
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+  </div>
+
+</main>
+
+<!-- ================================= FULL READ ================================= -->
+<article class="full" id="full-view">
+  <div class="full-inner">
+
+    <section class="chapter">
+      <div class="chapter-num">Chapter 01 · Context</div>
+      <h2>A waste problem the city already <em>knew</em> about</h2>
+      <p class="lead">Singapore's Semakau landfill is projected to run out of space by 2035. The government has a Zero Waste Masterplan, the NEA runs annual reduction campaigns, and NGOs like ZeroWasteSG have been educating consumers for years. And yet food waste in 2023 — 755,000 tonnes — was higher than in 2020.</p>
+      <p>The education-first approach had hit a ceiling. My interview subjects, both 23-year-old Singaporeans, confirmed it in the bluntest possible way: they knew exactly why food waste mattered, and they still didn't change their behavior. The gap between knowledge and action was the real problem — and no existing app was addressing it for the demographic that needed it most.</p>
+
+      <div class="pull-quote">
+        <p>I knew about it, I just didn't care enough to do anything differently.</p>
+      </div>
+
+      <p>That quote — paraphrased from interview #1 — reframed the brief. The question wasn't "how do we teach people about food waste?" It was "how do we get people who already know to act?"</p>
+    </section>
+
+    <section class="chapter">
+      <div class="chapter-num">Chapter 02 · The strategy</div>
+      <h2>A <em>Trojan horse</em> for behavior change</h2>
+      <p>The competitive landscape had a gap and a cautionary tale, both relevant.</p>
+      <p>The gap: Treatsure and Olio addressed waste <em>after</em> purchase — connecting consumers to surplus food that already existed. But most household waste is generated upstream of that, when people buy more than they need in the first place.</p>
+      <p>The cautionary tale: KitchenPal was the only pre-purchase pantry manager in the market. It hadn't scaled. The reason, I suspected, was that pantry management is a chore nobody opens an app for. If the motivation gap was the real problem, building a better pantry app was solving the wrong thing.</p>
+      <p>So I stopped designing a pantry app.</p>
+      <p>I designed a <strong>diet tracker that happens to have a pantry in it</strong>. Diet tracking — by way of apps like MyFitnessPal — is already a daily habit for a significant slice of 18–24-year-olds. Logging a meal means logging ingredients. Logging ingredients means knowing what's in your pantry. Knowing what's in your pantry means not over-buying. The waste-reduction behaviors ride the rails of a motivation that already exists.</p>
+
+      <p class="lead">This is the single most important decision in the project. Everything else follows from it.</p>
+
+      <h3>Five features, each earning its place</h3>
+      <table class="feature-table">
+        <thead>
+          <tr><th>Feature</th><th>Why it exists</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Diet Tracker</td><td>Acquisition hook. The daily-open reason. Everything else is scaffolded to this.</td></tr>
+          <tr><td>Meal Planner</td><td>Operationalizes "buy only what you need" by generating a shopping list from planned meals.</td></tr>
+          <tr><td>Virtual Pantry + Expiry</td><td>Removes the tedious manual tracking one interviewee said she'd given up on.</td></tr>
+          <tr><td>Multi-modal Input</td><td>Voice, barcode, or text — accounts for the one-handed, in-store mobile reality.</td></tr>
+          <tr><td>Family Integration</td><td>Prevents duplicate purchases, the top pain point from interview #2.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="chapter">
+      <div class="chapter-num">Chapter 03 · The decisions</div>
+      <h2>Five calls, with the reasoning showing</h2>
+
+      <div class="decision-block">
+        <span class="tag">Decision · IA</span>
+        <h4>Pantry-first, diet-second (even though diet is the hook)</h4>
+        <dl>
+          <dt>What I did</dt><dd>Kept the Diet Tracker opt-in and moved it into the Profile tab, not the main nav.</dd>
+          <dt>Why</dt><dd>The product bet is that diet tracking brings users in, but the pantry manager is what fights food waste. The IA has to reflect the product's purpose, not its acquisition funnel. If I'd put Diet Tracker front and center, I'd have built exactly the product I was trying to differentiate from.</dd>
+        </dl>
+      </div>
+
+      <div class="decision-block">
+        <span class="tag">Decision · UI</span>
+        <h4>Grid view over list view for the pantry</h4>
+        <dl>
+          <dt>What I did</dt><dd>A/B-tested grid, list, and a toggle between them. All 3 users picked grid. I shipped grid with no toggle.</dd>
+          <dt>Why</dt><dd>Users identify groceries by packaging, not by name. A toggle would have hedged the decision and added a setting nobody asked for. If users agree, don't make them configure.</dd>
+          <dt>Tradeoff I accepted</dt><dd>Image-dependency inflates app size and bandwidth. I named this explicitly in the limitations section.</dd>
+        </dl>
+      </div>
+
+      <div class="decision-block">
+        <span class="tag">Decision · Interaction</span>
+        <h4>One search bar, three input modalities</h4>
+        <dl>
+          <dt>What I did</dt><dd>Replaced separate Voice / Barcode / Text tabs (my lo-fi version) with a Google-style search bar containing mic and barcode icons inline.</dd>
+          <dt>Why</dt><dd>Grocery shopping is one-handed and rushed. Tabs add a "choose method, then input" cognitive step. The unified bar borrows a pattern every Singaporean uses twenty times a day — the decision cost drops to zero.</dd>
+        </dl>
+      </div>
+
+      <div class="decision-block">
+        <span class="tag">Decision · Scope</span>
+        <h4>Saying no to receipt scanning, a requested feature</h4>
+        <dl>
+          <dt>What I did</dt><dd>Didn't build it, despite it being asked for.</dd>
+          <dt>Why</dt><dd>Receipts use abbreviated product names and omit expiry dates. A half-working scanner would train users to distrust the data. And the manual expiry-entry step is itself part of the behavior change — it forces the user to ask: <em>will I actually eat this before it expires?</em></dd>
+        </dl>
+      </div>
+
+      <div class="decision-block">
+        <span class="tag">Decision · Process</span>
+        <h4>Heuristic evaluation <em>before</em> more user tests, not after</h4>
+        <dl>
+          <dt>What I did</dt><dd>Ran a full Nielsen 10-heuristic audit on the mid-fi prototype, scored by severity × frequency × persistence, and fixed all Severity-3 and 4 issues before scheduling the next round of users.</dd>
+          <dt>Why</dt><dd>Users' time is the scarcest resource in the loop. Letting someone trip over a Severity-4 issue I could have caught myself wastes their session and skews every insight that follows. Heuristics are the cheap filter; users are the expensive one.</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="chapter">
+      <div class="chapter-num">Chapter 04 · Validation</div>
+      <h2>What the testing actually <em>proved</em></h2>
+      <p>Three Wizard-of-Oz sessions with 18–24-year-olds, each walking through a seven-task script: sign up, activate diet tracker, add granola, handle expiring granola, meal-plan a recipe, shop for missing ingredients, and stock the pantry.</p>
+
+      <h3>What held up</h3>
+      <ul>
+        <li>The Diet Tracker + Pantry combo was recognized as a product category all 3 users said they'd download — the Trojan-horse hypothesis survived contact with users.</li>
+        <li>Grid view beat list view 3/0. The reason users gave was the one I hadn't predicted: they recognize groceries by packaging.</li>
+        <li>The Shopping List + Shopping Cart mental model mapped cleanly onto the users' existing mental model of e-commerce, which made it immediately navigable.</li>
+      </ul>
+
+      <h3>What broke</h3>
+      <ul>
+        <li>Non-customizable pantry sections — Severity 4. Users in the real world have varying numbers of pantry areas and call them different things. Fixed: added add/remove/rename.</li>
+        <li>Inflexible grocery quantities — Severity 4. Users couldn't add a partial or custom quantity. Fixed: dual-input (standard + custom).</li>
+        <li>Editable vs. non-editable fields visually indistinguishable — Severity 3. Fixed with a filled-vs-outlined convention.</li>
+        <li>Diet Tracker onboarding lacked explanation — Severity 3. Fixed with a feature-list tooltip.</li>
+      </ul>
+    </section>
+
+    <section class="chapter">
+      <div class="chapter-num">Chapter 05 · Reflection</div>
+      <h2>What I'd do <em>differently</em></h2>
+
+      <div class="reflection-card">
+        <span class="tag">★ What I learned</span>
+        <p>The product strategy carried the design more than I expected. If I did this again, I'd prototype the acquisition funnel first and the pantry features second — the opposite of how I actually worked.</p>
+        <p>My sample size was 2 interviews and 3 usability sessions. That's enough for directional signal but not for statistical confidence. A follow-up with 8–10 users per round would catch issues my small N missed.</p>
+        <p>Heuristic evaluation caught two catastrophes that user testing did not. It's now a default step in my process, not an optional one.</p>
+      </div>
+
+      <h3>What comes next</h3>
+      <ol>
+        <li><strong>Next:</strong> Gamification, tutorial, and help center — fix the Diet Tracker discoverability issue I couldn't solve in this pass.</li>
+        <li><strong>Later:</strong> Ingredient history, exercise tracker, education content.</li>
+        <li><strong>Maybe, deliberately parked:</strong> Receipt scanning. Revisit only when OCR + product databases are reliable enough to not train distrust.</li>
+      </ol>
+      <p>The single biggest untested variable: the mobile context. I designed for it, but I haven't yet tested the prototype in an actual grocery store, one-handed, in a hurry. That's the first thing I'd do in v2.</p>
+    </section>
+
+  </div>
+</article>
+
+<!-- ================================= FOOTER ================================= -->
+<footer class="footer">
+  <p>Designed and written by <a href="../index.html">Niik Seah</a> &middot; <span class="signature">2024</span></p>
+</footer>
+
+<script>
+  function setMode(mode) {
+    document.querySelectorAll('.mode-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.mode === mode);
+    });
+    document.getElementById('tldr-view').classList.toggle('hidden', mode !== 'tldr');
+    document.getElementById('full-view').classList.toggle('active', mode === 'full');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => setMode(btn.dataset.mode));
+  });
+</script>
+
+</body>
+</html>

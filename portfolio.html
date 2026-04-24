@@ -65,6 +65,19 @@
       break-inside: avoid;
       -webkit-column-break-inside: avoid;
     }
+    .port-alt-row {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px dashed var(--border-2);
+    }
+    .port-alt-row__title {
+      margin: 0 0 14px;
+      font-family: var(--font-mono);
+      font-size: var(--step--1);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+    }
     @media (max-width: 1080px) {
       .port-grid {
         column-count: 2;
@@ -149,6 +162,14 @@
         filtered.forEach(p => { (m[p.year] = m[p.year] || []).push(p); });
         return Object.keys(m).sort().reverse().map(y => ({ year: y, items: m[y] }));
       }, [filtered]);
+      const newVersionProjects = [...(window.PROJECTS_NEW_VERSIONS || [])].sort((a, b) => getProjectYear(b) - getProjectYear(a));
+      const filteredNewVersions = newVersionProjects.filter((p) => {
+        if (filter.mode === 'role') {
+          return window.deriveRoleCategory(p.role).key === filter.value;
+        }
+        if (filter.value === 'all') return true;
+        return p.kind === filter.value;
+      });
       return (
         <>
           <Nav current="portfolio" />
@@ -176,9 +197,19 @@
             )}
 
             {tweaks.layout === 'cards' && (
-              <div className="port-grid">
-                {filtered.map(p => <ProjectCard key={p.slug} project={p} />)}
-              </div>
+              <>
+                <div className="port-grid">
+                  {filtered.map(p => <ProjectCard key={p.slug} project={p} />)}
+                </div>
+                {filteredNewVersions.length > 0 && (
+                  <section className="port-alt-row">
+                    <h2 className="port-alt-row__title">new standalone versions</h2>
+                    <div className="port-grid">
+                      {filteredNewVersions.map(p => <ProjectCard key={p.slug} project={p} />)}
+                    </div>
+                  </section>
+                )}
+              </>
             )}
 
             {tweaks.layout === 'years' && (

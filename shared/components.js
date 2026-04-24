@@ -64,12 +64,7 @@
   // ─── Footer ─────────────────────────────────────────────
   const Footer = () =>
     e('footer', { className: 'footer' },
-      e('span', null, 'tended with care · last update ', e('span', { className: 'slot' }, 'date')),
-      e('span', { style: { display: 'flex', gap: 16, alignItems: 'center' } },
-        e('a', { href: 'writing.html' }, e(Icon, { name: 'rss', size: 13 }), ' feed'),
-        e('span', null, '·'),
-        e('span', null, '© niik, 2026'),
-      ),
+      e('span', null, 'tended with love and care 🪴'),
     );
 
   // ─── Eyebrow ────────────────────────────────────────────
@@ -126,7 +121,8 @@
   const ProjectCard = ({ project, showThumb = true, href }) => {
     const p = project;
     const roleCategory = deriveRoleCategory(p.role);
-    const roleType = `role-${roleCategory.key}`;
+    const hasCustomRoleTag = Boolean(p.roleKind || p.roleCategory);
+    const roleType = p.roleKind || `role-${roleCategory.key}`;
     const roleLabel = (p.roleCategory || roleCategory.label).toUpperCase();
     const goToKindCategory = () => {
       window.location.href = toSitePath(`portfolio.html?kind=${encodeURIComponent(p.kind)}`);
@@ -150,7 +146,7 @@
       e('div', { className: 'card__meta' },
         e(Kind, { type: p.kind, onClick: goToKindCategory }, p.kindLabel),
         e('span', { className: 'card__sep', 'aria-hidden': 'true' }, '✦'),
-        e(Kind, { type: p.roleKind || roleType, onClick: goToRoleCategory }, roleLabel),
+        e(Kind, { type: roleType, onClick: hasCustomRoleTag ? undefined : goToRoleCategory }, roleLabel),
         e('span', { className: 'card__year' }, p.year || e(Slot, null, 'year')),
       ),
       e('h3', { className: 'card__title' }, p.title || e(Slot, null, 'project title')),
@@ -165,6 +161,8 @@
   const ListRow = ({ project }) => {
     const p = project;
     const roleCategory = deriveRoleCategory(p.role);
+    const hasCustomRoleTag = Boolean(p.roleKind || p.roleCategory);
+    const roleType = p.roleKind || `role-${roleCategory.key}`;
     const goToRoleCategory = () => {
       window.location.href = toSitePath(`portfolio.html?role=${encodeURIComponent(roleCategory.key)}`);
     };
@@ -175,8 +173,8 @@
         e('div', { className: 'list-row__excerpt' }, p.excerpt || e(Slot, null, 'short line')),
       ),
       e('span', { className: 'list-row__kind' }, e(Kind, {
-        type: p.roleKind || `role-${roleCategory.key}`,
-        onClick: goToRoleCategory,
+        type: roleType,
+        onClick: hasCustomRoleTag ? undefined : goToRoleCategory,
       }, (p.roleCategory || roleCategory.label).toUpperCase())),
       e('span', { className: 'list-row__arrow' }, '→'),
     );

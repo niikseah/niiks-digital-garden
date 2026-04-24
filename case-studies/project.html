@@ -41,12 +41,14 @@
       font-size: var(--step--1);
       color: var(--fg-3);
     }
-    .cs-meta .dot {
-      width: 3px;
-      height: 3px;
-      border-radius: 999px;
-      background: currentColor;
-      opacity: 0.5;
+    .cs-meta .meta-sep {
+      opacity: 0.7;
+      transform: translateY(-1px);
+    }
+    .kind--growing {
+      border-color: color-mix(in srgb, var(--moss-400) 45%, transparent);
+      color: color-mix(in srgb, var(--moss-700) 78%, var(--fg-1));
+      background: color-mix(in srgb, var(--moss-200) 20%, transparent);
     }
     .cs-title {
       font-family: var(--font-display);
@@ -56,8 +58,9 @@
       line-height: 1.02;
       color: var(--fg-1);
       margin: 12px 0 0;
-      max-width: 14ch;
-      text-wrap: balance;
+      width: auto;
+      max-width: 100%;
+      overflow-wrap: anywhere;
     }
     .cs-subtitle {
       margin-top: 16px;
@@ -93,6 +96,52 @@
       color: var(--fg-1);
       line-height: 1.5;
     }
+    .cs-view-toggle {
+      margin-top: 22px;
+      display: flex;
+      justify-content: flex-start;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .cs-tldr-toggle {
+      border: 1px solid var(--border-2);
+      background: transparent;
+      color: var(--fg-2);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-family: var(--font-mono);
+      font-size: var(--step--1);
+      cursor: pointer;
+      transition: background var(--dur-2) var(--ease-out),
+        border-color var(--dur-2) var(--ease-out),
+        box-shadow var(--dur-2) var(--ease-out),
+        transform var(--dur-1) var(--ease-out);
+    }
+    .cs-tldr-toggle:hover {
+      border-color: var(--border-strong);
+      color: var(--fg-1);
+      background: rgba(124,184,255,.07);
+      transform: translateY(-1px);
+    }
+    .cs-tldr-toggle[aria-pressed="true"] {
+      border-color: var(--electric-300);
+      color: var(--fg-1);
+      background: rgba(124,184,255,.12);
+    }
+    .cs-tldr-toggle:active {
+      transform: scale(0.98);
+    }
+    .cs-tldr-toggle:focus-visible {
+      outline: 1px solid var(--electric-300);
+      outline-offset: 2px;
+    }
+    .cs-view-toggle__hint {
+      margin: 0;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--fg-3);
+    }
     .cs-cover {
       margin-top: 30px;
       border-radius: 18px;
@@ -106,6 +155,20 @@
       display: block;
       max-height: 520px;
       object-fit: cover;
+    }
+    .cs-cover__placeholder {
+      min-height: 320px;
+      width: 100%;
+      margin: 0 auto;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: var(--step-0);
+      color: var(--fg-3);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
     .cs-gallery {
       margin-top: 26px;
@@ -130,11 +193,11 @@
     }
     .cs-gallery figure:hover img { transform: scale(1.03); }
     .cs-section {
-      margin-top: 56px;
-      padding: 26px 24px 8px;
-      border: 1px solid var(--border-1);
-      border-radius: 16px;
-      background: color-mix(in srgb, var(--bg-3) 94%, var(--electric-500) 6%);
+      margin-top: 48px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
     }
     .cs-section h2 {
       font-family: var(--font-display);
@@ -163,13 +226,6 @@
     .cs-section li + li { margin-top: 8px; }
     .cs-section ul li::marker { color: var(--electric-300); }
     @media (hover: hover) {
-      .cs-section {
-        transition: border-color var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
-      }
-      .cs-section:hover {
-        border-color: var(--border-strong);
-        transform: translateY(-1px);
-      }
       .cs-gallery figure {
         transition: border-color var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
       }
@@ -193,15 +249,26 @@
     @media (max-width: 720px) {
       .cs-back { margin-top: 20px; }
       .cs-body { padding-top: 10px; }
+      .cs-title {
+        font-size: clamp(32px, 9.5vw, 42px);
+        line-height: 1.08;
+      }
+      .cs-cover__placeholder {
+        min-height: 220px;
+      }
       .cs-section {
-        padding: 22px 18px 6px;
-        margin-top: 40px;
+        margin-top: 34px;
       }
       .cs-summary {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
       }
       .cs-gallery {
         grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 460px) {
+      .cs-gallery {
+        grid-template-columns: 1fr;
       }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -235,6 +302,25 @@
       const slug = params.get('slug') || window.FEATURED[0];
       const project = window.PROJECTS.find((p) => p.slug === slug) || window.PROJECTS[0];
       const details = window.CASE_STUDIES[project.slug];
+      const [isTldrView, setIsTldrView] = React.useState(false);
+      const titleParts = (project?.title || '').split('|').map((part) => part.trim()).filter(Boolean);
+      const shouldHighlightImportantWords = project?.slug === 'telegram-bot-heymax';
+      const hasTldr = Array.isArray(details?.tldrSections) && details.tldrSections.length > 0;
+      const contentSections = isTldrView && hasTldr ? details.tldrSections : details.sections;
+      const renderHighlightedLine = (line) => {
+        if (!shouldHighlightImportantWords || typeof line !== 'string') return line;
+        const colonIndex = line.indexOf(':');
+        if (colonIndex <= 0) return line;
+        const lead = line.slice(0, colonIndex).trim();
+        const rest = line.slice(colonIndex + 1);
+        if (!lead) return line;
+        return (
+          <>
+            <strong>{lead}:</strong>
+            {rest}
+          </>
+        );
+      };
 
       if (!project || !details) {
         return (
@@ -259,17 +345,24 @@
             <article className="cs-body">
               <div className="cs-meta cs-reveal" style={revealDelay(0)}>
                 <Kind type={project.kind}>{project.kindLabel}</Kind>
-                <span className="dot"></span>
-                <span>{project.year}</span>
-                <span className="dot"></span>
-                <span>{project.role}</span>
+                {project.slug === 'telegram-bot-heymax' && (
+                  <Kind type="growing">growing 🪴</Kind>
+                )}
               </div>
 
-              <h1 className="cs-title cs-reveal" style={revealDelay(1)}>{project.title}</h1>
+              <h1 className="cs-title cs-reveal" style={revealDelay(1)}>
+                {titleParts.length > 1 ? (
+                  <>
+                    {titleParts[0]}
+                    <br />
+                    {titleParts.slice(1).join(' | ')}
+                  </>
+                ) : project.title}
+              </h1>
               <p className="cs-subtitle cs-reveal" style={{ ...revealDelay(2), maxWidth: 'none', width: '100%' }}>{details.subtitle}</p>
               {details.heroImage && (
                 <div className="cs-cover cs-reveal" style={revealDelay(3)}>
-                  <img src={siteHref(details.heroImage)} alt={`${project.title} cover`} loading="lazy" />
+                  <p className="cs-cover__placeholder">Image placeholder</p>
                 </div>
               )}
 
@@ -284,24 +377,37 @@
                 </div>
                 <div>
                   <dt>Focus</dt>
-                  <dd>{project.kindLabel}</dd>
+                  <dd>{details.focus || project.kindLabel}</dd>
                 </div>
                 <div>
                   <dt>Role</dt>
                   <dd>{project.role}</dd>
                 </div>
               </dl>
+              {hasTldr && (
+                <div className="cs-view-toggle cs-reveal" style={revealDelay(5)}>
+                  <button
+                    type="button"
+                    className="cs-tldr-toggle"
+                    aria-pressed={isTldrView}
+                    onClick={() => setIsTldrView((prev) => !prev)}
+                  >
+                    {isTldrView ? 'Show full version' : 'TL;DR'}
+                  </button>
+                  <p className="cs-view-toggle__hint">click on this button to summarise the content</p>
+                </div>
+              )}
 
-              {details.sections.map((section, idx) => (
-                <section className="cs-section cs-reveal" style={revealDelay(5 + idx)} key={`${project.slug}-section-${idx}`}>
+              {contentSections.map((section, idx) => (
+                <section className="cs-section cs-reveal" style={revealDelay(6 + idx)} key={`${project.slug}-section-${isTldrView ? 'tldr' : 'full'}-${idx}`}>
                   <h2>{section.header}</h2>
                   {section.body && section.body.map((line, lineIdx) => (
-                    <p key={`${project.slug}-body-${idx}-${lineIdx}`} style={{ maxWidth: 'none', width: '100%' }}>{line}</p>
+                    <p key={`${project.slug}-body-${idx}-${lineIdx}`} style={{ maxWidth: 'none', width: '100%' }}>{renderHighlightedLine(line)}</p>
                   ))}
                   {section.bullets && (
                     <ul style={{ maxWidth: 'none', width: '100%' }}>
                       {section.bullets.map((item, itemIdx) => (
-                        <li key={`${project.slug}-bullet-${idx}-${itemIdx}`}>{item}</li>
+                        <li key={`${project.slug}-bullet-${idx}-${itemIdx}`}>{renderHighlightedLine(item)}</li>
                       ))}
                     </ul>
                   )}
@@ -309,7 +415,7 @@
               ))}
 
               {details.gallery && details.gallery.length > 0 && (
-                <section className="cs-section cs-reveal" style={revealDelay(6 + details.sections.length)}>
+                <section className="cs-section cs-reveal" style={revealDelay(7 + contentSections.length)}>
                   <h2>Gallery</h2>
                   <div className="cs-gallery">
                     {details.gallery.map((imgPath, idx) => (

@@ -16,17 +16,19 @@ window.PROJECTS = [
   },
   {
     slug: 'telegram-bot-heymax',
-    title: 'Telegram Bot for Trip Planning | NUS Fintech Society × HeyMax',
+    title: 'Telegram Bot for Trip Planning | NUS Fintech Society ✧ HeyMax',
     kind: 'code',
     kindLabel: 'code',
+    roleKind: 'growing',
+    roleCategory: 'growing 🪴',
     year: '2025',
-    role: 'Product Builder',
+    role: 'Software Developer',
     excerpt:
       'Trip-planning Telegram bot project built for NUS Fintech Society in collaboration with HeyMax.',
     tags: ['telegram', 'automation', 'fintech'],
     href: 'case-studies/project.html?slug=telegram-bot-heymax',
-    thumbLabel: 'telegram bot',
-    thumb: 'public/project-media/telegram-bot-heymax/image.png',
+    thumbLabel: 'image placeholder',
+    thumb: '',
   },
   {
     slug: 'nusmart-dining-revamp',
@@ -115,6 +117,35 @@ window.PROJECTS = [
   },
 ];
 
+window.PROJECTS_NEW_VERSIONS = [
+  {
+    slug: 'pantry-pal-new-version',
+    title: 'Pantry Pal (New Version)',
+    kind: 'uiux',
+    kindLabel: 'ui/ux',
+    year: '2024',
+    role: 'UI Designer, UX Researcher',
+    excerpt: 'Standalone long-form case study version with dedicated TL;DR and full-read layout.',
+    tags: ['figma', 'foodtech', 'mobile'],
+    href: 'case-studies/pantry-pal.html',
+    thumbLabel: 'pantry pal new version',
+    thumb: 'public/project-media/pantry-pal/Screenshot_2025-02-09_at_10.29.48.png',
+  },
+  {
+    slug: 'kita-communication-intervention-new-version',
+    title: 'From Blind Box to Brochure (New Version)',
+    kind: 'uiux',
+    kindLabel: 'ui/ux',
+    year: '2024',
+    role: 'Designer',
+    excerpt: 'Standalone case study page linked to its own TL;DR companion page.',
+    tags: ['communication', 'intervention', 'branding'],
+    href: 'case-studies/kita-communication-intervention.html',
+    thumbLabel: 'kita new version',
+    thumb: '',
+  },
+];
+
 window.FEATURED = ['pantry-pal', 'telegram-bot-heymax', 'fusion-scanner'];
 
 window.CASE_STUDIES = {
@@ -188,38 +219,127 @@ window.CASE_STUDIES = {
     ],
   },
   'telegram-bot-heymax': {
-    subtitle: 'Trip-planning Telegram bot built for NUS Fintech Society in collaboration with HeyMax.',
-    timeline: '2025',
-    tools: 'Telegram APIs, workflow automation',
+    subtitle: 'Built by NUS Fintech Society, in collaboration with HeyMax.',
+    timeline: 'Aug 2025 - May 2026',
+    tools: 'Placeholder',
+    focus: 'Placeholder',
     heroImage: 'public/project-media/telegram-bot-heymax/image.png',
-    gallery: ['public/project-media/telegram-bot-heymax/image.png'],
+    gallery: [],
+    tldrSections: [
+      {
+        header: 'Problem',
+        body: [
+          'Trip planning in Telegram group chats is messy and time-consuming because users share links across multiple messages without a structured way to consolidate destinations, activities, and accommodations.',
+        ],
+      },
+      {
+        header: 'Solution',
+        bullets: [
+          'A Telegram bot that collects planning context through short Q&A prompts.',
+          'It analyses shared links to extract destinations, activities, and accommodations.',
+          'It generates a concise AI summary and links to an interactive map with pinned locations.',
+        ],
+      },
+      {
+        header: 'How Solution Works',
+        bullets: [
+          'Users run /plan to start context capture and link collation.',
+          'Bot confirms links and allows removals via /removelink.',
+          'LLM returns a summary for group chat; users can re-run with /summarise.',
+          'If trip context changes, the bot restarts Q&A before generating a new summary.',
+        ],
+      },
+    ],
     sections: [
       {
-        header: 'Project Overview',
+        header: 'Problem Statement',
         body: [
-          'This coding project explored how conversational interfaces can simplify trip planning and recommendation workflows.',
-          'The Telegram bot focused on quick user inputs and actionable trip suggestions without requiring a heavy app experience.',
+          'Young adults, especially university students, usually plan their overseas trips on Telegram. Telegram does not have specialised features for trip planning, leading to messy and time-consuming collaboration. There is a gap in the market and hence, desirability in enhancing travel planning processes on Telegram.',
         ],
       },
       {
-        header: 'Problem & Opportunity',
+        header: 'Project Scope',
         body: [
-          'Students and young travelers often bounce between multiple tools while planning trips, leading to fragmented decisions.',
-          'A bot-native flow offered a lightweight way to centralize planning prompts and recommendations in one channel.',
+          'We aim to optimise the experience of trip planning on Telegram by providing a comprehensive summary message that contains embedded links and AI-generated short descriptions of places, accommodations and activities users send in the chat.',
         ],
       },
       {
-        header: 'Implementation',
+        header: 'Key features',
         bullets: [
-          'Structured conversational decision trees for destination and preference capture.',
-          'Built bot responses to guide users through planning checkpoints and next actions.',
-          'Iterated interaction logic for clearer prompts and lower response friction.',
+          'Pre-processing user query: The bot asks contextual questions to personalise and enhance the accuracy of the summary plan.',
+          'Content Analysis: Utilise API calls from various platforms to detect destinations, points of interest, and themes from shared social media content. By converting raw inspiration into machine-readable data, accuracy is ensured across the workflow and thus, the output message.',
+          'AI summary message generation: After data extraction of the links, AI gives a structured summary of the activities, locations and accommodations saved.',
+          'Trip Overview: A clear summary of the trip, including flights, overall duration, and key timings.',
+          'Activity Discovery: Consolidate social media links for recommended places to visit, each accompanied with a one-line summary.',
+          'Accommodation Options: Gather and organise accommodation links, presenting them as one-line summaries with estimated costs.',
+          'Visual Map: After generating a summary, a map with pins of the relevant locations saved will be linked. This gives users a visual cue of the places they are interested in, facilitating trip planning.',
         ],
       },
       {
-        header: 'Outcome',
+        header: 'User Flow',
+        bullets: [
+          '1. Initiation of bot: Users can add the Telegram Bot at any point in time during the discussion.',
+          '2. Trigger Context Q&A: User enters /plan. The bot enters Pre-processing Q&A, asking short contextual questions. Answers are collected and stored as structured inputs.',
+          '3. Confirmation: After collating the links, the bot will confirm the list of links. Should the user want to remove any, they can enter /removelink.',
+          '4. Content Analysis: The bot uses API calls on the shared links (up till the point of /plan) and parses text to detect destinations, points of interest, and themes. The bot then outputs machine-readable data.',
+          '5. Summary message generation (LLM-powered): The structured inputs (Q&A + analysed content) are fed to the LLM to return a summary message.',
+          '6. Output: The bot then sends the summary message into the groupchat.',
+          '7. Reiterations: Users can continue sending links and entering /summarise. The bot will confirm if other trip details remain unchanged; if unchanged, an updated summary is generated, otherwise it restarts the Q&A before creating a new summary message.',
+        ],
+      },
+      {
+        header: 'Visual Map Implementation',
         body: [
-          'Delivered a working concept demonstrating the viability of chat-based trip planning for a student user segment.',
+          'Details',
+        ],
+        bullets: [
+          '1. Telegram Bot sends the link of the map (rendered in a webpage) after the summary output.',
+          '2. Clicking on the link guides the user to the webpage (either on Telegram via Mini App Feature or Web Browser).',
+          '3. The map is live and interactive, allowing users to view different pinned locations and clicking on pins to view more details.',
+        ],
+      },
+      {
+        header: 'Deliverables',
+        bullets: [
+          '1. Map showing the pinned locations',
+          '2. Pins categorised based on colour',
+          '3. Users can click on the pins to obtain more information',
+        ],
+      },
+      {
+        header: 'Technical Implementation Plan',
+        body: [
+          'Telegram Mini App',
+          'Telegram’s inbuilt UI restricts custom markers. Shifting the map into a mini-app to load markers based on the chat will be the workaround.',
+          'The mini-app provides the following functionalities as well:',
+        ],
+        bullets: [
+          '1. Multiple markers',
+          '2. Custom info cards',
+          '3. Custom icons',
+          '4. Handle user interaction',
+        ],
+      },
+      {
+        header: 'API/ Software required',
+        bullets: [
+          '1. N8n team account',
+          '2. Youtube API (For now, we will use on the free tier of google workspace, assuming there is one, else a minor charge would need to be paid here as well).',
+          '3. Apify API (Generally makes it easier to scrape data from all kinds of different services, and can not only be used in this project, but for other projects as well. It also integrates well with different services).',
+          '4. OpenAI API Tokens',
+          '5. Dify (LLM manager of choice for now, has an education discount of 100% but difficult to obtain).',
+        ],
+      },
+      {
+        header: 'Steps moving forward',
+        body: [
+          'Design for Map: Things to consider moving forward are',
+        ],
+        bullets: [
+          '1. Accessibility',
+          '2. Dark Mode',
+          '3. Emoji Customisation for Map Pins',
+          '4. Tags for Map Pins',
         ],
       },
     ],
