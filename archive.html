@@ -12,6 +12,10 @@
   <script src="shared/data.js"></script>
   <script src="shared/components.js"></script>
   <style>
+    .port-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
     .port-head {
       padding: clamp(72px, 8vw, 104px) 0 40px;
       border-bottom: 1px dashed var(--border-2);
@@ -19,7 +23,7 @@
     }
     .port-head h1 {
       font-family: var(--font-display);
-      font-size: clamp(44px, 6vw, 72px);
+      font-size: clamp(40px, 5.5vw, 64px);
       font-weight: 400;
       letter-spacing: -0.028em;
       line-height: 1.02;
@@ -29,24 +33,21 @@
     }
     .port-head h1 em { font-style: italic; color: var(--electric-200); font-weight: 300; }
     .port-head p {
-      font-size: clamp(16px, 1.8vw, 19px);
+      font-size: var(--step-0);
       color: var(--fg-2);
       line-height: 1.65;
       margin: 18px 0 0;
       max-width: 62ch;
     }
     .port-grid {
-      column-count: 3;
-      column-gap: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
     }
     .port-grid .card {
-      width: 100%;
-      margin: 0 0 20px;
-      break-inside: avoid;
-      -webkit-column-break-inside: avoid;
+      width: auto;
+      margin: 0;
     }
-    @media (max-width: 1080px) { .port-grid { column-count: 2; } }
-    @media (max-width: 720px) { .port-grid { column-count: 1; } }
   </style>
 </head>
 <body>
@@ -64,24 +65,24 @@
         <>
           <Nav current="portfolio" />
           <main className="page hero-backdrop">
-            <header className="port-head">
-              <Eyebrow>archive</Eyebrow>
-              <h1>past <em>projects</em>.</h1>
-              <p>
-                earlier work and previous case-study versions.
-              </p>
-              <p>
-                <a href="portfolio.html">back to projects →</a>
-              </p>
-            </header>
+            <div className="port-shell">
+              <header className="port-head">
+                <Eyebrow>archive</Eyebrow>
+                <h1>past <em>projects</em>.</h1>
+                <p>
+                  earlier work and previous case-study versions.
+                </p>
+                <p>
+                  <a href="portfolio.html">back to projects →</a>
+                </p>
+              </header>
 
-            <div className="port-grid">
-              {projects.map((p) => <ProjectCard key={p.slug} project={p} />)}
+              <div className="port-grid">
+                {projects.map((p) => <ProjectCard key={p.slug} project={p} />)}
+              </div>
+
+              <Footer />
             </div>
-
-            <footer className="footer">
-              <span>tended with love and care 💫</span>
-            </footer>
           </main>
         </>
       );

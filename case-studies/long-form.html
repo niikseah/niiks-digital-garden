@@ -12,20 +12,24 @@
   <script src="../shared/components.js"></script>
   <style>
     /* path rewrites — we're one level deep */
-    .nav__brand img { content: url("../design-system/assets/brand/niik_logo.png"); }
+    .cs-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .nav__brand img { content: url("../public/design-assets/brand/niik_logo.png"); }
     .hero-backdrop::after {
-      background-image: url("../design-system/assets/stars/starfield.svg") !important;
+      background-image: url("../public/design-assets/stars/starfield.svg") !important;
     }
 
     .cs-back {
       display: inline-flex; align-items: center; gap: 6px;
-      margin-top: 40px;
+      margin-top: 32px;
       font-family: var(--font-mono); font-size: var(--step--1);
       color: var(--fg-3); text-decoration: none;
     }
     .cs-back:hover { color: var(--fg-1); }
 
-    .cs-hero { padding: 28px 0 24px; max-width: 780px; }
+    .cs-hero { padding: 24px 0 20px; max-width: 760px; }
     .cs-meta-row {
       display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
       font-family: var(--font-mono); font-size: var(--step--1); color: var(--fg-3);
@@ -34,7 +38,7 @@
     .cs-meta-row .dot { width: 3px; height: 3px; border-radius: 999px; background: currentColor; opacity: .5; }
     .cs-title {
       font-family: var(--font-display);
-      font-size: clamp(44px, 6vw, 76px);
+      font-size: clamp(40px, 5.2vw, 64px);
       font-weight: 400; letter-spacing: -0.035em;
       line-height: 1.02; color: var(--fg-1);
       margin: 18px 0 0;
@@ -86,13 +90,13 @@
     }
 
     /* long-form body */
-    .cs-body { max-width: 680px; margin: 0 auto; }
+    .cs-body { max-width: 760px; margin: 0 auto; }
     .cs-body h2 {
       font-family: var(--font-display);
       font-size: clamp(28px, 3.2vw, 36px);
       font-weight: 400; letter-spacing: -0.02em;
       color: var(--fg-1);
-      margin: 72px 0 18px;
+      margin: 64px 0 16px;
     }
     .cs-body h2 em { font-style: italic; color: var(--electric-200); font-weight: 300; }
     .cs-body h2:first-child { margin-top: 0; }
@@ -190,101 +194,103 @@
         <>
           <Nav current="portfolio" />
           <main className="page page--wide hero-backdrop">
-            <a href="../portfolio.html" className="cs-back">← back to projects</a>
+            <div className="cs-shell">
+              <a href="../portfolio.html" className="cs-back">← back to projects</a>
 
-            <header className="cs-hero">
-              <div className="cs-meta-row">
-                <Kind type="uiux">ui/ux</Kind>
-                <span className="dot"></span>
-                <span><Slot>2026</Slot></span>
-                <span className="dot"></span>
-                <span><Slot>role — e.g. design + code</Slot></span>
-                <span className="dot"></span>
-                <span><Slot>6 weeks</Slot></span>
-              </div>
-              <h1 className="cs-title">
-                <Slot>project title</Slot> — <em>the long version</em>.
-              </h1>
-              <p className="cs-subtitle">
-                <Slot>one-sentence hook — the big idea of the project, written as you'd say it out loud.</Slot>
-              </p>
-            </header>
+              <header className="cs-hero">
+                <div className="cs-meta-row">
+                  <Kind type="uiux">ui/ux</Kind>
+                  <span className="dot"></span>
+                  <span><Slot>2026</Slot></span>
+                  <span className="dot"></span>
+                  <span><Slot>role — e.g. design + code</Slot></span>
+                  <span className="dot"></span>
+                  <span><Slot>6 weeks</Slot></span>
+                </div>
+                <h1 className="cs-title">
+                  <Slot>project title</Slot> — <em>the long version</em>.
+                </h1>
+                <p className="cs-subtitle">
+                  <Slot>one-sentence hook — the big idea of the project, written as you'd say it out loud.</Slot>
+                </p>
+              </header>
 
-            <div className="cs-cover">cover image — 16:9</div>
+              <div className="cs-cover">cover image — 16:9</div>
 
-            <dl className="cs-summary">
-              <div><dt>role</dt><dd><Slot>designer · engineer · both</Slot></dd></div>
-              <div><dt>team</dt><dd><Slot>solo, or n people</Slot></dd></div>
-              <div><dt>timeline</dt><dd><Slot>mar → apr 2026</Slot></dd></div>
-              <div><dt>stack</dt><dd><Slot>figma, react, etc.</Slot></dd></div>
-              <div><dt>status</dt><dd><Slot>shipped · in progress</Slot></dd></div>
-              <div><dt>outcome</dt><dd><Slot>one-line metric or result</Slot></dd></div>
-            </dl>
+              <dl className="cs-summary">
+                <div><dt>role</dt><dd><Slot>designer · engineer · both</Slot></dd></div>
+                <div><dt>team</dt><dd><Slot>solo, or n people</Slot></dd></div>
+                <div><dt>timeline</dt><dd><Slot>mar → apr 2026</Slot></dd></div>
+                <div><dt>stack</dt><dd><Slot>figma, react, etc.</Slot></dd></div>
+                <div><dt>status</dt><dd><Slot>shipped · in progress</Slot></dd></div>
+                <div><dt>outcome</dt><dd><Slot>one-line metric or result</Slot></dd></div>
+              </dl>
 
-            <article className="cs-body">
-              <h2>the <em>problem</em></h2>
-              <p><Slot>what was broken or missing. who was hurting. how you noticed. 2–4 paragraphs. be concrete — name actual people, actual moments, actual data.</Slot></p>
-              <p><Slot>paragraph two — expand on context, constraints, what had been tried before.</Slot></p>
+              <article className="cs-body">
+                <h2>the <em>problem</em></h2>
+                <p><Slot>what was broken or missing. who was hurting. how you noticed. 2–4 paragraphs. be concrete — name actual people, actual moments, actual data.</Slot></p>
+                <p><Slot>paragraph two — expand on context, constraints, what had been tried before.</Slot></p>
 
-              <div className="cs-callout">
-                <div className="eyebrow">the core question</div>
-                <p><Slot>a single sentence that framed the whole project.</Slot></p>
-              </div>
+                <div className="cs-callout">
+                  <div className="eyebrow">the core question</div>
+                  <p><Slot>a single sentence that framed the whole project.</Slot></p>
+                </div>
 
-              <h2>the <em>approach</em></h2>
-              <p><Slot>how you thought about it. the frame you landed on. why this direction over others. 2–3 paragraphs.</Slot></p>
+                <h2>the <em>approach</em></h2>
+                <p><Slot>how you thought about it. the frame you landed on. why this direction over others. 2–3 paragraphs.</Slot></p>
 
-              <div className="cs-image">process image — 16:10</div>
-              <div className="cs-caption"><Slot>caption — what this sketch, screenshot, or diagram is showing.</Slot></div>
+                <div className="cs-image">process image — 16:10</div>
+                <div className="cs-caption"><Slot>caption — what this sketch, screenshot, or diagram is showing.</Slot></div>
 
-              <h3><Slot>a sub-section — a specific move you made</Slot></h3>
-              <p><Slot>zoom into one decision. what changed between v1 and v2. why.</Slot></p>
+                <h3><Slot>a sub-section — a specific move you made</Slot></h3>
+                <p><Slot>zoom into one decision. what changed between v1 and v2. why.</Slot></p>
 
-              <div className="cs-twoup">
-                <div className="cs-image">before</div>
-                <div className="cs-image">after</div>
-              </div>
+                <div className="cs-twoup">
+                  <div className="cs-image">before</div>
+                  <div className="cs-image">after</div>
+                </div>
 
-              <h3><Slot>another sub-section — another decision</Slot></h3>
-              <p><Slot>body copy.</Slot></p>
-              <ul>
-                <li><Slot>a concrete principle or rule you landed on</Slot></li>
-                <li><Slot>another one</Slot></li>
-                <li><Slot>another one</Slot></li>
-              </ul>
+                <h3><Slot>another sub-section — another decision</Slot></h3>
+                <p><Slot>body copy.</Slot></p>
+                <ul>
+                  <li><Slot>a concrete principle or rule you landed on</Slot></li>
+                  <li><Slot>another one</Slot></li>
+                  <li><Slot>another one</Slot></li>
+                </ul>
 
-              <blockquote>
-                <Slot>a pull-quote — something you said to yourself, or something a user said. sets the tone.</Slot>
-              </blockquote>
+                <blockquote>
+                  <Slot>a pull-quote — something you said to yourself, or something a user said. sets the tone.</Slot>
+                </blockquote>
 
-              <h2>the <em>outcome</em></h2>
-              <p><Slot>what shipped. numbers if you have them. screenshots of the real thing.</Slot></p>
+                <h2>the <em>outcome</em></h2>
+                <p><Slot>what shipped. numbers if you have them. screenshots of the real thing.</Slot></p>
 
-              <div className="cs-image cs-image--wide">final screen — 21:9</div>
-              <div className="cs-caption"><Slot>caption describing the final state.</Slot></div>
+                <div className="cs-image cs-image--wide">final screen — 21:9</div>
+                <div className="cs-caption"><Slot>caption describing the final state.</Slot></div>
 
-              <h2>what i <em>learned</em></h2>
-              <p><Slot>reflection. what worked. what you'd do differently. what surprised you. this is the part people actually read.</Slot></p>
+                <h2>what i <em>learned</em></h2>
+                <p><Slot>reflection. what worked. what you'd do differently. what surprised you. this is the part people actually read.</Slot></p>
 
-              <hr />
+                <hr />
 
-              <p style={{ color: 'var(--fg-3)', fontSize: 14 }}>
-                thanks for reading. <a href="mailto:#"><Slot>email</Slot></a> for questions · <a href="../portfolio.html">see more projects →</a>
-              </p>
-            </article>
+                <p style={{ color: 'var(--fg-3)', fontSize: 14 }}>
+                  thanks for reading. <a href="mailto:#"><Slot>email</Slot></a> for questions · <a href="../portfolio.html">see more projects →</a>
+                </p>
+              </article>
 
-            <nav className="cs-next">
-              <a href="short-form.html">
-                <div className="dir">← previous</div>
-                <div className="t"><Slot>previous project</Slot></div>
-              </a>
-              <a href="short-form.html" style={{textAlign: 'right'}}>
-                <div className="dir">next →</div>
-                <div className="t"><Slot>next project</Slot></div>
-              </a>
-            </nav>
+              <nav className="cs-next">
+                <a href="short-form.html">
+                  <div className="dir">← previous</div>
+                  <div className="t"><Slot>previous project</Slot></div>
+                </a>
+                <a href="short-form.html" style={{textAlign: 'right'}}>
+                  <div className="dir">next →</div>
+                  <div className="t"><Slot>next project</Slot></div>
+                </a>
+              </nav>
 
-            <Footer />
+              <Footer />
+            </div>
           </main>
         </>
       );

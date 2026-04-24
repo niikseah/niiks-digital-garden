@@ -1,6 +1,7 @@
 /* ─────────────────────────────────────────────────────────────
    niik's digital garden — colors & type
    A whimsical-minimalism system built on midnight + electric blues.
+   Apple Garamond (display) + Helvetica Neue (body) + JetBrains Mono (code).
    ───────────────────────────────────────────────────────────── */
 
 @import url('./fonts/fonts.css');
@@ -42,32 +43,7 @@
   --amber:  #f0b35a;   /* "evergreen / featured" */
   --rose:   #e8697a;   /* destructive / removal */
 
-  /* ── SEMANTIC (NIGHT — default) ──────────────────────────── */
-  --fg-1: #f3f5ff;
-  --fg-2: rgba(243,245,255,.78);
-  --fg-3: rgba(243,245,255,.56);
-  --fg-4: rgba(243,245,255,.36);
-  --fg-link: var(--electric-300);
-  --fg-link-hover: var(--electric-glow);
-
-  --bg-1: var(--midnight-900);
-  --bg-2: var(--midnight-850);
-  --bg-3: var(--midnight-800);
-  --bg-4: var(--midnight-700);
-
-  --border-1: rgba(124,184,255,.10);
-  --border-2: rgba(124,184,255,.18);
-  --border-strong: rgba(124,184,255,.32);
-
-  /* ── AURORA (grainy mesh gradient stops) ─────────────────── */
-  --aurora-a: #2a6bff;
-  --aurora-b: #7cb8ff;
-  --aurora-c: #1847c4;
-  --aurora-d: #93befd;
-}
-
-/* ── DAY MODE (electric) ───────────────────────────────────── */
-[data-theme="day"] {
+  /* ── SEMANTIC (DAY / ELECTRIC — default) ─────────────────── */
   --fg-1: #0b1024;
   --fg-2: rgba(11,16,36,.78);
   --fg-3: rgba(11,16,36,.56);
@@ -75,15 +51,16 @@
   --fg-link: var(--electric-600);
   --fg-link-hover: var(--electric-700);
 
-  --bg-1: #ffffff;      /* white canvas */
-  --bg-2: #dce9ff;
-  --bg-3: #ffffff;      /* cards pop white */
-  --bg-4: #f4f8ff;
+  --bg-1: var(--paper-50);
+  --bg-2: var(--paper-100);
+  --bg-3: #ffffff;        /* cards pop white */
+  --bg-4: var(--paper-200);
 
   --border-1: rgba(30,87,232,.12);
   --border-2: rgba(30,87,232,.22);
   --border-strong: rgba(30,87,232,.40);
 
+  /* ── AURORA (grainy mesh gradient stops — day/electric) ──── */
   --aurora-a: #c9defe;
   --aurora-b: #93befd;
   --aurora-c: #eaf3ff;
@@ -94,7 +71,7 @@
   --font-body:    'Helvetica Neue', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
-  /* Fluid type scale — display uses Fraunces optical sizing */
+  /* Fluid type scale */
   --step--1: clamp(0.80rem, 0.78rem + 0.10vw, 0.875rem);
   --step-0:  clamp(0.95rem, 0.92rem + 0.15vw, 1.05rem);
   --step-1:  clamp(1.15rem, 1.08rem + 0.30vw, 1.35rem);
@@ -139,7 +116,58 @@
   --dur-4: 520ms;
 }
 
-/* ─────────── Semantic element defaults ─────────── */
+/* ── NIGHT MODE (midnight + electric) ──────────────────────── */
+/* Opt-in: set data-theme="night" on <html> OR the user has OS dark mode on. */
+[data-theme="night"] {
+  --fg-1: #f3f5ff;
+  --fg-2: rgba(243,245,255,.78);
+  --fg-3: rgba(243,245,255,.56);
+  --fg-4: rgba(243,245,255,.36);
+  --fg-link: var(--electric-300);
+  --fg-link-hover: var(--electric-glow);
+
+  --bg-1: var(--midnight-900);
+  --bg-2: var(--midnight-850);
+  --bg-3: var(--midnight-800);
+  --bg-4: var(--midnight-700);
+
+  --border-1: rgba(124,184,255,.10);
+  --border-2: rgba(124,184,255,.18);
+  --border-strong: rgba(124,184,255,.32);
+
+  --aurora-a: #2a6bff;
+  --aurora-b: #7cb8ff;
+  --aurora-c: #1847c4;
+  --aurora-d: #93befd;
+}
+
+/* Night mode is strictly opt-in via [data-theme="night"]. We intentionally
+   do NOT honour prefers-color-scheme: the brand default is Electric/Paper. */
+
+/* Explicit day override (wins over prefers-color-scheme) */
+[data-theme="day"] {
+  --fg-1: #0b1024;
+  --fg-2: rgba(11,16,36,.78);
+  --fg-3: rgba(11,16,36,.56);
+  --fg-4: rgba(11,16,36,.32);
+  --fg-link: var(--electric-600);
+  --fg-link-hover: var(--electric-700);
+
+  --bg-1: var(--paper-50);
+  --bg-2: var(--paper-100);
+  --bg-3: #ffffff;
+  --bg-4: var(--paper-200);
+
+  --border-1: rgba(30,87,232,.12);
+  --border-2: rgba(30,87,232,.22);
+  --border-strong: rgba(30,87,232,.40);
+
+  --aurora-a: #c9defe;
+  --aurora-b: #93befd;
+  --aurora-c: #eaf3ff;
+  --aurora-d: #7cb8ff;
+}
+
 /* ── AURORA background — grainy mesh gradient ──────────────── */
 .aurora-bg {
   position: relative;
@@ -169,6 +197,7 @@
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
+/* ─────────── Semantic element defaults ─────────── */
 html, body {
   background: var(--bg-1);
   color: var(--fg-1);
@@ -193,7 +222,7 @@ h2 { font-size: var(--step-4); font-weight: 400; letter-spacing: -0.02em; }
 h3 { font-size: var(--step-3); font-weight: 400; letter-spacing: -0.015em; }
 h4 { font-size: var(--step-2); font-weight: 700; letter-spacing: -0.01em; }
 
-/* Display italic — Fraunces italic is gorgeous, use for pull-quotes / flourishes */
+/* Display italic — use for pull-quotes / flourishes */
 .display-italic { font-style: italic; font-weight: 400; }
 
 /* Body-copy eyebrows / metadata */
@@ -212,7 +241,7 @@ p + p { margin-top: 1em; }
 a {
   color: var(--fg-link);
   text-decoration: underline;
-  text-decoration-color: rgba(124,184,255,.35);
+  text-decoration-color: var(--border-2);
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
   transition: color var(--dur-2) var(--ease-out),
@@ -228,14 +257,14 @@ code, pre, kbd {
   font-size: 0.92em;
 }
 code {
-  background: var(--midnight-800);
+  background: var(--bg-3);
   padding: 0.12em 0.4em;
   border-radius: var(--radius-1);
   border: 1px solid var(--border-1);
-  color: var(--electric-200);
+  color: var(--fg-link);
 }
 pre {
-  background: var(--midnight-850);
+  background: var(--bg-2);
   padding: var(--s-5);
   border-radius: var(--radius-3);
   border: 1px solid var(--border-1);

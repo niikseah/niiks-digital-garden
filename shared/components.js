@@ -44,7 +44,7 @@
     ];
     return e('header', { className: 'nav' },
       e('a', { href: toSitePath('index.html'), className: 'nav__brand' },
-        e('img', { src: toSitePath('design-system/assets/brand/niik_logo.png'), alt: '' }),
+        e('img', { src: toSitePath('public/design-assets/brand/niik_logo.png'), alt: '' }),
         e('span', null, 'niik', e('span', { className: 'dot' }, '.')),
       ),
       e('nav', { className: 'nav__links' },
@@ -145,7 +145,6 @@
       ),
       e('div', { className: 'card__meta' },
         e(Kind, { type: p.kind, onClick: goToKindCategory }, p.kindLabel),
-        e('span', { className: 'card__sep', 'aria-hidden': 'true' }, '✦'),
         e(Kind, { type: roleType, onClick: hasCustomRoleTag ? undefined : goToRoleCategory }, roleLabel),
         e('span', { className: 'card__year' }, p.year || e(Slot, null, 'year')),
       ),

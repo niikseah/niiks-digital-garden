@@ -68,6 +68,15 @@
     background: rgba(250, 250, 247, 0.82);
     border-bottom: 1px solid var(--rule);
   }
+  .topbar-back {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .topbar-back:hover { color: var(--blue-700); }
   .topbar-inner {
     display: flex;
     align-items: center;
@@ -90,9 +99,18 @@
     font-family: 'Helvetica Neue', sans-serif;
     font-size: 0.85rem;
     font-weight: 500;
-    transition: color 0.2s;
+    transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+    border: 1px solid transparent;
+    padding: 6px 10px;
+    border-radius: 2px;
+    line-height: 1;
   }
   .topbar nav a:hover { color: var(--blue-700); }
+  .topbar nav a.is-active {
+    color: var(--blue-700);
+    border-color: var(--blue-300);
+    background: rgba(141, 169, 216, 0.14);
+  }
   .tldr-link {
     color: var(--blue-700) !important;
     border: 1px solid var(--blue-300);
@@ -496,9 +514,8 @@
 
 <header class="topbar">
   <div class="topbar-inner">
-    <div class="brand">Case Study <em>No 03</em></div>
+    <a class="topbar-back" href="../portfolio.html">Back</a>
     <nav>
-      <a class="back-link" href="../portfolio.html">Back</a>
       <a class="tldr-link" href="kita-communication-intervention-tldr.html">TL;DR</a>
       <a href="#problem">Problem</a>
       <a href="#approach">Approach</a>
@@ -832,6 +849,48 @@
   }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
 
   document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  const sectionIds = ['problem', 'approach', 'decisions', 'impact', 'reflection'];
+  const sectionNavLinks = sectionIds
+    .map((id) => document.querySelector(`.topbar nav a[href="#${id}"]`))
+    .filter(Boolean);
+
+  const setActiveSection = (id) => {
+    sectionNavLinks.forEach((link) => {
+      const isMatch = link.getAttribute('href') === `#${id}`;
+      link.classList.toggle('is-active', isMatch);
+      if (isMatch) {
+        link.setAttribute('aria-current', 'true');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+  };
+
+  const sectionSpy = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+    if (visible.length) {
+      setActiveSection(visible[0].target.id);
+    }
+  }, {
+    root: null,
+    rootMargin: '-22% 0px -62% 0px',
+    threshold: [0.2, 0.4, 0.6],
+  });
+
+  sectionIds.forEach((id) => {
+    const section = document.getElementById(id);
+    if (section) sectionSpy.observe(section);
+  });
+
+  const initialHash = window.location.hash.replace('#', '');
+  if (sectionIds.includes(initialHash)) {
+    setActiveSection(initialHash);
+  } else {
+    setActiveSection('problem');
+  }
 </script>
 
 </body>

@@ -14,18 +14,18 @@
   <script src="shared/components.js"></script>
   <style>
     .home-page {
-      max-width: none;
+      max-width: 1200px;
       width: 100%;
-      margin: 0;
+      margin: 0 auto;
     }
     .home-page.hero-backdrop::before,
     .home-page.hero-backdrop::after {
       display: none;
     }
     .hero {
-      padding-top: 48px;
+      padding-top: 56px;
       padding-right: 0;
-      padding-bottom: 48px;
+      padding-bottom: 56px;
       padding-left: 0;
       height: fit-content;
       position: relative;
@@ -44,7 +44,7 @@
     }
     .hero__name {
       font-family: var(--font-display);
-      font-size: clamp(52px, 8vw, 96px);
+      font-size: clamp(46px, 7vw, 84px);
       font-weight: 400;
       letter-spacing: -0.03em;
       line-height: 0.98;
@@ -55,7 +55,7 @@
     .hero__name em { font-style: italic; color: var(--midnight-500); font-weight: 300; }
     .hero__lede {
       margin-top: 18px;
-      font-size: clamp(16px, 1.8vw, 19px);
+      font-size: var(--step-1);
       line-height: 1.65;
       color: var(--fg-2);
       max-width: 62ch;
@@ -83,7 +83,7 @@
     .now-strip .eyebrow { margin-bottom: 6px; }
     .now-strip .slot {
       white-space: normal;
-      font-family: "Apple Garamond";
+      font-family: var(--font-display);
       font-size: 20px;
       color: var(--fg-1);
       border: 0;
@@ -132,14 +132,14 @@
 
     .section-head {
       display: flex; align-items: baseline; justify-content: space-between;
-      margin: 92px 0 30px;
+      margin: 80px 0 26px;
       gap: 16px;
       padding-bottom: 14px;
       border-bottom: 1px dashed var(--border-2);
     }
     .section-head h2 {
       font-family: var(--font-display);
-      font-size: clamp(28px, 3vw, 36px);
+      font-size: clamp(30px, 3.2vw, 40px);
       font-weight: 400;
       letter-spacing: -0.02em;
       color: var(--fg-1);
@@ -186,7 +186,7 @@
       -webkit-overflow-scrolling: touch;
     }
     .featured-grid .card {
-      flex: 0 0 min(430px, calc(100vw - (var(--page-gutter) * 2)));
+      flex: 0 0 min(400px, calc(100vw - (var(--page-gutter) * 2)));
       scroll-snap-align: start;
     }
     .featured-grid::-webkit-scrollbar,
@@ -205,7 +205,7 @@
     }
     @media (max-width: 900px) {
       .hero {
-        padding-top: 52px;
+        padding-top: 44px;
       }
       .hero::before {
         inset: 8px calc(-1 * var(--page-gutter)) auto calc(-1 * var(--page-gutter));
@@ -228,7 +228,7 @@
         font-size: 18px;
       }
       .section-head {
-        margin-top: 72px;
+        margin-top: 64px;
         flex-wrap: wrap;
       }
       .section-head a {
@@ -280,13 +280,13 @@
     .experience-list .impact-stat {
       color: var(--midnight-700);
       font-weight: 700;
-      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-family: var(--font-body);
       font-size: 14px;
     }
     .experience-list .impact-term {
       color: var(--fg-1);
       font-weight: 600;
-      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-family: var(--font-body);
       font-size: 14px;
     }
     .experience-row {
@@ -302,8 +302,8 @@
       -webkit-overflow-scrolling: touch;
     }
     .experience-row .card {
-      flex: 0 0 min(430px, calc(100vw - (var(--page-gutter) * 2)));
-      min-height: 430px;
+      flex: 0 0 min(400px, calc(100vw - (var(--page-gutter) * 2)));
+      min-height: 420px;
       max-height: 520px;
       overflow-y: auto;
       scroll-snap-align: start;
@@ -331,16 +331,16 @@
       gap: 8px;
       color: var(--fg-3);
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 14px;
     }
     .company-meta-sub .star-sep {
-      color: #000;
+      color: var(--fg-3);
       font-size: 14px;
       line-height: 1;
       transform: translateY(-1px);
     }
-    .experience-row .kind--role-product {
-      font-size: 12px;
+    .experience-row .kind {
+      font-size: 14px;
     }
     .company-lockup {
       display: inline-flex;
@@ -391,8 +391,8 @@
     }
     @media (max-width: 640px) {
       .hero {
-        padding-top: 34px;
-        padding-bottom: 36px;
+        padding-top: 30px;
+        padding-bottom: 34px;
       }
       .hero__lede {
         line-height: 1.58;
@@ -407,7 +407,7 @@
         display: none;
       }
       .section-head {
-        margin-top: 58px;
+        margin-top: 52px;
         margin-bottom: 20px;
       }
       .featured-grid,
@@ -435,8 +435,7 @@
 
   <script type="text/babel" data-presets="env,react">
     const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-      "accent": "electric",
-      "showNowStrip": true
+      "accent": "electric"
     }/*EDITMODE-END*/;
 
     function App() {
@@ -464,74 +463,64 @@
       const workExperiences = [
         {
           company: 'Shopee',
-          logo: 'public/company-logos/shopee_logo.png',
-          role: 'Business Product Manager Intern',
-          period: 'Jan - Apr 2026',
+          logo: 'public/design-assets/company-logos/shopee_logo.png',
+          role: 'Business Product Management Intern',
+          badge: 'INTERNSHIP',
+          badgeClass: 'role-product',
+          period: 'Jan 2026 – Apr 2026',
           workload: [
-            'Spearheading a strategic initiative to increase Buyer Self-Collection coverage from 30% to 40% through competitor analysis and user journey optimization.',
-            'Authoring comprehensive Business Requirement Documents to simplify complex product solutions for regional engineering teams, ensuring alignment between business goals and technical feasibility.',
-            'Orchestrated User Acceptance Testing for various projects, identifying critical edge cases and gaps between Product Requirements Documents and development implementation.',
+            'Spearheaded a strategic initiative through rigorous competitor benchmarking and user journey mapping to expand Buyer Self-Collection coverage from 30% to 40%.',
+            'Developed comprehensive user guides and documentation to simplify complex product features for stakeholders, ensuring seamless adoption of new supply chain solutions.',
+            'Managed User Acceptance Testing (UAT) end-to-end to ensure products functioned as intended; proactively tracked and followed up on identified bugs to guarantee resolution prior to deployment.',
+          ],
+        },
+        {
+          company: 'NUS Developer Group',
+          role: 'Head of Design',
+          badge: 'co-curricular activity',
+          badgeClass: 'role-design',
+          period: 'Jul 2025 – May 2026',
+          workload: [
+            'Led a team of 5 designers, guiding them through design workflows and skill-building to craft deliverables including wireframes, interactive prototypes, and high-fidelity mockups.',
+            'Architected scalable Figma design systems, significantly reducing design turnaround time and maintaining visual consistency across the project.',
+            'Collaborated with Tech and Product leads to bridge the gap between design and development, maintaining alignment on product vision and objectives.',
           ],
         },
         {
           company: 'GovTech',
-          logo: 'public/company-logos/govtech_logo.gif',
+          logo: 'public/design-assets/company-logos/govtech_logo.gif',
           role: 'Product Design Intern',
-          period: 'May - Aug 2025',
+          badge: 'INTERNSHIP',
+          badgeClass: 'role-product',
+          period: 'May 2025 – Aug 2025',
           workload: [
-            'Spearheaded user research initiative by conducting survey of 6,000 participants; synthesized 450+ responses into data-driven requirements that defined the MVP scope for 70% of target users.',
-            'Led cross-functional team leadership efforts between Product Owners, Business Analysts, and Engineers to drive project from initial research to concept validation in the Product Lifecycle.',
+            'Spearheaded a user research initiative involving 6,000 participants; synthesized 450+ responses into data-driven requirements that defined the MVP scope for 70% of target users.',
+            'Facilitated cross-functional collaboration between Product Owners, Business Analysts, and Engineers to drive project from research to concept validation in the Product Lifecycle.',
             'Analyzed complex workflows and business requirements across 7 organizations to develop insights, delivering research synthesis that directly informed key design and business decisions.',
           ],
         },
         {
           company: 'DBS Bank',
-          logo: 'public/company-logos/dbs_logo.png',
+          logo: 'public/design-assets/company-logos/dbs_logo.png',
           role: 'UI/UX Design Intern',
-          period: 'Aug - Dec 2024',
+          badge: 'INTERNSHIP',
+          badgeClass: 'role-product',
+          period: 'Aug 2024 – Dec 2024',
           workload: [
-            'Orchestrated planning and execution of 3 large-scale innovation events with 300+ attendees each, driving 40% increase in employee participation in intrapreneurial initiatives and fostering innovation culture across the bank.',
+            'Designed digital experiences and promotional assets for internal innovation campaigns, contributing to a 30% increase in employee engagement.',
             'Spearheaded innovation challenges, facilitating cross-functional brainstorming sessions that generated 50+ innovative concepts and accelerated time-to-market for new product ideation by 25%.',
-            'Designed and delivered promotional materials and digital experiences for internal campaigns, supporting innovation projects that contributed to 30% improvement in employee engagement scores.',
-          ],
-        },
-        {
-          company: 'Micron Technology',
-          logo: 'public/company-logos/micron_logo.png',
-          role: 'UX Design Intern',
-          period: 'May-Jul 2024',
-          workload: [
-            'Provided new perspectives on product development through my design background.',
-            'Redesigned an internal website for over 200 users, enhancing user experience and interface functionality.',
-            'Contributed to wireframe development and platform revamp, receiving positive feedback from stakeholders.',
-            'Presented 4 redesign proposals to stakeholders and supervisors, incorporating user feedback into iterative design improvements.',
-            'Developed clear and comprehensive training materials for PRM to bridge workforce training gaps and support a successful product launch.',
-          ],
-        },
-        {
-          company: 'Capital JDI',
-          logo: 'public/company-logos/jdi_logo.png',
-          role: 'Project Research Intern',
-          period: 'Dec 2025',
-          workload: [
-            "Analyzed Capital JDI's 6-stage startup application process; identified bottlenecks and manual tasks consuming 70-80% of team effort.",
-            'Researched and compared 15+ SaaS tools; recommended Zapier + Airtable + Calendly stack for cost-effective, scalable automation.',
-            'Delivered 5-7 slide executive presentation and implementation roadmap (8 weeks, phased approach).',
+            'Orchestrated the planning and execution of 3 large-scale innovation events with 300+ attendees each, driving 40% increase in employee participation in intrapreneurial initiatives and fostering innovation culture across the bank.',
           ],
         },
       ];
-      const impactTokenRegex = /(\b\d[\d,]*(?:-\d+)?(?:\+|%|x)?\b|\b(?:increase|improvement|accelerated|acceleration|generated|delivered|spearheaded|orchestrated|contributed|redesigned|presented|developed|identified|analyzed|launched|coverage|optimization|alignment|automation|stakeholders|participants|responses|users|attendees|organizations|roadmap|MVP|UAT)\b)/gi;
+      const impactTokenRegex = /(\b\d[\d,]*(?:-\d+)?(?:\+|%|x)?\b)/g;
       const impactStatRegex = /^\d[\d,]*(?:-\d+)?(?:\+|%|x)?$/i;
-      const impactTermRegex = /^(?:increase|improvement|accelerated|acceleration|generated|delivered|spearheaded|orchestrated|contributed|redesigned|presented|developed|identified|analyzed|launched|coverage|optimization|alignment|automation|stakeholders|participants|responses|users|attendees|organizations|roadmap|MVP|UAT)$/i;
       const formatPeriod = (period) => String(period || '').replace(/\s*-\s*/g, ' - ');
       const highlightWorkload = (text) => (
         text.split(impactTokenRegex).map((part, idx) => {
           if (!part) return null;
           if (impactStatRegex.test(part)) {
             return <span key={`stat-${idx}`} className="impact-stat">{part}</span>;
-          }
-          if (impactTermRegex.test(part)) {
-            return <span key={`term-${idx}`} className="impact-term">{part}</span>;
           }
           return <React.Fragment key={`txt-${idx}`}>{part}</React.Fragment>;
         })
@@ -556,13 +545,7 @@
                 engaged, and confident in their interactions.
               </p>
 
-              <div className={`hero__meta ${tweaks.showNowStrip ? 'hero__meta--split' : ''}`}>
-                {tweaks.showNowStrip && (
-                  <div className="now-strip">
-                    <div className="eyebrow"></div>
-                    <Slot>Hard at work as a Business Product Manager @ Shopee</Slot>
-                  </div>
-                )}
+              <div className="hero__meta">
                 <div className="bio-row">
                   <a href="https://www.linkedin.com/in/niikseah" target="_blank" rel="noopener noreferrer" aria-label="linkedin">
                     <Icon name="linkedin" size={14}/> linkedin
@@ -612,7 +595,7 @@
                       <span className="company-name">{exp.company}</span>
                     </span>
                     <span className="company-meta-sub">
-                      <span className="kind kind--role-product">INTERNSHIP</span>
+                      <span className={`kind kind--${exp.badgeClass || 'role-product'}`}>{exp.badge || 'INTERNSHIP'}</span>
                       <span className="star-sep" aria-hidden="true">✦</span>
                       <span>{formatPeriod(exp.period)}</span>
                     </span>
@@ -627,9 +610,7 @@
               ))}
             </div>
 
-            <footer className="footer">
-              <span>tended with love and care 💫</span>
-            </footer>
+            <Footer />
           </main>
 
           {/* Tweaks */}
@@ -642,13 +623,6 @@
                 {['electric', 'moss', 'bloom'].map(k => (
                   <button key={k} aria-pressed={tweaks.accent === k} onClick={() => update('accent', k)}>{k}</button>
                 ))}
-              </div>
-            </div>
-            <div className="tweaks__row">
-              <label className="tweaks__label">"currently" strip</label>
-              <div className="tweaks__seg">
-                <button aria-pressed={tweaks.showNowStrip} onClick={() => update('showNowStrip', true)}>on</button>
-                <button aria-pressed={!tweaks.showNowStrip} onClick={() => update('showNowStrip', false)}>off</button>
               </div>
             </div>
           </div>

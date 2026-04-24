@@ -12,7 +12,7 @@ window.PROJECTS = [
     tags: ['figma', 'foodtech', 'mobile'],
     href: 'case-studies/project.html?slug=pantry-pal',
     thumbLabel: 'pantry pal',
-    thumb: 'public/project-media/pantry-pal/Screenshot_2025-02-09_at_10.29.48.png',
+    thumb: 'public/design-assets/project-media/pantry-pal/Screenshot_2025-02-09_at_10.29.48.png',
   },
   {
     slug: 'telegram-bot-heymax',
@@ -40,7 +40,7 @@ window.PROJECTS = [
     excerpt: 'Revamped mobile app experience for NUSMart Dining.',
     tags: ['miro', 'mobile', 'service design'],
     href: 'case-studies/project.html?slug=nusmart-dining-revamp',
-    thumb: 'public/project-media/nusmart-dining-revamp/Screenshot_2025-02-09_at_10.16.15.png',
+    thumb: 'public/design-assets/project-media/nusmart-dining-revamp/Screenshot_2025-02-09_at_10.16.15.png',
   },
   {
     slug: 'flexijio',
@@ -52,7 +52,7 @@ window.PROJECTS = [
     excerpt: 'Desktop video conferencing platform for fitness classes and remote coaching.',
     tags: ['ux research', 'desktop', 'fitness'],
     href: 'case-studies/project.html?slug=flexijio',
-    thumb: 'public/project-media/flexijio/Screenshot_2025-02-09_at_10.44.39.png',
+    thumb: 'public/design-assets/project-media/flexijio/Screenshot_2025-02-09_at_10.44.39.png',
   },
   {
     slug: 'fusion-scanner',
@@ -65,7 +65,7 @@ window.PROJECTS = [
       'Browser extension concept to improve reading accessibility for language barriers and reading disabilities.',
     tags: ['balsamiq', 'figma', 'accessibility'],
     href: 'case-studies/project.html?slug=fusion-scanner',
-    thumb: 'public/project-media/fusion-scanner/Screenshot_2025-02-08_at_11.47.11.png',
+    thumb: 'public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-08_at_11.47.11.png',
   },
   {
     slug: 'kita-communication-intervention',
@@ -89,7 +89,7 @@ window.PROJECTS = [
     excerpt: 'Comprehensive brand identity guideline built across print and digital assets.',
     tags: ['illustrator', 'indesign', 'photoshop'],
     href: 'case-studies/project.html?slug=brand-style-guide',
-    thumb: 'public/project-media/brand-style-guide/FP__BrandStyleGuide_W4__e0958068_NiikSeah-01.png',
+    thumb: 'public/design-assets/project-media/brand-style-guide/FP__BrandStyleGuide_W4__e0958068_NiikSeah-01.png',
   },
   {
     slug: 'miscellaneous-works',
@@ -101,7 +101,7 @@ window.PROJECTS = [
     excerpt: 'Curated selection of graphic design experiments and production-ready pieces.',
     tags: ['illustrator', 'indesign', 'graphic design'],
     href: 'case-studies/project.html?slug=miscellaneous-works',
-    thumb: 'public/project-media/miscellaneous-works/33cb6212-d8d0-43b1-b534-acbaab4666b1.png',
+    thumb: 'public/design-assets/project-media/miscellaneous-works/33cb6212-d8d0-43b1-b534-acbaab4666b1.png',
   },
   {
     slug: 'magic-of-resilience',
@@ -113,35 +113,35 @@ window.PROJECTS = [
     excerpt: 'Non-fiction short documentary spotlighting local business Meta Illusions.',
     tags: ['videography', 'premiere pro', 'documentary'],
     href: 'case-studies/project.html?slug=magic-of-resilience',
-    thumb: 'public/project-media/magic-of-resilience/Screenshot_2025-01-24_at_15.47.19.png',
+    thumb: 'public/design-assets/project-media/magic-of-resilience/Screenshot_2025-01-24_at_15.47.19.png',
   },
 ];
 
 window.PROJECTS_NEW_VERSIONS = [
   {
     slug: 'pantry-pal-new-version',
-    title: 'Pantry Pal (New Version)',
+    title: 'Pantry Pal',
     kind: 'uiux',
     kindLabel: 'ui/ux',
     year: '2024',
     role: 'UI Designer, UX Researcher',
-    excerpt: 'Standalone long-form case study version with dedicated TL;DR and full-read layout.',
+    excerpt: 'Behavior-change focused UX case study on reducing household food waste through a pantry-and-diet tracking concept, with TL;DR and full-read modes.',
     tags: ['figma', 'foodtech', 'mobile'],
     href: 'case-studies/pantry-pal.html',
-    thumbLabel: 'pantry pal new version',
-    thumb: 'public/project-media/pantry-pal/Screenshot_2025-02-09_at_10.29.48.png',
+    thumbLabel: 'image placeholder',
+    thumb: '',
   },
   {
     slug: 'kita-communication-intervention-new-version',
-    title: 'From Blind Box to Brochure (New Version)',
+    title: 'From Blind Box to Brochure, A Communication Intervention for Kita',
     kind: 'uiux',
     kindLabel: 'ui/ux',
     year: '2024',
     role: 'Designer',
-    excerpt: 'Standalone case study page linked to its own TL;DR companion page.',
+    excerpt: 'Communication design case study for Kita, featuring a blind-box-to-brochure advocacy concept and a linked TL;DR companion page.',
     tags: ['communication', 'intervention', 'branding'],
     href: 'case-studies/kita-communication-intervention.html',
-    thumbLabel: 'kita new version',
+    thumbLabel: 'image placeholder',
     thumb: '',
   },
 ];
@@ -153,13 +153,13 @@ window.CASE_STUDIES = {
     subtitle: 'Mobile app concept for reducing household food waste through smarter pantry workflows.',
     timeline: 'Oct-Nov 2024',
     tools: 'Figma',
-    heroImage: 'public/project-media/pantry-pal/Screenshot_2025-02-09_at_10.29.48.png',
+    heroImage: 'public/design-assets/project-media/pantry-pal/Screenshot_2025-02-09_at_10.29.48.png',
     gallery: [
-      'public/project-media/pantry-pal/Screenshot_2025-04-09_at_09.15.11.png',
-      'public/project-media/pantry-pal/Screenshot_2025-04-09_at_09.15.42.png',
-      'public/project-media/pantry-pal/Screenshot_2025-04-09_at_09.23.09.png',
-      'public/project-media/pantry-pal/8fea386d-f56f-4252-96e0-98efbbb2fbfe.png',
-      'public/project-media/pantry-pal/39b9c882-e150-425e-8bb1-80b897ed7aed.png',
+      'public/design-assets/project-media/pantry-pal/Screenshot_2025-04-09_at_09.15.11.png',
+      'public/design-assets/project-media/pantry-pal/Screenshot_2025-04-09_at_09.15.42.png',
+      'public/design-assets/project-media/pantry-pal/Screenshot_2025-04-09_at_09.23.09.png',
+      'public/design-assets/project-media/pantry-pal/8fea386d-f56f-4252-96e0-98efbbb2fbfe.png',
+      'public/design-assets/project-media/pantry-pal/39b9c882-e150-425e-8bb1-80b897ed7aed.png',
     ],
     sections: [
       {
@@ -223,7 +223,7 @@ window.CASE_STUDIES = {
     timeline: 'Aug 2025 - May 2026',
     tools: 'Placeholder',
     focus: 'Placeholder',
-    heroImage: 'public/project-media/telegram-bot-heymax/image.png',
+    heroImage: 'public/design-assets/project-media/telegram-bot-heymax/image.png',
     gallery: [],
     tldrSections: [
       {
@@ -348,8 +348,8 @@ window.CASE_STUDIES = {
     subtitle: 'Revamped mobile dining journey for NUSMart with clearer navigation and decision support.',
     timeline: 'Sep 2024',
     tools: 'Miro',
-    heroImage: 'public/project-media/nusmart-dining-revamp/Screenshot_2025-02-09_at_10.16.15.png',
-    gallery: ['public/project-media/nusmart-dining-revamp/Screenshot_2025-02-09_at_10.16.15.png'],
+    heroImage: 'public/design-assets/project-media/nusmart-dining-revamp/Screenshot_2025-02-09_at_10.16.15.png',
+    gallery: ['public/design-assets/project-media/nusmart-dining-revamp/Screenshot_2025-02-09_at_10.16.15.png'],
     sections: [
       {
         header: 'Project Overview',
@@ -383,13 +383,13 @@ window.CASE_STUDIES = {
     subtitle: 'Desktop video conferencing concept tailored for fitness instruction and participation.',
     timeline: 'Feb-Apr 2024',
     tools: 'Miro',
-    heroImage: 'public/project-media/flexijio/Screenshot_2025-02-09_at_10.44.39.png',
+    heroImage: 'public/design-assets/project-media/flexijio/Screenshot_2025-02-09_at_10.44.39.png',
     gallery: [
-      'public/project-media/flexijio/Screenshot_2025-02-04_at_11.49.05.png',
-      'public/project-media/flexijio/Screenshot_2025-02-04_at_11.51.47.png',
-      'public/project-media/flexijio/Screenshot_2025-02-04_at_11.53.35.png',
-      'public/project-media/flexijio/Screenshot_2025-02-04_at_11.54.49.png',
-      'public/project-media/flexijio/Screenshot_2025-02-04_at_12.03.46.png',
+      'public/design-assets/project-media/flexijio/Screenshot_2025-02-04_at_11.49.05.png',
+      'public/design-assets/project-media/flexijio/Screenshot_2025-02-04_at_11.51.47.png',
+      'public/design-assets/project-media/flexijio/Screenshot_2025-02-04_at_11.53.35.png',
+      'public/design-assets/project-media/flexijio/Screenshot_2025-02-04_at_11.54.49.png',
+      'public/design-assets/project-media/flexijio/Screenshot_2025-02-04_at_12.03.46.png',
     ],
     sections: [
       {
@@ -441,13 +441,13 @@ window.CASE_STUDIES = {
     subtitle: 'Accessibility-oriented browser extension concept to improve reading comprehension and comfort.',
     timeline: 'Sep-Nov 2023',
     tools: 'Balsamiq, Figma',
-    heroImage: 'public/project-media/fusion-scanner/Screenshot_2025-02-08_at_11.47.11.png',
+    heroImage: 'public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-08_at_11.47.11.png',
     gallery: [
-      'public/project-media/fusion-scanner/Screenshot_2025-02-08_at_11.45.38.png',
-      'public/project-media/fusion-scanner/Screenshot_2025-02-08_at_11.47.50.png',
-      'public/project-media/fusion-scanner/Screenshot_2025-02-08_at_12.27.32.png',
-      'public/project-media/fusion-scanner/Screenshot_2025-02-08_at_20.43.27.png',
-      'public/project-media/fusion-scanner/Screenshot_2025-02-09_at_10.50.15.png',
+      'public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-08_at_11.45.38.png',
+      'public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-08_at_11.47.50.png',
+      'public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-08_at_12.27.32.png',
+      'public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-08_at_20.43.27.png',
+      'public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-09_at_10.50.15.png',
     ],
     sections: [
       {
@@ -547,13 +547,13 @@ window.CASE_STUDIES = {
     subtitle: 'Comprehensive brand style system across typography, layout, and visual identity.',
     timeline: '2023',
     tools: 'Adobe Illustrator, Adobe InDesign, Adobe Photoshop',
-    heroImage: 'public/project-media/brand-style-guide/FP__BrandStyleGuide_W4__e0958068_NiikSeah-01.png',
+    heroImage: 'public/design-assets/project-media/brand-style-guide/FP__BrandStyleGuide_W4__e0958068_NiikSeah-01.png',
     gallery: [
-      'public/project-media/brand-style-guide/FP__BrandStyleGuide_W4__e0958068_NiikSeah-02.png',
-      'public/project-media/brand-style-guide/FP__BrandStyleGuide_W4__e0958068_NiikSeah-03.png',
-      'public/project-media/brand-style-guide/FP__BrandStyleGuide_W4__e0958068_NiikSeah-04.png',
-      'public/project-media/brand-style-guide/FP__BrandStyleGuide_W4__e0958068_NiikSeah-05.png',
-      'public/project-media/brand-style-guide/FP__BrandStyleGuide_W4__e0958068_NiikSeah-06.png',
+      'public/design-assets/project-media/brand-style-guide/FP__BrandStyleGuide_W4__e0958068_NiikSeah-02.png',
+      'public/design-assets/project-media/brand-style-guide/FP__BrandStyleGuide_W4__e0958068_NiikSeah-03.png',
+      'public/design-assets/project-media/brand-style-guide/FP__BrandStyleGuide_W4__e0958068_NiikSeah-04.png',
+      'public/design-assets/project-media/brand-style-guide/FP__BrandStyleGuide_W4__e0958068_NiikSeah-05.png',
+      'public/design-assets/project-media/brand-style-guide/FP__BrandStyleGuide_W4__e0958068_NiikSeah-06.png',
     ],
     sections: [
       {
@@ -582,10 +582,10 @@ window.CASE_STUDIES = {
     subtitle: 'Curated collection of graphic explorations and applied visual communication pieces.',
     timeline: '2023',
     tools: 'Adobe Illustrator, Adobe InDesign',
-    heroImage: 'public/project-media/miscellaneous-works/33cb6212-d8d0-43b1-b534-acbaab4666b1.png',
+    heroImage: 'public/design-assets/project-media/miscellaneous-works/33cb6212-d8d0-43b1-b534-acbaab4666b1.png',
     gallery: [
-      'public/project-media/miscellaneous-works/Assignment2__W4__e0958068_NiikSeah_(dragged)-1.png',
-      'public/project-media/miscellaneous-works/33cb6212-d8d0-43b1-b534-acbaab4666b1.png',
+      'public/design-assets/project-media/miscellaneous-works/Assignment2__W4__e0958068_NiikSeah_(dragged)-1.png',
+      'public/design-assets/project-media/miscellaneous-works/33cb6212-d8d0-43b1-b534-acbaab4666b1.png',
     ],
     sections: [
       {
@@ -614,8 +614,8 @@ window.CASE_STUDIES = {
     subtitle: 'Non-fiction short documentary spotlighting local business Meta Illusions.',
     timeline: '2023',
     tools: 'Adobe Premiere Pro',
-    heroImage: 'public/project-media/magic-of-resilience/Screenshot_2025-01-24_at_15.47.19.png',
-    gallery: ['public/project-media/magic-of-resilience/Screenshot_2025-01-24_at_15.47.19.png'],
+    heroImage: 'public/design-assets/project-media/magic-of-resilience/Screenshot_2025-01-24_at_15.47.19.png',
+    gallery: ['public/design-assets/project-media/magic-of-resilience/Screenshot_2025-01-24_at_15.47.19.png'],
     sections: [
       {
         header: 'Project Overview',
