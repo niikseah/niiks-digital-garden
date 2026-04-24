@@ -65,19 +65,6 @@
       break-inside: avoid;
       -webkit-column-break-inside: avoid;
     }
-    .port-alt-row {
-      margin-top: 28px;
-      padding-top: 24px;
-      border-top: 1px dashed var(--border-2);
-    }
-    .port-alt-row__title {
-      margin: 0 0 14px;
-      font-family: var(--font-mono);
-      font-size: var(--step--1);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--fg-3);
-    }
     @media (max-width: 1080px) {
       .port-grid {
         column-count: 2;
@@ -143,7 +130,7 @@
         const yearMatch = String(project.year || '').match(/\d{4}/);
         return yearMatch ? Number(yearMatch[0]) : 0;
       };
-      const projects = [...window.PROJECTS].sort((a, b) => getProjectYear(b) - getProjectYear(a));
+      const projects = [...(window.PROJECTS_NEW_VERSIONS || [])].sort((a, b) => getProjectYear(b) - getProjectYear(a));
       const growingCount = projects.filter((p) => {
         const title = String(p.title || '').toLowerCase();
         return p.slug === 'telegram-bot-heymax' || title.includes('nus fintech');
@@ -162,25 +149,20 @@
         filtered.forEach(p => { (m[p.year] = m[p.year] || []).push(p); });
         return Object.keys(m).sort().reverse().map(y => ({ year: y, items: m[y] }));
       }, [filtered]);
-      const newVersionProjects = [...(window.PROJECTS_NEW_VERSIONS || [])].sort((a, b) => getProjectYear(b) - getProjectYear(a));
-      const filteredNewVersions = newVersionProjects.filter((p) => {
-        if (filter.mode === 'role') {
-          return window.deriveRoleCategory(p.role).key === filter.value;
-        }
-        if (filter.value === 'all') return true;
-        return p.kind === filter.value;
-      });
       return (
         <>
           <Nav current="portfolio" />
           <main className="page hero-backdrop">
             <header className="port-head">
               <Eyebrow>
-                <span className="port-stat">{projects.length}</span> in the garden ✦ <span className="port-stat">{growingCount}</span> Growing 🪴 ✦ <span className="port-stat">{grownCount}</span> Grown 💐
+                <span className="port-stat">{projects.length}</span> selected projects
               </Eyebrow>
               <h1>things i've <em>designed</em> and <em>built</em>.</h1>
               <p>
-                a mix of product design, engineering, and the occasional tools-for-myself experiment. each card links to a case study — some are long-form deep dives, others are short skims.
+                selected case studies. for earlier work, view the archive.
+              </p>
+              <p>
+                <a href="archive.html">open archive →</a>
               </p>
             </header>
 
@@ -197,19 +179,9 @@
             )}
 
             {tweaks.layout === 'cards' && (
-              <>
-                <div className="port-grid">
-                  {filtered.map(p => <ProjectCard key={p.slug} project={p} />)}
-                </div>
-                {filteredNewVersions.length > 0 && (
-                  <section className="port-alt-row">
-                    <h2 className="port-alt-row__title">new standalone versions</h2>
-                    <div className="port-grid">
-                      {filteredNewVersions.map(p => <ProjectCard key={p.slug} project={p} />)}
-                    </div>
-                  </section>
-                )}
-              </>
+              <div className="port-grid">
+                {filtered.map(p => <ProjectCard key={p.slug} project={p} />)}
+              </div>
             )}
 
             {tweaks.layout === 'years' && (

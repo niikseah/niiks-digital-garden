@@ -166,6 +166,12 @@
       transition: color var(--dur-2) var(--ease-out), text-decoration-color var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
     }
     .section-head a:hover { color: var(--fg-link-hover); text-decoration-color: var(--fg-link-hover); transform: translateY(-1px); }
+    .section-head__links {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
 
     .featured-grid {
       display: flex;
@@ -454,7 +460,7 @@
         const yearMatch = String(project.year || '').match(/\d{4}/);
         return yearMatch ? Number(yearMatch[0]) : 0;
       };
-      const featured = [...window.PROJECTS].sort((a, b) => getProjectYear(b) - getProjectYear(a));
+      const featured = [...(window.PROJECTS_NEW_VERSIONS || [])].sort((a, b) => getProjectYear(b) - getProjectYear(a));
       const workExperiences = [
         {
           company: 'Shopee',
@@ -576,7 +582,10 @@
             {/* featured projects */}
             <div className="section-head">
               <h2>featured <em>projects</em></h2>
-              <a href="portfolio.html">see everything →</a>
+              <div className="section-head__links">
+                <a href="portfolio.html">see projects →</a>
+                <a href="archive.html">archive →</a>
+              </div>
             </div>
             <div className="featured-grid">
               {featured.map(p => <ProjectCard key={p.slug} project={p} />)}
