@@ -5,41 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Project — niik</title>
   <link rel="stylesheet" href="../design-system/colors_and_type.css" />
-  <link rel="stylesheet" href="../shared/shell.css" />
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
   <script src="../shared/data.js"></script>
   <script src="../shared/components.js"></script>
   <style>
+    :root {
+      --cs-paper: #fafaf7;
+      --cs-paper-warm: #f4f3ee;
+      --cs-ink: #1a1d23;
+      --cs-ink-soft: #4a4f58;
+      --cs-ink-muted: #8a8f98;
+      --cs-rule: #e5e4de;
+      --cs-blue-700: #13315c;
+      --cs-blue-300: #8da9d8;
+      --cs-blue-50: #eef2fa;
+    }
+    body {
+      background: var(--cs-paper);
+      color: var(--cs-ink);
+    }
     .cs-back {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      margin-top: 28px;
+      margin-top: 20px;
       font-family: var(--font-mono);
       font-size: var(--step--1);
-      color: var(--fg-3);
+      color: var(--cs-ink-soft);
       text-decoration: none;
       transition: color var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
     }
-    .cs-back:hover { color: var(--fg-1); transform: translateX(-2px); }
+    .cs-back:hover { color: var(--cs-blue-700); transform: translateX(-2px); }
 
     .cs-body {
-      max-width: 980px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding-top: 18px;
-      padding-bottom: 80px;
+      padding: 14px 24px 84px;
+    }
+    .cs-hero {
+      padding: 22px 0 34px;
+      border-bottom: 1px solid var(--cs-rule);
+      margin-bottom: 36px;
+    }
+    .cs-content {
+      max-width: 760px;
     }
     .cs-meta {
       display: flex;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
-      margin-top: 14px;
+      margin-top: 0;
       font-family: var(--font-mono);
       font-size: var(--step--1);
-      color: var(--fg-3);
+      color: var(--cs-ink-muted);
     }
     .cs-meta .meta-sep {
       opacity: 0.7;
@@ -52,103 +73,128 @@
     }
     .cs-title {
       font-family: var(--font-display);
-      font-size: clamp(42px, 6vw, 68px);
+      font-size: clamp(44px, 6.5vw, 74px);
       font-weight: 400;
       letter-spacing: -0.028em;
       line-height: 1.02;
-      color: var(--fg-1);
-      margin: 12px 0 0;
+      color: var(--cs-ink);
+      margin: 14px 0 0;
       width: auto;
       max-width: 100%;
       overflow-wrap: anywhere;
     }
     .cs-subtitle {
       margin-top: 16px;
-      font-size: clamp(16px, 1.8vw, 19px);
-      line-height: 1.68;
-      color: var(--fg-2);
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.6;
+      color: var(--cs-ink-soft);
       max-width: none;
       width: 100%;
       text-wrap: pretty;
     }
     .cs-summary {
       margin-top: 32px;
-      padding: 22px;
-      border: 1px solid var(--border-1);
-      border-radius: 14px;
-      background: linear-gradient(120deg, rgba(124,184,255,.08), rgba(124,184,255,.02) 60%, transparent 100%);
+      padding: 28px 0 0;
+      border-top: 1px solid var(--cs-rule);
+      border-bottom: 1px solid var(--cs-rule);
+      padding-bottom: 22px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 16px;
+      gap: 22px;
     }
     .cs-summary dt {
       font-family: var(--font-body);
       font-size: var(--step--1);
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--fg-3);
+      color: var(--cs-ink-muted);
       margin-bottom: 6px;
       font-weight: 500;
     }
     .cs-summary dd {
       margin: 0;
       font-size: var(--step-0);
-      color: var(--fg-1);
+      color: var(--cs-ink);
       line-height: 1.5;
     }
     .cs-view-toggle {
       margin-top: 22px;
-      display: flex;
-      justify-content: flex-start;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px;
+      background: color-mix(in srgb, var(--bg-3) 94%, var(--electric-500) 6%);
+      border: 1px solid var(--border-1);
+      border-radius: 999px;
     }
-    .cs-tldr-toggle {
-      border: 1px solid var(--border-2);
+    .cs-tldr-toggle,
+    .cs-mode-btn {
+      border: 0;
       background: transparent;
       color: var(--fg-2);
       border-radius: 999px;
-      padding: 8px 14px;
+      padding: 7px 14px;
       font-family: var(--font-mono);
       font-size: var(--step--1);
       cursor: pointer;
       transition: background var(--dur-2) var(--ease-out),
-        border-color var(--dur-2) var(--ease-out),
+        color var(--dur-2) var(--ease-out),
         box-shadow var(--dur-2) var(--ease-out),
         transform var(--dur-1) var(--ease-out);
     }
-    .cs-tldr-toggle:hover {
-      border-color: var(--border-strong);
+    .cs-tldr-toggle:hover,
+    .cs-mode-btn:hover {
       color: var(--fg-1);
-      background: rgba(124,184,255,.07);
+      background: rgba(124,184,255,.08);
       transform: translateY(-1px);
     }
-    .cs-tldr-toggle[aria-pressed="true"] {
-      border-color: var(--electric-300);
+    .cs-tldr-toggle[aria-pressed="true"],
+    .cs-mode-btn[aria-pressed="true"] {
+      border: 1px solid color-mix(in srgb, var(--electric-300) 70%, transparent);
       color: var(--fg-1);
-      background: rgba(124,184,255,.12);
+      background: rgba(124,184,255,.16);
     }
-    .cs-tldr-toggle:active {
+    .cs-tldr-toggle:active,
+    .cs-mode-btn:active {
       transform: scale(0.98);
     }
-    .cs-tldr-toggle:focus-visible {
+    .cs-tldr-toggle:focus-visible,
+    .cs-mode-btn:focus-visible {
       outline: 1px solid var(--electric-300);
       outline-offset: 2px;
     }
     .cs-view-toggle__hint {
-      margin: 0;
+      margin: 10px 0 0;
       font-family: var(--font-mono);
       font-size: 11px;
       color: var(--fg-3);
     }
+    .cs-eyebrow {
+      margin-top: 10px;
+      margin-bottom: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: var(--electric-400);
+    }
+    .cs-eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.8;
+    }
     .cs-cover {
       margin-top: 30px;
-      border-radius: 18px;
-      border: 1px solid var(--border-1);
+      border-radius: 4px;
+      border: 1px solid var(--cs-rule);
       overflow: hidden;
-      background: color-mix(in srgb, var(--bg-3) 92%, var(--electric-500) 8%);
-      box-shadow: 0 20px 42px -28px rgba(30,87,232,.5), var(--shadow-2);
+      background: var(--cs-blue-50);
+      box-shadow: 0 18px 34px -30px rgba(19, 49, 92, 0.5);
     }
     .cs-cover img {
       width: 100%;
@@ -166,7 +212,7 @@
       text-align: center;
       font-family: var(--font-mono);
       font-size: var(--step-0);
-      color: var(--fg-3);
+      color: var(--cs-ink-muted);
       letter-spacing: 0.04em;
       text-transform: uppercase;
     }
@@ -193,7 +239,7 @@
     }
     .cs-gallery figure:hover img { transform: scale(1.03); }
     .cs-section {
-      margin-top: 48px;
+      margin-top: 56px;
       padding: 0;
       border: 0;
       border-radius: 0;
@@ -205,26 +251,26 @@
       font-weight: 400;
       letter-spacing: -0.02em;
       margin: 0 0 14px;
-      color: var(--fg-1);
+      color: var(--cs-ink);
     }
     .cs-section p {
       font-size: var(--step-0);
-      line-height: 1.72;
-      color: var(--fg-2);
-      margin: 0 0 14px;
+      line-height: 1.75;
+      color: var(--cs-ink-soft);
+      margin: 0 0 16px;
       max-width: none;
       width: 100%;
     }
     .cs-section ul {
       margin: 0;
       padding-left: 20px;
-      color: var(--fg-2);
-      line-height: 1.65;
+      color: var(--cs-ink-soft);
+      line-height: 1.72;
       max-width: none;
       width: 100%;
     }
-    .cs-section li + li { margin-top: 8px; }
-    .cs-section ul li::marker { color: var(--electric-300); }
+    .cs-section li + li { margin-top: 10px; }
+    .cs-section ul li::marker { color: var(--cs-blue-300); }
     @media (hover: hover) {
       .cs-gallery figure {
         transition: border-color var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
@@ -247,8 +293,15 @@
       }
     }
     @media (max-width: 720px) {
-      .cs-back { margin-top: 20px; }
-      .cs-body { padding-top: 10px; }
+      .cs-back { margin-top: 16px; }
+      .cs-body { padding: 10px 18px 64px; }
+      .cs-hero {
+        margin-bottom: 24px;
+        padding-bottom: 24px;
+      }
+      .cs-content {
+        max-width: 100%;
+      }
       .cs-title {
         font-size: clamp(32px, 9.5vw, 42px);
         line-height: 1.08;
@@ -257,10 +310,11 @@
         min-height: 220px;
       }
       .cs-section {
-        margin-top: 34px;
+        margin-top: 30px;
       }
       .cs-summary {
         grid-template-columns: 1fr;
+        gap: 16px;
       }
       .cs-gallery {
         grid-template-columns: 1fr 1fr;
@@ -271,6 +325,9 @@
         grid-template-columns: 1fr;
       }
     }
+    @media (max-width: 720px) {
+      .project-topbar__inner { padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); }
+    }
     @media (prefers-reduced-motion: reduce) {
       .cs-reveal {
         opacity: 1;
@@ -278,7 +335,223 @@
         animation: none;
       }
     }
+    .mo-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 24px 84px;
+    }
+    .mo-hero {
+      padding: 56px 0 28px;
+    }
+    .mo-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 26px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cs-ink-muted);
+    }
+    .mo-sep {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--cs-ink-muted);
+    }
+    .mo-title {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(40px, 6.2vw, 68px);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      margin: 0 0 20px;
+    }
+    .mo-detail-list {
+      display: grid;
+      gap: 8px;
+      margin: 0 0 24px;
+    }
+    .mo-detail-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .mo-detail-k {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cs-ink-muted);
+    }
+    .mo-detail-v {
+      color: var(--cs-ink);
+      font-size: 18px;
+      line-height: 1.5;
+    }
+    .mo-subtitle {
+      font-size: clamp(18px, 2vw, 22px);
+      color: var(--cs-ink-soft);
+      line-height: 1.6;
+      max-width: 760px;
+      margin-bottom: 34px;
+    }
+    .mo-facts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      border-top: 1px solid var(--cs-rule);
+      padding-top: 22px;
+    }
+    .mo-facts dt {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cs-ink-muted);
+      margin-bottom: 6px;
+    }
+    .mo-facts dd {
+      margin: 0;
+      color: var(--cs-ink);
+      line-height: 1.45;
+    }
+    .mo-cover {
+      margin-top: 34px;
+      background: var(--cs-blue-50);
+      border: 1px solid var(--cs-rule);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .mo-cover img {
+      display: block;
+      width: 100%;
+      max-height: 520px;
+      object-fit: cover;
+    }
+    .mo-video-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+    }
+    .mo-video-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .mo-video-placeholder {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 24px;
+      color: var(--cs-ink-soft);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(141, 169, 216, 0.24), transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(19, 49, 92, 0.12), transparent 50%),
+        var(--cs-blue-50);
+    }
+    .mo-video-placeholder__inner {
+      max-width: 460px;
+    }
+    .mo-video-placeholder__play {
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      margin: 0 auto 14px;
+      border: 1px solid var(--cs-blue-300);
+      background: rgba(255, 255, 255, 0.65);
+      display: grid;
+      place-items: center;
+      color: var(--cs-blue-700);
+      font-size: 20px;
+      line-height: 1;
+    }
+    .mo-video-placeholder__title {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 3vw, 32px);
+      color: var(--cs-ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .mo-video-placeholder__text {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .mo-section {
+      padding: 56px 0;
+      border-top: 1px solid var(--cs-rule);
+      max-width: 760px;
+    }
+    .mo-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cs-ink-muted);
+    }
+    .mo-label .line {
+      width: 52px;
+      height: 1px;
+      background: var(--cs-rule);
+    }
+    .mo-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 4vw, 44px);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+      margin: 0 0 16px;
+    }
+    .mo-section p,
+    .mo-section ul {
+      color: var(--cs-ink-soft);
+      line-height: 1.72;
+      max-width: none;
+      width: 100%;
+    }
+    .mo-section ul {
+      padding-left: 20px;
+      margin: 0;
+    }
+    .mo-section li + li { margin-top: 10px; }
+    .mo-gallery {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .mo-gallery img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid var(--cs-rule);
+    }
+    @media (max-width: 900px) {
+      .mo-facts { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 720px) {
+      .mo-page { padding: 18px 18px 64px; }
+      .mo-hero { padding-top: 34px; }
+      .mo-facts { grid-template-columns: 1fr; }
+      .mo-section { padding: 34px 0; }
+    }
   </style>
+  <link rel="stylesheet" href="../shared/shell.css" />
+  <link rel="stylesheet" href="../shared/phase1-ds-bridge.css" />
 </head>
 <body>
   <div id="root"></div>
@@ -293,7 +566,34 @@
     }
 
     function siteHref(relativePath) {
-      return `${getBasePath()}${relativePath}`;
+      const clean = String(relativePath || '').replace(/^\//, '');
+      if (window.location.protocol === 'file:') {
+        const pathname = window.location.pathname;
+        const cs = '/case-studies/';
+        const idx = pathname.indexOf(cs);
+        if (idx !== -1) {
+          const under = pathname.slice(idx + cs.length);
+          const segments = under.split('/').filter(Boolean);
+          const up = '../'.repeat(segments.length);
+          return new URL(up + clean, window.location.href).href;
+        }
+        return new URL(clean, window.location.href).href;
+      }
+      return `${getBasePath()}${clean}`;
+    }
+
+    const { CaseStudyShellFooter, CaseStudySummary } = window;
+
+    function CaseStudyHeader() {
+      return (
+        <header className="project-topbar">
+          <div className="project-topbar__inner">
+            <a className="project-topbar__back" href={siteHref('portfolio.html')}>
+              ← Back
+            </a>
+          </div>
+        </header>
+      );
     }
 
     function App() {
@@ -302,11 +602,20 @@
       const slug = params.get('slug') || window.FEATURED[0];
       const project = window.PROJECTS.find((p) => p.slug === slug) || window.PROJECTS[0];
       const details = window.CASE_STUDIES[project.slug];
-      const [isTldrView, setIsTldrView] = React.useState(false);
+      const [viewMode, setViewMode] = React.useState('full');
       const titleParts = (project?.title || '').split('|').map((part) => part.trim()).filter(Boolean);
       const shouldHighlightImportantWords = project?.slug === 'telegram-bot-heymax';
+      const isMagicPage = project?.slug === 'magic-of-resilience';
       const hasTldr = Array.isArray(details?.tldrSections) && details.tldrSections.length > 0;
-      const contentSections = isTldrView && hasTldr ? details.tldrSections : details.sections;
+      const isTldrView = hasTldr && viewMode === 'tldr';
+      const contentSections = isTldrView ? details.tldrSections : details.sections;
+      React.useEffect(() => {
+        if (hasTldr) {
+          setViewMode('tldr');
+        } else {
+          setViewMode('full');
+        }
+      }, [hasTldr, project.slug]);
       const renderHighlightedLine = (line) => {
         if (!shouldHighlightImportantWords || typeof line !== 'string') return line;
         const colonIndex = line.indexOf(':');
@@ -325,7 +634,7 @@
       if (!project || !details) {
         return (
           <>
-            <Nav current="portfolio" />
+            <CaseStudyHeader />
             <main className="page hero-backdrop">
               <a className="cs-back" href={siteHref('portfolio.html')}>← back to projects</a>
               <article className="cs-body">
@@ -337,97 +646,153 @@
         );
       }
 
+      if (isMagicPage) {
+        return (
+          <>
+            <header className="project-topbar">
+              <div className="project-topbar__inner">
+                <a className="project-topbar__back" href={siteHref('portfolio.html')}>
+                  ← Back
+                </a>
+              </div>
+            </header>
+            <article className="mo-page">
+              <h1 className="mo-title">{project.title}</h1>
+              <CaseStudySummary
+                className="cs-summary"
+                items={[
+                  { label: 'Focus', value: details.focus || project.focusLabel || project.kindLabel },
+                  { label: 'Role', value: project.role },
+                  { label: 'Tools', value: details.tools || project.toolsLabel },
+                ]}
+              />
+              {(details.videoUrl || details.heroImage) && (
+                <div className="mo-cover">
+                  {details.videoUrl ? (
+                    <div className="mo-video-frame">
+                      <iframe
+                        src={details.videoUrl}
+                        title={`${project.title} video`}
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      />
+                    </div>
+                  ) : (
+                    <div className="mo-video-placeholder">
+                      <div className="mo-video-placeholder__inner">
+                        <div className="mo-video-placeholder__play" aria-hidden="true">▶</div>
+                        <div className="mo-video-placeholder__title">Video Placeholder</div>
+                        <p className="mo-video-placeholder__text">
+                          Add the YouTube embed URL in project data to show the documentary here.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </article>
+            <CaseStudyShellFooter project={{ ...project, hideKindFooter: true, hideYearFooter: true }} />
+          </>
+        );
+      }
+
       return (
         <>
-          <Nav current="portfolio" />
+          <CaseStudyHeader />
           <main className="page hero-backdrop">
             <a className="cs-back" href={siteHref('portfolio.html')}>← back to projects</a>
             <article className="cs-body">
-              <div className="cs-meta cs-reveal" style={revealDelay(0)}>
-                <Kind type={project.kind}>{project.kindLabel}</Kind>
-                {project.slug === 'telegram-bot-heymax' && (
-                  <Kind type="growing">growing 🪴</Kind>
+              <section className="cs-hero">
+                <div className="cs-meta cs-reveal" style={revealDelay(0)}>
+                  <Kind type={project.kind}>{project.kindLabel}</Kind>
+                  {project.slug === 'telegram-bot-heymax' && (
+                    <Kind type="growing">growing 🪴</Kind>
+                  )}
+                </div>
+                <h1 className="cs-title cs-reveal" style={revealDelay(2)}>
+                  {titleParts.length > 1 ? (
+                    <>
+                      {titleParts[0]}
+                      <br />
+                      {titleParts.slice(1).join(' | ')}
+                    </>
+                  ) : project.title}
+                </h1>
+                <p className="cs-subtitle cs-reveal" style={{ ...revealDelay(3), maxWidth: 'none', width: '100%' }}>{details.subtitle}</p>
+                {details.heroImage && (
+                  <div className="cs-cover cs-reveal" style={revealDelay(4)}>
+                    <p className="cs-cover__placeholder">Image placeholder</p>
+                  </div>
+                )}
+
+                <CaseStudySummary
+                  className="cs-summary cs-reveal"
+                  style={revealDelay(5)}
+                  items={[
+                    { label: 'Timeline', value: details.timeline },
+                    { label: 'Tools', value: details.tools },
+                    { label: 'Focus', value: details.focus || project.kindLabel },
+                    { label: 'Role', value: project.role },
+                  ]}
+                />
+                {hasTldr && (
+                  <div className="cs-reveal" style={revealDelay(6)}>
+                    <div className="cs-view-toggle">
+                      <button
+                        type="button"
+                        className="cs-mode-btn"
+                        aria-pressed={isTldrView}
+                        onClick={() => setViewMode('tldr')}
+                      >
+                        TL;DR
+                      </button>
+                      <button
+                        type="button"
+                        className="cs-mode-btn"
+                        aria-pressed={!isTldrView}
+                        onClick={() => setViewMode('full')}
+                      >
+                        Full read
+                      </button>
+                    </div>
+                    <p className="cs-view-toggle__hint">switch between quick scan and full details</p>
+                  </div>
+                )}
+              </section>
+
+              <div className="cs-content">
+                {contentSections.map((section, idx) => (
+                  <section className="cs-section cs-reveal" style={revealDelay(6 + idx)} key={`${project.slug}-section-${isTldrView ? 'tldr' : 'full'}-${idx}`}>
+                    <h2>{section.header}</h2>
+                    {section.body && section.body.map((line, lineIdx) => (
+                      <p key={`${project.slug}-body-${idx}-${lineIdx}`} style={{ maxWidth: 'none', width: '100%' }}>{renderHighlightedLine(line)}</p>
+                    ))}
+                    {section.bullets && (
+                      <ul style={{ maxWidth: 'none', width: '100%' }}>
+                        {section.bullets.map((item, itemIdx) => (
+                          <li key={`${project.slug}-bullet-${idx}-${itemIdx}`}>{renderHighlightedLine(item)}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </section>
+                ))}
+
+                {details.gallery && details.gallery.length > 0 && (
+                  <section className="cs-section cs-reveal" style={revealDelay(7 + contentSections.length)}>
+                    <h2>Gallery</h2>
+                    <div className="cs-gallery">
+                      {details.gallery.map((imgPath, idx) => (
+                        <figure key={`${project.slug}-gallery-${idx}`}>
+                          <img src={siteHref(imgPath)} alt={`${project.title} visual ${idx + 1}`} loading="lazy" />
+                        </figure>
+                      ))}
+                    </div>
+                  </section>
                 )}
               </div>
 
-              <h1 className="cs-title cs-reveal" style={revealDelay(1)}>
-                {titleParts.length > 1 ? (
-                  <>
-                    {titleParts[0]}
-                    <br />
-                    {titleParts.slice(1).join(' | ')}
-                  </>
-                ) : project.title}
-              </h1>
-              <p className="cs-subtitle cs-reveal" style={{ ...revealDelay(2), maxWidth: 'none', width: '100%' }}>{details.subtitle}</p>
-              {details.heroImage && (
-                <div className="cs-cover cs-reveal" style={revealDelay(3)}>
-                  <p className="cs-cover__placeholder">Image placeholder</p>
-                </div>
-              )}
-
-              <dl className="cs-summary cs-reveal" style={revealDelay(4)}>
-                <div>
-                  <dt>Timeline</dt>
-                  <dd>{details.timeline}</dd>
-                </div>
-                <div>
-                  <dt>Tools</dt>
-                  <dd>{details.tools}</dd>
-                </div>
-                <div>
-                  <dt>Focus</dt>
-                  <dd>{details.focus || project.kindLabel}</dd>
-                </div>
-                <div>
-                  <dt>Role</dt>
-                  <dd>{project.role}</dd>
-                </div>
-              </dl>
-              {hasTldr && (
-                <div className="cs-view-toggle cs-reveal" style={revealDelay(5)}>
-                  <button
-                    type="button"
-                    className="cs-tldr-toggle"
-                    aria-pressed={isTldrView}
-                    onClick={() => setIsTldrView((prev) => !prev)}
-                  >
-                    {isTldrView ? 'Show full version' : 'TL;DR'}
-                  </button>
-                  <p className="cs-view-toggle__hint">click on this button to summarise the content</p>
-                </div>
-              )}
-
-              {contentSections.map((section, idx) => (
-                <section className="cs-section cs-reveal" style={revealDelay(6 + idx)} key={`${project.slug}-section-${isTldrView ? 'tldr' : 'full'}-${idx}`}>
-                  <h2>{section.header}</h2>
-                  {section.body && section.body.map((line, lineIdx) => (
-                    <p key={`${project.slug}-body-${idx}-${lineIdx}`} style={{ maxWidth: 'none', width: '100%' }}>{renderHighlightedLine(line)}</p>
-                  ))}
-                  {section.bullets && (
-                    <ul style={{ maxWidth: 'none', width: '100%' }}>
-                      {section.bullets.map((item, itemIdx) => (
-                        <li key={`${project.slug}-bullet-${idx}-${itemIdx}`}>{renderHighlightedLine(item)}</li>
-                      ))}
-                    </ul>
-                  )}
-                </section>
-              ))}
-
-              {details.gallery && details.gallery.length > 0 && (
-                <section className="cs-section cs-reveal" style={revealDelay(7 + contentSections.length)}>
-                  <h2>Gallery</h2>
-                  <div className="cs-gallery">
-                    {details.gallery.map((imgPath, idx) => (
-                      <figure key={`${project.slug}-gallery-${idx}`}>
-                        <img src={siteHref(imgPath)} alt={`${project.title} visual ${idx + 1}`} loading="lazy" />
-                      </figure>
-                    ))}
-                  </div>
-                </section>
-              )}
-
-              <Footer />
+              <CaseStudyShellFooter project={project} />
             </article>
           </main>
         </>

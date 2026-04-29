@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>body{margin:0;background:var(--bg-1);color:var(--fg-1);padding:22px 24px;font-family:var(--font-body);font-size:13px}
+input,textarea{font-family:var(--font-body);font-size:14px;background:var(--midnight-850);color:var(--fg-1);border:1px solid var(--border-1);border-radius:8px;padding:9px 12px;width:100%;box-sizing:border-box;outline:none;transition:all .2s var(--ease-out)}
+input:focus,textarea:focus{border-color:var(--border-strong);box-shadow:0 0 0 1px rgba(124,184,255,.28), 0 0 24px -6px rgba(60,130,255,.35)}
+.lab{font-family:var(--font-body);font-size:11px;color:var(--fg-3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.hint{font-family:var(--font-mono);font-size:10px;color:var(--fg-4);margin-top:6px}
+  <link rel="stylesheet" href="../../shared/shell.css" />
+  <link rel="stylesheet" href="../../shared/phase1-ds-bridge.css" />
+</head><body>
+<div class="eyebrow" style="margin-bottom:12px">Form inputs</div>
+<div class="grid">
+  <div>
+    <label class="lab">Title</label>
+    <input value="Three notes becoming an essay" />
+    <div class="hint">default</div>
+  </div>
+  <div>
+    <label class="lab">Tag</label>
+    <input placeholder="writing, notes, gardening…" style="border-color:var(--border-strong);box-shadow:0 0 0 1px rgba(124,184,255,.28), 0 0 24px -6px rgba(60,130,255,.35)" />
+    <div class="hint">focused</div>
+  </div>
+</div>
+<div style="margin-top:14px">
+  <label class="lab">Body</label>
+  <textarea rows="2" style="resize:none">I'm planting this half-thought here to return to…</textarea>
+</div>
+</body></html>

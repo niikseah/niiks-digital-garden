@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HeyMax</title>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #0b1220;
+        --panel: rgba(255, 255, 255, 0.08);
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.72);
+        --border: rgba(255, 255, 255, 0.12);
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+          Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        background: var(--bg);
+        color: var(--text);
+      }
+      .shell {
+        height: 100%;
+        display: grid;
+        grid-template-rows: 1fr;
+        position: relative;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 16px;
+        border-bottom: none;
+        background: transparent;
+        backdrop-filter: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1200;
+      }
+      header .title {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      header h1 {
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0;
+        letter-spacing: 0.2px;
+        color: rgba(15, 23, 42, 0.92);
+        text-shadow: 0 2px 10px rgba(255, 255, 255, 0.35);
+      }
+      header p {
+        margin: 0;
+        font-size: 12px;
+        color: rgba(15, 23, 42, 0.72);
+        text-shadow: 0 2px 10px rgba(255, 255, 255, 0.35);
+      }
+      .brand-bubble {
+        display: inline-flex;
+        align-items: center;
+        padding: 0 24px;
+        border-radius: 4px;
+        background: rgba(15, 23, 42, 0.92);
+      }
+      .brand-bubble .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+      }
+      .brand-logo {
+        width: 64px;
+        height: 24px;
+        object-fit: contain;
+        display: block;
+      }
+      .brand-part {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+      .brand-canvas {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 auto;
+        padding: 0;
+      }
+      .brand-row {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .brand-row .brand-part {
+        flex: 0 1 auto;
+        width: 64px;
+        height: 24px;
+        max-width: none;
+        object-fit: contain;
+      }
+      .brand-fallback {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        pointer-events: none;
+      }
+      .controls {
+        position: absolute;
+        left: 16px;
+        top: 16px;
+        z-index: 1000;
+        width: min(420px, calc(100vw - 32px));
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+        overflow: visible;
+        display: flex;
+        align-items: stretch;
+      }
+      .controls-main {
+        flex: 1 1 0;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+      .controls .section {
+        padding: 6px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        flex: 0 0 auto;
+        min-height: 0;
+      }
+      .controls .section:last-child {
+        border-bottom: none;
+      }
+      .controls-main .section:last-child {
+        padding: 6px;
+      }
+      .controls-main .section:last-child .label {
+          margin-bottom: 4px;
+      }
+      .controls .section.brand-section {
+        flex: 0 0 112px;
+        border-bottom: none !important;
+        padding: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .controls .label {
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+        margin: 0 0 8px 0;
+        color: rgba(255, 255, 255, 0.9);
+      }
+      .search {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 4px;
+        align-items: center;
+      }
+      .search-wrap {
+        position: relative;
+        flex: 1 1 auto;
+        min-height: 0;
+        padding: 4px 4px 4px 0;
+      }
+      .search input {
+        width: 100%;
+        padding: 10px 10px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(0, 0, 0, 0.25);
+        color: rgba(255, 255, 255, 0.92);
+        outline: none;
+        font-size: 12px;
+      }
+      .search input::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .search button {
+        padding: 10px 10px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.9);
+        cursor: pointer;
+        font-size: 12px;
+      }
+      .search button:hover {
+        background: rgba(255, 255, 255, 0.12);
+      }
+      .results {
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(0, 0, 0, 0.72);
+        overflow: hidden;
+        max-height: 320px;
+        overflow-y: auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: calc(100% + 8px);
+        z-index: 2001;
+      }
+      .results[hidden] {
+        display: none;
+      }
+      .results .item {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 10px;
+        padding: 9px 10px;
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.45);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .results .item:hover .dot {
+        border-color: rgba(255, 255, 255, 0.95);
+      }
+      .results .item:last-child {
+        border-bottom: none;
+      }
+      .results .item:hover {
+        background: rgba(140, 34, 250, 0.35);
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: var(--dot, #64748b);
+        border: 2px solid rgba(255, 255, 255, 0.9);
+        margin-top: 3px;
+      }
+      .results .name {
+        font-size: 11px;
+        font-weight: 800;
+        margin: 0;
+      }
+      .results .sub {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.68);
+        margin: 2px 0 0 0;
+      }
+      .filters {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px 8px;
+        height: 100%;
+        align-content: start;
+        justify-content: start;
+        justify-items: start;
+        padding: 6px 0;
+      }
+      .filters label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.82);
+        justify-self: start;
+        align-self: start;
+        user-select: none;
+        cursor: pointer;
+        opacity: 1 !important;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .filters label:active {
+        opacity: 1 !important;
+      }
+      .filters input {
+        position: absolute;
+        opacity: 0;
+        width: 1px;
+        height: 1px;
+        pointer-events: none;
+      }
+      .filters label:focus-within {
+        opacity: 1 !important;
+      }
+      .swatch {
+        width: 12px;
+        height: 12px;
+        border-radius: 999px;
+        background: transparent;
+        border: 2px solid var(--swatch, #64748b);
+        position: relative;
+      }
+
+      .swatch::after {
+        content: "";
+        position: absolute;
+        inset: 3px;
+        border-radius: 999px;
+        background: transparent;
+      }
+
+      .filters input:checked + .swatch::after {
+        background: var(--swatch, #64748b);
+      }
+
+      .filters input:focus-visible + .swatch {
+        outline: 3px solid rgba(255, 255, 255, 0.35);
+        outline-offset: 2px;
+      }
+      .marker-selected .pin {
+        outline: 4px solid rgba(255, 255, 255, 0.65);
+        outline-offset: 2px;
+        box-shadow: 0 18px 36px rgba(0, 0, 0, 0.5);
+      }
+      #map {
+        height: 100%;
+        width: 100%;
+      }
+      .leaflet-container {
+        background: #0b1220;
+      }
+      .popup-title {
+        font-weight: 800;
+        margin: 0 0 6px 0;
+      }
+      .popup-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+      .popup-chip {
+        flex: 0 0 auto;
+        font-size: 11px;
+        line-height: 1;
+        font-weight: 800;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        padding: 6px 8px;
+        border-radius: 999px;
+        border: 1px solid var(--accent);
+        background: var(--accent);
+        color: rgba(255, 255, 255, 0.98);
+      }
+      .popup-address {
+        margin: 0 0 10px 0;
+        font-weight: 650;
+      }
+      .popup-row {
+        margin: 0 0 6px 0;
+      }
+      .popup-label {
+        font-weight: 700;
+      }
+      .popup-link {
+        word-break: break-word;
+      }
+
+      .popup {
+        --accent: #64748b;
+      }
+      .popup .leaflet-popup-content-wrapper {
+        border: 2px solid var(--accent);
+        border-radius: 14px;
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+      }
+      .popup .leaflet-popup-content {
+        margin: 14px 16px;
+        padding-right: 34px;
+      }
+      .popup .leaflet-popup-close-button {
+        top: 8px;
+        right: 8px;
+        padding: 12px 12px 0 0;
+        width: 34px;
+        height: 34px;
+        line-height: 22px;
+        color: rgba(15, 23, 42, 0.65);
+      }
+      .popup .leaflet-popup-close-button:hover {
+        color: rgba(15, 23, 42, 0.9);
+      }
+      .popup .leaflet-popup-tip {
+        background: white;
+        box-shadow: none;
+        border: 2px solid var(--accent);
+        border-top: none;
+        border-left: none;
+      }
+
+      .popup--food {
+        --accent: #f97316;
+      }
+      .popup--attractions {
+        --accent: #3b82f6;
+      }
+      .popup--sightseeing {
+        --accent: #06b6d4;
+      }
+      .popup--cultural {
+        --accent: #a855f7;
+      }
+      .popup--shopping {
+        --accent: #f97316;
+      }
+      .popup--nature {
+        --accent: #22c55e;
+      }
+      .popup--nightlife {
+        --accent: #ef4444;
+      }
+      .popup--accommodation {
+        --accent: #facc15;
+      }
+      .popup--accommodation .popup-chip {
+        color: rgba(15, 23, 42, 0.92);
+      }
+      .heymax-pin-icon {
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+      .heymax-pin-icon img {
+        display: block;
+      }
+      .pin {
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        background: var(--pin, #3b82f6);
+        border: 2px solid rgba(255, 255, 255, 0.95);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+        transform: translate(-50%, -50%);
+      }
+      .pin::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 6px;
+        height: 6px;
+        margin-left: -3px;
+        margin-top: -3px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .heymax-cluster-pin {
+        display: block;
+        background: var(--cluster-color, #64748b);
+        border-radius: 999px;
+        border: 1.5px solid rgba(255, 255, 255, 0.95);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.32);
+        transform: translate(-50%, -50%);
+        opacity: 0.75;
+        color: rgba(255, 255, 255, 0.98);
+        font-weight: 900;
+        text-align: center;
+        font-size: 12px;
+        user-select: none;
+      }
+
+      .heymax-cluster-count {
+        display: inline-block;
+        transform: translateY(0.5px);
+      }
+
+      @media (max-width: 480px) {
+        #map {
+          flex: 1 1 auto;
+          height: auto;
+        }
+
+        .controls {
+          position: relative;
+          left: auto;
+          top: auto;
+          right: auto;
+          margin: 10px;
+          width: calc(100% - 20px);
+          z-index: 1000;
+          border: none !important;
+          background: transparent !important;
+          backdrop-filter: none !important;
+          box-shadow: none !important;
+        }
+
+        header {
+          padding: 10px 12px;
+        }
+
+        .controls {
+          border-radius: 0;
+        }
+
+        .controls .section.brand-section {
+          flex: 0 0 102px;
+          padding: 0;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .controls-main {
+          min-height: 0;
+        }
+
+        .controls .section {
+          padding: 6px;
+        }
+
+        .controls .section.brand-section {
+          padding: 0 !important;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .controls-main .section:last-child {
+          padding: 6px;
+        }
+
+        .controls-main .section:last-child .label {
+          margin-bottom: 2px;
+        }
+
+        .controls .label {
+          font-size: 12px;
+          margin: 0 0 6px 0;
+        }
+
+        .search {
+          gap: 4px;
+        }
+
+        .search input {
+          padding: 6px 6px;
+          border-radius: 10px;
+          font-size: 16px;
+          line-height: 1.1;
+        }
+
+        .search input::placeholder {
+          font-size: 12px;
+        }
+
+        .search button {
+          padding: 6px 6px;
+          border-radius: 10px;
+          font-size: 12px;
+        }
+
+        .results {
+          max-height: 240px;
+          border-radius: 12px;
+        }
+
+        .results .item {
+          padding: 7px 8px;
+          gap: 8px;
+        }
+
+        .results .name {
+          font-size: 10px;
+        }
+
+        .results .sub {
+          font-size: 9px;
+        }
+
+        .filters {
+          gap: 10px 8px;
+          padding: 6px 0;
+          justify-content: start;
+          justify-items: start;
+        }
+
+        .filters label {
+          font-size: 12px;
+          gap: 6px;
+        }
+
+        .swatch {
+          width: 10px;
+          height: 10px;
+          border-width: 2px;
+        }
+
+        .swatch::after {
+          inset: 2px;
+        }
+
+        .popup .leaflet-popup-content {
+          margin: 12px 14px;
+          padding-right: 30px;
+        }
+
+        #map {
+          flex: none !important;
+          height: 100% !important;
+          width: 100% !important;
+        }
+
+        .controls {
+          position: absolute !important;
+          left: 16px !important;
+          top: 16px !important;
+          right: auto !important;
+          margin: 0 !important;
+          width: min(420px, calc(100vw - 32px)) !important;
+          z-index: 1000 !important;
+          border-radius: 14px !important;
+          border: 1px solid var(--border) !important;
+          background: rgba(0, 0, 0, 0.4) !important;
+          backdrop-filter: blur(10px) !important;
+          box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25) !important;
+          overflow: visible !important;
+          display: flex !important;
+          align-items: stretch !important;
+        }
+
+        .controls .section {
+          padding: 6px !important;
+        }
+      }
+
+    </style>
+    <link rel="stylesheet" href="../../design-system/colors_and_type.css" />
+  <link rel="stylesheet" href="../../shared/shell.css" />
+  <link rel="stylesheet" href="../../shared/phase1-ds-bridge.css" />
+</head>
+  <body>
+    <div class="shell">
+      <div id="map" aria-label="Map"></div>
+      <div class="controls" aria-label="Map controls">
+        <div class="section brand-section">
+          <div class="brand-canvas" aria-label="Heymax">
+            <div class="brand-row">
+              <img id="brand-hey" class="brand-part" src="./logo/hey.png" alt="Hey" />
+              <img id="brand-max" class="brand-part" src="./logo/max.png" alt="Max" />
+            </div>
+            <div id="brand-fallback" class="brand-fallback" style="display: none">
+              <img class="brand-logo" src="./heymax.png" alt="Heymax" />
+            </div>
+          </div>
+        </div>
+        <div class="controls-main">
+          <div class="section">
+            <div class="label" style="display:none;">Search</div>
+            <div class="search-wrap">
+              <div class="search">
+                <input id="search" type="search" placeholder="Search for a location" autocomplete="off" />
+                <button id="search-clear" type="button" title="Clear">Clear</button>
+              </div>
+              <div id="results" class="results" hidden></div>
+            </div>
+          </div>
+          <div class="section">
+            <div class="label">Categories</div>
+            <div id="filters" class="filters"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script>
+      (function () {
+        const hey = document.getElementById("brand-hey");
+        const max = document.getElementById("brand-max");
+        const fallback = document.getElementById("brand-fallback");
+
+        if (!hey || !max || !fallback) return;
+
+        function check() {
+          const heyOk = hey.offsetParent !== null;
+          const maxOk = max.offsetParent !== null;
+          fallback.style.display = heyOk || maxOk ? "none" : "block";
+        }
+
+        hey.onerror = function () {
+          hey.style.display = "none";
+          check();
+        };
+        max.onerror = function () {
+          max.style.display = "none";
+          check();
+        };
+
+        check();
+      })();
+    </script>
+    <script src="./map.js" type="module"></script>
+  </body>
+</html>

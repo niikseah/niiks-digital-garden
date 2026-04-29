@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>niik's digital garden — UI kit</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../_kit.css">
+<link rel="stylesheet" href="garden.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../../design-system/colors_and_type.css" />
+  <link rel="stylesheet" href="../../../shared/shell.css" />
+  <link rel="stylesheet" href="../../../shared/phase1-ds-bridge.css" />
+</head>
+<body data-screen-label="Garden — public site">
+<div id="root"></div>
+
+<script type="text/babel" src="Nav.jsx"></script>
+<script type="text/babel" src="Hero.jsx"></script>
+<script type="text/babel" src="NoteCard.jsx"></script>
+<script type="text/babel" src="ReadingList.jsx"></script>
+<script type="text/babel" src="Footer.jsx"></script>
+<script type="text/babel" src="Home.jsx"></script>
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+function App() {
+  const [route, setRoute] = useState('home');
+  const [note, setNote] = useState(null);
+  useEffect(() => { if (window.lucide) lucide.createIcons(); });
+
+  let view;
+  if (route === 'essay' || note) view = <Essay onBack={() => { setRoute('home'); setNote(null); }} />;
+  else if (route === 'reading') view = <section className="gn-section"><ReadingList /></section>;
+  else if (route === 'about') view = (
+    <section className="gn-section" style={{maxWidth:680}}>
+      <div className="eyebrow">§ About</div>
+      <h2 className="gn-section-title"><em>Who</em> is tending this?</h2>
+      <p style={{fontSize:18, color:'var(--fg-2)', marginTop:24, lineHeight:1.65}}>
+        I'm niik — a writer, occasional programmer, and enthusiastic amateur of weather.
+        This site is where I keep things that aren't finished and may never be.
+      </p>
+    </section>
+  );
+  else if (route === 'now') view = (
+    <section className="gn-section" style={{maxWidth:680}}>
+      <div className="eyebrow">§ Now — spring 2026</div>
+      <h2 className="gn-section-title">What I'm up to <em>lately</em>.</h2>
+      <ul style={{listStyle:'none', padding:0, marginTop:28, color:'var(--fg-2)', fontSize:16, lineHeight:2}}>
+        <li>— Drafting three essays about public notebooks.</li>
+        <li>— Re-reading McPhee's <em>Draft No. 4</em> for the fourth time.</li>
+        <li>— Learning to press flowers badly.</li>
+      </ul>
+    </section>
+  );
+  else view = <Home onOpen={(n) => { setNote(n); setRoute('essay'); }} />;
+
+  return (
+    <div>
+      <Nav route={route} setRoute={(r) => { setRoute(r); setNote(null); }} />
+      {view}
+      <Footer />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4-gram language model — niik</title>
+  <meta name="description" content="Interactive 4-gram language detector for Malaysian, Indonesian, and Tamil — built for CS3245." />
+  <link rel="stylesheet" href="../design-system/colors_and_type.css" />
+  <style>
+    :root {
+      --paper: #fafaf7;
+      --paper-warm: #f4f2ec;
+      --ink: #0f1729;
+      --ink-soft: #3c445a;
+      --ink-mute: #6b7388;
+      --rule: #e4e1d8;
+      --blue: #2e5aac;
+      --blue-tint: #ebf1fb;
+      --ok: #2f7d4a;
+      --warn: #a67512;
+      --display: "Apple Garamond", Georgia, serif;
+      --body: "Helvetica Neue", -apple-system, system-ui, sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, monospace;
+      --grid-gutter: 18px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--body);
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .badge {
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      background: var(--paper-warm);
+      white-space: nowrap;
+    }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 56px 24px 96px;
+    }
+    main > * + * {
+      margin-top: 4px;
+    }
+    h1 {
+      font-family: var(--display);
+      font-size: clamp(44px, 6vw, 74px);
+      font-weight: 400;
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      width: 100%;
+      max-width: none;
+    }
+    .lede {
+      max-width: 72ch;
+      color: var(--ink-soft);
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+    main > p {
+      display: block;
+      width: fit-content;
+      max-width: 100%;
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      white-space: normal;
+    }
+    .context {
+      margin-bottom: 22px;
+      border: 1px solid var(--rule);
+      border-radius: 14px;
+      background: #fff;
+      padding: 18px;
+    }
+    .context h2 {
+      font-family: var(--display);
+      font-weight: 500;
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+    .context h3 {
+      margin-top: 12px;
+      margin-bottom: 6px;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-mute);
+      font-family: var(--mono);
+    }
+    .context p, .context li {
+      font-size: 15px;
+      color: var(--ink-soft);
+    }
+    .context > p {
+      width: 100%;
+      max-width: none;
+    }
+    .context ul {
+      margin: 8px 0 0 18px;
+      display: grid;
+      gap: 6px;
+    }
+    .context code {
+      font-family: var(--mono);
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 1px 6px;
+      color: var(--ink);
+    }
+    .context .cmd {
+      margin-top: 8px;
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: var(--paper);
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--ink);
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .key-features {
+      margin: var(--grid-gutter) 0 0;
+      border: 1px solid var(--rule);
+      border-radius: 14px;
+      background: #fff;
+      padding: 18px;
+    }
+    .key-features h3 {
+      margin: 0 0 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-mute);
+      font-family: var(--mono);
+    }
+    .key-features__list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 920px) {
+      .key-features__list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        align-items: stretch;
+      }
+    }
+    .key-features__list li {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--ink-soft);
+      padding: 10px;
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+    }
+    .key-features code {
+      font-family: var(--mono);
+      font-size: 12px;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 1px 6px;
+      color: var(--ink);
+    }
+    .key-features__list li strong {
+      font-weight: 700;
+      color: var(--blue);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.95fr;
+      column-gap: var(--grid-gutter);
+      align-items: start;
+    }
+    .grid-left {
+      display: grid;
+      gap: var(--grid-gutter);
+      align-content: start;
+    }
+    .panel {
+      border: 1px solid var(--rule);
+      border-radius: 14px;
+      background: #fff;
+      padding: 18px;
+    }
+    .panel h2 {
+      font-family: var(--display);
+      font-weight: 500;
+      font-size: 30px;
+      margin-bottom: 12px;
+    }
+    .score-guide p {
+      color: var(--ink-soft);
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+    .score-guide p:last-child { margin-bottom: 0; }
+    .score-guide strong {
+      font-style: normal;
+      font-weight: 700;
+      color: var(--blue);
+    }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .kpi {
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 10px;
+      background: #fff;
+    }
+    .kpi__label {
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 11px;
+      color: var(--ink-mute);
+    }
+    .kpi__value {
+      margin-top: 4px;
+      font-size: 18px;
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .controls { display: grid; gap: 10px; }
+    label {
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 11px;
+      color: var(--ink-mute);
+      display: block;
+      margin-bottom: 6px;
+    }
+    textarea, input, button {
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: var(--body);
+      color: var(--ink);
+      background: #fff;
+      width: 100%;
+    }
+    textarea { min-height: 108px; resize: vertical; line-height: 1.5; }
+    #singleInput {
+      font-size: 14px;
+    }
+    #singleInput::placeholder {
+      font-size: 14px;
+    }
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    button { cursor: pointer; background: var(--paper-warm); font-weight: 500; width: auto; }
+    button.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+    #loadExampleBtn {
+      background: #fff;
+      background-color: #fff;
+    }
+    .panel-prediction .btn-row button {
+      padding: 5px 12px;
+      font-size: 12px;
+      line-height: 1.35;
+      border-radius: 999px;
+    }
+    .output {
+      margin-top: 12px;
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      background: #fff;
+      padding: 12px;
+      font-family: var(--mono);
+      font-size: 13px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .insight {
+      margin-top: 10px;
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      background: #fff;
+      padding: 12px;
+      font-size: 14px;
+      color: var(--ink-soft);
+    }
+    .insight strong { color: var(--ink); }
+    .insight__lead {
+      margin: 0 0 4px;
+      font-size: 14px;
+      color: var(--ink-soft);
+      line-height: 1.45;
+    }
+    .insight__metric {
+      margin: 12px 0 0;
+      padding: 0;
+      border: 0;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+    .insight__metric + .insight__metric {
+      margin-top: 8px;
+    }
+    .insight__meter {
+      margin-top: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--paper-warm);
+      overflow: hidden;
+    }
+    .insight__fill {
+      height: 100%;
+      background: linear-gradient(90deg, #95b6ff, var(--blue));
+      width: 0%;
+      transition: width .25s ease;
+    }
+    .status {
+      margin-top: 10px;
+      font-size: 14px;
+      color: var(--ink-mute);
+    }
+    .status.ok { color: var(--ok); }
+    .status.warn { color: var(--warn); }
+    .batch-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .table-wrap {
+      margin-top: 12px;
+      overflow: auto;
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+    }
+    table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      border-bottom: 1px solid var(--rule);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    thead th {
+      background: var(--blue-tint);
+      font-family: var(--mono);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+    .pred-ok { color: var(--ok); font-weight: 600; }
+    .pred-bad { color: #b23a3a; font-weight: 600; }
+    @media (max-width: 980px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      .project-topbar__inner { padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); }
+      main > p {
+        width: 100%;
+        max-width: none;
+        white-space: normal;
+        padding: 12px 0 24px;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="../shared/shell.css" />
+  <link rel="stylesheet" href="../shared/phase1-ds-bridge.css" />
+  <style>
+    /* Solid white (overrides phase1-ds-bridge .panel tinted fill) */
+    article.panel.panel-model,
+    article.panel.panel-guide,
+    article.panel.panel-prediction,
+    .panel-model .kpi {
+      background: #fff;
+    }
+    main > aside.key-features {
+      background-color: #fff !important;
+      background-image: none;
+    }
+    main > aside.key-features .key-features__list > li {
+      background: #fff !important;
+      background-color: #fff !important;
+      background-image: none;
+    }
+    main > .cs-summary {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, max-content));
+      column-gap: 28px;
+      justify-content: start;
+      width: 100%;
+      max-width: none;
+      margin-top: 16px;
+      padding: 10px 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    main > .cs-summary > div {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+      padding: 0 0 0 24px;
+      justify-items: start;
+    }
+    main > .cs-summary dt {
+      margin-bottom: 0;
+      letter-spacing: 0.1em;
+    }
+    main > .cs-summary dd {
+      font-size: calc(1.05rem - 2px);
+      line-height: 1.4;
+    }
+    .tool-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      padding: 4px 10px 4px 6px;
+      background: #fff;
+    }
+    .tool-logo {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1;
+      border: 1px solid currentColor;
+    }
+    .tool-logo--python {
+      padding: 0;
+      border: none;
+      background: transparent;
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      object-fit: cover;
+      display: block;
+    }
+    .tool-name { line-height: 1.2; }
+    main > .cs-summary + .grid {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header class="project-topbar">
+    <div class="project-topbar__inner">
+      <a
+        class="project-topbar__back"
+        href="../portfolio.html"
+        onclick="if (window.history.length > 1) { event.preventDefault(); window.history.back(); }"
+      >← Back</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>4-gram language model</h1>
+    <p>A language detector that predicts whether text is <span class="card__language card__language--ms">Malaysian</span>, <span class="card__language card__language--id">Indonesian</span>, or <span class="card__language card__language--ta">Tamil</span>.</p>
+    <dl class="cs-summary">
+      <div>
+        <dt>Tool</dt>
+        <dd>
+          <span class="tool-chip">
+            <img
+              class="tool-logo tool-logo--python"
+              src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"
+              alt="Python logo"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="tool-name">Python</span>
+          </span>
+        </dd>
+      </div>
+      <div><dt>Topic</dt><dd>Information Retrieval</dd></div>
+    </dl>
+
+    <section class="grid">
+      <div class="grid-left">
+        <article class="panel panel-model">
+          <h2>Model Status</h2>
+          <p>Language model built using training files provided by NUS.</p>
+          <div class="kpis">
+            <div class="kpi">
+              <div class="kpi__label">Languages</div>
+              <div id="kpiLangs" class="kpi__value">—</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi__label">Unique 4-grams</div>
+              <div id="kpiGrams" class="kpi__value">—</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi__label">Threshold</div>
+              <div id="kpiThresh" class="kpi__value">—</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi__label">Score diff threshold</div>
+              <div id="kpiDiffThresh" class="kpi__value">—</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel score-guide panel-guide">
+          <h2>How to Read the Scores</h2>
+          <p>
+            A <strong>score closer to zero</strong> suggests a <strong>better match</strong> of the text to the language; Log-probability was used, hence scores are negative.
+          </p>
+          <p>
+            A <strong>larger top-vs-next score gap</strong> suggests that the prediction is more certain.
+          </p>
+        </article>
+      </div>
+      <article class="panel panel-prediction">
+        <h2>Prediction</h2>
+        <div class="controls">
+          <div>
+            <textarea id="singleInput" placeholder="Insert text to predict its language" aria-label="Insert text to predict its language"></textarea>
+          </div>
+          <div class="btn-row">
+            <button id="predictBtn" class="primary" type="button">Predict</button>
+            <button id="loadExampleBtn" type="button">Load Example</button>
+          </div>
+        </div>
+        <div id="singleOutput" class="output">Prediction output will appear here.</div>
+        <div id="singleInsight" class="insight">
+          <p class="insight__lead"><strong>Interpretation:</strong> Run a prediction to see a confidence readout.</p>
+          <div class="insight__meter"><div class="insight__fill" id="singleInsightFill"></div></div>
+        </div>
+      </article>
+    </section>
+
+    <aside class="key-features" aria-label="Key Features">
+      <h3>Key Features</h3>
+      <ul class="key-features__list">
+        <li><strong>Character-level 4-grams</strong> capture local language patterns.</li>
+        <li><strong>Add-one smoothing</strong> keeps probability calculations stable for unseen grams.</li>
+          <li><strong>Log-probability scoring and threshold checks</strong> support reliable fallback behaviour of unseen terms.</li>
+      </ul>
+    </aside>
+
+  </main>
+
+  <footer class="case-footer" aria-label="Project details">
+    <div class="case-footer__inner">
+      <div class="case-footer__grid">
+        <div class="case-footer__mark">
+          <em>tended with love and care 💐</em>
+        </div>
+        <div class="case-footer__meta">
+          <p class="case-footer__row"><span class="case-footer__k">Course</span> <span class="case-footer__v">CS3245 Information Retrieval</span></p>
+          <p class="case-footer__row"><span class="case-footer__k">Tool</span> <span class="case-footer__v">Python</span></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const paths = {
+      train: "../school/cs3245/homework-1/input.train.txt",
+      test: "../school/cs3245/homework-1/input.test.txt",
+      correct: "../school/cs3245/homework-1/input.correct.txt"
+    };
+
+    const state = {
+      lm: null,
+      threshold: -130,
+      scoreDiffThreshold: 20,
+      masterSetSize: 0,
+      testLines: [],
+      correctLines: []
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    function setStatus(message, kind = "") {
+      const el = $("modelStatus");
+      if (!el) return;
+      el.textContent = message;
+      el.className = `status ${kind}`.trim();
+    }
+
+    function splitLabelAndText(line) {
+      const idx = line.indexOf(" ");
+      if (idx === -1) return [line.trim(), ""];
+      return [line.slice(0, idx).trim(), line.slice(idx + 1)];
+    }
+
+    function gramsOf(text) {
+      const grams = [];
+      for (let i = 0; i < text.length - 3; i += 1) {
+        grams.push(text.slice(i, i + 4));
+      }
+      return grams;
+    }
+
+    // Mirrors build_LM from school/cs3245/homework-1 Python script.
+    function buildLM(trainContent) {
+      const lines = trainContent.split(/\r?\n/).filter(Boolean);
+      const LM = {}; // counts per language
+      const master = new Set();
+
+      for (const line of lines) {
+        const [label, text] = splitLabelAndText(line);
+        if (!label || !text) continue;
+        if (!LM[label]) LM[label] = {};
+
+        for (const g of gramsOf(text)) {
+          LM[label][g] = (LM[label][g] || 0) + 1;
+          master.add(g);
+        }
+      }
+
+      // Add-one smoothing over master list.
+      for (const label of Object.keys(LM)) {
+        for (const g of master) {
+          LM[label][g] = (LM[label][g] || 0) + 1;
+        }
+      }
+
+      const PL = {};
+      for (const label of Object.keys(LM)) {
+        PL[label] = {};
+        const total = Object.values(LM[label]).reduce((a, b) => a + b, 0);
+        for (const g of Object.keys(LM[label])) {
+          PL[label][g] = LM[label][g] / total;
+        }
+      }
+
+      return { PL, masterSetSize: master.size };
+    }
+
+    function computeSentenceScores(sentence, LM) {
+      const scores = {};
+      if (sentence.length < 4) return scores;
+      for (const g of gramsOf(sentence)) {
+        for (const lang of Object.keys(LM)) {
+          if (!(lang in scores)) scores[lang] = 0.0;
+          if (LM[lang][g]) scores[lang] += Math.log(LM[lang][g]);
+        }
+      }
+      return scores;
+    }
+
+    // Mirrors find_min_threshold in Python script.
+    function findThresholds(trainContent, LM) {
+      const lines = trainContent.split(/\r?\n/).filter(Boolean);
+      const allScores = [];
+      const allDiffs = [];
+
+      for (const line of lines) {
+        const [label, text] = splitLabelAndText(line);
+        if (!label || !text) continue;
+        const scores = computeSentenceScores(text, LM);
+        const values = Object.values(scores);
+        if (!values.length) continue;
+        const max = Math.max(...values);
+        const min = Math.min(...values);
+        const diff = max - min;
+        allDiffs.push(diff);
+        if (scores[label] !== undefined && scores[label] > -200) allScores.push(scores[label]);
+      }
+
+      let threshold = -130;
+      if (allScores.length) {
+        allScores.sort((a, b) => a - b);
+        threshold = allScores[Math.floor(allScores.length * 0.25)];
+      }
+
+      let scoreDiffThreshold = 20;
+      if (allDiffs.length) {
+        allDiffs.sort((a, b) => a - b);
+        scoreDiffThreshold = allDiffs[Math.floor(allDiffs.length * 0.05)];
+      }
+      return { threshold, scoreDiffThreshold };
+    }
+
+    // Mirrors test_LM prediction logic per line.
+    function predictLine(text, LM, threshold, diffThreshold) {
+      if (!text || text.length < 4) return { label: "other", scores: {} };
+      const tamilScriptMatches = text.match(/[\u0B80-\u0BFF]/g) || [];
+      const hasStrongTamilScriptSignal = tamilScriptMatches.length >= 3;
+      const TD = new Set(gramsOf(text)); // unique grams as in script
+      const SL = {};
+
+      for (const lang of Object.keys(LM)) {
+        SL[lang] = 0.0;
+        for (const g of TD) {
+          if (LM[lang][g]) SL[lang] += Math.log(LM[lang][g]);
+        }
+      }
+
+      const langs = Object.keys(SL);
+      if (!langs.length) return { label: "other", scores: SL };
+
+      let likely = langs[0];
+      for (const lang of langs) {
+        if (SL[lang] > SL[likely]) likely = lang;
+      }
+
+      const values = Object.values(SL);
+      const max = Math.max(...values);
+      const min = Math.min(...values);
+      const bestScore = SL[likely];
+      const scoreDiff = max - min;
+
+      // Dataset note: training "tamil" examples are mostly romanized text.
+      // If native Tamil script is clearly present, prefer tamil directly.
+      if (hasStrongTamilScriptSignal && Object.prototype.hasOwnProperty.call(SL, "tamil")) {
+        return { label: "tamil", scores: SL };
+      }
+      if (max === min || (bestScore < threshold && scoreDiff < diffThreshold)) likely = "other";
+      return { label: likely, scores: SL };
+    }
+
+    async function loadText(path) {
+      const res = await fetch(path);
+      if (!res.ok) throw new Error(`Failed to load ${path}`);
+      return res.text();
+    }
+
+    async function loadModel() {
+      try {
+        setStatus("Loading training and test files...");
+        const [train, test, correct] = await Promise.all([
+          loadText(paths.train),
+          loadText(paths.test),
+          loadText(paths.correct)
+        ]);
+
+        const { PL, masterSetSize } = buildLM(train);
+        const { threshold, scoreDiffThreshold } = findThresholds(train, PL);
+
+        state.lm = PL;
+        state.threshold = threshold;
+        state.scoreDiffThreshold = scoreDiffThreshold;
+        state.masterSetSize = masterSetSize;
+        state.testLines = test.split(/\r?\n/).filter(Boolean);
+        state.correctLines = correct.split(/\r?\n/).filter(Boolean);
+
+        $("kpiLangs").textContent = String(Object.keys(PL).length);
+        $("kpiGrams").textContent = String(masterSetSize);
+        $("kpiThresh").textContent = threshold.toFixed(2);
+        $("kpiDiffThresh").textContent = scoreDiffThreshold.toFixed(2);
+        setStatus("Model loaded from school/cs3245/homework-1 files.", "ok");
+      } catch (err) {
+        setStatus(`Error: ${err.message}`, "warn");
+      }
+    }
+
+    function runSinglePrediction() {
+      if (!state.lm) {
+        setStatus("Please load model first.", "warn");
+        return;
+      }
+      const text = $("singleInput").value.trim();
+      const result = predictLine(text, state.lm, state.threshold, state.scoreDiffThreshold);
+      const sorted = Object.entries(result.scores).sort((a, b) => b[1] - a[1]);
+      const scoreLines = sorted.slice(0, 4).map(([lang, s]) => `${lang}: ${s.toFixed(2)}`).join("\n");
+      $("singleOutput").textContent =
+        `predicted: ${result.label}\nthreshold: ${state.threshold.toFixed(2)} | diff-threshold: ${state.scoreDiffThreshold.toFixed(2)}\n\nscores:\n${scoreLines || "(no scores)"}`;
+
+      if (!sorted.length) {
+        $("singleInsight").innerHTML =
+          '<p class="insight__lead"><strong>Interpretation:</strong> Not enough 4-grams to score this sentence. Try a longer sentence.</p>' +
+          '<div class="insight__meter"><div class="insight__fill" id="singleInsightFill" style="width:0%"></div></div>';
+        return;
+      }
+
+      const top = sorted[0];
+      const second = sorted[1] || top;
+      const gap = top[1] - second[1];
+      const thresholdMargin = top[1] - state.threshold;
+
+      // Friendly confidence heuristic: combines separation between top candidates + distance from threshold.
+      const gapScore = Math.min(1, Math.max(0, gap / Math.max(state.scoreDiffThreshold, 1)));
+      const marginScore = Math.min(1, Math.max(0, thresholdMargin / 50));
+      const confidence = Math.round(((gapScore * 0.6) + (marginScore * 0.4)) * 100);
+
+      let confidenceLabel = "low";
+      if (confidence >= 75) confidenceLabel = "high";
+      else if (confidence >= 45) confidenceLabel = "medium";
+
+      const decisionText = result.label === "other"
+        ? `Model is uncertain and labels this as "other". Top language candidate is ${top[0]}.`
+        : `The model predicted that the text is most likely <strong>${result.label}</strong>.`;
+
+      $("singleInsight").innerHTML =
+        `<p class="insight__lead"><strong>Interpretation:</strong> ${decisionText}</p>` +
+        `<h4 class="insight__metric">Top-vs-next score gap: ${gap.toFixed(2)} (threshold gap target: ${state.scoreDiffThreshold.toFixed(2)}).</h4>` +
+        `<h4 class="insight__metric">Estimated confidence: ${confidenceLabel} (${confidence}%).</h4>` +
+        `<div class="insight__meter"><div class="insight__fill" id="singleInsightFill" style="width:${confidence}%"></div></div>`;
+    }
+
+    function runBatch() {
+      if (!state.lm) {
+        setStatus("Please load model first.", "warn");
+        return;
+      }
+      const rows = [];
+      let correct = 0;
+      let total = 0;
+      const n = Math.min(state.testLines.length, state.correctLines.length);
+
+      for (let i = 0; i < n; i += 1) {
+        const testLine = state.testLines[i];
+        const [expected, expectedText] = splitLabelAndText(state.correctLines[i]);
+        const result = predictLine(testLine, state.lm, state.threshold, state.scoreDiffThreshold);
+        const text = expectedText || testLine;
+        total += 1;
+        const ok = result.label === expected;
+        if (ok) correct += 1;
+
+        rows.push(
+          `<tr>
+            <td>${i + 1}</td>
+            <td class="${ok ? "pred-ok" : "pred-bad"}">${result.label}</td>
+            <td>${expected}</td>
+            <td>${text.replace(/</g, "&lt;")}</td>
+          </tr>`
+        );
+      }
+
+      $("batchRows").innerHTML = rows.join("") || '<tr><td colspan="4">No rows available.</td></tr>';
+      const acc = total ? ((correct * 100) / total) : 0;
+      $("batchSummary").textContent = `Accuracy: ${correct}/${total} (${acc.toFixed(2)}%)`;
+      $("batchSummary").className = `status ${acc >= 70 ? "ok" : "warn"}`;
+    }
+
+    const EXAMPLE_INPUTS_BY_LANGUAGE = {
+      malaysian: [
+        "Ini adalah contoh ayat Bahasa Melayu untuk menguji model ramalan bahasa.",
+        "Kami pergi ke pasar pagi untuk membeli sayur dan buah segar.",
+        "Perjalanan ini memerlukan perancangan yang teliti agar semuanya berjalan lancar.",
+      ],
+      indonesian: [
+        "Kawasan Teluk Homebush merupakan tempat pengadaan peristiwa utama.",
+        "Dokumen ini memuat informasi penting terkait rencana perjalanan kelompok.",
+        "Mereka berdiskusi tentang destinasi wisata dan anggaran selama liburan.",
+      ],
+      tamil: [
+        "இது மொழி கணிப்பை சோதிக்க ஒரு எளிய தமிழ் எடுத்துக்காட்டு.",
+        "நாங்கள் பயண திட்டம் குறித்து குழுவில் விவாதித்தோம்.",
+        "இந்த ஆவணம் முக்கிய தகவல்களை தெளிவாக வழங்குகிறது.",
+      ],
+    };
+    const EXAMPLE_LANGUAGE_ORDER = ["malaysian", "indonesian", "tamil"];
+    let nextExampleLanguageIndex = 0;
+    const lastExampleIndexByLanguage = {};
+
+    $("predictBtn").addEventListener("click", runSinglePrediction);
+    $("loadExampleBtn").addEventListener("click", () => {
+      const languageKey = EXAMPLE_LANGUAGE_ORDER[nextExampleLanguageIndex];
+      const examples = EXAMPLE_INPUTS_BY_LANGUAGE[languageKey] || [];
+      if (!examples.length) return;
+
+      let nextIndex = Math.floor(Math.random() * examples.length);
+      if (examples.length > 1 && nextIndex === lastExampleIndexByLanguage[languageKey]) {
+        nextIndex = (nextIndex + 1) % examples.length;
+      }
+      lastExampleIndexByLanguage[languageKey] = nextIndex;
+      nextExampleLanguageIndex = (nextExampleLanguageIndex + 1) % EXAMPLE_LANGUAGE_ORDER.length;
+      $("singleInput").value = examples[nextIndex];
+    });
+
+    loadModel();
+  </script>
+</body>
+</html>

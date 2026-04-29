@@ -1,0 +1,80 @@
+/* Shared UI kit styles — both garden + greenhouse */
+@import url('../colors_and_type.css');
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg-1);
+  color: var(--fg-1);
+  font-family: var(--font-body);
+}
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-body); font-size: 14px; font-weight: 500;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--dur-2) var(--ease-out);
+  text-decoration: none;
+  background: transparent;
+  color: var(--fg-1);
+}
+.btn:active { transform: scale(.98); }
+.btn-primary { background: var(--electric-500); color: #fff; box-shadow: var(--glow-sm); }
+.btn-primary:hover { background: var(--electric-400); box-shadow: var(--glow-md); }
+.btn-ghost { border-color: var(--border-2); color: var(--fg-1); }
+.btn-ghost:hover { border-color: var(--border-strong); color: var(--electric-glow); }
+.btn-quiet { color: var(--fg-2); }
+.btn-quiet:hover { color: var(--electric-glow); }
+
+.input {
+  width: 100%;
+  font-family: var(--font-body); font-size: 15px;
+  background: var(--bg-3);
+  color: var(--fg-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-2);
+  padding: 10px 14px;
+  outline: none;
+  transition: all var(--dur-2) var(--ease-out);
+}
+.input::placeholder { color: var(--fg-4); }
+.input:focus { border-color: var(--border-strong); box-shadow: var(--glow-sm); }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 14px; font-weight: 500;
+  border: 1px solid var(--border-1);
+  color: var(--fg-2);
+}
+.chip-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+.card {
+  background: var(--bg-3);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-3);
+  padding: var(--s-5);
+  transition: border-color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+}
+.card:hover { border-color: var(--border-2); box-shadow: var(--glow-sm); }
+
+.eyebrow {
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--fg-3); font-weight: 500;
+}
+
+.icon { stroke-width: 1.5; width: 18px; height: 18px; }
+
+.kbd {
+  font-family: var(--font-mono); font-size: 11px;
+  background: var(--bg-2);
+  border: 1px solid var(--border-1);
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: var(--fg-2);
+}

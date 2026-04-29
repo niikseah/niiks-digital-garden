@@ -1,0 +1,62 @@
+/* Garden — public site styles */
+.gn-nav {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; gap: 22px;
+  padding: 14px 32px;
+  background: color-mix(in oklab, var(--bg-1) 72%, transparent);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  border-bottom: 1px solid var(--border-1);
+}
+.gn-brand { display:flex; align-items:center; gap:10px; cursor:pointer; }
+.gn-mark { font-family: var(--font-display); font-style: italic; font-size: 26px; letter-spacing: -.02em; color: var(--fg-1); }
+.gn-rosette { color: var(--electric-glow); font-size: 18px; }
+.gn-links { display:flex; gap:28px; margin-left: 24px; flex: 1; }
+.gn-link { cursor:pointer; color: var(--fg-2); font-size: 14px; text-decoration:none; transition: color var(--dur-2) var(--ease-out); }
+.gn-link:hover, .gn-link.on { color: var(--electric-glow); }
+.gn-cmd { display:flex; align-items:center; gap:4px; padding: 5px 12px; border: 1px solid var(--border-1); border-radius: 999px; font-size: 12px; color: var(--fg-3); }
+
+.gn-hero { position: relative; overflow: hidden; padding: 120px 32px 140px; }
+.gn-hero-inner { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
+.gn-hero-title { font-size: clamp(48px, 7vw, 96px); line-height: 1; letter-spacing: -.03em; font-family: var(--font-display); font-weight: 400; margin: 14px 0 28px; color: var(--fg-1); }
+.gn-hero-lede { font-size: 19px; line-height: 1.55; color: var(--fg-2); max-width: 56ch; }
+
+.gn-section { max-width: 1200px; margin: 96px auto 0; padding: 0 32px; }
+.gn-section-head { margin-bottom: 36px; }
+.gn-section-title { font-family: var(--font-display); font-size: 44px; line-height: 1.05; letter-spacing: -.02em; font-weight: 400; margin: 10px 0 0; color: var(--fg-1); }
+.gn-section-lede { color: var(--fg-2); max-width: 56ch; margin-top: 10px; }
+
+.gn-notes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+@media (max-width: 980px) { .gn-notes-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .gn-notes-grid { grid-template-columns: 1fr; } }
+
+.gn-note { cursor: pointer; background: var(--bg-3); }
+.gn-note-meta { display:flex; align-items:center; gap:10px; justify-content: space-between; margin-bottom: 14px; }
+.gn-note-date { font-family: var(--font-mono); font-size: 11px; color: var(--fg-4); }
+.gn-note-title { font-family: var(--font-display); font-size: 24px; line-height: 1.15; letter-spacing: -.015em; font-weight: 400; margin: 0 0 10px; color: var(--fg-1); }
+.gn-note-excerpt { color: var(--fg-2); font-size: 14px; line-height: 1.55; margin: 0 0 16px; }
+.gn-note-tags { display:flex; align-items:center; gap:8px; flex-wrap: wrap; }
+.gn-note-read { margin-left: auto; font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); }
+
+.gn-reading-head { margin-bottom: 24px; }
+.gn-booklist { list-style:none; padding:0; margin:0; border-top: 1px dashed var(--border-1); }
+.gn-book { display: grid; grid-template-columns: 16px 1fr auto; gap: 16px; align-items: center; padding: 18px 0; border-bottom: 1px dashed var(--border-1); }
+.gn-book-dot { width:10px; height:10px; border-radius:50%; justify-self:center; }
+.gn-book-title { font-family: var(--font-display); font-size: 20px; font-weight: 400; letter-spacing: -.01em; }
+.gn-book-author { color: var(--fg-3); font-family: var(--font-body); font-size: 14px; font-style: normal; }
+.gn-book-note { color: var(--fg-2); font-size: 13px; margin-top: 4px; }
+.gn-book-state { font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); letter-spacing: .1em; text-transform: uppercase; }
+
+.gn-footer { border-top: 1px solid var(--border-1); margin-top: 120px; padding: 48px 32px 72px; }
+.gn-footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; }
+.gn-footer-links { display:flex; gap:10px; color: var(--fg-3); font-size: 13px; }
+.gn-footer-links a { color: var(--fg-2); cursor:pointer; text-decoration: none; }
+.gn-footer-links a:hover { color: var(--electric-glow); }
+.gn-dot { color: var(--fg-4); }
+.gn-footer-note { max-width: 1200px; margin: 32px auto 0; color: var(--fg-3); font-style: italic; font-family: var(--font-display); font-size: 16px; }
+
+.gn-essay { max-width: 680px; margin: 80px auto; padding: 0 32px; }
+.gn-essay-title { font-family: var(--font-display); font-size: clamp(44px, 6vw, 72px); line-height: 1.05; letter-spacing: -.025em; font-weight: 400; margin: 14px 0 16px; }
+.gn-essay-meta { display:flex; gap:10px; color: var(--fg-3); font-family: var(--font-mono); font-size: 12px; margin-bottom: 36px; }
+.gn-essay p { font-size: 18px; line-height: 1.65; color: var(--fg-2); max-width: none; margin-bottom: 1.2em; }
+.gn-essay p em { color: var(--fg-1); font-family: var(--font-display); }

@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Integrated Communications Plan — Lions Befrienders | niik</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../design-system/colors_and_type.css" />
+  <style>
+    :root {
+      --paper: #FAFAF7;
+      --paper-warm: #F4F2EC;
+      --ink: #0F1729;
+      --ink-soft: #3C445A;
+      --ink-mute: #6B7388;
+      --rule: #E4E1D8;
+      --blue: #2E5AAC;
+      --blue-tint: #EBF1FB;
+      --display: 'Apple Garamond', Georgia, serif;
+      --body: 'Helvetica Neue', -apple-system, system-ui, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
+      --lb-navy: var(--ink);
+      --lb-rust: var(--blue);
+      --lb-paper: var(--paper);
+      --lb-ink: var(--ink);
+      --lb-muted: var(--ink-soft);
+      --lb-rule: var(--rule);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--body);
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+    main { max-width: 1200px; margin: 0 auto; padding: 96px 32px 110px; }
+    h1 {
+      font-family: var(--display);
+      font-weight: 400;
+      font-size: clamp(48px, 8vw, 96px);
+      line-height: 0.98;
+      letter-spacing: -0.035em;
+      color: var(--ink);
+      max-width: 980px;
+      margin-bottom: 28px;
+    }
+    h1 em { font-style: italic; font-weight: 300; color: var(--blue); }
+    .lede {
+      font-size: 20px;
+      line-height: 1.55;
+      color: var(--ink-soft);
+      max-width: 680px;
+      margin-bottom: 56px;
+      font-weight: 300;
+    }
+    h2 {
+      font-family: var(--display);
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 30px 0 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .section p, .section ul { color: var(--ink-soft); font-size: 0.98rem; margin-bottom: 12px; max-width: 62ch; }
+    .section ul { padding-left: 1.2em; }
+    .section li { margin-bottom: 6px; }
+    .placeholder {
+      border: 1px dashed var(--lb-rule);
+      border-radius: 8px;
+      padding: 20px 18px;
+      background: rgba(15, 39, 68, 0.03);
+      color: var(--lb-muted);
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px 32px;
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid var(--lb-rule);
+    }
+    .meta-item .lab {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--lb-muted);
+      margin-bottom: 4px;
+    }
+    .meta-item .val { font-weight: 500; color: var(--lb-ink); font-size: 0.95rem; }
+    .doc-box {
+      margin: 28px 0 12px;
+      padding: 22px 20px;
+      border: 1px solid var(--lb-rule);
+      border-radius: 10px;
+      background: rgba(30, 87, 232, 0.06);
+    }
+    .doc-box__label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--lb-navy);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .doc-box__desc {
+      font-size: 0.9rem;
+      color: var(--lb-muted);
+      margin-bottom: 14px;
+      max-width: 62ch;
+    }
+    .doc-box__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #fff;
+      background: var(--lb-navy);
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    .doc-box__link:hover { opacity: 0.92; }
+    .doc-box__links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .doc-box__link--secondary {
+      background: transparent;
+      color: var(--lb-navy);
+      border: 1px solid var(--lb-rule);
+    }
+    .doc-box__link--secondary:hover {
+      border-color: var(--lb-navy);
+      opacity: 1;
+    }
+    .icp-fulltext { margin-top: 8px; }
+    .icp-fulltext-note {
+      font-size: 0.92rem;
+      color: var(--lb-muted);
+      margin-bottom: 16px;
+      max-width: 76ch;
+    }
+    .icp-fulltext-note a { color: var(--lb-navy); font-weight: 500; }
+    .icp-toc {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 8px 16px;
+      margin-bottom: 34px;
+      padding: 16px 18px;
+      border: 1px solid var(--lb-rule);
+      border-radius: 12px;
+      background: var(--paper-warm);
+      font-size: 0.88rem;
+    }
+    .icp-toc__label {
+      font-weight: 600;
+      color: var(--lb-navy);
+      margin-right: 4px;
+    }
+    .icp-toc__link {
+      color: var(--lb-muted);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .icp-toc__link:hover { color: var(--blue); text-decoration: underline; }
+    .icp-body {
+      max-width: 760px;
+      margin: 0 auto;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      padding: 32px 32px 120px;
+      font-size: 1rem;
+      line-height: 1.72;
+      box-shadow: none;
+    }
+    .icp-doc-head {
+      padding-bottom: 22px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--lb-rule);
+    }
+    .icp-doc-head__line {
+      font-size: 0.9rem;
+      color: var(--lb-muted);
+      margin-bottom: 4px;
+    }
+    .icp-doc-head__line:first-child {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--lb-navy);
+    }
+    .icp-chapter {
+      margin-top: 0;
+      margin-bottom: 96px;
+      scroll-margin-top: 72px;
+      position: relative;
+    }
+    .icp-chapter:last-child { margin-bottom: 0; }
+    .icp-body h2 {
+      font-family: var(--display);
+      font-weight: 400;
+      font-size: clamp(36px, 5vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin: 0 0 32px;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .icp-chapter > p {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--ink-soft);
+      margin-bottom: 20px;
+      max-width: none;
+    }
+    .icp-chapter > p:last-child { margin-bottom: 0; }
+    .icp-subhead {
+      font-family: var(--display);
+      font-weight: 500;
+      font-size: 24px;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      margin: 48px 0 16px;
+      scroll-margin-top: 72px;
+    }
+    .icp-table-wrap {
+      overflow-x: auto;
+      margin: 12px 0 18px;
+      border-radius: 8px;
+      border: 1px solid var(--lb-rule);
+    }
+    .icp-table {
+      width: 100%;
+      min-width: 520px;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+    .icp-table th,
+    .icp-table td {
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--lb-rule);
+    }
+    .icp-table thead th {
+      background: rgba(15, 39, 68, 0.06);
+      color: var(--lb-navy);
+      font-weight: 600;
+    }
+    .icp-table tbody tr:last-child th,
+    .icp-table tbody tr:last-child td { border-bottom: none; }
+    .icp-table tbody th { font-weight: 500; color: var(--lb-ink); max-width: 220px; }
+    .gantt--brochure .icp-table td,
+    .gantt--brochure .icp-table tbody th { background: #d7e2ee; }
+    .gantt--brochure .icp-table thead th { background: #becddf; color: var(--ink); }
+    .gantt--social .icp-table td,
+    .gantt--social .icp-table tbody th { background: #e6d2c4; }
+    .gantt--social .icp-table thead th { background: #d8c2b1; color: var(--ink); }
+    .gantt--microsite .icp-table td,
+    .gantt--microsite .icp-table tbody th { background: #d9bfd9; }
+    .gantt--microsite .icp-table thead th { background: #ccb1cb; color: var(--ink); }
+    .gantt--magazine .icp-table td,
+    .gantt--magazine .icp-table tbody th { background: #b7d9bb; }
+    .gantt--magazine .icp-table thead th { background: #a6ccab; color: var(--ink); }
+    .icp-appendix-pre,
+    .icp-raw-fallback {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+      font-size: 0.72rem;
+      line-height: 1.45;
+      padding: 16px;
+      background: rgba(15, 39, 68, 0.04);
+      border-radius: 8px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: var(--lb-muted);
+      margin: 0 0 8px;
+    }
+    .icp-refs {
+      margin: 0;
+      padding-left: 1.35em;
+      color: var(--ink-soft);
+      font-size: 17px;
+      line-height: 1.65;
+    }
+    .icp-refs li { margin-bottom: 1em; padding-left: 0.25em; }
+    .icp-body a { color: var(--blue); }
+    .icp-foot {
+      margin-top: 48px;
+      padding-top: 36px;
+      border-top: 1px solid var(--lb-rule);
+    }
+    .icp-attribution {
+      margin-bottom: 36px;
+    }
+    .icp-attribution__name {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--lb-navy);
+      margin-bottom: 6px;
+    }
+    .icp-attribution__id {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--lb-muted);
+      letter-spacing: 0.06em;
+    }
+    .icp-foot h2 {
+      margin-top: 0;
+    }
+    .section.icp-foot .feedback-list {
+      padding-left: 0;
+      max-width: none;
+      margin-bottom: 0;
+    }
+    .feedback-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .feedback-list li {
+      position: relative;
+      padding-left: 1.2em;
+      margin-bottom: 1.15em;
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: var(--lb-muted);
+      max-width: 65ch;
+    }
+    .feedback-list li:last-child {
+      margin-bottom: 0;
+    }
+    .feedback-list li::before {
+      content: '\2022';
+      position: absolute;
+      left: 0;
+      color: var(--lb-rust);
+      font-weight: 600;
+      line-height: inherit;
+    }
+    @media (max-width: 980px) {
+      .project-topbar__inner { padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); }
+      main { padding: 58px 20px 86px; }
+      .icp-body { padding: 24px 24px 96px; }
+    }
+  </style>
+  <link rel="stylesheet" href="../shared/shell.css" />
+  <link rel="stylesheet" href="../shared/phase1-ds-bridge.css" />
+</head>
+<body>
+  <header class="project-topbar">
+    <div class="project-topbar__inner">
+      <a class="project-topbar__back" href="../portfolio.html" onclick="if (window.history.length > 1) { event.preventDefault(); window.history.back(); }">← Back</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>Integrated Communications Plan for <em>Lions Befrienders</em></h1>
+    <p class="lede">
+      A structured plan to align messaging, channels, and touchpoints for volunteer recruitment,
+      donor stewardship, and public awareness — built as a living document you can extend with
+      research, creative, and rollout detail.
+    </p>
+    <dl class="cs-summary">
+      <div><dt>Deliverable</dt><dd>Integrated Communications Plan</dd></div>
+      <div><dt>Focus</dt><dd>Non-profit Strategy</dd></div>
+      <div><dt>Format</dt><dd>Living Document</dd></div>
+      <div><dt>Audience</dt><dd>Volunteers, Donors, Public</dd></div>
+    </dl>
+
+    <section class="section icp-fulltext">
+      <h2 id="icp-document">Full Plan</h2>
+      <nav class="icp-toc" aria-label="In this document">
+        <span class="icp-toc__label">Jump to</span>
+        <a class="icp-toc__link" href="#introduction">Introduction</a>
+        <a class="icp-toc__link" href="#swot-analysis">SWOT</a>
+        <a class="icp-toc__link" href="#pr-problems-opportunities">PR problems / opportunities</a>
+        <a class="icp-toc__link" href="#publics">Publics</a>
+        <a class="icp-toc__link" href="#strategic-plan">Strategic plan</a>
+        <a class="icp-toc__link" href="#references">References</a>
+      </nav>
+      <article class="icp-body" aria-labelledby="icp-document">
+        <section class="icp-chapter" id="introduction">
+          <h2>Introduction</h2>
+          <p>Introduction to Lions Befrienders Service Association (Singapore) — Singapore’s rapid urban transformation in the 1980s saw widespread resettlement of Singaporeans from kampungs to high-rise public housing, fragmenting communities and families (Debbie Loo, 2017). As the elderly became increasingly isolated in unfamiliar environments, the then Ministry of Community Development piloted the Befriending Service in 1982 to support at-risk seniors. In 1994, the program was handed over to Lions Clubs, a service organisation dedicated to volunteerism, and established in 1995 as a voluntary welfare organisation known as Lions Befrienders Service Association (Singapore) [LBSA] (Lions Befrienders Service Association (Singapore), 2022). LBSA’s mission centres on providing friendship and care for seniors to age-in-place with community participation, enabling them to enjoy meaningful and enriching lives (Lions Befrienders, 2025b). LBSA operates 5 core services: the Befriending Service trains volunteers to be friends with seniors,  providing social and emotional support; 10 Active Ageing Centres (AACs) serve as drop-in social recreational spaces for community engagement (Support, 2025); Community Case Management Services (CCMS) delivers enhanced support for severe cases (‘Community Case Management Service (CCMS)’, 2025); Home Personal Care (HPC) provides in-home assistance for mobility-limited seniors (‘Home Personal Care’, 2025a); and LB TechCare bridges the digital divide through technology (‘LB TechCare’, 2025). LBSA is governed by a Management Board and Management Committee of over 100 members representing more than 40 Lions Clubs across Singapore, with members of Parliament serving as Chief Advisors to the AACs and grassroots leaders serving as board members (‘Management Board’, 2025). LBSA employs around 145 paid staff across departments covering Social Health Care Programmes, CCMS and HPC, Counselling Capabilities Development, Core Services, Partnerships &amp; Communications, and Projects and Innovations (Lions Befrienders Service Association (Singapore), 2025a). At the delivery level, LBSA engages 1,000 active volunteers in working towards their vision of a nation where every senior is active, healthy, and happy (‘Who We Are’, 2025). LBSA operates as a “multigenerational extended family that is filled with love”, where serving seniors goes beyond service delivery to fostering genuine bonds (Home, 2025). Their work ethic is guided by 6 core values: Commitment, Integrity, Respect, Compassion, Leadership, and Empathy.</p>
+        </section>
+        <section class="icp-chapter" id="swot-analysis">
+          <h2>SWOT Analysis</h2>
+          <p>One of LBSA’s strengths is its adaptability, demonstrated by TechCare, an initiative leveraging technology to build a comprehensive and personalised care ecosystem for seniors. TechCare’s features are organised around 4 themes: Active Ageing Centre-based, detection and early intervention-based, education-based, and home-based. These features allow LBSA to better understand seniors’ mental and emotional needs, enabling early detection and timely intervention of potential problems. The impetus to develop TechCare was exacerbated by external events such as the COVID-19 pandemic, which threatened the sustainability of physical initiatives, and the influx of scams targeting seniors. Despite these unprecedented challenges, LBSA harnessed new digital tools to ensure organisational resilience (Julian Azfar, 2025).</p>
+          <p>Another key strength of LBSA is its user-centred and holistic approach, which underscores its deep understanding of seniors’ needs and consistent focus on them. TechCare’s IM-OKAY tablet, for instance, directly addresses seniors’ fear of “dying without people knowing” by reassuring them that help is always accessible (Theresa Tan, 2021). In addition, the facilitation of alternative means of communications with families and LBSA staff alleviates loneliness by empowering seniors to remain socially (Mchugh, 2025). IM-OKAY tablet’s customisability and user-friendly design accommodate seniors’ diverse needs, reflecting their goal of creating desirable, usable, and useful solutions that genuinely improve seniors’ lives (team, 2025). By focusing on real pain points and designing with empathy, LBSA delivers impactful solutions for seniors.</p>
+          <p>Lastly, LBSA’s organisational credibility, built over the past 30 years, is a strength. Since 1995, it has served over 86,000 seniors, currently helping over 7,800 active beneficiaries enjoy a fulfilling life during their silver years (SPH Media, 2022). This track record has been instrumental in overcoming barriers to senior engagement, particularly the stigma and distrust the elderly have towards formal social services, with seniors associating them with a loss of independence and dignity (Nikki Yeo, 2025). LBSA’s comprehensive service portfolio positions itself as a holistic service provider that addresses the full spectrum of senior care needs while maintaining the community-based approach that has differentiated it from more clinical or institutional care providers and earned seniors&#x27; confidence. Additionally, LBSA&#x27;s alignment with national healthy ageing policies and its registered membership with the National Council of Social Service provide institutional legitimacy (Lions Befrienders Service Association (Singapore), 2023).</p>
+          <p>However, LBSA faces significant financial vulnerabilities threatening its sustainability and expansion capacity in Singapore’s increasingly expensive eldercare landscape. Long-term costs to support a Singaporean senior have increased by 27% from 2018 to 2024 (Singlife, 2025). Still, LBSA cannot raise its program fees because low-income seniors will be unable to afford these essential services despite subsidies. Furthermore, LBSA has to compete with over 2,400 registered charities for government grants, donor support, and corporate partnerships (Stacy Choong, 2025). Consequently, technological innovation and capacity building are limited because they demand significant capital investments. At the same time, demand for services continues to grow exponentially with Singapore&#x27;s rapidly ageing population; LBSA faces staff recruitment and retention challenges, exacerbated by workforce shortages in the social services sector, driving personnel costs up.</p>
+          <p>LBSA is well-positioned to capitalise on several converging trends to gain governmental support, presenting significant expansion opportunities. Senior participation increased by 30% from 2022 to 2023 at LBSA’s AACs as the range of activities increased, demonstrating growing recognition of AACs’ value amongst seniors and diminishing stigma around formal senior services (Julian Azfar, 2025). In addition, Singapore’s push toward “Smart Nation” and “Digital for Life” initiatives also presents funding and policy support opportunities to close the digital divide, improve access, and innovate with tech-driven service models (Lions Befrienders, 2022). COVID-19&#x27;s acceleration of digital adoption has normalised technology-mediated care delivery, reducing resistance amongst tech-averse seniors and garnering demand for LBSA’s TechCare. With Singapore looking to AI to manage its fast-ageing population, as 25% of residents will be 65 and above by 2030 (Longevity, 2024), the government has implemented a S$3.5 billion Age Well SG funding allocation targeting technological innovations that support ageing-in-place, creating opportunities for LBSA to access grants (Matthew Mohan, 2024).</p>
+          <p>As Singapore is a leader in the medical and technological sectors, LBSA stands to benefit from innovations in eldercare technology. The integration of artificial intelligence, robotics, and digital health solutions into eldercare has gained significant momentum, with Singapore looking to AI to manage its fast-ageing population as 25% of residents will be 65 and above by 2030 (Handley, 2025). This gives LBSA opportunities to enhance preventive care and emergency response capabilities while reducing staff workload. In addition, advancements in wearable technology and remote health monitoring present significant expansion opportunities. Apart from eldercare technology, LBSA challenges stigma around ageing through I-Relate, an initiative involving an age-simulation suit that mimics common impairments seniors experience.</p>
+          <p>Singapore’s rapidly shifting demographics and social landscape threaten LBSA’s sustainability and scalability. As family structures grow smaller, with later marriages and greater workforce participation, traditional informal caregiving networks weaken. This drives a surge in demand for formal and community-based eldercare that may outpace available resources and staff (Sherlyn Seah &amp; Jalelah Abu Baker, 2023). The sandwich generation, referring to those who are both care recipients and caregivers, or those caring for the young and elderly, face increased stress too. In addition, the number of seniors living alone is set to rise from 77,000 in 2025 to 92,000 by 2030, heightening risks of social isolation and “lonely deaths” (Inclusive Spaces | Bridging Generations - Ageing Population | Frasers Property, 2025).</p>
+          <p>LBSA’s expanding service portfolio and growing beneficiary base place increasing demands on professional care staff and volunteer befrienders, creating a significant risk of burnout. As LBSA expands, staff and volunteers may have to juggle multiple roles without adequate rest or support (Julian Azfar, 2025). Volunteers, in particular, may struggle to balance LBSA commitments with professional and personal obligations, leading to higher attrition rates. If LBSA’s workforce does not expand, it risks losing its most valuable human resources, jeopardising service continuity and the organisation’s long-term sustainability.</p>
+        </section>
+        <section class="icp-chapter" id="pr-problems-opportunities">
+          <h2>PR Problems/Opportunities</h2>
+          <p>Loneliness among seniors is a critical but underrecognised PR challenge that extends beyond living arrangements. Research indicates that up to 80% of the elderly who report chronic loneliness reside with family members, yet experience restricted support and low-quality relationships due to declining health or strained ties (Goh Yan Han, 2021). Despite this, seniors are reluctant to seek emotional or practical assistance because of pride, stigma, or unwillingness to be perceived as a burden (Jared Ng &amp; Yiyun Shou, 2023). Over 40% of Singaporeans aged 60 and above self-report loneliness, which is strongly correlated with poorer physical health, cognitive decline, and depression (Angelique Chan et al., 2023). With the number of Singaporean elderly living alone set to rise to 83,000 by 2030 (Michael, 2025), LBSA must confront deep-seated stigmas and misconceptions that hinder seniors and their families from engaging with vital community support services.</p>
+          <p>LBSA faces a recruitment and engagement crisis with youths. Many youths balancing professional and personal lives struggle to find time to volunteer, leaving LBSA struggling to attract and retain the volunteers who can bridge the generational divide. Communication barriers stemming from seniors’ preference for local dialects and youths’ comfort with English, as well as differing technological literacies, further widen the generational gap (Overcoming Language Barriers with Our Grands, 2025). Additionally, persistent ageism and cultural disconnects prevent authentic rapport: seniors feel alienated by fast-paced, digital society norms (Lim Boon Leng, 2024), and youth view eldercare activities as peripheral (Grace Yeoh, 2022). For intergenerational cohesion, community attitudes toward ageing and LBSA’s volunteer recruitment strategies must evolve.</p>
+          <p>Singapore&#x27;s digital transformation into a Smart Nation has created a digital divide crisis that LBSA must tackle to ensure seniors are not left behind. Only 45% of seniors demonstrate willingness to try new technologies, which is compounded by health-related barriers, with 10% of older Singaporeans experiencing health-related difficulties that make smartphone and computer navigation challenging. As essential services and communication migrate online, seniors face increased isolation. LBSA must advocate for inclusive digital design and bridging programs lest seniors become increasingly marginalised in Singapore&#x27;s digital-first society.</p>
+          <p>LBSA can capitalise on social media as a PR opportunity: despite being active online, metrics suggest that LBSA fails to effectively reach and engage its audiences, mainly digital-native millennials and Gen Z. While LBSA’s social media may seem poised for success, showcasing authentic stories from volunteers and beneficiaries, and having them jump on social media trends, the lack of intergenerational content may cause the failure in connecting with youths. Eldercare organisations like LBSA inherently face barriers in making their causes relatable or exciting for youths on social media platforms, with algorithms favouring entertainment, lifestyle, and influencer-driven content (SocialTargeter, 2025). User-generated content presents opportunities for LBSA to amplify volunteer voices and experiences, creating organic peer-to-peer marketing that resonates more authentically with digital-native audiences. Volunteer-created narratives can demonstrate personal growth and emotional fulfilment that intergenerational volunteering provides. With intergenerational collaborative content creation, the relatability gap can be bridged.</p>
+          <p>LBSA has the opportunity to pioneer an intergenerational mentoring program that positions both seniors and youths as mentors. Through intergenerational interactions, the program aims to inculcate a positive and mature attitude towards ageing and seniors, developing next-generation citizens with greater empathy, patience, and intergenerational understanding. The digital divide issue can be alleviated with tech-savvy youths teaching seniors on digital literacy. This two-way mentoring model creates sustainable engagement by establishing reciprocal relationships where youths gain access to seniors’ life experiences and skills that formal education cannot replicate.</p>
+          <p>LBSA can leverage Singapore’s growing focus on corporate social responsibility to create mutually beneficial structured programs that address eldercare needs. LBSA has a track record of successful partnerships that strategically position it to expand through innovative programs that align with corporate ESG goals. Existing partnerships include those with universities for research on the elderly, schools for intergenerational volunteering opportunities, and technology companies for the development of the eldercare technology under TechCare. By leveraging its strong partnership network, LBSA can tailor new initiatives that align with its corporate partners’ interests, whilst furthering its own goals.</p>
+        </section>
+        <section class="icp-chapter" id="publics">
+          <h2>Publics</h2>
+          <p>Grunig’s Situational Theory of Publics is used to segment publics to each group is taken into account; tailoring messages and engagement strategies to increase the relevance, coherence, and effectiveness of the public relations (PR) plan as a whole (Grunig, James E., 2005).</p>
+          <div class="icp-table-wrap" role="region" aria-label="Publics matrix">
+            <table class="icp-table">
+              <thead><tr>
+                <th scope="col">Public</th>
+                <th scope="col">Type</th>
+                <th scope="col">Problem recognition</th>
+                <th scope="col">Constraint recognition</th>
+                <th scope="col">Level of involvement</th>
+              </tr></thead><tbody>
+                <tr>
+                <th scope="row">Potential volunteers unaware of elderly isolation issue in Singapore.</th>
+                <td>Latent</td>
+                <td>Low</td>
+                <td>Low</td>
+                <td>Low</td>
+                </tr>
+                <tr>
+                <th scope="row">Potential donors unaware of elderly isolation issue in Singapore.</th>
+                <td>Latent</td>
+                <td>Low</td>
+                <td>Low</td>
+                <td>Low</td>
+                </tr>
+                <tr>
+                <th scope="row">Families of seniors unaware of available support channels.</th>
+                <td>Latent</td>
+                <td>Low</td>
+                <td>Low</td>
+                <td>Medium</td>
+                </tr>
+                <tr>
+                <th scope="row">Seniors unaware of available support channels.</th>
+                <td>Latent</td>
+                <td>Low</td>
+                <td>Low</td>
+                <td>High</td>
+                </tr>
+                <tr>
+                <th scope="row">Singaporeans aware of the issue of elderly isolation but unaware of how to help.</th>
+                <td>Aware</td>
+                <td>High</td>
+                <td>High</td>
+                <td>Medium</td>
+                </tr>
+                <tr>
+                <th scope="row">Singaporeans aware of the issue of elderly isolation but do not care enough to help.</th>
+                <td>Aware</td>
+                <td>Medium</td>
+                <td>Low</td>
+                <td>Low</td>
+                </tr>
+                <tr>
+                <th scope="row">Singaporeans aware of the issue of elderly isolation but are unable to help.</th>
+                <td>Aware</td>
+                <td>High</td>
+                <td>High</td>
+                <td>Medium</td>
+                </tr>
+                <tr>
+                <th scope="row">At-risk seniors unwilling to seek help.</th>
+                <td>Aware</td>
+                <td>Medium</td>
+                <td>High</td>
+                <td>High</td>
+                </tr>
+                <tr>
+                <th scope="row">Existing volunteers.</th>
+                <td>Active</td>
+                <td>High</td>
+                <td>Low</td>
+                <td>High</td>
+                </tr>
+                <tr>
+                <th scope="row">Existing staff.</th>
+                <td>Active</td>
+                <td>High</td>
+                <td>Low</td>
+                <td>High</td>
+                </tr>
+                <tr>
+                <th scope="row">Existing donors.</th>
+                <td>Active</td>
+                <td>High</td>
+                <td>Low</td>
+                <td>High</td>
+                </tr>
+                <tr>
+                <th scope="row">Existing beneficiaries.</th>
+                <td>Active</td>
+                <td>High</td>
+                <td>Low</td>
+                <td>High</td>
+                </tr>
+                <tr>
+                <th scope="row">Existing corporate partners.</th>
+                <td>Active</td>
+                <td>High</td>
+                <td>Low</td>
+                <td>High</td>
+                </tr>
+                <tr>
+                <th scope="row">Policy makers and government agencies.</th>
+                <td>Active</td>
+                <td>High</td>
+                <td>Low</td>
+                <td>Medium</td>
+                </tr>
+              </tbody></table></div>
+          <p>From the Publics identified, the PR plan will target the following Priority Publics: the primary publics of at-risk seniors unwilling to seek help, Singaporeans aware of the issue of elderly isolation, but are either unaware of how to help, or do not care enough to help. The secondary publics include the overarching group of Singaporeans who are unaware of this social issue, unaware of available support channels, and of existing stakeholders involved with LBSA. The primary publics will be the target audience of the PR plan.</p>
+          <p>At-risk seniors include Singapore Citizens and Permanent Residents aged 60 years and above with limited or no family support and are at risk of social isolation due to social, psycho-emotional, or physical reasons (Lions Befrienders Service Association (Singapore), 2025b). They face constraints like pride, stigma, and an unwillingness to be perceived as a liability, hindering engagement and leading to zero involvement in formal social services for elderly isolation. The target group of Singaporeans aware of the issue but do not participate because they are unaware of how to or do not care enough to is broad, hence the PR plan will focus on young volunteers aged 18-35; the PR plan sets out to bridge intergenerational gaps and the digital divide. They face constraints, including limited personal connection to ageing issues, barriers to participation like busy schedules and generational differences, or a lack of deep understanding of the issue of elderly isolation, leading to a lack of involvement in this issue.</p>
+        </section>
+        <section class="icp-chapter" id="strategic-plan">
+          <h2>Strategic Plan</h2>
+          <p>The following strategic PR plan leverages LBSA’s established credibility, user-centred and holistic approach, and adaptable programming to address Singapore’s challenges of senior loneliness, youth disengagement, and the digital divide. Grounded in LBSA’s mission, vision, and culture of an intergenerational family, this plan aligns with national priorities of active ageing and digital inclusion. An integrated suite of publication tactics will be executed over 12 months to achieve the following goals: relationship-management goals of building and strengthening relationships with youths to increase engagement, reputation-management goals of raising awareness through social media and solidifying its credibility to persuade at-risk seniors unwilling to participate in formal social services, and task-management goals of closing the digital divide, bridging the generational gap, erasing stigma and correcting misconceptions around ageing and loneliness. This low-cost, high-impact approach minimises financial burdens whilst alleviating existing volunteers and staff’s workload by broadening LBSA’s volunteer base. Each tactic targets specific audiences and works synergistically to raise awareness and foster empathy for elderly isolation in Singapore. The PR plan is designed to move target audiences along the Situational Theory continuum, to change Aware Publics to Active Publics through awareness-building content, compelling calls-to-action, and easy engagement pathways.</p>
+          <p>A 16-page magazine publication will be published twice a year, produced in print and digital formats for senior and youth audiences. The magazine will be split into two sections, 8 pages each for youths and the elderly. Starting from the youth’s half, the magazine opens with a “Voices of Volunteers” spread, showcasing stories of youth volunteers, highlighting their commitment and how they juggle their personal and professional lives with volunteering, to encourage volunteer sign-ups from youths. An aspect of “community” can be highlighted to appeal to youths. The “Lion’s Pack: Partners in Caring” spread that follows will showcase collaboration projects between LBSA and other organisations, cementing LBSA as a leader in eldercare and underscoring the opportunities youths have to participate in such collaborations. The first half of the final spread will include a calendar of events for the next 6 months to inform youths of potential activities they can join, and this will be accompanied by clear, actionable steps to sign up. The second half of the spread will be an “Activity Corner”, which will change every issue. For the first issue, there will be a bingo, which is on theme with stereotypes of nursing homes, but with a novel twist, changing it to a checklist of things youths can do to contribute to LBSA’s cause. Mid-magazine, the “Intergenerational Connections” spread will highlight intergenerational activities and spotlight a pair of a senior and a youth. This spread will also include a section to display seniors’ work; this can come in the form of poems, art, photo essays, etc. This will position the elderly as active contributors to the magazine whilst dispelling misconceptions amongst youths of them being helpless or incapable. For the elderly portion of the magazine, the first spread of “Senior Spotlight” will include stories of seniors benefiting from LBSA, accompanied by calls-to-action to register for such services. These success stories are targeted to convince seniors who are unwilling to accept formal social services to register for them. The next spread, “LBSA Highlights”, will showcase the past 6 months of LBSA’s activities. This spread will let the elderly look back on what happened and maybe even find themselves in the magazine’s photos. The final spread will mirror the youths’ portion: a calendar of activities they can join, how they can register, and an “Activity Corner” they can partake in. The bingo will include activities they can participate in to keep healthy, happy, and active. The elderly half of the magazine will have large fonts and distinct colour contrasts to maximise readability, which is especially important for the visually impaired elderly. By mentioning partnerships and spotlighting existing staff and volunteers, the magazine shows appreciation and recognition for their efforts, maintaining relationships with its Active Publics. The showcase of tangible outcomes will also reassure donors, government agencies, policy makers, and partners that the resources invested in LBSA are not wasted, and reaffirms LBSA’s credibility. Around 2,000 copies per issue will be printed at $1330 in total (Booklet Printing Singapore | Value Print- Printing Services, 2020) and distributed at AAC centres. The magazine is assumed to be designed and distributed by LBSA staff or volunteers, resulting in zero financial cost. The publication goal for the magazine is to publish one 16-page magazine issue by the end of Month 6, and another by the end of Month 12, distributing 1,500 print copies and having 2,500 unique visits into the PDF version from social media and microsite for each issue.</p>
+          <p>The PR plan will also have a microsite dedicated to youths, addressing the shortcomings of LBSA’s existing site; the site has too much information and is not streamlined towards what youths can do to contribute, or why they should contribute. Instead, the current site is more of a showcase of what LBSA does and what they have done, alongside other organisational information. The microsite will feature 4 clearly labelled sections: Home, Volunteering Opportunities, Stories, and Events. The Home page will immediately engage visitors with a looping hero video montage of youth-senior interactions, overlaid with LBSA’s mission statement and a prominent button with a call-to-action to volunteer. This button is linked to Volunteering Opportunities, which presents users with volunteer pathways they can embark on. The Stories segment mimics LBSA’s current website, but stories will focus more on youths and intergenerational interactions that youths can relate to. Lastly, the Events portion of the microsite integrates a calendar with RSVP links and push notification opt-ins for upcoming intergenerational activities. These activities are flexible, catering to youths’ diverse and busy schedules. The microsite will incorporate gamification, rewarding volunteers with digital badges and certificates, and allowing them to compete on leadership boards. There will also be an FAQ and live chat support for youths with questions. This microsite serves as the digital hub for the PR campaign, unifying print and social media efforts with clear calls-to-action and detailed information regarding LBSA and its activities. The design, development, and hosting of the microsite are assumed to come at no extra cost, relying on volunteers, staff, and existing payments that maintain LBSA’s current website. The goal for this publication tactic is to launch the microsite by the end of Month 4, achieve 2,000 unique microsite visits and 150 youth volunteer signups by the end of Month 6.</p>
+          <p>A social media campaign tailored for digitally-savvy youths will be hosted on TikTok; it has a significant reach of approximately 649,800 Singaporean 18-25 year olds, and its algorithm allows high discoverability even for accounts with modest followings (‘Singapore TikTok Statistics 2025 | TikTok Active Users’, 2025). Taking into consideration youths’ time constraints and fleeting attention, a series of short-form videos will be posted, with links leading to long-form content like full-length stories or videos on LBSA’s microsite. The campaign’s content will include the elderly hopping on trends or participating in activities youths partake in, adding novelty to the content and acting as a visual hook for viewers. Such content will also serve to challenge stereotypes youths have of the elderly, placing the elderly in contexts youths may not envision them to be in. The campaign will also use user-generated content of youth volunteers to improve relatability, allowing youths to imagine themselves volunteering. “Day in my life” narratives will pique youths’ interest, and youths can learn more about volunteering for LBSA. Since youths are more inclined to volunteer if their peers do so, micro-influencers in university and polytechnic communities can be sponsored to post such content, amplifying reach amongst 18-25 year olds and making volunteering trendy (Xu et al., 2025). Each post will include a clear call-to-action directing viewers to the microsite to learn more about LBSA and register to volunteer. Engagement metrics of likes, shares, comments, and sign-ups will be monitored in real time to ensure the campaign drives awareness and prompts action. Around 20 micro influencers will be reached out to, with 1 paid post per influencer. Costs involved will be around $100 per post, totalling up to $2000 for the entire campaign (Hartanti, 2024). From these micro influencers, we hope to influence more youths to post about their own stories. Posting on LBSA’s own social media is assumed to be done by existing LBSA staff and volunteers. The goal for this publication tactic is to increase awareness and engagement with youths aged 18-25, achieving 200,000 combined views across all campaign content, securing at least 3,000 post engagements (inclusive of comments and shares) by the end of Month 7.</p>
+          <p>Recognising that the older generation prefers tangible materials and relies heavily on word-of-mouth, a physical brochure will be specifically designed for seniors and their families (Lockhart &amp; Hunter, 2024). The brochure uses clear, large-font text so seniors with visual impairments can read it, and vivid imagery depicting seniors receiving support will convince seniors of the benefits of formal social services. Practical information, such as how to register for Befriending services, will be presented step-by-step to ensure clarity. These brochures raise awareness of such social services and highlight their benefits in hopes of engaging more seniors. Distribution channels include AACs, Residents’ Committees, and door-to-door distribution in neighbourhoods with LBSA’s presence, for the convenience of seniors. An estimated 5,000 copies will be printed for $352 and distributed by LBSA’s volunteers and staff (2000pcs A5 $105 Only - Cheap Flyers / Brochure Printing in Singapore, 2025). The goal for this publication tactic is to distribute 4,000 brochures across the 10 neighbourhoods AACs are situated in by the end of Month 6.</p>
+          <p>Each tactic in this plan is designed to reinforce and amplify the others, creating a unified communications ecosystem that seamlessly guides audiences from awareness to action. The physical brochure introduces seniors and their families to LBSA’s mission in a tactile format, while the social media campaign captures youth attention with dynamic, peer-driven content that links back to the microsite. The microsite then serves as the central digital hub, consolidating signups referenced by both print and social channels. Finally, the biannual magazine ties everything together by showcasing stories and calls to action that drive traffic to the microsite and promote social shares. Sponsorship acknowledgements and partner spotlights are present across all tactics, reinforcing LBSA’s credibility and fostering ongoing support. By harmonising print, digital, and experiential touchpoints, each tactic not only reaches the target audience but also cross-promotes the others, ensuring a cohesive journey. The publication goals tend to be cut off around Month 6 so there is time for the campaign to evaluate its current impact and adapt accordingly to ensure maximum reach, engagement, and efficacy.</p>
+        </section>
+        <section class="icp-chapter" id="references">
+          <h2>References</h2>
+          <ol class="icp-refs">
+            <li>2000pcs A5 $105 Only—Cheap Flyers / Brochure Printing in Singapore. (2025). Kiasu Rubber Stamp Maker Singapore. https://www.kiasuprint.com/cheap-flyer-leaflet-brochure-printing-services-in-singapore/</li>
+            <li>Alif Amsyar &amp; Jalelah Abu Baker. (2023, August 24). Active ageing centres keep their programmes fresh as they aim to get more seniors to drop in. CNA. https://www.channelnewsasia.com/singapore/active-ageing-centres-keep-their-programmes-fresh-they-aim-get-more-seniors-drop-3721496</li>
+            <li>Angelique Chan, Rahul Malhotra, &amp; Ad Maulod. (2023, July 11). Commentary: Loneliness is an overlooked public health challenge in ageing Singapore. CNA. https://www.channelnewsasia.com/commentary/senior-loneliness-mortality-risk-ageing-public-health-crisis-3615171</li>
+            <li>Booklet Printing Singapore | Value Print- Printing Services. (2020, July 27). https://www.valueprint.com.sg/booklet-printing-singapore/</li>
+            <li>Community Case Management Service (CCMS). (2025). Lions Befrienders. https://www.lionsbefrienders.org.sg/community-case-management-service-ccms/</li>
+            <li>Debbie Loo. (2017, September). Successful Ageing in Singapore: Urban Implications in a High-density City. Successful Ageing in Singapore: Urban Implications in a High-Density City. https://scholarbank.nus.edu.sg/entities/publication/c21d1136-cbe2-4b0b-893a-43f21d578332</li>
+            <li>Goh Yan Han. (2021, August 26). Elderly people may feel lonely, isolated even while living with family: Study. The Straits Times. https://www.straitstimes.com/singapore/elderly-experience-social-disconnection-even-among-those-living-with-their-family-study?ref=inline-article</li>
+            <li>Grace Yeoh. (2022, April 17). Back-to-back crises, days that end at 4am: Why some social workers in Singapore are burning out. CNA. https://www.channelnewsasia.com/singapore/social-workers-burnout-job-hours-passion-2553816</li>
+            <li>Grunig, James E. (2005). Situational theory of publics. In Encyclopedia of Public Relations (Vol. 2, pp. 778–780). SAGE Publications.</li>
+            <li>Handley, L. (2025, March 9). Singapore’s population is aging fast. It hopes AI can help manage its elderly care. CNBC. https://www.cnbc.com/2025/03/10/singapore-looks-to-ai-help-to-manage-health-of-fast-aging-population.html</li>
+            <li>Hartanti, M. (2024, December 22). Influencer Marketing in Singapore for 2025. Plexxie. https://plexxie.com/blog/influencer-marketing-singapore-2025/</li>
+            <li>Home. (2025). Lions Befrienders. https://www.lionsbefrienders.org.sg/</li>
+            <li>Home Personal Care. (2025a). Lions Befrienders. https://www.lionsbefrienders.org.sg/home-personal-care/</li>
+            <li>Inclusive Spaces | Bridging Generations—Ageing Population | Frasers Property. (2025). Housing Singapore’s Ageing Population. https://www.frasersproperty.com/content/frasersproperty/corporate/inclusive-spaces/bridging-generations/ageing-population.html</li>
+            <li>Jared Ng &amp; Yiyun Shou. (2023, October 10). Feeling old and useless—The silent suffering of seniors dealing with mental health challenges. NUS - IPUR. https://ipur.nus.edu.sg/insights-commentarie/feeling-old-and-useless-the-silent-suffering-of-seniors-dealing-with-mental-health-challenges/</li>
+            <li>Julian Azfar. (2025). From hardware to heart-ware: How Lions Befrienders embraced technology for eldercare.</li>
+            <li>LB TechCare. (2025). Lions Befrienders. https://www.lionsbefrienders.org.sg/lb-tech-care/</li>
+            <li>Lim Boon Leng. (2024, October 31). Commentary: For the elderly, a digital divide could quickly become a social one – and that’s worrying. CNA. https://www.channelnewsasia.com/commentary/singapore-elderly-tech-digital-isolation-social-lonely-4694131</li>
+            <li>Lions Befrienders. (2025b). Our Vision, Mission And Values. Lions Befrienders. https://www.lionsbefrienders.org.sg/our-vision-mission-values-strategy/</li>
+            <li>Lions Befrienders: Seniors Go High-Tech with Help from the Human Touch. (2022, March 29). Infocomm Media Development Authority. https://www.digitalforlife.gov.sg/be-inspired/stories/all-stories/lions-befrienders-seniors-go-high-tech-with-help-from-the-human-touch</li>
+            <li>Lions Befrienders Service Association (Singapore). (2022, October 19). Volunteer Handbook. https://www.lionsbefrienders.org.sg/wp-content/uploads/2024/01/VM_Volunteer-Handbook-101.pdf</li>
+            <li>Lions Befrienders Service Association (Singapore). (2023). Annual report 2022/2023. Lions Befrienders Service Association (Singapore).</li>
+            <li>Lions Befrienders Service Association (Singapore). (2025a). Annual report 2024/2025. Lions Befrienders Service Association (Singapore).</li>
+            <li>Lions Befrienders Service Association (Singapore). (2025b). CVWO. http://localhost:4000/~vwo/projects/2019-lbsa.html</li>
+            <li>Lockhart, C., &amp; Hunter, I. (2024). Using ‘Health’ to Promote Older Adults’ Digital Health Literacy. Medical Research Archives, 12(6). https://doi.org/10.18103/mra.v12i6.5579</li>
+            <li>Longevity. (2024, June). Longevity. https://www.population.gov.sg/our-population/population-trends/longevity/</li>
+            <li>Management Board. (2025). Lions Befrienders. https://www.lionsbefrienders.org.sg/management-board/</li>
+            <li>Matthew Mohan. (2024, February 16). Budget 2024: S$3.5 billion to be set aside over next decade to help elderly age well. CNA. https://www.channelnewsasia.com/singapore/budget-2024-s35-billion-be-set-aside-over-next-decade-help-elderly-age-well-4128751</li>
+            <li>Mchugh, S. (2025, January 31). Go Bike Project—Ronda Kalusugan Program. Asia Health and Wellbeing Initiative. https://ahwin.org/im-ok-lions-befrienders-service-association/</li>
+            <li>Michael. (2025). ElderAid [ElderAid]. Singapore Red Cross. https://redcross.sg/elderaid.html</li>
+            <li>Nikki Yeo. (2025, February 28). ‘No one has visited me in years’: The quiet lives of seniors with no next of kin in nursing, welfare homes. CNA. https://www.channelnewsasia.com/today/ground-up/nursing-welfare-homes-elderly-next-kin-4964516</li>
+            <li>Overcoming Language Barriers with Our Grands. (2025). Overcoming Language Barriers with Our Grands. https://familiesforlife.sg/pages/Article/Overcoming-Language-Barriers-with-Our-Grands</li>
+            <li>Sherlyn Seah &amp; Jalelah Abu Baker. (2023, February 17). Some eldercare providers call for more efforts to increase manpower, create cohesive care network. CNA. https://www.channelnewsasia.com/singapore/manpower-shortage-lack-knowledge-eldercare-sector-ageingin-place-3286246</li>
+            <li>Singapore TikTok Statistics 2025 | TikTok Active Users. (2025, April 22). The Global Statistics. https://www.theglobalstatistics.com/singapore-tiktok-user-statistics/</li>
+            <li>Singlife. (2025, September 19). Singlife Releases White Paper Urging Action on Long-Term Care as Singapore Approaches “Super-Aged” Milestone. Singlife Releases White Paper Urging Action on Long-Term Care as Singapore Approaches “Super-Aged” Milestone. https://singlife.com/en/about-us/newsroom/2025/singlife-releases-white-paper-urging-action-on-long-term-care-as-singapore-approaches-super-aged-milestone</li>
+            <li>SocialTargeter. (2025, March 27). Innovative Marketing Strategies Used by Nonprofits to Engage Millennials. Innovative Marketing Strategies Used by Nonprofits to Engage Millennials. https://socialtargeter.com/blogs/innovative-marketing-strategies-used-by-nonprofits-to-engage-millennials</li>
+            <li>SPH Media. (2022, December 16). Picking up new skills and making friends: How he’s living a purposeful life at 60. The Straits Times. https://www.straitstimes.com/singapore/ncss-singapore-ageing-population-volunteer-activities-lions-befrienders</li>
+            <li>Stacy Choong. (2025, March 6). Budget 2025: The S$600 million push to supercharge philanthropy in Singapore | Withers. Budget 2025: The S$600 Million Push to Supercharge Philanthropy in Singapore. https://www.withersworldwide.com/en-gb/insight/read/budget-2025-the-s$600-million-push-to-supercharge-philanthropy-in-singapore</li>
+            <li>Support, S. S. (2025). Active Ageing Centre (Lions Befrienders Service Association). SG Social Support. https://sgsocialsupport.com/resource/rXcFC2ZYtav</li>
+            <li>team, O. (2025, January 29). Going Digital as a Way of Life. Lions Befrienders. https://www.lionsbefrienders.org.sg/going-digital-as-a-way-of-life/</li>
+            <li>Theresa Tan. (2021, December 29). Lions Befrienders’ customised tablet helps charity keep tabs on seniors remotely. The Straits Times. https://www.straitstimes.com/singapore/community/lions-befrienders-customised-tablet-helps-charity-keep-tabs-on-seniors-remotely</li>
+            <li>Who We Are. (2025). Lions Befrienders. https://www.lionsbefrienders.org.sg/who-we-are/</li>
+            <li>Xu, Y., Zhao, X., Yu, D., &amp; Xu, H. (2025). Development and validation of the prosocial conformity tendency scale in adolescents. Personality and Individual Differences, 234, 112932. https://doi.org/10.1016/j.paid.2024.112932</li>
+          </ol>
+        </section>
+      </article>
+    </section>
+
+
+
+
+    <section class="section icp-foot" aria-labelledby="icp-feedback-heading">
+      <div class="icp-attribution">
+        <div class="icp-attribution__name">NIIK SEAH</div>
+        <div class="icp-attribution__id">E0958068</div>
+      </div>
+      <h2 id="icp-feedback-heading">Course feedback</h2>
+      <p class="icp-fulltext-note" style="margin-bottom: 18px;">
+        NM4208 Strategic Communications Design — instructor comments on this Integrated Communications Plan.
+      </p>
+      <ul class="feedback-list">
+        <li>Thank you, Niik, for this very detailed ICP on Lions Befrienders Service Association (LBSA). The paper demonstrates strong research and contextual understanding of LBSA’s history, structure, and operating environment. Your introduction is comprehensive, situating the origins of LBSA clearly within Singapore’s social history of resettlement, while your exposition of the organisation’s current operations is thorough and well-documented. This grounding in context provides a solid foundation for the rest of your plan.</li>
+        <li>The SWOT analysis is very well-developed and shows careful engagement with both internal capabilities and external trends. Strengths such as TechCare and LBSA’s organisational credibility are explained with concrete evidence, while weaknesses around financial vulnerabilities and staff retention are realistically analysed. Opportunities are convincingly tied to national initiatives such as Age Well SG and the Smart Nation push, which makes your analysis highly relevant. Threats are equally well-framed, particularly the sustainability challenges posed by shifting demographics. One area for improvement would be to avoid overloading the SWOT with too many sub-points under each heading; condensing and foregrounding the most actionable insights would strengthen the analytical sharpness.</li>
+        <li>Your identification of PR problems and opportunities is cogent. Issues such as loneliness among seniors, volunteer disengagement, and the digital divide are thoughtfully linked to communication challenges. I especially appreciated how you tied these to broader cultural factors like stigma and generational disconnect, which shows nuance. The opportunities section, including the intergenerational mentoring model, is compelling and actionable. The publics section also demonstrates proper application of Grunig’s Situational Theory of Publics, which is explicitly cited and systematically applied; this is an excellent use of theory in practice and strengthens the overall argument.</li>
+        <li>The strategic plan is ambitious and multi-pronged, covering a magazine, microsite, social media campaign, and brochures. Each tactic is described in detail with clear content ideas, target audiences, and distribution strategies. Importantly, you have articulated goals instead of SMART objectives for each, such as readership numbers for the magazine, youth volunteer sign-ups via the microsite, and social media engagement metrics; this requires refinement. I particularly liked the deliberate design adaptations for seniors in the magazine and brochures, showing sensitivity to accessibility.</li>
+        <li>However, in some cases, the plan assumes that volunteer and staff labour for design and distribution comes at “zero financial cost.” While this may be organisationally feasible, budgets should still account for hidden costs such as staff time, opportunity costs, and any unexpected production expenses just as a contingency plan; nitpicking here but good to consider. For example, the microsite is costed as no extra expense, but in practice there may be hosting or design-related overheads, and you should substantiate this with a reference to industry norms or in-house capacity.</li>
+        <li>The integration of tactics is strong, with clear synergy between print and digital publications, and a thoughtful sequencing that guides audiences from awareness to action. The Gantt Charts are clearly laid out in the appendix, showing timeframes for each tactic across the 12-month campaign cycle BUT specify the YEAR. This supports the strategic coherence of the plan. Your referencing is another strength: sources are extensive, properly cited, consistently formatted, and presented with hanging indents ☺</li>
+        <li>For further improvement, I would suggest tightening your narrative in places where detail begins to overwhelm; for example, some of the tactical descriptions could be made more concise without losing substance. Additionally, you could further highlight how these tactics build on one another beyond mere cross-promotion; what is the cumulative impact that LBSA gains from this synergy? Also, once again, refinement for SMART objectives.</li>
+        <li>Overall, this is a solid work done for the ICP for LBSA, Niik. I look forward to seeing these translated into actual publication in the final project! Thank you and I am very proud of you and your work on the ICP! ☺</li>
+      </ul>
+    </section>
+
+    <section class="section icp-foot" aria-labelledby="icp-gantt-heading">
+      <h2 id="icp-gantt-heading">Gantt Table</h2>
+      <h3 class="icp-subhead">Brochure</h3>
+      <div class="icp-table-wrap gantt--brochure" role="region" aria-label="Gantt schedule table">
+        <table class="icp-table">
+          <thead>
+            <tr>
+              <th scope="col">Task</th>
+              <th scope="col">M1</th>
+              <th scope="col">M2</th>
+              <th scope="col">M3</th>
+              <th scope="col">M4</th>
+              <th scope="col">M5</th>
+              <th scope="col">M6</th>
+              <th scope="col">M7</th>
+              <th scope="col">M8</th>
+              <th scope="col">M9</th>
+              <th scope="col">M10</th>
+              <th scope="col">M11</th>
+              <th scope="col">M12</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Content development</th>
+              <td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Design and layout</th>
+              <td>X</td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Printing</th>
+              <td></td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Distribution planning</th>
+              <td></td><td>X</td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Distribution</th>
+              <td></td><td></td><td>X</td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Feedback collection and review</th>
+              <td></td><td></td><td></td><td>X</td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="icp-subhead">Social Media Campaign</h3>
+      <div class="icp-table-wrap gantt--social" role="region" aria-label="Social media campaign gantt schedule table">
+        <table class="icp-table">
+          <thead>
+            <tr>
+              <th scope="col">Task</th>
+              <th scope="col">M1</th>
+              <th scope="col">M2</th>
+              <th scope="col">M3</th>
+              <th scope="col">M4</th>
+              <th scope="col">M5</th>
+              <th scope="col">M6</th>
+              <th scope="col">M7</th>
+              <th scope="col">M8</th>
+              <th scope="col">M9</th>
+              <th scope="col">M10</th>
+              <th scope="col">M11</th>
+              <th scope="col">M12</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Campaign concept</th>
+              <td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Content production</th>
+              <td>X</td><td>X</td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Influencer partnership setup</th>
+              <td></td><td>X</td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Campaign launch</th>
+              <td></td><td></td><td>X</td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Ongoing content and engagement</th>
+              <td></td><td></td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Analytics and optimization</th>
+              <td></td><td></td><td></td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="icp-subhead">Microsite</h3>
+      <div class="icp-table-wrap gantt--microsite" role="region" aria-label="Microsite gantt schedule table">
+        <table class="icp-table">
+          <thead>
+            <tr>
+              <th scope="col">Task</th>
+              <th scope="col">M1</th>
+              <th scope="col">M2</th>
+              <th scope="col">M3</th>
+              <th scope="col">M4</th>
+              <th scope="col">M5</th>
+              <th scope="col">M6</th>
+              <th scope="col">M7</th>
+              <th scope="col">M8</th>
+              <th scope="col">M9</th>
+              <th scope="col">M10</th>
+              <th scope="col">M11</th>
+              <th scope="col">M12</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Requirements gathering</th>
+              <td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Wireframes and mock-ups</th>
+              <td>X</td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Content creation</th>
+              <td></td><td>X</td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Development and testing</th>
+              <td></td><td>X</td><td>X</td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Go live and promotion</th>
+              <td></td><td></td><td></td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Maintenance and updates</th>
+              <td></td><td></td><td></td><td></td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="icp-subhead">Magazine</h3>
+      <div class="icp-table-wrap gantt--magazine" role="region" aria-label="Magazine gantt schedule table">
+        <table class="icp-table">
+          <thead>
+            <tr>
+              <th scope="col">Task</th>
+              <th scope="col">M1</th>
+              <th scope="col">M2</th>
+              <th scope="col">M3</th>
+              <th scope="col">M4</th>
+              <th scope="col">M5</th>
+              <th scope="col">M6</th>
+              <th scope="col">M7</th>
+              <th scope="col">M8</th>
+              <th scope="col">M9</th>
+              <th scope="col">M10</th>
+              <th scope="col">M11</th>
+              <th scope="col">M12</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Editorial planning (Issue 1)</th>
+              <td></td><td></td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Content commissioning (Issue 1)</th>
+              <td></td><td></td><td>X</td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Design &amp; layout (Issue 1)</th>
+              <td></td><td></td><td></td><td>X</td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Print production (Issue 1)</th>
+              <td></td><td></td><td></td><td></td><td>X</td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Distribution &amp; launch (Issue 1)</th>
+              <td></td><td></td><td></td><td></td><td></td><td>X</td><td>X</td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Editorial planning (Issue 2)</th>
+              <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>X</td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <th scope="row">Content commissioning (Issue 2)</th>
+              <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>X</td><td>X</td><td></td><td></td><td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="case-footer" aria-label="Project details">
+    <div class="case-footer__inner">
+      <div class="case-footer__grid">
+        <div class="case-footer__mark">
+          <em>tended with love and care 💐</em>
+        </div>
+        <div class="case-footer__meta">
+          <p class="case-footer__row"><span class="case-footer__k">Project Name</span> <span class="case-footer__v">Lions Befrienders</span></p>
+          <p class="case-footer__row"><span class="case-footer__k">Deliverable</span> <span class="case-footer__v">Integrated communications plan workspace</span></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

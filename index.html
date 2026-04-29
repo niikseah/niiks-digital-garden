@@ -6,7 +6,6 @@
   <title>niik — digital garden</title>
   <meta name="description" content="niik's digital garden — notes, projects, and half-baked thoughts." />
   <link rel="stylesheet" href="design-system/colors_and_type.css" />
-  <link rel="stylesheet" href="shared/shell.css" />
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
@@ -14,18 +13,16 @@
   <script src="shared/components.js"></script>
   <style>
     .home-page {
-      max-width: 1200px;
-      width: 100%;
-      margin: 0 auto;
+      max-width: 1160px;
     }
     .home-page.hero-backdrop::before,
     .home-page.hero-backdrop::after {
       display: none;
     }
     .hero {
-      padding-top: 56px;
+      padding-top: clamp(52px, 7vw, 92px);
       padding-right: 0;
-      padding-bottom: 56px;
+      padding-bottom: clamp(32px, 5vw, 56px);
       padding-left: 0;
       height: fit-content;
       position: relative;
@@ -50,7 +47,7 @@
       line-height: 0.98;
       color: var(--fg-1);
       margin: 14px 0 0;
-      max-width: 9ch;
+      max-width: none;
     }
     .hero__name em { font-style: italic; color: var(--midnight-500); font-weight: 300; }
     .hero__lede {
@@ -132,10 +129,10 @@
 
     .section-head {
       display: flex; align-items: baseline; justify-content: space-between;
-      margin: 80px 0 26px;
+      margin: clamp(52px, 7vw, 80px) 0 20px;
       gap: 16px;
-      padding-bottom: 14px;
-      border-bottom: 1px dashed var(--border-2);
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-1);
     }
     .section-head h2 {
       font-family: var(--font-display);
@@ -173,39 +170,20 @@
       flex-wrap: wrap;
     }
 
-    .featured-grid {
-      display: flex;
-      gap: 20px;
-      overflow-x: auto;
-      overflow-y: visible;
-      padding-top: 32px;
-      padding-bottom: 42px;
-      margin-top: 0;
-      margin-bottom: 0;
-      scroll-snap-type: x proximity;
-      -webkit-overflow-scrolling: touch;
-    }
-    .featured-grid .card {
-      flex: 0 0 min(400px, calc(100vw - (var(--page-gutter) * 2)));
-      scroll-snap-align: start;
-    }
-    .featured-grid::-webkit-scrollbar,
     .experience-row::-webkit-scrollbar {
       height: 8px;
     }
-    .featured-grid::-webkit-scrollbar-thumb,
     .experience-row::-webkit-scrollbar-thumb {
       background: rgba(124,184,255,.28);
       border-radius: 999px;
     }
-    .featured-grid::-webkit-scrollbar-track,
     .experience-row::-webkit-scrollbar-track {
       background: rgba(124,184,255,.08);
       border-radius: 999px;
     }
     @media (max-width: 900px) {
       .hero {
-        padding-top: 44px;
+        padding-top: 40px;
       }
       .hero::before {
         inset: 8px calc(-1 * var(--page-gutter)) auto calc(-1 * var(--page-gutter));
@@ -228,7 +206,7 @@
         font-size: 18px;
       }
       .section-head {
-        margin-top: 64px;
+        margin-top: 60px;
         flex-wrap: wrap;
       }
       .section-head a {
@@ -277,13 +255,7 @@
     .experience-list li + li {
       margin-top: 8px;
     }
-    .experience-list .impact-stat {
-      color: var(--midnight-700);
-      font-weight: 700;
-      font-family: var(--font-body);
-      font-size: 14px;
-    }
-    .experience-list .impact-term {
+    .experience-list .experience-lead {
       color: var(--fg-1);
       font-weight: 600;
       font-family: var(--font-body);
@@ -291,21 +263,26 @@
     }
     .experience-row {
       display: flex;
-      gap: 20px;
+      flex-wrap: nowrap;
+      gap: 18px;
+      align-items: stretch;
       overflow-x: auto;
-      overflow-y: visible;
-      padding-top: 32px;
-      padding-bottom: 42px;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x proximity;
+      scroll-padding-inline: 0 18px;
+      padding: 8px 0 12px;
+      padding-inline-end: max(18px, env(safe-area-inset-right, 0px));
       margin-top: 0;
       margin-bottom: 0;
-      scroll-snap-type: x proximity;
-      -webkit-overflow-scrolling: touch;
     }
     .experience-row .card {
-      flex: 0 0 min(400px, calc(100vw - (var(--page-gutter) * 2)));
-      min-height: 420px;
-      max-height: 520px;
-      overflow-y: auto;
+      flex: 0 0 auto;
+      width: clamp(280px, 38vw, 400px);
+      min-height: 0;
+      max-height: none;
+      overflow-y: visible;
       scroll-snap-align: start;
       transition: none;
     }
@@ -322,22 +299,23 @@
     .experience-row .card__meta {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 8px;
+      gap: 12px;
       height: fit-content;
+    }
+    .experience-row .company-logo-frame { justify-content: flex-start; }
+    .experience-row .company-period {
+      color: var(--fg-3);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1;
     }
     .company-meta-sub {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       color: var(--fg-3);
       font-family: var(--font-mono);
       font-size: 14px;
-    }
-    .company-meta-sub .star-sep {
-      color: var(--fg-3);
-      font-size: 14px;
-      line-height: 1;
-      transform: translateY(-1px);
     }
     .experience-row .kind {
       font-size: 14px;
@@ -345,7 +323,7 @@
     .company-lockup {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 24px;
       min-width: 0;
     }
     .company-name {
@@ -355,20 +333,35 @@
       color: var(--fg-1);
     }
     .company-logo-frame {
-      width: 88px;
-      height: 32px;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       flex-shrink: 0;
+      height: auto;
+      min-width: 0;
     }
     .company-logo {
-      width: 100%;
-      height: 100%;
+      width: auto;
+      height: 48px;
+      max-width: 180px;
+      display: block;
       object-fit: contain;
       background: transparent;
       border: 0;
-      padding: 0;
+      padding: 4px;
+    }
+    .experience-row .company-logo--dbs {
+      height: 48px;
+    }
+    .experience-row .company-logo--nus-dev-group {
+      height: 48px;
+    }
+    .experience-row .company-logo--shopee,
+    .experience-row .company-logo--govtech {
+      height: 56px;
+    }
+    .experience-row .company-logo {
+      object-position: left center;
     }
     .experience-row .card__title {
       margin-top: 2px;
@@ -384,15 +377,10 @@
     .experience-row .card::-webkit-scrollbar-track {
       background: transparent;
     }
-    @media (max-width: 1180px) {
-      .home-page {
-        max-width: 100%;
-      }
-    }
     @media (max-width: 640px) {
       .hero {
         padding-top: 30px;
-        padding-bottom: 34px;
+        padding-bottom: 30px;
       }
       .hero__lede {
         line-height: 1.58;
@@ -407,20 +395,15 @@
         display: none;
       }
       .section-head {
-        margin-top: 52px;
-        margin-bottom: 20px;
+        margin-top: 48px;
+        margin-bottom: 16px;
       }
-      .featured-grid,
       .experience-row {
-        padding-top: 18px;
-        padding-bottom: 24px;
+        padding-top: 14px;
+        padding-bottom: 20px;
       }
       .company-name {
         font-size: 16px;
-      }
-      .company-logo-frame {
-        width: 78px;
-        height: 28px;
       }
       .experience-row .card {
         min-height: 0;
@@ -429,6 +412,8 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="shared/shell.css" />
+  <link rel="stylesheet" href="shared/phase1-ds-bridge.css" />
 </head>
 <body>
   <div id="root"></div>
@@ -441,7 +426,14 @@
     function App() {
       const [tweaks, setTweaks] = React.useState(TWEAK_DEFAULTS);
       const [open, setOpen] = useTweaksHost();
+      const [viewportWidth, setViewportWidth] = React.useState(() => window.innerWidth);
       const update = (k, v) => { setTweaks(t => ({ ...t, [k]: v })); persistTweak(k, v); };
+
+      React.useEffect(() => {
+        const onResize = () => setViewportWidth(window.innerWidth);
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
+      }, []);
 
       React.useEffect(() => {
         const accentMap = {
@@ -455,15 +447,10 @@
         document.documentElement.style.setProperty('--accent-link', t.c);
       }, [tweaks.accent]);
 
-      const getProjectYear = (project) => {
-        const yearMatch = String(project.year || '').match(/\d{4}/);
-        return yearMatch ? Number(yearMatch[0]) : 0;
-      };
-      const featured = [...(window.PROJECTS_NEW_VERSIONS || [])].sort((a, b) => getProjectYear(b) - getProjectYear(a));
       const workExperiences = [
         {
           company: 'Shopee',
-          logo: 'public/design-assets/company-logos/shopee_logo.png',
+          logo: 'public/design-assets/company-logos/shopee.png',
           role: 'Business Product Management Intern',
           badge: 'INTERNSHIP',
           badgeClass: 'role-product',
@@ -476,6 +463,7 @@
         },
         {
           company: 'NUS Developer Group',
+          logo: 'public/design-assets/company-logos/developer_student_club.png',
           role: 'Head of Design',
           badge: 'co-curricular activity',
           badgeClass: 'role-design',
@@ -484,6 +472,32 @@
             'Led a team of 5 designers, guiding them through design workflows and skill-building to craft deliverables including wireframes, interactive prototypes, and high-fidelity mockups.',
             'Architected scalable Figma design systems, significantly reducing design turnaround time and maintaining visual consistency across the project.',
             'Collaborated with Tech and Product leads to bridge the gap between design and development, maintaining alignment on product vision and objectives.',
+          ],
+        },
+        {
+          company: 'Meter Cube Interiors',
+          logo: 'public/design-assets/company-logos/metercube.png',
+          role: 'Interior Design Intern',
+          badge: 'INTERNSHIP',
+          badgeClass: 'role-design',
+          period: 'May 2023 — July 2023',
+          workload: [
+            'Prepared design presentations for weekly meetings, demonstrating attention to detail.',
+            'Played a part in weekly brainstorming sessions and conducted user feedback sessions, integrating insights into iterative design improvements.',
+            'Utilized understanding of color theory to create visually appealing and functional designs for 3 projects.',
+          ],
+        },
+        {
+          company: 'Capital JDI',
+          logo: 'public/design-assets/company-logos/jdi.png',
+          role: 'Project Research Intern',
+          badge: 'INTERNSHIP',
+          badgeClass: 'role-product',
+          period: 'Dec 2025',
+          workload: [
+            "Analyzed Capital JDI's 6-stage startup application process; identified bottlenecks and manual tasks consuming 70-80% of team effort.",
+            'Researched and compared 15+ SaaS tools; recommended Zapier + Airtable + Calendly stack for cost-effective, scalable automation.',
+            'Delivered a 5-7 slide executive presentation and implementation roadmap (8 weeks, phased approach).',
           ],
         },
         {
@@ -501,7 +515,7 @@
         },
         {
           company: 'DBS Bank',
-          logo: 'public/design-assets/company-logos/dbs_logo.png',
+          logo: 'public/design-assets/company-logos/dbs.png',
           role: 'UI/UX Design Intern',
           badge: 'INTERNSHIP',
           badgeClass: 'role-product',
@@ -512,38 +526,72 @@
             'Orchestrated the planning and execution of 3 large-scale innovation events with 300+ attendees each, driving 40% increase in employee participation in intrapreneurial initiatives and fostering innovation culture across the bank.',
           ],
         },
+        {
+          company: 'NUS Fintech Society',
+          logo: 'public/design-assets/company-logos/nus_fintech_society.png',
+          role: 'Software Developer',
+          badge: 'co-curricular activity',
+          badgeClass: 'role-design',
+          period: 'Aug 2025 – May 2026',
+          workload: [
+            'Built a pipeline to automatically scrape, parse, and extract travel details from TikTok, Instagram, and YouTube links.',
+            'Engineered a validation tool to identify and categorize travel-related links, ensuring the system only processes relevant data for a cleaner user experience.',
+            'Developed an interactive map using Leaflet.js to dynamically display travel locations, automatically placing pins and popups from JSON data to show users important information.',
+          ],
+        },
       ];
-      const impactTokenRegex = /(\b\d[\d,]*(?:-\d+)?(?:\+|%|x)?\b)/g;
-      const impactStatRegex = /^\d[\d,]*(?:-\d+)?(?:\+|%|x)?$/i;
+      const monthIndex = {
+        jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
+        jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11,
+      };
+      const parsePeriodStart = (period) => {
+        const raw = String(period || '').toLowerCase().trim();
+        const firstPart = raw.split('–')[0].split('-')[0].trim();
+        const numericMatch = firstPart.match(/^(\d{1,2})\/(\d{2,4})$/);
+        if (numericMatch) {
+          const month = Math.max(0, Math.min(11, Number(numericMatch[1]) - 1));
+          const shortYear = Number(numericMatch[2]);
+          const year = shortYear < 100 ? 2000 + shortYear : shortYear;
+          return new Date(year, month, 1);
+        }
+        const match = firstPart.match(/([a-z]{3,})\s+(\d{4})/);
+        if (!match) return new Date(0);
+        const mon = match[1].slice(0, 3);
+        const year = Number(match[2]);
+        const month = monthIndex[mon] ?? 0;
+        return new Date(year, month, 1);
+      };
+      workExperiences.sort((a, b) => parsePeriodStart(b.period) - parsePeriodStart(a.period));
       const formatPeriod = (period) => String(period || '').replace(/\s*-\s*/g, ' - ');
-      const highlightWorkload = (text) => (
-        text.split(impactTokenRegex).map((part, idx) => {
-          if (!part) return null;
-          if (impactStatRegex.test(part)) {
-            return <span key={`stat-${idx}`} className="impact-stat">{part}</span>;
-          }
-          return <React.Fragment key={`txt-${idx}`}>{part}</React.Fragment>;
-        })
-      );
+      const renderWorkloadBullet = (text) => {
+        const raw = String(text ?? '');
+        const m = raw.match(/^(\s*)(\S+)([\s\S]*)$/);
+        if (!m) return raw;
+        const [, leadWs, firstChunk, rest] = m;
+        let quoteLead = '';
+        let first = firstChunk;
+        if (first.startsWith('"') && first.length > 1) {
+          quoteLead = '"';
+          first = first.slice(1);
+        }
+        return (
+          <>
+            {leadWs}
+            {quoteLead}
+            <span className="experience-lead">{first}</span>
+            {rest}
+          </>
+        );
+      };
 
       return (
         <>
           <Nav current="home" />
           <main className="page hero-backdrop home-page">
             <section className="hero">
-              <Eyebrow>tending to my digital garden since 2026</Eyebrow>
               <h1 className="hero__name">
-                <em>niik</em>.
+                Hello, I'm <em>niik</em>.
               </h1>
-              <p className="hero__lede">
-                I am passionate about crafting digital products that are <em>intuitive</em> and <em>seamless</em>. 
-                I bring a blend of problem-solving and design thinking to my work.
-              </p>
-              <p className="hero__lede" style={{ marginTop: 14 }}>
-                I believe good design is more than visual appeal - it should feel intuitive and
-                seamless. I aim to build digital products that leave users feeling satisfied,
-                engaged, and confident in their interactions.
-              </p>
 
               <div className="hero__meta">
                 <div className="bio-row">
@@ -551,8 +599,8 @@
                     <Icon name="linkedin" size={14}/> linkedin
                   </a>
                   <span className="sep">✦</span>
-                  <a href="public/resume.pdf" target="_blank" rel="noopener noreferrer" aria-label="resume">
-                    <Icon name="mail" size={14}/> resume
+                  <a href="public/documents/resume.pdf" target="_blank" rel="noopener noreferrer" aria-label="resume pdf">
+                    <Icon name="pdf" size={14}/> resume
                   </a>
                   <span className="sep">✦</span>
                   <a href="https://github.com/niikseah" target="_blank" rel="noopener noreferrer" aria-label="github">
@@ -562,16 +610,11 @@
               </div>
             </section>
 
-            {/* featured projects */}
             <div className="section-head">
               <h2>featured <em>projects</em></h2>
               <div className="section-head__links">
-                <a href="portfolio.html">see projects →</a>
-                <a href="archive.html">archive →</a>
+                <a href="portfolio.html">view all →</a>
               </div>
-            </div>
-            <div className="featured-grid">
-              {featured.map(p => <ProjectCard key={p.slug} project={p} />)}
             </div>
 
             {/* featured work experience */}
@@ -589,21 +632,35 @@
                     <span className="company-lockup">
                       {exp.logo && (
                         <span className="company-logo-frame">
-                          <img className="company-logo" src={exp.logo} alt={`${exp.company} logo`} loading="lazy" />
+                          <img
+                            className={`company-logo${
+                              exp.company === 'DBS Bank'
+                                ? ' company-logo--dbs'
+                                : exp.company === 'NUS Developer Group'
+                                  ? ' company-logo--nus-dev-group'
+                                  : exp.company === 'Shopee'
+                                    ? ' company-logo--shopee'
+                                    : exp.company === 'GovTech'
+                                      ? ' company-logo--govtech'
+                                  : ''
+                            }`}
+                            src={exp.logo}
+                            alt={`${exp.company} logo`}
+                            loading="lazy"
+                          />
                         </span>
                       )}
                       <span className="company-name">{exp.company}</span>
                     </span>
                     <span className="company-meta-sub">
                       <span className={`kind kind--${exp.badgeClass || 'role-product'}`}>{exp.badge || 'INTERNSHIP'}</span>
-                      <span className="star-sep" aria-hidden="true">✦</span>
-                      <span>{formatPeriod(exp.period)}</span>
+                      <span className="company-period">{formatPeriod(exp.period)}</span>
                     </span>
                   </div>
                   <h3 className="card__title">{exp.role}</h3>
                   <ul className="experience-list">
                     {exp.workload.map((item, idx) => (
-                      <li key={idx}>{highlightWorkload(item)}</li>
+                      <li key={idx}>{renderWorkloadBullet(item)}</li>
                     ))}
                   </ul>
                 </article>

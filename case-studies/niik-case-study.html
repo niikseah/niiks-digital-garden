@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>niik. — Personal Brand Identity Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* 60% — neutral canvas */
+    --paper: #FAFAF7;
+    --paper-warm: #F4F2EC;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4A4A;
+    --ink-muted: #8A8A85;
+    --rule: #E5E3DC;
+
+    /* 30% — brand blues */
+    --blue-deep: #1E3A5F;
+    --blue: #3B6FA8;
+    --blue-mid: #6B95C2;
+    --blue-soft: #B8CDE3;
+    --blue-wash: #EDF2F8;
+
+    /* 10% — star accent (used sparingly) */
+    --star: #2B5F94;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== STAR — used as a deliberate, rare accent ===== */
+  .star {
+    display: inline-block;
+    color: var(--star);
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    transform: translateY(-0.05em);
+  }
+
+  .star-pin {
+    position: absolute;
+    color: var(--blue-soft);
+    font-size: 14px;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  /* ===== LAYOUT ===== */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 96px 0 64px;
+    border-bottom: none;
+    position: relative;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+
+  .hero-meta span::before {
+    content: '— ';
+    color: var(--blue);
+  }
+
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    color: var(--ink);
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--blue-deep);
+    font-weight: 300;
+  }
+
+  .hero-sub {
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 640px;
+    font-weight: 400;
+  }
+
+  .hero-decoration {
+    position: absolute;
+    top: 110px;
+    right: 60px;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    color: var(--blue-soft);
+    opacity: 0.5;
+  }
+
+  /* ===== LEGACY SUMMARY DUPLICATE ===== */
+  .legacy-summary {
+    padding: 28px 0 18px;
+  }
+  .legacy-summary .cs-subtitle {
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+    max-width: none;
+    width: 100%;
+  }
+  .legacy-summary .cs-summary {
+    margin: 0 0 22px;
+    padding: 18px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 18px;
+  }
+  .legacy-summary .cs-summary dt {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 5px;
+  }
+  .legacy-summary .cs-summary dd {
+    margin: 0;
+    color: var(--ink);
+    line-height: 1.45;
+  }
+  .legacy-summary .tool-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+  }
+  .legacy-summary .tool-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 6px 12px 6px 8px;
+    background: #fff;
+    line-height: 1.2;
+  }
+  .legacy-summary .tool-logo {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border: 1px solid currentColor;
+  }
+  .legacy-summary .tool-logo--ai {
+    background: #2c1605;
+    color: #ff9a00;
+    border-color: #ff9a00;
+  }
+  .legacy-summary .tool-logo--id {
+    background: #2b0722;
+    color: #ff4db8;
+    border-color: #ff4db8;
+  }
+  .legacy-summary .tool-logo--ps {
+    background: #001e36;
+    color: #31a8ff;
+    border-color: #31a8ff;
+  }
+  .legacy-summary .tool-name {
+    color: var(--ink);
+    font-size: 14px;
+  }
+  .legacy-summary .cs-content-section {
+    margin: 18px 0;
+  }
+  .legacy-summary .theme-note {
+    margin: 0 0 28px;
+  }
+  .legacy-summary .theme-note h3 {
+    margin: 0 0 10px;
+  }
+  .legacy-summary .theme-note p {
+    margin: 0;
+    max-width: none;
+    width: 100%;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .legacy-summary .cs-content-section h2 {
+    margin: 0 0 8px;
+  }
+  .legacy-summary .cs-content-section p,
+  .legacy-summary .cs-content-section ul {
+    max-width: none;
+    width: 100%;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .legacy-summary .cs-content-section ul {
+    padding-left: 20px;
+    margin: 0;
+  }
+
+  /* ===== MAIN ARTIFACT (PDF) ===== */
+  .artifact {
+    padding: 28px 0 32px;
+    border-bottom: none;
+  }
+  .artifact-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 460px);
+    gap: 24px;
+    align-items: start;
+  }
+  .artifact-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 14px;
+  }
+  .artifact-frame {
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--paper-warm);
+    box-shadow: 0 14px 36px -24px rgba(26, 26, 26, 0.3);
+    height: min(85vh, 1100px);
+  }
+  .artifact-scroll {
+    height: 100%;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    background: var(--paper-warm);
+    padding: 12px;
+    display: grid;
+    place-items: center;
+  }
+  .pdf-stage {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+  }
+  .pdf-spread {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .pdf-page {
+    width: auto;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px -14px rgba(26, 26, 26, 0.5);
+    background: #fff;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .pdf-loading {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding: 10px 2px;
+  }
+  .pdf-thumbs {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .pdf-thumb {
+    flex: 0 0 auto;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    background: #fff;
+    padding: 6px;
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .pdf-thumb:hover {
+    transform: translateY(-1px);
+    border-color: var(--blue-mid);
+    box-shadow: 0 8px 16px -14px rgba(26, 26, 26, 0.6);
+  }
+  .pdf-thumb.is-active {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 1px rgba(29, 73, 168, 0.25);
+  }
+  .pdf-thumb:focus-visible {
+    outline: 1px solid var(--blue);
+    outline-offset: 2px;
+  }
+  .pdf-thumb-canvas {
+    width: 96px;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+    background: #fff;
+  }
+  .pdf-thumb-label {
+    margin-top: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    text-align: center;
+  }
+
+  /* ===== TAB SWITCHER ===== */
+  .switcher {
+    display: flex;
+    justify-content: center;
+    padding: 48px 0 0;
+    border-bottom: none;
+  }
+
+  .switcher-inner {
+    display: inline-flex;
+    background: var(--paper-warm);
+    border-radius: 100px;
+    padding: 5px;
+    gap: 4px;
+  }
+
+  .switcher button {
+    border: none;
+    background: transparent;
+    padding: 12px 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    cursor: pointer;
+    border-radius: 100px;
+    transition: all 0.25s ease;
+  }
+
+  .switcher button.active {
+    background: var(--blue-deep);
+    color: var(--paper);
+  }
+
+  .switcher button:hover:not(.active) {
+    color: var(--ink);
+  }
+
+  /* ===== VIEW TOGGLE ===== */
+  .view { display: none; padding: 32px 0 96px; }
+  .view.active { display: block; }
+  #tldr { padding: 0; }
+  #tldr .container { display: none; }
+
+  /* ===== TLDR VIEW ===== */
+  .tldr-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    margin-bottom: 64px;
+  }
+
+  .tldr-block h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 16px;
+  }
+
+  .tldr-block p {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 22px;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .tldr-block p strong {
+    font-weight: 500;
+    color: var(--blue-deep);
+  }
+
+  /* Decision matrix */
+  .matrix {
+    margin-top: 32px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .matrix-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 1fr;
+    gap: 32px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+
+  .matrix-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding-top: 4px;
+  }
+
+  .matrix-label .num {
+    color: var(--blue);
+    margin-right: 8px;
+  }
+
+  .matrix-decision {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+
+  .matrix-why {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+
+  .matrix-why strong {
+    color: var(--blue-deep);
+    font-weight: 600;
+  }
+  .artifact-side.matrix {
+    margin-top: 0;
+    border-top: 1px solid var(--rule);
+    background: rgba(255, 255, 255, 0.65);
+    border-radius: 12px;
+    border-left: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+  }
+  .artifact-side .matrix-row {
+    cursor: pointer;
+    transition: background-color 0.28s ease, box-shadow 0.28s ease;
+    padding-left: 24px;
+    padding-right: 24px;
+    grid-template-columns: max-content 1fr;
+    gap: 16px;
+  }
+  .artifact-side .matrix-row:hover {
+    background: rgba(46, 90, 172, 0.05);
+  }
+  .artifact-side .matrix-row.is-active {
+    background: rgba(46, 90, 172, 0.1);
+    box-shadow: inset 0 0 0 1px rgba(46, 90, 172, 0.18);
+  }
+  .artifact-side .matrix-row.is-collapsed {
+    grid-template-columns: max-content 1fr;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    gap: 0;
+  }
+  .artifact-side .matrix-row .matrix-decision {
+    max-height: 120px;
+    opacity: 1;
+    overflow: hidden;
+    transition: max-height 0.28s ease, opacity 0.22s ease, margin 0.22s ease;
+  }
+  .artifact-side .matrix-row.is-collapsed .matrix-decision {
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
+  }
+  .color-word {
+    font-weight: 600;
+  }
+  .color-word--flame { color: #d46d2b; }
+  .color-word--observatory { color: #2f7a62; }
+  .color-word--outer { color: #2f3f55; }
+  .color-word--spring { color: #b6a78f; }
+  .artifact-side .matrix-row .matrix-why {
+    grid-column: 1 / -1;
+    margin-top: 4px;
+    max-height: 240px;
+    opacity: 1;
+    overflow: hidden;
+    transition: max-height 0.32s ease, opacity 0.24s ease, margin-top 0.24s ease;
+  }
+  .artifact-side .matrix-row.is-collapsed .matrix-why {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+  }
+
+  /* TLDR outcomes */
+  .outcomes {
+    background: var(--blue-wash);
+    padding: 48px;
+    margin-top: 64px;
+    position: relative;
+    border-radius: 4px;
+  }
+
+  .outcomes::before {
+    content: '✦';
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    color: var(--blue-mid);
+    font-size: 16px;
+    opacity: 0.7;
+  }
+
+  .outcomes h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 24px;
+  }
+
+  .outcomes-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .outcomes-list li {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  .outcomes-list .metric {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 36px;
+    color: var(--blue-deep);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+
+  /* ===== FULL VIEW ===== */
+  .article-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .article-meta span { color: var(--blue); }
+
+  section.chapter {
+    margin-bottom: 96px;
+    position: relative;
+  }
+
+  .chapter-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--blue);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .chapter h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 42px;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    margin-bottom: 32px;
+    color: var(--ink);
+    max-width: none;
+  }
+
+  .chapter h2 em {
+    font-style: italic;
+    color: var(--blue-deep);
+  }
+
+  .chapter-body {
+    max-width: none;
+    width: 100%;
+  }
+
+  .chapter-body p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+    max-width: none;
+    width: 100%;
+    text-align: justify;
+  }
+
+  .chapter-body p strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* Pull quote */
+  .pull-quote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 28px;
+    line-height: 1.35;
+    color: var(--blue-deep);
+    border-left: 2px solid var(--blue);
+    padding: 8px 0 8px 32px;
+    margin: 40px 0;
+    max-width: none;
+    width: 100%;
+    letter-spacing: -0.01em;
+  }
+
+  /* The "Why" callout */
+  .why-card {
+    background: var(--paper-warm);
+    border-left: 3px solid var(--blue);
+    padding: 32px 36px;
+    margin: 32px 0;
+    max-width: none;
+    width: 100%;
+    position: relative;
+  }
+
+  .why-card .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .why-card .label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .why-card p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* Constraints / criteria list */
+  .criteria {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin: 32px 0;
+    max-width: none;
+    width: 100%;
+  }
+
+  .criteria-item {
+    background: var(--paper);
+    padding: 24px 28px;
+  }
+
+  .criteria-item .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--blue);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .criteria-item .text {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+
+  /* Tradeoff comparison */
+  .tradeoff {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 24px;
+    align-items: stretch;
+    margin: 40px 0;
+    max-width: none;
+    width: 100%;
+  }
+
+  .tradeoff-side {
+    padding: 28px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+  }
+
+  .tradeoff-side.rejected {
+    opacity: 0.7;
+  }
+
+  .tradeoff-side.chosen {
+    border-color: var(--blue);
+    background: var(--blue-wash);
+    position: relative;
+  }
+
+  .tradeoff-side.chosen::before {
+    content: '✦';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--blue);
+    font-size: 12px;
+  }
+
+  .tradeoff-side .verdict {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .tradeoff-side.rejected .verdict { color: var(--ink-muted); }
+  .tradeoff-side.chosen .verdict { color: var(--blue); }
+
+  .tradeoff-side h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: var(--ink);
+  }
+
+  .tradeoff-side p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  .tradeoff-divider {
+    display: flex;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.15em;
+  }
+
+  /* Reflection */
+  .reflection {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 64px 56px;
+    margin-top: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .reflection::before {
+    content: '✦';
+    position: absolute;
+    top: 32px;
+    right: 40px;
+    color: var(--blue-mid);
+    font-size: 18px;
+    opacity: 0.5;
+  }
+
+  .reflection .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue-soft);
+    margin-bottom: 20px;
+  }
+
+  .reflection h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 32px;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+    max-width: 720px;
+  }
+
+  .reflection h3 em {
+    font-style: italic;
+    color: var(--blue-soft);
+  }
+
+  .reflection p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(250, 250, 247, 0.75);
+    max-width: 680px;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .project-topbar__inner { padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); }
+    .container { padding: 0 24px; }
+    .hero { padding: 56px 0 40px; }
+    .hero-meta { flex-direction: column; gap: 8px; margin-bottom: 24px; }
+    .hero-decoration { display: none; }
+    .artifact { padding-top: 28px; }
+    .artifact-layout { grid-template-columns: 1fr; }
+    .artifact-frame { height: min(78vh, 900px); }
+    .tldr-grid { grid-template-columns: 1fr; gap: 40px; }
+    .matrix-row { grid-template-columns: 1fr; gap: 12px; }
+    .outcomes { padding: 32px 24px; }
+    .outcomes-list { grid-template-columns: 1fr; gap: 20px; }
+    .chapter h2 { font-size: 32px; }
+    .pull-quote { font-size: 22px; padding-left: 20px; }
+    .criteria { grid-template-columns: 1fr; }
+    .tradeoff { grid-template-columns: 1fr; }
+    .tradeoff-divider { justify-content: center; }
+    .reflection { padding: 40px 28px; }
+    .reflection h3 { font-size: 24px; }
+  }
+</style>
+  <link rel="stylesheet" href="../design-system/colors_and_type.css" />
+  <link rel="stylesheet" href="../shared/shell.css" />
+  <link rel="stylesheet" href="../shared/phase1-ds-bridge.css" />
+</head>
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<header class="project-topbar">
+  <div class="project-topbar__inner">
+    <a
+      class="project-topbar__back"
+      href="../portfolio.html"
+      onclick="if (window.history.length > 1) { event.preventDefault(); window.history.back(); }"
+    >← Back</a>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container">
+    <h1>Brand Style Guide</h1>
+    <div class="hero-sub">
+      A comprehensive identity system across typography, layout, and visual identity.
+    </div>
+    <div class="hero-decoration">✦</div>
+  </div>
+</section>
+
+<section class="legacy-summary">
+  <div class="container">
+    <dl class="cs-summary">
+      <div>
+        <dt>Tools</dt>
+        <dd class="tool-list">
+          <span class="tool-chip">
+            <span class="tool-logo tool-logo--ai" aria-hidden="true">Ai</span>
+            <span class="tool-name">Adobe Illustrator</span>
+          </span>
+          <span class="tool-chip">
+            <span class="tool-logo tool-logo--id" aria-hidden="true">Id</span>
+            <span class="tool-name">Adobe InDesign</span>
+          </span>
+          <span class="tool-chip">
+            <span class="tool-logo tool-logo--ps" aria-hidden="true">Ps</span>
+            <span class="tool-name">Adobe Photoshop</span>
+          </span>
+        </dd>
+      </div>
+      <div>
+        <dt>Focus</dt>
+        <dd>Graphic</dd>
+      </div>
+      <div>
+        <dt>Role</dt>
+        <dd>Graphic Designer</dd>
+      </div>
+    </dl>
+
+    <section class="cs-content-section">
+    </section>
+
+    <section class="cs-content-section">
+      <ul>
+      </ul>
+    </section>
+
+    <section class="cs-content-section">
+    </section>
+  </div>
+</section>
+
+<!-- ===== MAIN ARTIFACT ===== -->
+<section class="artifact">
+  <div class="container">
+    <div class="artifact-layout">
+      <div>
+        <div class="artifact-title">Personal Brand Style Guide</div>
+        <div class="artifact-frame">
+          <div class="artifact-scroll">
+            <div class="pdf-loading" id="pdfLoading">Loading style guide...</div>
+            <div class="pdf-stage" id="pdfStage"></div>
+          </div>
+        </div>
+        <div class="pdf-thumbs" id="pdfThumbs" aria-label="PDF pages"></div>
+      </div>
+      <aside class="artifact-side matrix" id="tldrMatrix" aria-label="Key design decisions and linked pages">
+        <div class="matrix-row" data-anchor="1" data-pages="1">
+          <div class="matrix-label"><span class="num">01</span>Theme</div>
+          <div class="matrix-decision">Magazine</div>
+          <div class="matrix-why">Instead of the usual brand style guide, I decided to make mine more interesting by following the concept of a magazine to flip through.</div>
+        </div>
+        <div class="matrix-row" data-anchor="2" data-pages="2-3">
+          <div class="matrix-label"><span class="num">02</span>Logo</div>
+          <div class="matrix-decision">Hybrid wordmark + interlocking monogram</div>
+          <div class="matrix-why">My logo plays on the two i's in my name. I deliberately emphasized this and aligned it with the saying: "An eye for design". Hence, the eye test. My name itself—Niik—offered an aesthetic and unique structure that could form the foundation of my logo. I decided to highlight the two “I’s” in my name to symbolize “eyes” for creativity. This led me to a design where the letters “N” and “K” merged together, with the two dots above and below the name forming a symmetrical, eye-catching motif. The use of the color Flame Pea for the dots ties directly to the theme of creativity. I created scalable versions of my logo, ensuring that it could adapt to different sizes and contexts. The final version of the logo retains its iconicity even when scaled down, making it versatile.</div>
+        </div>
+        <div class="matrix-row" data-anchor="4" data-pages="4-5">
+          <div class="matrix-label"><span class="num">03</span>Color</div>
+          <div class="matrix-decision">Meaningful color traits</div>
+          <div class="matrix-why">
+            Each colour represents a specific trait I embody.<br>
+            <span class="color-word color-word--flame">Flame Pea</span> represents my creativeness,<br>
+            <span class="color-word color-word--observatory">Observatory</span> represents my desire to grow,<br>
+            <span class="color-word color-word--outer">Outer Space</span> represents my quiet focus,<br>
+            <span class="color-word color-word--spring">Spring Wood</span> represents my love for clean designs.<br><br>
+            • <strong>Flame Pea (Orange-Red):</strong> This color symbolizes creativity and passion for design, making it the dominant accent color in my brand. It's a vibrant hue that draws attention without being overpowering.<br><br>
+            • <strong>Observatory (Green):</strong> This color conveys growth, an essential value in both my personal and professional life. It serves as a complementary tone to Flame Pea.<br><br>
+            • <strong>Outer Space (Grey-Black):</strong> Representing composure, and maturity, this color grounds the brand in elegance and discipline.<br><br>
+            • <strong>Spring Wood (Muted Yellow-White):</strong> A soft, neutral tone that contrasts beautifully with the brighter hues, Spring Wood adds a clean and fresh feeling to the overall palette.<br><br>
+            The combination of <em>Flame Pea</em> with <em>Observatory</em> and <em>Outer Space</em> creates a complementary and harmonious feel, while Spring Wood serves as a neutral backdrop, allowing the stronger colors to stand out.
+          </div>
+        </div>
+        <div class="matrix-row" data-anchor="6" data-pages="6-7">
+          <div class="matrix-label"><span class="num">04</span>Typography</div>
+          <div class="matrix-decision">Neue Haas Grotesk Display + Qanelas</div>
+          <div class="matrix-why">Neue Haas for editorial precision; Qanelas for bold display weight. Pairing balances <strong>information density</strong> (resume) with <strong>impact</strong> (magazine cover) inside one type system. For typography, I sought fonts that embodied a clean and minimalistic style while also standing out. I chose Neue Haas Grotesk Display Pro for its sleek, modern appearance, with its clean lines perfectly matching my desire for simplicity, and its professional look aligns with my design ethos. To balance the cleanliness of the primary font, I chose Qanelas-a bold, modern typeface that brings weight to headers and key text elements. The font's elegant yet robust structure complements the streamlined nature of the rest of the design.</div>
+        </div>
+        <div class="matrix-row" data-anchor="8" data-pages="8-9">
+          <div class="matrix-label"><span class="num">05</span>Name card</div>
+          <div class="matrix-decision">Reframed as a corporate access card with QR</div>
+          <div class="matrix-why">Traditional name cards feel obsolete. Recasting it as a lanyard ID solved a <strong>real interaction problem</strong> (memorability + digital handoff) and turned a static deliverable into a wearable artifact. While the concept of traditional name cards felt outdated to me, I still wanted to retain a form of physical representation that aligns with my brand. Inspired by modern access cards, I incorporated a QR code into the design. This allowed me to provide additional information through a digital format, linking to my portfolio or contact details.</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TLDR VIEW ===== -->
+<div class="view" id="tldr">
+  <div class="container">
+  </div>
+</div>
+
+<!-- ===== FULL VIEW ===== -->
+<div class="view active" id="full">
+  <div class="container">
+    <!-- Chapter 1: Name card pivot -->
+    <section class="chapter">
+      <span class="chapter-num">01 — REFRAMING THE BRIEF</span>
+      <h2>The most interesting decision was <em>not designing a name card at all.</em></h2>
+      <div class="chapter-body">
+        <p>The deliverable list called for a name card. My honest reaction: I haven't received one in years, and I rarely keep the ones I'm given. Designing a beautiful name card felt like polishing an interface nobody opens.</p>
+
+        <p>So I reframed the problem. What's the <em>job</em> a name card is hired to do? Three things: identify me, make me memorable, hand off contact info. A traditional rectangle is one possible solution. So is a corporate access card on a lanyard.</p>
+
+        <div class="why-card">
+          <div class="label">The Why — Solving the Job, Not the Brief</div>
+          <p>I drew inspiration from a runway show that played on corporate-wear access cards, plus the iconic Anne Hathaway intern look in <em>The Devil Wears Prada</em>. By recasting the name card as a wearable lanyard ID with a QR code, I solved the <strong>real problem</strong> (memorable handoff) better than the literal brief would have. Strong work answers the question behind the question.</p>
+        </div>
+
+        <p>The QR replaces a wall of contact text with a scan, which keeps the front of the card minimal — logo, name, role — and pushes the data layer to the back. Front-of-card is identity. Back-of-card is utility. Same separation of concerns as a well-architected page.</p>
+      </div>
+    </section>
+
+    <!-- Chapter 2: Critique handling -->
+    <section class="chapter">
+      <span class="chapter-num">02 — CRITIQUE AS A FILTER</span>
+      <h2>Knowing how to be discerning <em>about the feedback I incorporate.</em></h2>
+      <div class="chapter-body">
+        <p>Two rounds of critique shaped the final output.</p>
+
+        <p><strong>Took it — alignment bug.</strong> Anna noticed the <em>N</em> on my magazine cover wasn't consistently left-aligned across spreads. I hadn't caught it. Fixed immediately. This was a craft issue, full stop.</p>
+
+        <p><strong>Took it — contrast failure.</strong> The combination of Outer Space type on Flame Pea blocks tanked legibility in resume body copy. I swapped resume body to Spring Wood. This was an accessibility-adjacent issue masquerading as a stylistic one.</p>
+
+        <p><strong>Set it aside — pattern overlay on resume.</strong> One suggestion was to add the brand pattern to the resume itself. I agreed it would have made the resume more <em>visually interesting</em>, but I disagreed about whether that served the user. Resumes are scanned in 6 seconds by recruiters. Pattern would have added noise to a surface where speed-of-read is the only metric that matters.</p>
+
+        <div class="pull-quote">"Junior designers take all feedback. Senior designers take feedback that serves the user. Knowing which is which is the actual job."</div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="case-footer" aria-label="Project details">
+  <div class="case-footer__inner">
+    <div class="case-footer__grid">
+      <div class="case-footer__mark">
+        <em>tended with love and care 💐</em>
+      </div>
+      <div class="case-footer__meta">
+        <p class="case-footer__row"><span class="case-footer__k">Project Name</span> <span class="case-footer__v">Brand Style Guide</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">Focus</span> <span class="case-footer__v">Graphic Design</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">Tools</span> <span class="case-footer__v">Illustrator, InDesign, Photoshop</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">Course</span> <span class="case-footer__v">NM3217 Principles of Visual Communication Design</span></p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/pdfjs-dist@3.11.174/legacy/build/pdf.min.js"></script>
+<script>
+  // Render PDF pages directly into the page (no browser PDF viewer chrome).
+  const pdfUrl = '../public/documents/brand-style-guide.pdf';
+  const pdfStageEl = document.getElementById('pdfStage');
+  const pdfThumbsEl = document.getElementById('pdfThumbs');
+  const pdfLoadingEl = document.getElementById('pdfLoading');
+  const artifactScrollEl = document.querySelector('.artifact-scroll');
+  const matrixRows = document.querySelectorAll('#tldrMatrix .matrix-row[data-anchor]');
+  let pdfDocRef = null;
+  let totalPages = 1;
+  let currentPage = 1;
+
+  function getSpreadPages(anchorPage, numPages) {
+    const clamped = Math.max(1, Math.min(anchorPage, numPages));
+    if (numPages <= 1) return [1];
+    if (clamped === 1) return [1];
+    if (clamped === numPages) return [numPages];
+    if (clamped % 2 === 0) return [clamped, Math.min(clamped + 1, numPages)];
+    return [Math.max(clamped - 1, 1), clamped];
+  }
+
+  function getAnchorFromRow(row) {
+    const raw = row.dataset.anchor || '1';
+    if (raw === 'last') return totalPages;
+    const numeric = Number(raw);
+    return Number.isFinite(numeric) ? numeric : 1;
+  }
+
+  function getRowPages(row) {
+    const raw = (row.dataset.pages || '').trim();
+    if (!raw) return getSpreadPages(getAnchorFromRow(row), totalPages);
+    const out = [];
+    raw.split(',').forEach((chunk) => {
+      const part = chunk.trim();
+      if (!part) return;
+      if (part.includes('-')) {
+        const [aRaw, bRaw] = part.split('-');
+        const a = Number(aRaw);
+        const b = Number(bRaw);
+        if (Number.isFinite(a) && Number.isFinite(b)) {
+          const start = Math.min(a, b);
+          const end = Math.max(a, b);
+          for (let i = start; i <= end; i += 1) out.push(i);
+        }
+      } else {
+        const n = Number(part);
+        if (Number.isFinite(n)) out.push(n);
+      }
+    });
+    return out.length ? out : getSpreadPages(getAnchorFromRow(row), totalPages);
+  }
+
+  function updateActiveStates(spreadPages) {
+    const spreadSet = new Set(spreadPages.map(String));
+    document.querySelectorAll('.pdf-thumb').forEach((thumb) => {
+      thumb.classList.toggle('is-active', spreadSet.has(thumb.dataset.page || ''));
+    });
+
+    matrixRows.forEach((row) => {
+      const rowSpread = getRowPages(row);
+      const isActive = rowSpread.some((page) => spreadSet.has(String(page)));
+      row.classList.toggle('is-active', isActive);
+      row.classList.toggle('is-collapsed', !isActive);
+    });
+  }
+
+  function fitScale(page, targetWidth) {
+    const base = page.getViewport({ scale: 1 });
+    return targetWidth / base.width;
+  }
+
+  async function renderMainPage(pageNumber) {
+    if (!pdfDocRef || !pdfStageEl || !artifactScrollEl) return;
+    currentPage = Math.max(1, Math.min(pageNumber, totalPages));
+    const stageWidth = Math.max((artifactScrollEl.clientWidth || 900) - 24, 320);
+    const stageHeight = Math.max((artifactScrollEl.clientHeight || 900) - 24, 320);
+    const dpr = window.devicePixelRatio || 1;
+    const page = await pdfDocRef.getPage(currentPage);
+    const base = page.getViewport({ scale: 1 });
+    const fitScale = Math.min(stageWidth / base.width, stageHeight / base.height);
+    const viewport = page.getViewport({ scale: fitScale });
+    const canvas = document.createElement('canvas');
+    canvas.className = 'pdf-page';
+    const context = canvas.getContext('2d', { alpha: false });
+    canvas.width = Math.floor(viewport.width * dpr);
+    canvas.height = Math.floor(viewport.height * dpr);
+    canvas.style.width = `${Math.floor(viewport.width)}px`;
+    canvas.style.height = `${Math.floor(viewport.height)}px`;
+    context.setTransform(dpr, 0, 0, dpr, 0, 0);
+    await page.render({ canvasContext: context, viewport }).promise;
+    pdfStageEl.innerHTML = '';
+    pdfStageEl.appendChild(canvas);
+    updateActiveStates([currentPage]);
+  }
+
+  async function renderPdf() {
+    try {
+      if (!window.pdfjsLib) {
+        throw new Error('pdfjsLib not loaded');
+      }
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://unpkg.com/pdfjs-dist@3.11.174/legacy/build/pdf.worker.min.js';
+      const task = window.pdfjsLib.getDocument(pdfUrl);
+      const pdf = await task.promise;
+      pdfDocRef = pdf;
+      totalPages = pdf.numPages;
+
+      for (let i = 1; i <= pdf.numPages; i += 1) {
+        const page = await pdf.getPage(i);
+        const thumbBtn = document.createElement('button');
+        thumbBtn.className = 'pdf-thumb';
+        thumbBtn.type = 'button';
+        thumbBtn.setAttribute('aria-label', `Go to page ${i}`);
+        thumbBtn.dataset.page = String(i);
+
+        const thumbBase = page.getViewport({ scale: 1 });
+        const thumbScale = 96 / thumbBase.width;
+        const thumbViewport = page.getViewport({ scale: thumbScale });
+        const thumbCanvas = document.createElement('canvas');
+        thumbCanvas.className = 'pdf-thumb-canvas';
+        const thumbCtx = thumbCanvas.getContext('2d', { alpha: false });
+        thumbCanvas.width = Math.floor(thumbViewport.width * (window.devicePixelRatio || 1));
+        thumbCanvas.height = Math.floor(thumbViewport.height * (window.devicePixelRatio || 1));
+        thumbCanvas.style.width = `${Math.floor(thumbViewport.width)}px`;
+        thumbCanvas.style.height = `${Math.floor(thumbViewport.height)}px`;
+        thumbCtx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
+        await page.render({ canvasContext: thumbCtx, viewport: thumbViewport }).promise;
+
+        const thumbLabel = document.createElement('div');
+        thumbLabel.className = 'pdf-thumb-label';
+        thumbLabel.textContent = `Page ${i}`;
+
+        thumbBtn.appendChild(thumbCanvas);
+        thumbBtn.appendChild(thumbLabel);
+        thumbBtn.addEventListener('click', async () => {
+          currentPage = Number(thumbBtn.dataset.page || '1');
+          await renderMainPage(currentPage);
+        });
+        pdfThumbsEl.appendChild(thumbBtn);
+      }
+
+      matrixRows.forEach((row) => {
+        row.addEventListener('click', async () => {
+          const anchorPage = getAnchorFromRow(row);
+          currentPage = anchorPage;
+          await renderMainPage(currentPage);
+        });
+      });
+
+      await renderMainPage(currentPage);
+      if (pdfLoadingEl) pdfLoadingEl.style.display = 'none';
+      window.addEventListener('resize', () => {
+        renderMainPage(currentPage);
+      });
+    } catch (err) {
+      if (pdfLoadingEl) {
+        pdfLoadingEl.innerHTML = 'Could not render PDF in-page. <a href="../public/documents/brand-style-guide.pdf" target="_blank" rel="noopener">Open PDF</a>';
+      }
+      console.error(err);
+    }
+  }
+
+  renderPdf();
+</script>
+
+</body>
+</html>

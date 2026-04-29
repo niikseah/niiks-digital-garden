@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en" data-theme="day">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fusion Scanner — Case Study</title>
+  <link rel="stylesheet" href="../design-system/colors_and_type.css" />
+  <style>
+    .article { max-width: 900px; margin: 0 auto; padding: 24px 0 72px; }
+    h1, h2, h3 { color: var(--fg-1); }
+    h1 { font-family: var(--font-display); font-size: clamp(36px,5vw,58px); line-height:1.06; margin:0 0 8px; }
+    h2 { margin-top: 36px; font-size: clamp(28px,3vw,36px); }
+    h3 { margin-top: 22px; font-size: clamp(20px,2.1vw,26px); }
+    p, li, blockquote { color: var(--fg-2); line-height: 1.7; font-size: var(--step-0); max-width:none; }
+    ul { padding-left: 22px; }
+    hr { border:0; border-top:1px solid var(--border-1); margin: 26px 0; }
+    table { width:100%; border-collapse: collapse; margin: 14px 0; }
+    th, td { border:1px solid var(--border-1); padding:10px; text-align:left; vertical-align:top; }
+    th { color:var(--fg-1); background:var(--bg-3); font-weight:600; }
+    blockquote { border-left: 3px solid var(--electric-300); padding-left: 12px; margin-left: 0; }
+    .cta { margin-top: 34px; display: inline-block; border: 1px solid var(--border-1); border-radius: 999px; padding: 10px 16px; text-decoration: none; color: var(--fg-1); }
+    .cta:hover { border-color: var(--border-strong); }
+    .inline-image { width: 100%; border: 1px solid var(--border-1); border-radius: 10px; margin: 10px 0 14px; }
+  </style>
+  <link rel="stylesheet" href="../shared/shell.css" />
+  <link rel="stylesheet" href="../shared/phase1-ds-bridge.css" />
+</head>
+<body>
+  <header class="project-topbar">
+    <div class="project-topbar__inner">
+      <a class="project-topbar__back" href="../portfolio.html" onclick="if (window.history.length > 1) { event.preventDefault(); window.history.back(); }">← Back</a>
+    </div>
+  </header>
+  <main class="page hero-backdrop">
+    <article class="article">
+      <h1>Fusion Scanner</h1>
+      <h3>An AI-powered browser extension that helps multilingual readers comprehend dense English text</h3>
+      <p><strong>Role:</strong> Product Designer &amp; Researcher (Team of 5)</p>
+      <p><strong>Timeline:</strong> 12 weeks · Academic project, CS3240 (Interaction Design)</p>
+      <p><strong>Tools:</strong> Figma, Balsamiq</p>
+      <p><strong>My contributions:</strong> [CONFIRM — e.g., led usability testing, designed the Summarise panel flow, owned the heuristic evaluation, etc.]</p>
+      <dl class="cs-summary">
+        <div><dt>Course</dt><dd>CS3240 Interaction Design</dd></div>
+        <div><dt>Role</dt><dd>Product Designer &amp; Researcher</dd></div>
+        <div><dt>Timeline</dt><dd>12 weeks</dd></div>
+        <div><dt>Tools</dt><dd>Figma, Balsamiq</dd></div>
+      </dl>
+      <hr>
+      <h2>TL;DR</h2>
+      <p>Multilingual readers — international students, immigrants, language learners — routinely abandon dense English articles because comprehension friction outweighs payoff. We designed <strong>Fusion Scanner</strong>, a browser extension that layers AI summarisation, in-context definitions, and exportable annotations onto any web page. Fusion Scanner is a web extension designed to enhance the reading experience for users facing challenges such as language barriers, learning disabilities (e.g., ADHD, dyslexia), or the overwhelming nature of dense digital content. The tool focuses on three key tasks: 1. Summarising texts 2. Defining unfamiliar terms 3. Enabling text import/export with annotation capabilities.</p>
+      <p>After two rounds of testing (5 usability participants + heuristic audit against Weinschenk&#x27;s principles), we shipped <strong>9 design changes</strong> that resolved every major (severity 3) heuristic violation we identified. The strongest signal: all five testers completed all four core tasks, and three of five spontaneously asked when the tool would be available to use.</p>
+      <h2>Introduction</h2>
+      <p>The project was done in a group of 4 for the course <a href="https://nusmods.com/courses/CS3240/interaction-design" target="_blank" rel="noopener noreferrer">CS3240: Interaction Design</a> taken in National University of Singapore (NUS), up to the 1st redesign of the hi-fi design.</p>
+      <h2>Problem</h2>
+      <p>For many, reading in our native language is a privilege and comfort we take for granted. For others, it is a daunting challenge that they have to overcome. Reading is one of the most important ways to gain knowledge about the world around us, but numerous underlying factors make reading more difficult than it should be.</p>
+      <p><strong>Combined effect of current tools and how information is presented</strong></p>
+      <p>The digital revolution has expanded access to knowledge but also overwhelmed readers with excessive information. Skimming and multitasking have replaced deep reading, fostering a preference for concise content. Additionally, static text often lacks engagement, while digital distractions like notifications and app-switching further disrupt focus. These factors collectively contribute to a fragmented reading experience, making it more difficult for individuals to absorb and retain information effectively.</p>
+      <p><strong>Nature of content</strong></p>
+      <ol>
+        <li>Unfamiliar vocabulary</li>
+        <li>Culturally-embedded references</li>
+        <li>Complex words and jargon, especially in academic, technical, or professional domains with industry-specific vocabulary</li>
+      </ol>
+      <p><strong>Limitations of current solutions</strong></p>
+      <ol>
+        <li>ChatGPT does not have a specialised interface for editing output through annotations, and though possible, it is troublesome for ChatGPT to regenerate the output based on the user’s demands (e.g. changing the subheadings, converting certain paragraphs into bullet points, adding formatting or stylisations to the text).</li>
+        <li>Google Lens lacks summarisation capabilities which could enhance text comprehension.</li>
+      </ol>
+      <h3>Target User Group</h3>
+      <p>We aspire to <strong>make reading a better experience</strong> for multilingual readers facing challenges in comprehending texts in non-native languages and address some of the major obstacles preventing a seamless and enjoyable reading experience. Examples of multilingual readers include:</p>
+      <ol>
+        <li>International students pursuing education in countries</li>
+        <li>Individuals learning a new language</li>
+        <li>Immigrants or new citizens</li>
+      </ol>
+      <p>We also identified a secondary group of users who face different constraints in reading from our primary users but may benefit indirectly from our solution:</p>
+      <ol>
+        <li>Academic professionals seeking to expedite their consumption of research papers</li>
+        <li>Language tutors who benefit from reading tools adapted into supplementary teaching tools</li>
+        <li>Frequent users of digital media</li>
+        <li>Persons diagnosed with ADHD</li>
+      </ol>
+      <h2>Solution</h2>
+      <p>We have defined the following as key features of Fusion Scanner:</p>
+      <ol>
+        <li>Allow users to quickly and easily <strong>summarise</strong> the main point(s) from paragraph.</li>
+        <li>Allow users to seek <strong>definitions</strong> or <strong>explanations</strong> for unfamiliar terms or industry-specific jargon within the text and request the system to highlight and provide clarifications as needed.</li>
+        <li>Allow users to <strong>import</strong> and <strong>export</strong> texts in various popular formats and to be able to write and save their annotations of the texts.</li>
+      </ol>
+      <h2>Design Process</h2>
+      <h3>User Research</h3>
+      <p>We conducted <strong>Contextual Inquiries (CIs)</strong> and presented our findings in the Sequence Work Model and Cultural Work Model individually, and consolidated them in an Affinity Diagram.</p>
+      <p><strong>Key Discoveries</strong></p>
+      <ol>
+        <li>Individuals labeled with the same characteristic or issue face different reading experiences, highlighting the importance of tackling all the nuances of the same problem.</li>
+        <li>Individuals who seem sufficiently fluent in a language would benefit from using our solution to enhance their reading experience.</li>
+        <li>Students typically have little to no control over the readings they receive, and the time they have to read them. This gives us confidence that our solution would be of help to them.</li>
+      </ol>
+      <p>Shown below: two non-native speakers of English who have different approaches to reading.</p>
+      <h3>Interviewee 1 (Non-native speaker)</h3>
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-08_at_11.27.01.png" alt="Interviewee 1 reading behavior 1" loading="lazy" />
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-08_at_11.27.48.png" alt="Interviewee 1 reading behavior 2" loading="lazy" />
+      <h3>Interviewee 2 (Non-native speaker)</h3>
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-08_at_11.28.47.png" alt="Interviewee 2 reading behavior 1" loading="lazy" />
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-08_at_11.29.38.png" alt="Interviewee 2 reading behavior 2" loading="lazy" />
+      <h3>Affinity Diagram</h3>
+      <p><a href="https://embed.figma.com/board/UpWQjeZMTquds0v4a2dL0g/Affinity-Diagram-(CS3240)?node-id=0-1&t=GT7nSgkQShoRtZZJ-1&embed-host=notion&footer=false&theme=system" target="_blank" rel="noopener noreferrer">Affinity Diagram (CS3240)</a></p>
+      <p><a href="https://embed.figma.com/board/GowjNKRrfevPIuKP7oRLUk/Affinity-Diagram-(CS3240)-(1)?node-id=0-1&t=w8Z6CyarjpVPsrcO-1&embed-host=notion&footer=false&theme=system" target="_blank" rel="noopener noreferrer">Affinity Diagram (CS3240) (1)</a></p>
+      <p><a href="https://embed.figma.com/board/EXpaTzxBFqy2krNC1rB6S2/Affinity-Diagram-(CS3240)-(2)?node-id=0-1&t=tCLBZAMozuBveZOO-1&embed-host=notion&footer=false&theme=system" target="_blank" rel="noopener noreferrer">Affinity Diagram (CS3240) (2)</a></p>
+      <p><strong>Themes:</strong></p>
+      <ol>
+        <li>Factors that slow down reading</li>
+        <li>Possible distractions</li>
+        <li>Benefits of prerequisite knowledge</li>
+        <li>Miscellaneous text that can be removed without affecting comprehension</li>
+        <li>Benefits of summarisation and simplification of sentences</li>
+        <li>Benefits of annotations</li>
+        <li>Focus management through the use of tools</li>
+      </ol>
+      <h3>Personas</h3>
+      <p>We developed three personas to capture and communicate our users' requirements. This allows us to better understand who we are designing for so that we can focus on making our design more user-friendly.</p>
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-08_at_11.45.38.png" alt="Persona - Leon Schmidt" loading="lazy" />
+      <p><strong>Agent:</strong> Leon Schmidt, non-native student studying in the United States</p>
+      <p><strong>Scenario:</strong> Summarising main points</p>
+      <p><strong>Setting:</strong> User is given an in-class activity which he is asked to read a long article with his groupmates</p>
+      <p><strong>Goals:</strong> User wishes to get the information from the article accurately and quickly so that he can discuss with his group mates later</p>
+      <p><strong>Action:</strong> Use the Fusion Scanner web extension to summarise and increase reading speed</p>
+      <p>Leon is an international undergrad studying in the United States. English is not his native language. During an in-class discussion regarding Film Studies, Leon was tasked to read a 4 page long article writing in English. However, Leon was not comfortable with reading English so quickly. Hence, he reads it slowly and carefully. Leon then finds out all his teammates has finished reading much faster than him. When the discussions starts, he was not able to contribute as he had not finish his reading. He begins to panic, not knowing what he needs to say. Leon wants to understand the main points of the reading material accurately and quickly so that he can enjoy and discuss the topics with his classmates during their discussions. Leon <strong>turns on the Fusion Scanner web extension on his computer, and uploads the link of the paragraph to the app</strong>. The app quickly produces the main points of the article and gives the summarisation of each subparagraphs. Moreover, Leon <strong>turns on the Bionic Reading function</strong> on the app, allowing him to read at much faster pace. After this, the group discussion begins and Leon <strong>expresses his opinions easily with his other group members.</strong></p>
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-08_at_11.47.50.png" alt="Persona - Linda Wong 1" loading="lazy" />
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-08_at_11.47.11.png" alt="Persona - Linda Wong 2" loading="lazy" />
+      <p><strong>Agent:</strong> Linda Wong, non-native student</p>
+      <p><strong>Scenario:</strong> Importing her readings and taking notes</p>
+      <p><strong>Setting:</strong> User is in a reading-intensive class and has up to 100 pages of readings assigned every seminar, which occurs twice a week.</p>
+      <p><strong>Goals:</strong> User wants to use our app for her readings. Since the readings are always given in pdf, user needs to be able to import the readings in from Downloads.</p>
+      <p><strong>Action:</strong> User uses our import PDF function, which opens her readings in a new tab on her browser, and everything else works as per normal.</p>
+      <p>Linda is a non-native student in a reading-intensive class. She has up to 100 pages of readings assigned every seminar, which occurs twice a week. However, she has many other priorities and other assignments to work on, and thus does not want to spend all her time trying to understand the assigned texts. Hence, she wants to use our app on her readings. Since the readings are always given in pdf, either as online articles or scanned, she needs to be able to import the readings from downloads. If the pdf is in hardcopy, our app then accurately detects and translates the words into text form for easier reading and annotation. For this week’s readings, <strong>Linda uploads a scanned copy of an old text</strong> provided by her professor. Our app detects that it is a scanned copy, and automatically translates it into text for her. It then opens the readings in a new tab on her browser, and everything else works as per normal. After Linda has read and <strong>annotated as needed,</strong> she <strong>chooses to export it back into PDF</strong> so that she can print out a hardcopy for in-class discussions. She then <strong>saves the file (readings, annotations and generated content) into her own folder on our app,</strong> so that she can easily access and modify it if needed in class.</p>
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-08_at_20.43.27.png" alt="Persona - Office worker/generic reader" loading="lazy" />
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-08_at_11.45.49.png" alt="Persona - Kyle Tan" loading="lazy" />
+      <p><strong>Agent:</strong> Kyle Tan, an investment banker</p>
+      <p><strong>Scenario:</strong> Defining unknown terms and words/task 2</p>
+      <p><strong>Setting:</strong> User is in their office, researching on their desktop computer</p>
+      <p><strong>Goals:</strong> User is researching on a topic and is seeking definitions for word that they are unclear about to understand their reading better</p>
+      <p><strong>Action:</strong> Use the Fusion Scanner web extension to clarify definitions of words</p>
+      <p>Kyle is an investment banker researching about a new client for this work. In Kyle’s office, he uses the desktop computer and enters the browser and begins searching about the client online. He encounters an article that he feels may produce insights about the client. As he begins reading, he starts to encounter terms and phrases that he do not fully understand. Without a clear comprehension of the words, he becomes confused about the article’s content and struggles to grasp an understanding of his client. He seeks to clarify those words and improve his understanding of the article. <strong>He activates the Fusion Scanner web extension and starts to highlight those words that he is not clear about.</strong> The web extension goes to work and produce definitions, examples, and references to aid in reading. After clarifying his confusion and doubts, Kyle understands the article better. Subsequently, he gains a clearer understanding of his clients.</p>
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/Screenshot_2025-02-08_at_12.27.32.png" alt="Kyle Tan scenario visual" loading="lazy" />
+      <h2>Wireframes</h2>
+      <h2>Interactive Prototype</h2>
+      <h2>Evaluation &amp; Analysis</h2>
+      <h3>Usability Tests among Target Users</h3>
+      <p>Participants were picked via a <strong>Screener Survey</strong>.</p>
+      <p><strong>Questions Asked</strong></p>
+      <p><strong>Participant’s Comfort in Reading English Text:</strong> What is their native language; proficiency in reading English (1 to 5); frequency of reading English texts in the past 6 months; how often they encounter unfamiliar English words.</p>
+      <p><strong>Participant’s Inherent Comfort with Reading:</strong> kinds of English texts they read; how often they access online English articles/literature for research; how they feel about being forced to read lengthy English texts.</p>
+      <h3>Tasks</h3>
+      <table><thead><tr><th>Task Number</th><th>Task Description</th><th>Purpose</th></tr></thead><tbody>
+        <tr><td>1</td><td>User uses Fusion Scanner to gather main points, regenerates, and provides feedback.</td><td>Test if Key Task 1 and regeneration/feedback support are intuitive.</td></tr>
+        <tr><td>2</td><td>User clarifies unfamiliar word &quot;Solemnly&quot;.</td><td>Test if Key Task 2 and hover define flow are intuitive.</td></tr>
+        <tr><td>3</td><td>User activates Bionic Reading function.</td><td>Test discoverability of secondary functions.</td></tr>
+        <tr><td>4</td><td>User annotates and exports article with annotations.</td><td>Test if Key Task 3 export flow is intuitive.</td></tr>
+      </tbody></table>
+      <p><strong>Findings from Usability Tests</strong></p>
+      <p><strong>Praises:</strong> Ease of use and intuitiveness; aesthetic design; functional; relevant.</p>
+      <p><strong>Complaints:</strong> Settings and navigation confusing; annotations poorly represented; lack of documentation and guidance; inadequate customisation; visual issues with certain information being too small.</p>
+      <h3>Usability Heuristics</h3>
+      <p>Psychological usability heuristics developed by Susan Weinschenk.</p>
+      <p><a href="https://docs.google.com/spreadsheets/d/10fsW2ZCfmRV0X1Zngp1fXx-P-wPICfI0/edit?gid=1144406307#gid=1144406307" target="_blank" rel="noopener noreferrer">Heuristic evaluation sheet</a></p>
+      <ol>
+        <li>Some bugs break the flow of the app and need to be fixed (None).</li>
+        <li>Regenerating the AI summary needs error recovery, error prevention, and more granularity (H3, H5).</li>
+        <li>More instructions on how to use our app should be included (H9, H10).</li>
+      </ol>
+      <h2>Redesign</h2>
+      <h3>Representation of “From Highlighted” function</h3>
+      <p>This function allows users to generate summaries of section of articles they highlight.</p>
+      <p><strong>Before</strong></p>
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/_tmp_a2c0ad82-2861-4c30-bcab-2670f4decd06_media_image10.png" alt="Before highlighted toggle blank state" loading="lazy" />
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/_tmp_a2c0ad82-2861-4c30-bcab-2670f4decd06_media_image17.png" alt="Before highlighted toggle active state" loading="lazy" />
+      <p><strong>After</strong></p>
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/_tmp_a2c0ad82-2861-4c30-bcab-2670f4decd06_media_image11.png" alt="After highlighted toggle simplified" loading="lazy" />
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/_tmp_a2c0ad82-2861-4c30-bcab-2670f4decd06_media_image13.png" alt="After highlighted toggle explicit label" loading="lazy" />
+      <h3>Asking for feedback before regenerating the summary</h3>
+      <p>Due to the inherent nature of AI, it may not produce results that satisfy the user. Hence, a regeneration feature is implemented to allow the user to produce another set of results. At the same time, having to regenerate the results would suggest that the user is dissatisfied. Thus, feedback from the user before the regeneration of results happened is crucial in improving the AI’s output. This way, the AI would know what to improve on and focus their results towards a particular direction set by the user.</p>
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/_tmp_a2c0ad82-2861-4c30-bcab-2670f4decd06_media_image15.png" alt="Before feedback ordering flow" loading="lazy" />
+      <p><strong>Before</strong> After clicking on the “refresh” icon, the summary would regenerate and then a “Feedback” button would appear beside the icon.</p>
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/te.png" alt="After feedback before regeneration flow" loading="lazy" />
+      <p><strong>After</strong> In the improved flow, when the “refresh” icon is pressed, the same input box appears first. The user will enter their feedback before they can regenerate the summary with the “Refresh” icon in the input box.</p>
+      <h3>Separate regeneration function for different portions of the summary</h3>
+      <p>In the “Summarise” window, 2 main summaries are produced: key themes summary and quick summary. The key themes summary would present the main points of the article, while the quick summary would present a short paragraph to summarise the entire article. We decided to separate the regeneration function into both parts of the summary to improve on the amount of control that the user has on the tool and on the results of their summary.</p>
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/1.png" alt="Before single refresh icon" loading="lazy" />
+      <p><strong>Before</strong> Previously, there was only 1 “Refresh” icon at the top of the “Summarise” window.</p>
+      <img class="inline-image" src="../public/design-assets/project-media/fusion-scanner/2.png" alt="After two refresh icons" loading="lazy" />
+      <p><strong>After</strong> The new flow implements 2 separate “Refresh” icons in the “Summarise” window, one for each part of the summary.</p>
+      <h3>Introduce Warning Pop-ups for High-Risk Actions</h3>
+      <p>Our app did not warn users of the destructive nature of returning from the ‘From Highlighted’ summary to the Full Summary as the summary is regenerated each time the user presses the button. After: Users are warned that this is a destructive action via a pop-up message.</p>
+      <h3>Improve Error and Success Messages</h3>
+      <p>Our app lacked feedback as to 1) what the system status currently was 2) what the error was if nothing happened after an action. To prevent users from having to guess what was going on, we added success and error messages at the point of action.</p>
+      <h3>Improve Help and Documentation</h3>
+      <p>Our app lacked help and documentation. Hence, we implemented help pages for each of our three panels, and, where applicable, introduced text instructions so that users are clear on how to use our features.</p>
+      <hr>
+      <h2>The Problem</h2>
+      <p>Reading is the primary on-ramp to knowledge — but for the [CONFIRM — e.g., 1.5B+ people who read English as a second language], it&#x27;s also a tax. Dense vocabulary, unfamiliar idioms, and long-form structure compound into a comprehension barrier that pushes readers away from the content most likely to inform them.</p>
+      <p>Existing tools force a tradeoff:</p>
+      <ul>
+      <li><strong>Translation tools</strong> flatten nuance and break flow.</li>
+      <li><strong>Dictionary lookups</strong> require leaving the page.</li>
+      <li><strong>Summarisers</strong> (TL;DR generators) replace the source instead of supporting it.</li>
+      </ul>
+      <p>None of them respect the way real readers work: skimming, doubling back, defining a word, annotating a thought, and returning to the original text.</p>
+      <p><strong>The opportunity:</strong> a tool that <em>augments</em> reading without replacing it.</p>
+      <hr>
+      <h2>Who We Designed For</h2>
+      <p>We ran contextual inquiry with 5 users spanning our two priority segments:</p>
+      <p><strong>Primary</strong> — Multilingual readers (international students, new immigrants, language learners) who read English daily but encounter unfamiliar vocabulary &quot;often&quot; or &quot;always.&quot;</p>
+      <p><strong>Secondary</strong> — Power readers who&#x27;d benefit from comprehension scaffolding regardless of language background: academic researchers, language tutors, and (notably) one participant with ADHD whose adaptive reading strategies surfaced design insights we hadn&#x27;t anticipated.</p>
+      <p>The CI sessions produced affinity diagrams, sequence models, and interaction models. Three patterns dominated:</p>
+      <p>1. <strong>Selective reading is universal.</strong> Readers skip, re-read, and triage — even fluent ones. Designing around linear consumption ignores how reading actually works.</p>
+      <p>2. <strong>Distraction has two sources</strong> — internal (unknown words pull attention) and external (page layout, images). A reading tool has to address both.</p>
+      <p>3. <strong>Annotations are valued but rarely used</strong> because existing tools make them clunky. Lower the friction and adoption follows.</p>
+      <p>These three insights drove our three core features.</p>
+      <hr>
+      <h2>The Solution: Three Panels, One Extension</h2>
+      <table><thead><tr><th>Panel</th><th>What it does</th><th>Why it earned its place</th></tr></thead><tbody>
+      <tr><td><strong>Summarise</strong></td><td>AI-generated key themes + quick summary, with selective regeneration and feedback loop</td><td>Addresses the &quot;long article = abandon&quot; failure mode</td></tr>
+      <tr><td><strong>Define</strong></td><td>Hover-to-define for unfamiliar words; AI explanations on demand; saves definitions back into the article</td><td>Removes the &quot;leave the page to look up a word&quot; interruption</td></tr>
+      <tr><td><strong>Annotate</strong></td><td>Rich-text annotations that drag-and-drop onto specific paragraphs; export the article + annotations as PDF</td><td>Turns reading from passive consumption into a knowledge-capture workflow</td></tr>
+      </tbody></table>
+      <h3>Why a browser extension, not a standalone app?</h3>
+      <p>Two reasons. First, our CI showed that 4 of 5 participants did most of their reading inside a browser — research papers, news, blogs. Pulling them into a separate app would have introduced exactly the friction we were trying to remove. Second, an extension lets us layer <em>over</em> the source content rather than replace it, which preserved the &quot;augment, don&#x27;t replace&quot; principle.</p>
+      <h3>Why AI for summarisation, given hallucination risk?</h3>
+      <p>We debated this. The alternative — extractive summarisation (pulling existing sentences) — is safer but produces choppy results that don&#x27;t help readers struggling with the original prose. We chose generative AI and mitigated the risk through three design decisions:</p>
+      <ul>
+      <li><strong>Granular regeneration</strong> (Key Themes and Quick Summary refresh independently) so users aren&#x27;t forced to discard a good output to fix a bad one.</li>
+      <li><strong>Feedback-before-regenerate</strong> flow that asks users <em>what</em> they didn&#x27;t like before re-running the model, so the regeneration is targeted, not random.</li>
+      <li><strong>&quot;Where-Is&quot; indicator</strong> that highlights the source paragraph each key theme came from, so users can verify the summary against the source.</li>
+      </ul>
+      <p>The third one is particularly worth flagging: heuristic evaluation flagged it as low-impact, but we kept it because <em>trust in AI output is the long-term moat</em>, not novelty.</p>
+      <hr>
+      <h2>The Evaluation</h2>
+      <p>We used two complementary methods because each catches what the other misses:</p>
+      <p><strong>Usability testing (n=5)</strong> catches comprehension failures and emotional reactions but is expensive and noisy.</p>
+      <p><strong>Heuristic evaluation</strong> (Weinschenk&#x27;s psychological usability heuristics, Nielsen&#x27;s 10) catches systematic violations but misses what real users actually feel.</p>
+      <h3>Recruitment</h3>
+      <p>A 7-question screener (n=15 respondents) filtered for native language, English proficiency (1–5), reading frequency, encounters with unfamiliar vocabulary, and tolerance for long text. We deliberately picked 5 participants with <strong>varied</strong> profiles — native English speakers alongside Chinese, Korean, and Vietnamese speakers; proficiency scores from 2 to 3; preferences from &quot;would prefer shorter text&quot; to &quot;doesn&#x27;t mind long text&quot; — so feedback wouldn&#x27;t cluster around a single archetype.</p>
+      <h3>Tasks tested</h3>
+      <p>1. Generate a summary, regenerate it, provide feedback (Key Task 1)</p>
+      <p>2. Define an unfamiliar word — &quot;Solemnly&quot; (Key Task 2)</p>
+      <p>3. Find and activate a less-prominent feature: Bionic Reading (placement test)</p>
+      <p>4. Write an annotation, attach it to the article, export the result (Key Task 3)</p>
+      <hr>
+      <h2>What We Found, and What We Did About It</h2>
+      <h3>Major issues fixed</h3>
+      <p><strong>1. The &quot;From Highlighted&quot; toggle had no clear mental model</strong> <em>(Nielsen H1 — Visibility of System Status)</em></p>
+      <p>Users couldn&#x27;t tell which summary they were looking at. We replaced the toggle dot with an explicit <code>Back to Full Summary</code> action button — the state is now in the label, not in a coloured indicator.</p>
+      <p><strong>2. Regeneration was irreversible without warning</strong> <em>(H3 — User Control / H5 — Error Prevention)</em></p>
+      <p>We added a destructive-action confirmation, <em>and</em> split regeneration into two independent buttons (Key Themes and Quick Summary) so users could keep the half they liked.</p>
+      <p><strong>3. Feedback came after regeneration, when it was too late to help</strong> <em>(H1)</em></p>
+      <p>Reordered the flow: feedback input now appears <em>before</em> regeneration, so the model has direction. Small change, large logical-flow improvement.</p>
+      <p><strong>4. No success/error states</strong> <em>(H1, H9)</em></p>
+      <p>Added confirmation toasts (&quot;Added to Article!&quot;) and contextual error messages (&quot;You haven&#x27;t highlighted anything!&quot;) at the moment of action.</p>
+      <p><strong>5. Heavy under-documentation</strong> <em>(H10 — Help &amp; Documentation)</em></p>
+      <p>Added a help button to all three panels (previously only on Define), plus inline microcopy (&quot;Drag and drop annotations on the article&quot;) to reduce the need for documentation in the first place.</p>
+      <p><strong>6. Settings were buried per-panel</strong> — moved to the top-level navigation so they apply to the whole extension, matching users&#x27; mental model.</p>
+      <p><strong>7. Inconsistent panel headers</strong> — Define had one, Summarise and Annotate didn&#x27;t. Standardised.</p>
+      <p><strong>8. Export flow was redundant</strong> — &quot;Save&quot; and &quot;Export as PDF&quot; did roughly the same thing. Merged them and added a PDF preview so users know what they&#x27;re getting before they commit.</p>
+      <p><strong>9. Pop-ups lacked close buttons.</strong> Added them. Trivial fix, surprisingly impactful for perceived control.</p>
+      <h3>What we deliberately didn&#x27;t fix</h3>
+      <ul>
+      <li><strong>Dynamic article zoom-out</strong> — Figma prototype limitation, not a design decision. Flagged for engineering.</li>
+      <li><strong>&quot;Where-Is&quot; feature</strong> — one participant called it unclear, but two others found it useful. We kept it because the cost of inclusion is low and the trust-in-AI payoff is high. <em>(This is the kind of tradeoff call I&#x27;d make again.)</em></li>
+      <li><strong>Drag-and-drop animation polish</strong> — Figma can&#x27;t render this faithfully. We documented it as a spec for handoff rather than over-investing in prototype fidelity.</li>
+      </ul>
+      <hr>
+      <h2>Outcomes</h2>
+      <blockquote><strong>Caveat:</strong> these are academic-project outcomes from a 5-person test, not production metrics. I report them as evidence of design improvement, not market validation.</blockquote>
+      <ul>
+      <li><strong>Task completion: 4/4 across all 5 participants.</strong> Every key task completed without facilitator intervention.</li>
+      <li><strong>Heuristic violations: [CONFIRM — e.g., &quot;all 4 severity-3 violations resolved; X of Y minor violations addressed&quot;]</strong> — based on re-running the audit after redesign.</li>
+      <li><strong>Qualitative signal:</strong> 3/5 participants described the tool as something they&#x27;d want to use, citing the AI integration and visual design. Praise clustered around three themes: design intuitiveness, visual restraint, and AI usefulness.</li>
+      <li><strong>Negative feedback that drove iteration:</strong> representation of mode states, lack of customisation, missing help/error messaging — all addressed in the v2 redesign.</li>
+      </ul>
+      <hr>
+      <h2>What I&#x27;d Do Differently</h2>
+      <ul>
+      <li><strong>Define success metrics before testing, not after.</strong> We evaluated against heuristics (good) but never set targets like &quot;task completion ≥ 80%&quot; or &quot;SUS ≥ 70.&quot; That made our &quot;did we succeed?&quot; answer softer than it needed to be.</li>
+      <li><strong>Test the AI quality, not just the AI UX.</strong> We tested whether users could <em>use</em> the summariser. We didn&#x27;t test whether the summaries were <em>good</em>. In a real ship, those are equally important.</li>
+      <li><strong>Recruit one more participant from the primary segment.</strong> Our n=5 leaned slightly toward power-readers; the multilingual learners we were primarily designing for were 3 of 5.</li>
+      <li><strong>Wireframe before high-fidelity.</strong> Several of the heuristic violations we caught (button affordances, mode confusion) would have been cheaper to find at a lower fidelity.</li>
+      </ul>
+      <hr>
+      <h2>What I Took Away</h2>
+      <p>This project sharpened three instincts I now apply to every design problem:</p>
+      <p>1. <strong>Two evaluation methods beat one.</strong> Usability tests catch the felt experience; heuristics catch the structural debt. Skipping either leaves a blind spot.</p>
+      <p>2. <strong>Mental model &gt; visual cleverness.</strong> The &quot;From Highlighted&quot; toggle was visually elegant and functionally confusing. Plain language (&quot;Back to Full Summary&quot;) wins.</p>
+      <p>3. <strong>AI features need trust scaffolding.</strong> Granular controls, source citations, and feedback loops aren&#x27;t nice-to-haves — they&#x27;re the difference between an AI feature people use once and one they integrate into a workflow.</p>
+      <hr>
+      <p><em>Built with: Chin Jun An, Niik Seah, Ning Xinran, Zhewen Zachary Tao, Tang Weichun. Course: CS3240, NUS, supervised by Prof. Zhao Shengdong and TA Aakansha.</em></p>
+      <a class="cta" href="fusion-scanner-tldr.html">Read TL;DR version</a>
+    </article>
+  </main>
+
+  <footer class="case-footer" aria-label="Project details">
+    <div class="case-footer__inner">
+      <div class="case-footer__grid">
+        <div class="case-footer__mark">
+          <em>tended with love and care 💐</em>
+        </div>
+        <div class="case-footer__meta">
+          <p class="case-footer__row"><span class="case-footer__k">Project Name</span> <span class="case-footer__v">Fusion Scanner</span></p>
+          <p class="case-footer__row"><span class="case-footer__k">Course</span> <span class="case-footer__v">CS3240 · NUS</span></p>
+          <p class="case-footer__row"><span class="case-footer__k">Team</span> <span class="case-footer__v">Chin Jun An, Niik Seah, Ning Xinran, Zhewen Zachary Tao, Tang Weichun</span></p>
+          <p class="case-footer__row"><span class="case-footer__k">Format</span> <span class="case-footer__v">Full case study · <a href="fusion-scanner-tldr.html">TL;DR version</a></span></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

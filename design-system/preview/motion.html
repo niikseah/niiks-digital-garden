@@ -1,0 +1,21 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>body{margin:0;background:var(--bg-1);color:var(--fg-1);padding:22px 24px;font-family:var(--font-body);font-size:12px}
+.row{display:flex;align-items:center;gap:14px;padding:6px 0}
+.n{font-family:var(--font-mono);font-size:11px;color:var(--fg-3);width:96px}
+.track{flex:1;height:4px;background:var(--midnight-800);border-radius:2px;position:relative;overflow:hidden}
+.dot{position:absolute;top:-4px;left:0;width:12px;height:12px;border-radius:50%;background:var(--electric-400)}
+.v{font-family:var(--font-mono);font-size:10px;color:var(--fg-4);width:58px;text-align:right}
+@keyframes m1 { 0%,20%{left:0}70%,100%{left:calc(100% - 12px)} }
+.a1 .dot{animation:m1 120ms var(--ease-out) infinite alternate}
+.a2 .dot{animation:m1 200ms var(--ease-out) infinite alternate}
+.a3 .dot{animation:m1 320ms var(--ease-out) infinite alternate}
+.a4 .dot{animation:m1 520ms var(--ease-spring) infinite alternate}
+  <link rel="stylesheet" href="../../shared/shell.css" />
+  <link rel="stylesheet" href="../../shared/phase1-ds-bridge.css" />
+</head><body>
+<div class="eyebrow" style="margin-bottom:8px">Motion · ease-out + spring (once, subtly)</div>
+<div class="row a1"><div class="n">dur-1 / 120</div><div class="track"><div class="dot"></div></div><div class="v">micro</div></div>
+<div class="row a2"><div class="n">dur-2 / 200</div><div class="track"><div class="dot"></div></div><div class="v">hover</div></div>
+<div class="row a3"><div class="n">dur-3 / 320</div><div class="track"><div class="dot"></div></div><div class="v">transition</div></div>
+<div class="row a4"><div class="n">dur-4 / 520</div><div class="track"><div class="dot" style="background:var(--electric-glow)"></div></div><div class="v">hero ·spring</div></div>
+</body></html>

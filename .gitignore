@@ -1,2 +1,19 @@
 .DS_Store
 **/.DS_Store
+
+# Dependencies (e.g. Vite apps under projects/)
+node_modules/
+projects/**/node_modules/
+
+# Build/cache outputs
+**/.vite/
+**/dist/
+*.log
+
+# Exclude oversized IR datasets
+school/cs3245/homework-4/dataset.csv
+school/cs3245/homework-4/dataset.zip
+school/cs3245/homework-4/A0252480J 2/postings.txt
+school/cs3245/homework-4/postings.txt
+school/cs3245/homework-4/A0252480J/A0252480J/postings.txt
+school/cs3245/homework-4/A0252480J/A0252480J 2/postings.txt

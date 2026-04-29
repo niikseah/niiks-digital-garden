@@ -60,66 +60,215 @@
     font-weight: 500;
   }
 
-  .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    backdrop-filter: blur(14px);
-    background: rgba(250, 250, 247, 0.82);
+  .read-view { display: none; }
+  .read-view.is-active { display: block; }
+  .tldr-page {
+    padding: 48px 0 80px;
+  }
+  .tldr-page .tldr-eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 16px;
+  }
+  .tldr-page h1 {
+    font-family: 'Apple Garamond', Georgia, serif;
+    font-weight: 300;
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    line-height: 1.08;
+    color: var(--ink);
+    margin-bottom: 20px;
+    max-width: 20ch;
+  }
+  .tldr-page .tldr-lede {
+    font-size: 1.1rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    max-width: 62ch;
+    margin-bottom: 28px;
+  }
+  .tldr-page ul.tldr-bullets {
+    margin: 0 0 28px 20px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    max-width: 62ch;
+  }
+  .tldr-page ul.tldr-bullets li + li { margin-top: 10px; }
+  .tldr-page .tldr-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-top: 8px;
+  }
+  .tldr-page .tldr-links a {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--blue-700);
+    text-decoration: none;
+    border-bottom: 1px solid var(--blue-300);
+    padding-bottom: 2px;
+  }
+  .tldr-page .tldr-links a:hover { color: var(--blue-900); border-color: var(--blue-500); }
+  .tldr-page .tldr-to-full {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--blue-700);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 0 2px;
+    border-bottom: 1px solid var(--blue-300);
+  }
+  .tldr-page .tldr-to-full:hover { color: var(--blue-900); border-color: var(--blue-500); }
+  .tldr-inner { padding-bottom: 48px; }
+  .tldr-facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px 28px;
+    padding: 22px 0 8px;
+    margin: 0 0 36px;
+    border-top: 1px solid var(--rule);
     border-bottom: 1px solid var(--rule);
   }
-  .topbar-back {
-    color: var(--ink-soft);
-    text-decoration: none;
-    font-family: 'Helvetica Neue', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: color 0.2s;
+  .tldr-facts dt {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 6px;
   }
-  .topbar-back:hover { color: var(--blue-700); }
-  .topbar-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 32px;
-    max-width: 1100px;
-    margin: 0 auto;
+  .tldr-facts dd {
+    margin: 0;
+    font-family: 'Apple Garamond', Georgia, serif;
+    font-size: 1.05rem;
+    color: var(--ink);
+    line-height: 1.35;
   }
-  .topbar .brand {
-    font-family: 'Apple Garamond', serif;
-    font-weight: 500;
-    font-size: 1rem;
-    letter-spacing: -0.01em;
-  }
-  .topbar .brand em { font-style: italic; color: var(--blue-700); font-weight: 400; }
-  .topbar nav { display: flex; gap: 24px; }
-  .topbar nav a {
-    color: var(--ink-soft);
-    text-decoration: none;
-    font-family: 'Helvetica Neue', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: color 0.2s, background-color 0.2s, border-color 0.2s;
-    border: 1px solid transparent;
-    padding: 6px 10px;
-    border-radius: 2px;
-    line-height: 1;
-  }
-  .topbar nav a:hover { color: var(--blue-700); }
-  .topbar nav a.is-active {
+  .tldr-block { margin: 0 0 32px; }
+  .tldr-block .tldr-h {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     color: var(--blue-700);
-    border-color: var(--blue-300);
-    background: rgba(141, 169, 216, 0.14);
+    margin: 0 0 12px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
   }
-  .tldr-link {
-    color: var(--blue-700) !important;
-    border: 1px solid var(--blue-300);
-    padding: 6px 10px;
-    border-radius: 2px;
-    line-height: 1;
+  .tldr-block .tldr-num { color: var(--ink-muted); font-weight: 500; }
+  .tldr-block .tldr-title {
+    font-family: 'Apple Garamond', Georgia, serif;
+    font-size: clamp(1.35rem, 2.8vw, 1.75rem);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--ink);
+    margin: 0 0 12px;
+    max-width: 42ch;
   }
-  @media (max-width: 900px) { .topbar nav { gap: 14px; } }
-  @media (max-width: 680px) { .topbar nav a:not(.tldr-link):not(.back-link) { display: none; } }
+  .tldr-block .tldr-title em { font-style: italic; color: var(--blue-700); font-weight: 400; }
+  .tldr-block p {
+    margin: 0 0 10px;
+    font-size: 1rem;
+    line-height: 1.62;
+    color: var(--ink-soft);
+    max-width: 68ch;
+  }
+  .tldr-block p:last-child { margin-bottom: 0; }
+  .tldr-dgrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .tldr-dcard {
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.65);
+  }
+  .tldr-dcard .d-tag {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 6px;
+  }
+  .tldr-dcard h3 {
+    font-family: 'Apple Garamond', Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin: 0 0 8px;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .tldr-dcard p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .tldr-pullquote {
+    margin: 36px 0;
+    padding: 22px 24px;
+    border-left: 3px solid var(--blue-500);
+    background: var(--blue-50);
+    border-radius: 0 12px 12px 0;
+  }
+  .tldr-pullquote blockquote {
+    margin: 0;
+    font-family: 'Apple Garamond', Georgia, serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    line-height: 1.45;
+    color: var(--blue-900);
+  }
+  .tldr-pullquote blockquote p { margin: 0; }
+  .tldr-pullquote cite {
+    display: block;
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.72rem;
+    font-style: normal;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .tldr-list { margin: 12px 0 0 20px; color: var(--ink-soft); line-height: 1.55; max-width: 64ch; }
+  .tldr-list li + li { margin-top: 8px; }
+  .tldr-resources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px dashed var(--rule);
+  }
+  .tldr-resources a {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--blue-700);
+    text-decoration: none;
+    border-bottom: 1px solid var(--blue-300);
+    padding-bottom: 2px;
+  }
+  .tldr-resources a:hover { color: var(--blue-900); border-color: var(--blue-500); }
+  @media (max-width: 720px) {
+    .tldr-facts { grid-template-columns: 1fr; }
+    .tldr-dgrid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 900px) { nav.project-topbar__sections { gap: 14px; } }
+  @media (max-width: 680px) {
+    .project-topbar .nav-modes { margin-left: 0; width: 100%; justify-content: center; }
+  }
 
   .hero { padding: 120px 0 80px; position: relative; }
   .hero-meta { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 48px; align-items: center; }
@@ -200,6 +349,14 @@
     .hero-visual-grid { grid-template-columns: 1fr; gap: 40px; }
   }
   .svg-stage { width: 100%; max-width: 380px; margin: 0 auto; display: block; }
+  .hero-visual-photo {
+    width: 100%;
+    max-width: 435px;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+    border-radius: 4px;
+  }
   .hero-visual-text h3 {
     font-family: 'Apple Garamond', serif;
     font-weight: 400;
@@ -255,6 +412,40 @@
   }
   p.body { margin-bottom: 20px; color: var(--ink-soft); max-width: 680px; }
   p.body strong { color: var(--ink); font-weight: 500; }
+  h3.narrow-subhead {
+    font-family: 'Apple Garamond', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--blue-700);
+    letter-spacing: -0.005em;
+    margin: 0 0 12px;
+    max-width: 680px;
+  }
+
+  aside.theory-aside {
+    margin: 4px 0 24px;
+    max-width: 680px;
+    padding: 20px 22px 22px;
+    background: var(--blue-50);
+    border-left: 2px solid var(--blue-300);
+    border-radius: 2px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  aside.theory-aside .theory-aside-icon {
+    display: block;
+    font-size: 1.2rem;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  aside.theory-aside p {
+    margin: 0;
+    font-family: 'Apple Garamond', Georgia, serif;
+    max-width: none;
+    width: 100%;
+  }
 
   .twocol {
     display: grid;
@@ -273,6 +464,54 @@
     letter-spacing: -0.005em;
   }
   .twocol .twocol-body p:last-child { margin-bottom: 0; }
+
+  ol.research-steps {
+    margin: 0 0 20px;
+    padding-left: 1.35em;
+    max-width: 680px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    list-style-position: outside;
+  }
+  ol.research-steps li { margin-bottom: 14px; padding-left: 0.35em; }
+  ol.research-steps li:last-child { margin-bottom: 0; }
+
+  .research-findings {
+    margin-top: 12px;
+    max-width: 680px;
+  }
+  .finding-block {
+    padding-top: 22px;
+    margin-top: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .research-findings .finding-block:first-child {
+    margin-top: 4px;
+  }
+  .finding-heading {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--blue-700);
+    margin: 0 0 12px;
+    font-weight: 500;
+  }
+  .finding-heading strong {
+    font-weight: 600;
+    color: var(--blue-900);
+  }
+  .finding-subheading {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin: 20px 0 10px;
+    font-weight: 500;
+  }
+  .finding-subheading strong {
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
 
   .decisions {
     display: grid;
@@ -336,6 +575,45 @@
     transform: scale(1) rotate(0deg);
   }
 
+  .decisions-prose {
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top: 1px solid var(--rule);
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .decisions-prose h3 {
+    font-family: 'Apple Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(1.35rem, 2.4vw, 1.65rem);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 18px;
+    line-height: 1.25;
+  }
+  .decisions-prose h3.decisions-prose-subhead {
+    margin-top: 40px;
+    margin-bottom: 16px;
+    font-size: 1.15rem;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--blue-700);
+  }
+  .decisions-prose a {
+    color: var(--blue-700);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    word-break: break-word;
+  }
+  .decisions-prose a:hover { color: var(--blue-500); }
+  .decisions-prose .decisions {
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+  .decisions-prose .decisions + p.body {
+    margin-top: 28px;
+  }
   .metrics-strip {
     background: var(--blue-900);
     color: var(--paper);
@@ -416,6 +694,216 @@
     margin: 0;
   }
 
+  .impact-prose {
+    margin-top: 48px;
+    padding-top: 48px;
+    border-top: 1px solid rgba(141, 169, 216, 0.2);
+    max-width: none;
+    width: 100%;
+  }
+  .impact-prose p {
+    font-family: 'Apple Garamond', Georgia, serif;
+    font-size: 0.98rem;
+    line-height: 1.65;
+    color: rgba(250, 250, 247, 0.78);
+    margin: 0 0 18px;
+    max-width: none;
+    width: 100%;
+    display: block;
+  }
+  .impact-prose p:last-child {
+    margin-bottom: 0;
+  }
+  .impact-outcomes-asides {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0 0 22px;
+  }
+  .impact-outcomes-asides aside {
+    margin: 0;
+    padding: 14px 16px 16px;
+    border: 1px solid rgba(141, 169, 216, 0.44);
+    border-radius: 6px;
+    background: linear-gradient(165deg, rgba(24, 65, 114, 0.42), rgba(10, 39, 78, 0.34));
+    box-shadow: 0 14px 26px -22px rgba(0, 0, 0, 0.7);
+    font-family: 'Apple Garamond', Georgia, serif;
+    font-size: 1rem;
+    line-height: 1.62;
+    color: rgba(250, 250, 247, 0.9);
+    position: relative;
+    overflow: hidden;
+  }
+  .impact-outcomes-asides aside::before {
+    display: block;
+    margin-bottom: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--star);
+    font-weight: 500;
+  }
+  .impact-outcomes-asides aside:nth-child(1)::before {
+    content: 'Outcome 01';
+  }
+  .impact-outcomes-asides aside:nth-child(2)::before {
+    content: 'Outcome 02';
+  }
+  .impact-outcomes-asides aside::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 110px;
+    height: 110px;
+    background: radial-gradient(circle at top right, rgba(245, 196, 81, 0.18), rgba(245, 196, 81, 0));
+    pointer-events: none;
+  }
+  .impact-method-asides {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0 0 18px;
+  }
+  .impact-method-asides aside {
+    margin: 0;
+    padding: 14px 16px 16px;
+    border: 1px solid rgba(141, 169, 216, 0.44);
+    border-radius: 6px;
+    background: linear-gradient(165deg, rgba(24, 65, 114, 0.42), rgba(10, 39, 78, 0.34));
+    box-shadow: 0 14px 26px -22px rgba(0, 0, 0, 0.7);
+    font-family: 'Apple Garamond', Georgia, serif;
+    font-size: 1rem;
+    line-height: 1.62;
+    color: rgba(250, 250, 247, 0.9);
+    position: relative;
+    overflow: hidden;
+  }
+  .impact-method-asides aside::before {
+    display: block;
+    margin-bottom: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--star);
+    font-weight: 500;
+  }
+  .impact-method-asides aside:nth-child(1)::before {
+    content: 'Quantitative';
+  }
+  .impact-method-asides aside:nth-child(2)::before {
+    content: 'Qualitative';
+  }
+  .impact-method-asides aside::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 110px;
+    height: 110px;
+    background: radial-gradient(circle at top right, rgba(245, 196, 81, 0.18), rgba(245, 196, 81, 0));
+    pointer-events: none;
+  }
+  @media (max-width: 780px) { .impact-method-asides { grid-template-columns: 1fr; } }
+  @media (max-width: 780px) { .impact-outcomes-asides { grid-template-columns: 1fr; } }
+  .impact-prose h3 {
+    margin: 36px 0 16px;
+    font-family: 'Apple Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    color: var(--paper);
+    line-height: 1.3;
+  }
+  .impact-story-grid {
+    margin-top: 44px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    max-width: 980px;
+  }
+  .impact-story-card {
+    border: 1px solid rgba(141, 169, 216, 0.38);
+    border-radius: 6px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(18, 53, 96, 0.8), rgba(9, 31, 62, 0.78));
+    box-shadow: 0 20px 34px -28px rgba(0, 0, 0, 0.55);
+  }
+  .impact-shot {
+    height: 168px;
+    border-bottom: 1px solid rgba(141, 169, 216, 0.25);
+    background:
+      radial-gradient(circle at 20% 18%, rgba(245, 196, 81, 0.5) 0 2px, transparent 3px),
+      radial-gradient(circle at 74% 30%, rgba(164, 206, 255, 0.45) 0 2px, transparent 3px),
+      radial-gradient(circle at 52% 72%, rgba(164, 206, 255, 0.38) 0 1.5px, transparent 3px),
+      linear-gradient(140deg, rgba(18, 73, 130, 0.65), rgba(14, 45, 86, 0.92));
+    position: relative;
+  }
+  .impact-shot::after {
+    content: attr(data-shot);
+    position: absolute;
+    left: 14px;
+    bottom: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: rgba(250, 250, 247, 0.78);
+  }
+  .impact-story-copy {
+    padding: 18px 18px 20px;
+  }
+  .impact-story-copy h4 {
+    margin: 0 0 10px;
+    font-family: 'Apple Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--paper);
+    letter-spacing: -0.015em;
+  }
+  .impact-story-copy p {
+    margin: 0;
+    font-family: 'Apple Garamond', Georgia, serif;
+    font-size: 0.95rem;
+    line-height: 1.62;
+    color: rgba(250, 250, 247, 0.8);
+  }
+  @media (max-width: 780px) { .impact-story-grid { grid-template-columns: 1fr; } }
+
+  #works-cited .section-h {
+    margin-bottom: 28px;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+  .works-cited-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 720px;
+  }
+  .works-cited-list li {
+    margin-bottom: 18px;
+    font-family: 'Apple Garamond', Georgia, serif;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    padding-left: 2.5em;
+    text-indent: -2.5em;
+  }
+  .works-cited-list li:last-child {
+    margin-bottom: 0;
+  }
+  .works-cited-list a {
+    color: var(--blue-700);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    word-break: break-word;
+  }
+  .works-cited-list a:hover {
+    color: var(--blue-500);
+  }
+
   .pullquote { padding: 72px 0; text-align: center; position: relative; }
   .pullquote blockquote {
     font-family: 'Apple Garamond', serif;
@@ -475,28 +963,6 @@
   }
   .reflection-item p { color: var(--ink-soft); font-size: 1rem; line-height: 1.6; margin: 0; }
 
-  footer { padding: 80px 0 56px; border-top: 1px solid var(--rule); position: relative; }
-  footer .foot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; }
-  @media (max-width: 680px) { footer .foot-grid { grid-template-columns: 1fr; gap: 32px; } }
-  footer .foot-mark {
-    font-family: 'Apple Garamond', serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: 1.8rem;
-    color: var(--blue-900);
-    letter-spacing: -0.02em;
-  }
-  footer .foot-mark span.mini-star {
-    display: inline-block;
-    width: 0.5em;
-    height: 0.5em;
-    background: var(--star);
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    margin-left: 0.1em;
-    vertical-align: 0.3em;
-  }
-  footer .foot-meta p { margin: 0 0 8px; color: var(--ink-soft); font-size: 0.92rem; }
-
   @keyframes riseIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
   .hero-meta, .hero h1, .hero-deck, .hero-facts { animation: riseIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
   .hero h1 { animation-delay: 0.12s; }
@@ -509,22 +975,155 @@
   .reveal { opacity: 0; transform: translateY(32px); transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
   .reveal.in { opacity: 1; transform: translateY(0); }
 </style>
+  <link rel="stylesheet" href="../design-system/colors_and_type.css" />
+  <link rel="stylesheet" href="../shared/shell.css" />
+  <link rel="stylesheet" href="../shared/phase1-ds-bridge.css" />
+  <style>
+    .tldr-page button.tldr-to-full {
+      appearance: none;
+      -webkit-appearance: none;
+      border: none !important;
+      box-shadow: none !important;
+      transform: none !important;
+      border-radius: 0;
+      background: transparent;
+    }
+    .tldr-page button.tldr-to-full:hover {
+      transform: none !important;
+    }
+  </style>
 </head>
 <body>
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <a class="topbar-back" href="../portfolio.html">← Back</a>
-    <nav>
-      <a class="tldr-link" href="kita-communication-intervention-tldr.html">TL;DR</a>
+<header class="project-topbar">
+  <div class="project-topbar__inner">
+    <a class="project-topbar__back" href="../portfolio.html">← Back</a>
+    <nav class="project-topbar__sections" aria-label="Case study sections">
       <a href="#problem">Problem</a>
       <a href="#approach">Approach</a>
+      <a href="#findings">Findings</a>
       <a href="#decisions">Decisions</a>
       <a href="#impact">Impact</a>
       <a href="#reflection">Reflection</a>
     </nav>
+    <div class="nav-modes" role="tablist" aria-label="Reading modes">
+      <button type="button" id="btn-read-tldr" class="mode-btn" role="tab" aria-selected="false" tabindex="-1" aria-controls="view-read-tldr">TL;DR</button>
+      <button type="button" id="btn-read-full" class="mode-btn active" role="tab" aria-selected="true" tabindex="0" aria-controls="view-read-full">Full read · ~12 min</button>
+    </div>
   </div>
 </header>
+
+<div id="view-read-tldr" class="read-view tldr-page" role="tabpanel" aria-labelledby="btn-read-tldr" aria-hidden="true">
+  <div class="narrow tldr-inner">
+    <p class="tldr-eyebrow">Communications for social change · Kita</p>
+    <h1>From blind box to brochure</h1>
+    <p class="tldr-lede">
+      Twelve-week team project for <strong>Kita</strong> (Singapore non-profit for at-risk youth): a portable advocacy toolkit—a blind box with mascot keychain that unfolds into a brochure—built to start real conversations, fit tight non-profit economics, and respect youth agency (no pity-led “sob story” framing).
+    </p>
+
+    <dl class="tldr-facts">
+      <div>
+        <dt>Client</dt>
+        <dd>Kita <span style="color:var(--ink-muted)">(formerly Hatch)</span></dd>
+      </div>
+      <div>
+        <dt>Team</dt>
+        <dd>5 · research, concept, visual design, prototype, 3D demo</dd>
+      </div>
+      <div>
+        <dt>Timeline</dt>
+        <dd>12 weeks, end-to-end</dd>
+      </div>
+    </dl>
+
+    <section class="tldr-block" aria-labelledby="tldr-situation-h">
+      <h2 class="tldr-h" id="tldr-situation-h"><span class="tldr-num">01</span> Situation</h2>
+      <p class="tldr-title">A cause people would back — if only they knew it <em>existed</em>.</p>
+      <p>Kita’s work is strong, but formal advocacy infrastructure is thin: growth depends on advocates and donors who mostly discover the org through word of mouth. Existing brochures read like “terminal documents”—they close conversations instead of opening them.</p>
+      <p>Stakeholder interview (board member Jim See): advocates <strong>want</strong> to talk about Kita, but lack something tangible to hand over. The brief became a <strong>conversation starter</strong>, not a one-way info dump—while avoiding the sector default of pity narratives that clash with Kita’s emphasis on agency and co-creation.</p>
+    </section>
+
+    <section class="tldr-block" aria-labelledby="tldr-task-h">
+      <h2 class="tldr-h" id="tldr-task-h"><span class="tldr-num">02</span> Task</h2>
+      <p class="tldr-title">Turn <em>sympathisers into ambassadors</em>.</p>
+      <p>Design an artefact an advocate would carry, give away, and use as an opening line—usable across donor profiles (digital micro-givers to institutional partners). Scope: research, concept, visual design, physical prototype, interactive 3D demo, and a mixed-methods evaluation plan.</p>
+      <p><strong>Constraints:</strong> non-profit unit economics, small-batch production, durability “handbag survival,” and configurability so youth beneficiaries can personalise pieces—co-authors of the story, not its subject.</p>
+    </section>
+
+    <section class="tldr-block" aria-labelledby="tldr-research-h">
+      <h2 class="tldr-h" id="tldr-research-h"><span class="tldr-num">03</span> Research &amp; framing</h2>
+      <p class="tldr-title">Evidence, segments, and language that shaped the artefact.</p>
+      <p>Desk research + competitive SWOT (e.g. Praxium, Trybe) showed a gap: peers rely on text-heavy one-pagers; almost nobody optimises for <strong>shareability</strong> or <strong>object memorability</strong>. GiveAsia / NVPC data informed donor segmentation; one collateral had to flex across very different motivations.</p>
+      <p>Jim See’s interview surfaced a design rule: advocates <strong>calibrate</strong> messaging live—so the toolkit needed modular hooks, not a single fixed script. A language audit (with Kita’s team) flagged terms like “empower” as misaligned; copy favoured language that foregrounds space, co-creation, and potential.</p>
+    </section>
+
+    <section class="tldr-block" aria-labelledby="tldr-findings-h">
+      <h2 class="tldr-h" id="tldr-findings-h"><span class="tldr-num">04</span> Research findings</h2>
+      <p class="tldr-title">Five synthesis points with “what it means” implications.</p>
+      <p>Visibility beyond existing networks; tailoring to diverse donor and advocate motivations; foregrounding youth agency and co-creation; language that avoids deficit framing; and one grounded document that consolidates pathways to help—each steers the blind box + brochure format, copy, and modularity.</p>
+    </section>
+
+    <section class="tldr-block" aria-labelledby="tldr-decisions-h">
+      <h2 class="tldr-h" id="tldr-decisions-h"><span class="tldr-num">05</span> Key design decisions</h2>
+      <p class="tldr-title">Every choice tested against a <em>stated constraint</em>.</p>
+      <div class="tldr-dgrid">
+        <article class="tldr-dcard">
+          <div class="d-tag">Format</div>
+          <h3>Blind box, not a flat brochure</h3>
+          <p>Unboxing creates emotional memory; the object keeps living on a desk as a passive touchpoint. Trade-off: higher per-unit cost vs longer engagement lifecycle.</p>
+        </article>
+        <article class="tldr-dcard">
+          <div class="d-tag">Information architecture</div>
+          <h3>Twelve surfaces, one brochure</h3>
+          <p>Unfolding yields 12 panels. Proximity + visual hierarchy segment mission, impact, pathways to help, and CTAs—skimmable depth for mid-conversation wayfinding.</p>
+        </article>
+        <article class="tldr-dcard">
+          <div class="d-tag">Identity</div>
+          <h3>Mascot keychains (Bubu, Roro, Kiki, Pebbie)</h3>
+          <p>Inspired by leadership wearing character pins at events: pick a character, pair with an origin card—small act of self-expression that starts chats.</p>
+        </article>
+        <article class="tldr-dcard">
+          <div class="d-tag">Configurability</div>
+          <h3>Designed to be co-authored</h3>
+          <p>Deliberate empty fields for youth to complete (infrastructuring / participatory design)—so the toolkit doesn’t speak <em>for</em> beneficiaries in a way that undercuts the thesis.</p>
+        </article>
+      </div>
+      <p style="margin-top:16px">Assembly stays straightforward for ops; thicker stock for durability; companion <strong>3D demo</strong> shows how the fold works in the wild.</p>
+    </section>
+
+    <div class="tldr-pullquote">
+      <blockquote><p>The toolkit should convert interest into action — a base document an advocate can carry, not a statement they have to memorise.</p></blockquote>
+      <cite>Jim See · Board member, Kita</cite>
+    </div>
+
+    <section class="tldr-block" aria-labelledby="tldr-impact-h">
+      <h2 class="tldr-h" id="tldr-impact-h"><span class="tldr-num">06</span> Impact &amp; evaluation</h2>
+      <p class="tldr-title">How we’d know if it works.</p>
+      <p>Planned outcomes: stronger advocate knowledge/confidence when representing Kita; measurable lift in traffic to site and donation channels.</p>
+      <p><strong>Methods (planned):</strong> pre/post surveys for existing advocates; surveys for new advocates after toolkit receipt; platform analytics before/after distribution; light field observation at outreach; follow-up focus groups; longitudinal check-in (6–12 months) for sustained use.</p>
+    </section>
+
+    <section class="tldr-block" aria-labelledby="tldr-reflect-h">
+      <h2 class="tldr-h" id="tldr-reflect-h"><span class="tldr-num">07</span> What we’d do differently</h2>
+      <p class="tldr-title">Honest next steps.</p>
+      <ul class="tldr-list">
+        <li><strong>More advocate interviews sooner</strong> — one deep conversation with Jim See carried a lot of weight; a wider spread (esp. younger advocates) would stress-test assumptions earlier.</li>
+        <li><strong>User testing with youths</strong> — validate configurability and tone with the people the toolkit ultimately advocates for.</li>
+      </ul>
+    </section>
+
+    <div class="tldr-resources">
+      <a href="https://niikseah.github.io/kitablindbox/standalone.html" target="_blank" rel="noopener noreferrer">3D blind box prototype →</a>
+      <a href="https://drive.google.com/drive/folders/1nBfyNA2MHpyBWUfpNTWGyDVVPECXWYSQ?usp=sharing" target="_blank" rel="noopener noreferrer">Designs &amp; templates (Drive) →</a>
+    </div>
+
+    <div class="tldr-links" style="margin-top:20px">
+      <button type="button" class="tldr-to-full" id="btn-read-tldr-inline">Read full case study →</button>
+    </div>
+  </div>
+</div>
+
+<div id="view-read-full" class="read-view is-active" role="tabpanel" aria-labelledby="btn-read-full" aria-hidden="false">
 
 <section class="hero">
   <div class="container">
@@ -540,15 +1139,17 @@
       A blind box that unfolds into a brochure, designed to convert passive sympathy
       into active advocacy — without resorting to the sob stories the sector runs on.
     </p>
+    <dl class="cs-summary">
+      <div><dt>Client</dt><dd>Kita</dd></div>
+      <div><dt>Course</dt><dd>NM4230 Communications for Social Change</dd></div>
+      <div><dt>Team</dt><dd>5</dd></div>
+      <div><dt>Prototype</dt><dd>Interactive 3D Brochure</dd></div>
+    </dl>
 
     <div class="hero-facts">
       <div>
         <div class="label mono">Client</div>
         <div class="value">Kita <span style="color:var(--ink-muted)">(formerly Hatch)</span></div>
-      </div>
-      <div>
-        <div class="label mono">My role</div>
-        <div class="value accent">Project Owner</div>
       </div>
       <div>
         <div class="label mono">Team</div>
@@ -563,44 +1164,20 @@
     <div class="hero-visual">
       <div class="hero-visual-grid">
         <div>
-          <svg class="svg-stage" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" aria-label="Blind box unfolding into a brochure">
-            <defs>
-              <linearGradient id="boxFront" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#3B5BA9"/>
-                <stop offset="100%" stop-color="#13315C"/>
-              </linearGradient>
-              <linearGradient id="boxTop" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#8DA9D8"/>
-                <stop offset="100%" stop-color="#3B5BA9"/>
-              </linearGradient>
-              <linearGradient id="boxSide" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stop-color="#0B2545"/>
-                <stop offset="100%" stop-color="#13315C"/>
-              </linearGradient>
-            </defs>
-            <ellipse cx="150" cy="245" rx="75" ry="8" fill="#0B2545" opacity="0.12"/>
-            <g transform="translate(150 150)">
-              <polygon points="-65,-50 0,-80 65,-50 0,-20" fill="url(#boxTop)"/>
-              <polygon points="-65,-50 -65,40 0,70 0,-20" fill="url(#boxSide)"/>
-              <polygon points="65,-50 65,40 0,70 0,-20" fill="url(#boxFront)"/>
-              <polygon points="65,-50 65,-42 0,-12 0,-20" fill="#8DA9D8" opacity="0.55"/>
-              <line x1="-65" y1="-50" x2="0" y2="-20" stroke="#0B2545" stroke-width="0.6" opacity="0.35"/>
-              <line x1="65" y1="-50" x2="0" y2="-20" stroke="#0B2545" stroke-width="0.6" opacity="0.35"/>
-              <line x1="0" y1="-20" x2="0" y2="70" stroke="#0B2545" stroke-width="0.6" opacity="0.35"/>
-              <circle cx="22" cy="25" r="7" fill="#FAFAF7" opacity="0.95"/>
-              <circle cx="19" cy="23" r="1.2" fill="#0B2545"/>
-              <circle cx="25" cy="23" r="1.2" fill="#0B2545"/>
-              <path d="M 19 28 Q 22 30 25 28" stroke="#0B2545" stroke-width="1" fill="none" stroke-linecap="round"/>
-            </g>
-            <g transform="translate(220 55)">
-              <polygon points="0,-8 2.4,-2.4 8,-2.4 3.5,1.3 5.2,7.2 0,3.8 -5.2,7.2 -3.5,1.3 -8,-2.4 -2.4,-2.4" fill="#F5C451"/>
-            </g>
-          </svg>
+          <img
+            class="hero-visual-photo"
+            src="../public/design-assets/project-media/kita/kita-pebbie-blind-box-hero.png"
+            width="1042"
+            height="841"
+            alt="Kita Pebbie & Friends blind box packaging: two illustrated product boxes on a white background"
+            decoding="async"
+            fetchpriority="high"
+          />
         </div>
 
         <div class="hero-visual-text">
           <h3>A package before it is a pamphlet.</h3>
-          <p>The box arrives closed — a keychain inside, a character mascot on the lid. When it opens, the six folded panels become a twelve-surface brochure. One object does the job of three: a gift, a conversation starter, and a reference document an advocate actually keeps.</p>
+          <p>Each blind box contains a character keychain, based on Kita's mascots. Unfolded, the blind box transforms into a brochure informing readers more on Kita as an organisation.</p>
         </div>
       </div>
     </div>
@@ -617,14 +1194,44 @@
     <h2 class="section-h">A cause people would back — if only they knew it <em>existed</em>.</h2>
     <p class="lede">
       Kita does transformative work with at-risk youth in Singapore, but relies almost entirely on
-      word-of-mouth advocacy. As a newly established non-profit without IPC charity status,
-      visibility is its single biggest constraint on growth.
+      word-of-mouth advocacy. Kita confronts a critical strategic challenge that threatens its
+      long-term sustainability: a significant deficit in its formal communication and advocacy
+      infrastructure.
     </p>
+    <h3 class="narrow-subhead">Target audience</h3>
     <p class="body">
-      Our interview with board member Jim See surfaced the central tension: advocates
+      To craft a scalable solution that fits into Kita's compelling narrative, potential advocates
+      and donors are targeted; Empowered by the financial capital and influential networks they
+      yield, these individuals have the ability to amplify Kita's reach.
+    </p>
+    <aside class="theory-aside">
+      <span class="theory-aside-icon" aria-hidden="true">💡</span>
+      <p>
+        This reflects a core tenet of stakeholder theory, which posits that an organisation's
+        long-term viability is dependent on its ability to effectively manage relationships with
+        all groups that supply critical resources, not just those who are the primary beneficiaries
+        of its services (Freeman, 1984).
+      </p>
+    </aside>
+    <p class="body">
+      Our interview with board member and advocate Jim See surfaced the central tension: advocates
       <strong>want</strong> to talk about Kita, but the existing materials don't give them
       anything to hand over. Traditional brochures read like terminal documents — one-way,
       informational, quietly forgettable. They close conversations rather than open them.
+    </p>
+    <p class="body">
+      Traditional brochures act as one-way, terminal points of information. They operate on an
+      outdated diffusion model of communication insufficient for motivating organic, peer-to-peer
+      advocacy Kita requires. Recognising that Kita's fundamental issue was not a lack of
+      information, but a lack of means for conversation starting and sharing, we decided that a
+      shift towards a more participatory communication strategy was needed to change these passive
+      sympathisers into active ambassadors (Servaes, 1996).
+    </p>
+    <p class="body">
+      The primary objective is to create a resource that acts not as a final statement, but as a
+      conversation starter. This toolkit must be engaging, aesthetically compelling, and easily
+      shareable, motivating potential advocates not only to learn about Kita's mission but to feel
+      personally inspired to champion it within their own professional and social circles.
     </p>
     <p class="body">
       Compounding the problem, the non-profit sector's default rhetorical tool —
@@ -673,6 +1280,25 @@
     <div class="twocol">
       <div><h3>Desk research</h3></div>
       <div class="twocol-body">
+        <p class="body">
+          Academic and non-academic sources within the 3 main themes of Kita's organisational context,
+          Singapore's at-risk youth, and Singapore advocate and donor profiles.
+        </p>
+        <ol class="research-steps">
+          <li>
+            To analyse Kita's organisational context, we reviewed the official websites, online
+            publications, and social media platforms of Kita, its predecessor Hatch, and those of
+            comparable organisations. Using a purposive sampling approach, we selected Praxium and
+            Trybe due to their close alignment with Kita's work. A SWOT analysis of each organisation's
+            branding materials, presentation of programmes and outreach methods was then conducted.
+          </li>
+          <li>
+            To analyse Singapore advocate and donor profiles, we reviewed publicly available data on
+            online donation platforms such as GiveAsia and relevant online reports on philanthropic
+            trends. We focused on both younger, digitally-savvy donors and older, more established
+            contributors, as well as volunteers and partners with varying levels of engagement.
+          </li>
+        </ol>
         <p class="body">Competitive SWOT analysis across Praxium and Trybe — both adjacent youth-agency organisations — surfaced a consistent blind spot: most non-profits in the category lean on text-heavy one-pagers. Nobody in the adjacent set was designing for <strong>shareability</strong> or <strong>object memorability</strong>. That gap became our position.</p>
       </div>
     </div>
@@ -680,6 +1306,12 @@
     <div class="twocol">
       <div><h3>Stakeholder interview</h3></div>
       <div class="twocol-body">
+        <p class="body">
+          An interview was conducted with one of Kita's board members, Kwek Jim See, to gather
+          first-hand insights from an existing advocate. Questions were prepared to understand the
+          demographics, behaviour and preferences of advocates, as well as to gain insight into the
+          current information flows between advocates and potential advocates.
+        </p>
         <p class="body">A deep interview with Jim See, an existing Kita advocate and board member, gave us the single most useful insight in the project: advocates <strong>calibrate</strong> messaging to their audience in real time. A successful toolkit couldn't prescribe one narrative — it had to give advocates portable, modular hooks they could pick up and drop based on the person in front of them.</p>
       </div>
     </div>
@@ -700,15 +1332,99 @@
   </div>
 </section>
 
-<section class="block reveal" id="decisions" style="background: var(--paper-warm);">
+<section class="block reveal" id="findings">
   <div class="container">
     <div class="block-label">
       <span class="num">04</span>
       <span class="line"></span>
+      <span class="title">Research findings</span>
+    </div>
+    <h2 class="section-h">What desk research and interviews <em>converged on</em>.</h2>
+    <p class="lede" style="max-width: 720px; margin-left: auto; margin-right: auto;">
+      Five synthesis points from Kita’s context, donor and advocate data, stakeholder interviews, and language norms—each with implications for the toolkit’s role, tone, and structure.
+    </p>
+    <div class="narrow">
+      <div class="research-findings">
+          <div class="finding-block">
+            <p class="finding-heading"><strong>Finding 1</strong></p>
+            <p class="body">
+              As a recently established non-profit organisation, with minimal press and social media
+              presence, awareness of Kita remains limited beyond its existing support networks.
+            </p>
+            <p class="finding-subheading"><strong>What it means for us</strong></p>
+            <p class="body">
+              This visibility gap suggests the need for a toolkit that acts as a clear and effective
+              entry point; The toolkit needed to be eye-catching and informative enough to spark and
+              sustain conversations.
+            </p>
+          </div>
+          <div class="finding-block">
+            <p class="finding-heading"><strong>Finding 2</strong></p>
+            <p class="body">
+              Advocate profiles and preferences shape engagement strategies. Donors include younger,
+              digitally-savvy individuals who prefer online micro-donations and older donors who
+              provide larger, consistent contributions (Kita's GiveAsia, 2024). Interviews with
+              Kita's team and advocate, Jim See, highlighted the need to tailor messaging based on
+              differing motivations and levels of familiarity with the social service landscape.
+            </p>
+            <p class="finding-subheading"><strong>What it means for us</strong></p>
+            <p class="body">
+              The toolkit needed to cater to these diverse needs with visually engaging, interactive
+              resources that outline different avenues for support.
+            </p>
+          </div>
+          <div class="finding-block">
+            <p class="finding-heading"><strong>Finding 3</strong></p>
+            <p class="body">
+              Kita's youth-led agency approach emerged as a strong point of differentiation. Research
+              on at-risk youth revealed that their experiences stemmed from a combination of both
+              social and familial factors including intergenerational offending and educational
+              pressures. This highlights the need for approaches that give youths genuine involvement
+              and a voice in shaping their own pathways. Kita's unique participatory approach grants
+              youths agency in the creation of spaces and community, which was emphasised by Jim See
+              who used key words like "agency" and "co-creation" to pique the
+              interest of others when sharing about Kita.
+            </p>
+            <p class="finding-subheading"><strong>What it means for us</strong></p>
+            <p class="body">
+              This highlighted the importance of foregrounding Kita's collaborative ethos in the
+              toolkit.
+            </p>
+          </div>
+          <div class="finding-block">
+            <p class="finding-heading"><strong>Finding 4</strong></p>
+            <p class="body">
+              The choice of language used when referring to at-risk youth is crucial. Framing narratives
+              around strength and potential, rather than deficits or "sob stories," helps
+              advocates communicate Kita's mission authentically without tapping on pity or sympathy.
+              The interview with Kita's team cautioned to avoid terms like "empower" in the
+              communication intervention as it implied that the youths were "powerless"
+              before. Instead, Kita prefers language that spotlights how the organisation provides
+              space and opportunities for youths to reach their full potential.
+            </p>
+          </div>
+          <div class="finding-block">
+            <p class="finding-heading"><strong>Finding 5</strong></p>
+            <p class="body">
+              The research revealed a lack of accessible pathways and readily consolidated information
+              for potential advocates to learn or engage with Kita. Both Kita's team and Jim See noted
+              the need for a single, grounded document that brings together key information about Kita
+              and clear ways for advocates to contribute.
+            </p>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block reveal" id="decisions" style="background: var(--paper-warm);">
+  <div class="container">
+    <div class="block-label">
+      <span class="num">05</span>
+      <span class="line"></span>
       <span class="title">Key design decisions</span>
     </div>
     <h2 class="section-h">Every choice was made against a <em>stated constraint</em>.</h2>
-    <p class="lede">Four decisions that shaped the outcome — and the rationale I'd walk a hiring manager through.</p>
 
     <div class="decisions">
       <article class="decision">
@@ -732,6 +1448,68 @@
         <p class="why"><strong>Why:</strong> Kita's mission is youth agency. A toolkit that spoke <em>for</em> them would have undermined the thesis. Drawing from Dantec &amp; DiSalvo's infrastructuring framework, we left deliberate empty fields the youths could fill in — making them the final designers of their own advocacy materials.</p>
       </article>
     </div>
+
+    <div class="decisions-prose">
+      <h3>Communication Intervention</h3>
+      <p class="body">
+        Our advocacy toolkit includes a brochure in the form of a blind box with the theme of home,
+        as well as an identity artefact in the form of a character keychain and a matching card. When
+        unfolded, the blind box transforms into a brochure that can be read to gain a deeper
+        understanding of Kita.
+      </p>
+      <p class="body">
+        The keychain is modelled after Kita's four characters (Bubu, Roro, Kiki, Pebbie). Accompanying
+        each keychain is a matching card detailing the character's origins and what it represents
+        about Kita. We were inspired by Victor Zhu, Kita's executive director, and how he wears Kita's
+        character-themed pins to conferences to start conversations and leave lasting impressions.
+        Keychains were chosen as merchandise due to their conspicuous and attractive appearance, as
+        well as their flexibility in display.
+      </p>
+      <p class="body">
+        The blind box incorporates Kita's distinct visual identity and a unique medium of a blind box
+        to stand out amongst other advocacy materials, reinforce brand recognition and recall. Having
+        an interactive unboxing experience extends engagement beyond passive information consumption,
+        creating emotional resonance that promotes information retention and keeps users interested in
+        understanding Kita's mission.
+      </p>
+
+      <h3 class="decisions-prose-subhead">Design Process</h3>
+      <div class="decisions decisions--design-process">
+        <article class="decision">
+          <div class="d-label">Design process</div>
+          <h4>Comprehensiveness — skimmable depth across <em>twelve</em> facets</h4>
+          <p class="why"><strong>Focus:</strong> information on the brochure needs to be easily digestible and effective in conveying Kita's message. The blind box's 12 sides can clearly segregate categories of information by proximity, and incorporate a visual hierarchy to guide readers' eyes towards critical information and clear calls to action. <strong>Copy:</strong> depth and skimmability were balanced to give readers a clear overview of Kita. Research had also flagged <strong>accessibility and visibility</strong> gaps in how people first encounter advocacy materials; an interactive 3D prototype demonstrates how the box unfolds so the fold logic is legible before anyone opens a physical unit.</p>
+        </article>
+        <article class="decision">
+          <div class="d-label">Design process</div>
+          <h4>Durability — portable, compact, and <em>durable</em></h4>
+          <p class="why"><strong>Focus:</strong> advocates bring the toolkit around to facilitate conversations around Kita when opportunities arise, so it needs to stay compact and lightweight. To be carried repeatedly, it also has to be durable—housing the artifacts safely. That durability lets it double as a display item, extending its lifecycle and creating touchpoints for further sharing of Kita when the blind box lives in advocates' spaces. <strong>Assembly &amp; ops:</strong> we kept the physical design straightforward to assemble and inventory at small batch scale.</p>
+        </article>
+        <article class="decision">
+          <div class="d-label">Design process</div>
+          <h4>Co-creation with <em>Kita's youths</em></h4>
+          <p class="why"><strong>Focus:</strong> most importantly, since Kita's core mission centres on co-creation and youth agency. Without any opportunity to collaborate with Kita's youth beneficiaries, we wanted our design to be configurable to incorporate the concept of "infrastructuring" (Dantec &amp; DiSalvo, 2013). With flexibility built into the design, youths can personalise and adapt it to reflect their own interpretations of what Kita means to them. This intentionality builds a more genuine toolkit meaningful to Kita's youths, sending a unified message to potential supporters of Kita. Rather than prescribing a fixed solution, our intervention provides a foundation and template with elements deliberately left empty so youths can customise it. This explicitly embodies Kita's core values beyond a mere symbolic gesture by creating genuine opportunities for youths to claim ownership over Kita's advocacy narrative, transforming them from passive beneficiaries into active co-creators of how Kita is represented to external stakeholders.</p>
+        </article>
+      </div>
+      <p class="body">
+        Our advocacy toolkit strikes a delicate balance between innovation and practical organisational
+        needs, and youthfulness with professionalism to avoid undermining the seriousness of Kita's
+        cause. The blind box concept is unconventional but culturally relevant, and its innovativeness
+        and trendiness seek to drive social sharing in today's digital age. The blind box presents a
+        memorable first impression through a palatable entry point into Kita, transforming a generic
+        brochure into a memorable touchpoint.
+      </p>
+      <p class="body">
+        <strong>Designs and templates:</strong><br>
+        <a href="https://drive.google.com/drive/folders/1nBfyNA2MHpyBWUfpNTWGyDVVPECXWYSQ?usp=sharing" target="_blank" rel="noopener noreferrer">https://drive.google.com/drive/folders/1nBfyNA2MHpyBWUfpNTWGyDVVPECXWYSQ?usp=sharing</a>
+      </p>
+
+      <h3 class="decisions-prose-subhead">Prototype &amp; production</h3>
+      <p class="body">
+        <strong>3D interactive prototype:</strong><br>
+        <a href="https://niikseah.github.io/kitablindbox/standalone.html" target="_blank" rel="noopener noreferrer">https://niikseah.github.io/kitablindbox/standalone.html</a>
+      </p>
+    </div>
   </div>
 </section>
 
@@ -747,90 +1525,178 @@
 <section class="metrics-strip reveal" id="impact">
   <div class="container">
     <div class="block-label">
-      <span class="num">05</span>
+      <span class="num">06</span>
       <span class="line"></span>
       <span class="title">Impact &amp; evaluation</span>
     </div>
-    <h2 class="section-h">What <em>success</em> looks like — and how we'd measure it.</h2>
-    <p class="lede">The toolkit was delivered to Kita with a mixed-methods evaluation plan. Real-world metrics will arrive post-distribution; the framework below is what we designed to capture them.</p>
 
-    <div class="metric-grid">
-      <div class="metric">
-        <div class="m-label">Leading — Advocate confidence</div>
-        <div class="m-value">Pre/post <em>+40%</em></div>
-        <div class="m-desc">Target uplift in self-reported confidence and knowledge among existing advocates after toolkit distribution, measured on a 5-point scale pre- and post-receipt.</div>
+
+    <div class="impact-prose">
+      <div class="impact-outcomes-asides">
+        <aside>
+          Improve our current advocates' knowledge of Kita and instil confidence in them to communicate
+          Kita's mission to other potential advocates within their network.
+        </aside>
+        <aside>
+          Promote measurable engagement outcomes such as increased traffic to Kita's site and donation
+          platforms.
+        </aside>
       </div>
-      <div class="metric">
-        <div class="m-label">Lagging — Channel engagement</div>
-        <div class="m-value"><em>3×</em> site traffic</div>
-        <div class="m-desc">Target increase in site and donation-platform traffic during the 90 days following a distribution cohort, tracked via UTM and baseline comparison.</div>
+      <p>
+        Ultimately, the toolkits aims to be both an information source and a catalyst for potential advocates to invest their interest and for current advocates to sustain their interest in Kita. As such, we plan to utilise a mixed-method approach to evaluate the effectiveness of our toolkit and whether the outcomes are achieved.
+      </p>
+      <div class="impact-method-asides">
+        <aside>
+          We will conduct surveys for
+          both our current advocates and for new advocates supporting Kita after receiving the toolkits.
+          For current advocates, a pre and post-survey will be conducted, once before receiving the
+          toolkit as a knowledge and confidence check in their role as an advocate, and once after
+          receiving the toolkit to measure whether there is an improvement in the advocate's knowledge
+          and confidence in their role. For new advocates, the survey would serve to understand their
+          knowledge and confidence as an advocate for Kita. The types of questions in this survey would
+          revolve around perceived knowledge of Kita, frequency of advocacy related activities,
+          frequency of donation, and motivations behind becoming an advocate and what sustains their
+          interest. Additionally, we can track engagement metrics with Kita's platforms such as their
+          social media, website, and donation channels before and after the toolkit distribution to
+          measure any numerical impact from the toolkits. As such, we will be able to evaluate shifts in
+          the advocates' knowledge and confidence levels in representing Kita and its associated values
+          through an analysis of the survey results and engagement metrics.
+        </aside>
+        <aside>
+          Simple field observations can be conducted during Kita outreach events
+          attended by advocates where observations of how advocates interact and utilise the toolkit
+          can inform the effectiveness of the toolkit in practice. Additionally, focus group interviews
+          with advocates can be executed after a certain period of toolkit distribution to evaluate how
+          the advocates utilise the toolkit in their own capacities. These interviews would help us
+          identify which elements in the toolkit help the advocates carry out their role better and any
+          pain points that can be improved upon for subsequent engagements. Tying in both methods would
+          be a longitudinal evaluation of the toolkit's effectiveness. We can approach the advocates
+          after six months to a year to assess the toolkit's impact and whether it is sustained beyond
+          its initial distribution.
+        </aside>
       </div>
-      <div class="metric">
-        <div class="m-label">Qualitative — Sustained use</div>
-        <div class="m-value">6–12 <em>months</em></div>
-        <div class="m-desc">Longitudinal focus groups at six and twelve months to assess whether the toolkit keeps functioning as a conversation tool — or gets shelved, the usual fate of advocacy collateral.</div>
-      </div>
+      <p>
+        With a mixed-method approach for evaluation, we are hence able to gain a well-rounded
+        understanding of the operational and relational success of the toolkit in serving its purpose
+        in achieving its outcomes of improving our current advocates' knowledge and confidence in
+        communicating about Kita and promoting measurable engagement outcomes such as increased traffic
+        to Kita's site and donation platforms.
+      </p>
     </div>
 
-    <div class="metric-caveat">
-      <div class="cav-label">A note on honesty</div>
-      <p>This project was delivered at the end of its academic cycle; distribution and the longitudinal study sit with Kita's team. The numbers above are targets from the evaluation plan, not results we've measured yet. I've included them to show what good success criteria look like for this kind of intervention — not to overclaim.</p>
+    <div class="impact-story-grid">
+      <article class="impact-story-card">
+      </article>
     </div>
+
   </div>
 </section>
 
 <section class="block reveal" id="reflection">
   <div class="narrow">
     <div class="block-label">
-      <span class="num">06</span>
+      <span class="num">07</span>
       <span class="line"></span>
-      <span class="title">What I'd do differently</span>
+      <span class="title">What We'd do differently</span>
     </div>
-    <h2 class="section-h">The <em>honest</em> retrospective.</h2>
-    <p class="lede">Three things I'd change on the next version of this project — the answers a hiring manager actually wants when they ask "what went wrong?"</p>
+    <h2 class="section-h">Moving forward...</h2>
+    <p class="lede">
+      This project demonstrates the benefits of co-creation in projects, especially those related to
+      social good. Direct engagement with Kita's advocates allowed us to gain a clearer understanding
+      of the motivations and preferences that enable effective advocacy. Active collaboration further
+      strengthened the alignment between organisational needs and design outcomes, ensuring the toolkit
+      communicated both mission clairity and accessible pathways for involvement.
+    </p>
 
     <div class="reflection-list">
       <div class="reflection-item">
         <div class="r-num">i</div>
         <div>
-          <h4>Only one advocate interview was one too few.</h4>
+          <h4>More interviews would grant us a deeper understanding of Kita's advocates</h4>
           <p>Jim See's insights were excellent but also load-bearing. A second and third interview — particularly with a younger, less established advocate — would have stress-tested assumptions we ended up designing around. If I had the timeline again, I'd front-load three to five short conversations instead of one deep one.</p>
         </div>
       </div>
       <div class="reflection-item">
         <div class="r-num">ii</div>
         <div>
-          <h4>We didn't test the box with the youths it represented.</h4>
-          <p>The configurability principle was strong, but we ran out of runway before the youth beneficiaries actually customised a prototype. The "co-creation" promise is real in the design but untested in the field. That's the biggest gap, and I'd shift two weeks of polish earlier in the timeline to fix it.</p>
-        </div>
-      </div>
-      <div class="reflection-item">
-        <div class="r-num">iii</div>
-        <div>
-          <h4>Unit economics were under-specified.</h4>
-          <p>We designed for durability and interactivity, but didn't model a full cost-per-advocate figure against Kita's actual budget. A v2 would pair the creative direction with a clear production pipeline and a per-unit target — the kind of grounding that gets a non-profit project out of the prototype-only valley.</p>
+          <h4>User testing with youths would enhance the brochure's robustness</h4>
+          <p>Ultimately, we are advocating for the youths. If given more time, we would wish to develop the configurability principle of the blind box. The proposed "co-creation" aspect aligns with both our project's working style and Kita's values.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="container">
-    <div class="foot-grid">
-      <div class="foot-mark">
-        <em>Kita · Case Study No 03</em><span class="mini-star"></span>
-      </div>
-      <div class="foot-meta">
-        <p><span class="mono">NM4230</span> &nbsp; Communications for Social Change</p>
-        <p><span class="mono">Team</span> &nbsp; Mai Phuong Linh, Yap Dian Xiu, Gillian Rae Ang, Niik Seah, Andrew Roy Toh</p>
-        <p><span class="mono">Prototype</span> &nbsp; Interactive 3D brochure available on request</p>
+<section class="block reveal" id="works-cited">
+  <div class="narrow">
+    <h2 class="section-h">Works Cited</h2>
+    <ul class="works-cited-list">
+      <li>
+        Dantec, C. A. L., &amp; DiSalvo, C. (2013). Infrastructuring and the formation of publics in
+        participatory design. <em>Social Studies of Science</em>, 43(2), 241–264.
+        <a href="https://doi.org/10.1177/0306312712471581" target="_blank" rel="noopener noreferrer">https://doi.org/10.1177/0306312712471581</a>
+      </li>
+      <li>
+        Freeman, R. E. (1984). <em>Strategic management: A stakeholder approach</em>. Pitman.
+      </li>
+      <li>
+        Hasanica, N., Ramić-Čatak, A., Mujezinović, A., Begagić, S., Galijašević, K., &amp; Oruč, M.
+        (2020). <em>The effectiveness of leaflets and posters as a health education method</em>.
+        <em>Materia Socio-Medica, 32</em>(2), 135–139.
+        <a href="https://doi.org/10.5455/msm.2020.32.135-139" target="_blank" rel="noopener noreferrer">https://doi.org/10.5455/msm.2020.32.135-139</a>
+      </li>
+      <li>Kita. (2024). <em>Our story and impact</em>. Singapore: Kita.</li>
+      <li>
+        Kita's GiveAsia. (2024). <em>Donate to Kita.</em>
+        <a href="https://give.asia/campaign/support-kita#/story" target="_blank" rel="noopener noreferrer">https://give.asia/campaign/support-kita#/story</a>
+      </li>
+      <li>
+        NVPC. (2024). <em>National Giving Study</em>.<br>
+        <a href="https://nvpc.org.sg/wp-content/uploads/2025/05/national-giving-study-2023-nvpc.pdf" target="_blank" rel="noopener noreferrer">https://nvpc.org.sg/wp-content/uploads/2025/05/national-giving-study-2023-nvpc.pdf</a>
+      </li>
+      <li>
+        Putnam, R. D. (2000). <em>Bowling Alone: The Collapse and Revival of American Community</em>.
+        Simon &amp; Schuster.
+      </li>
+      <li>
+        Servaes, J. (1996). Participatory communication and research in development settings.
+        <em>Participatory Communication for Social Change</em> (pp. 13-25). Sage.
+      </li>
+    </ul>
+  </div>
+</section>
+
+<footer class="case-footer" aria-label="Project details">
+  <div class="case-footer__inner">
+    <div class="case-footer__grid">
+        <div class="case-footer__mark">
+        <em>tended with love and care 💐</em>
+        </div>
+        <div class="case-footer__meta">
+        <p class="case-footer__row"><span class="case-footer__k">Project Name</span> <span class="case-footer__v">Blind Box Brochure for Kita</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">NM4230</span> <span class="case-footer__v">Communications for Social Change</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">Team</span> <span class="case-footer__v">Mai Phuong Linh, Yap Dian Xiu, Gillian Rae Ang, Niik Seah, Andrew Roy Toh</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">Prototype</span> <span class="case-footer__v">Interactive 3D brochure available on request</span></p>
       </div>
     </div>
   </div>
 </footer>
 
+</div>
+
 <script>
+  const backLink = document.querySelector('.project-topbar__back');
+  if (backLink) {
+    backLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = backLink.getAttribute('href') || '../portfolio.html';
+      }
+    });
+  }
+
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (e.isIntersecting) {
@@ -842,9 +1708,72 @@
 
   document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
-  const sectionIds = ['problem', 'approach', 'decisions', 'impact', 'reflection'];
+  const viewTldr = document.getElementById('view-read-tldr');
+  const viewFull = document.getElementById('view-read-full');
+  const btnReadTldr = document.getElementById('btn-read-tldr');
+  const btnReadFull = document.getElementById('btn-read-full');
+  const btnReadTldrInline = document.getElementById('btn-read-tldr-inline');
+  const topbarSections = document.querySelector('.project-topbar__sections');
+
+  function showReadView(which) {
+    if (!viewTldr || !viewFull || !btnReadTldr || !btnReadFull) return;
+    const isTldr = which === 'tldr';
+    viewTldr.classList.toggle('is-active', isTldr);
+    viewFull.classList.toggle('is-active', !isTldr);
+    viewTldr.setAttribute('aria-hidden', isTldr ? 'false' : 'true');
+    viewFull.setAttribute('aria-hidden', !isTldr ? 'false' : 'true');
+    btnReadTldr.classList.toggle('active', isTldr);
+    btnReadFull.classList.toggle('active', !isTldr);
+    btnReadTldr.setAttribute('aria-selected', isTldr ? 'true' : 'false');
+    btnReadFull.setAttribute('aria-selected', !isTldr ? 'true' : 'false');
+    btnReadTldr.tabIndex = isTldr ? 0 : -1;
+    btnReadFull.tabIndex = !isTldr ? 0 : -1;
+    if (topbarSections) {
+      topbarSections.classList.toggle('is-hidden', isTldr);
+      if (isTldr) {
+        topbarSections.setAttribute('aria-hidden', 'true');
+      } else {
+        topbarSections.removeAttribute('aria-hidden');
+      }
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  if (btnReadTldr && btnReadFull) {
+    btnReadTldr.addEventListener('click', () => showReadView('tldr'));
+    btnReadFull.addEventListener('click', () => showReadView('full'));
+  }
+
+  const navModes = document.querySelector('.project-topbar .nav-modes');
+  if (navModes && btnReadTldr && btnReadFull) {
+    navModes.addEventListener('keydown', (ev) => {
+      const k = ev.key;
+      if (k === 'ArrowRight' || k === 'ArrowDown') {
+        ev.preventDefault();
+        showReadView('full');
+        btnReadFull.focus();
+      } else if (k === 'ArrowLeft' || k === 'ArrowUp') {
+        ev.preventDefault();
+        showReadView('tldr');
+        btnReadTldr.focus();
+      } else if (k === 'Home') {
+        ev.preventDefault();
+        showReadView('tldr');
+        btnReadTldr.focus();
+      } else if (k === 'End') {
+        ev.preventDefault();
+        showReadView('full');
+        btnReadFull.focus();
+      }
+    });
+  }
+  if (btnReadTldrInline) {
+    btnReadTldrInline.addEventListener('click', () => showReadView('full'));
+  }
+
+  const sectionIds = ['problem', 'approach', 'findings', 'decisions', 'impact', 'reflection'];
   const sectionNavLinks = sectionIds
-    .map((id) => document.querySelector(`.topbar nav a[href="#${id}"]`))
+    .map((id) => document.querySelector(`.project-topbar__sections a[href="#${id}"]`))
     .filter(Boolean);
 
   const setActiveSection = (id) => {

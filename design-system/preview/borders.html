@@ -1,0 +1,18 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>body{margin:0;background:var(--bg-1);color:var(--fg-1);padding:20px 24px;font-family:var(--font-body);font-size:13px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.g{display:flex;flex-direction:column;gap:4px}
+.s{height:44px;border-radius:8px;border:1px solid var(--border-1)}
+.l{font-family:var(--font-mono);font-size:10px;color:var(--fg-3)}
+.h{font-family:var(--font-mono);font-size:9px;color:var(--fg-4)}
+  <link rel="stylesheet" href="../../shared/shell.css" />
+  <link rel="stylesheet" href="../../shared/phase1-ds-bridge.css" />
+</head><body>
+<div class="eyebrow" style="margin-bottom:10px">Borders — alpha hairlines (never boxes)</div>
+<div class="row">
+  <div class="g"><div class="s"></div><div class="l">border-1</div><div class="h">rgba(124,184,255,.10) — default card</div></div>
+  <div class="g"><div class="s" style="border-color:var(--border-2)"></div><div class="l">border-2</div><div class="h">rgba(124,184,255,.18) — hover / focus</div></div>
+  <div class="g"><div class="s" style="border-color:var(--border-strong)"></div><div class="l">border-strong</div><div class="h">rgba(124,184,255,.32) — sections</div></div>
+  <div class="g"><div class="s" style="border:2px solid var(--electric-400);width:60%"></div><div class="l">accent · blockquote only</div><div class="h">2 px solid electric-400</div></div>
+</div>
+</body></html>

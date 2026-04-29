@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Greenhouse — niik's writing app</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../_kit.css">
+<link rel="stylesheet" href="greenhouse.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../../design-system/colors_and_type.css" />
+  <link rel="stylesheet" href="../../../shared/shell.css" />
+  <link rel="stylesheet" href="../../../shared/phase1-ds-bridge.css" />
+</head>
+<body data-screen-label="Greenhouse — writing app">
+<div id="root"></div>
+<script type="text/babel" src="Greenhouse.jsx"></script>
+<script type="text/babel">
+const NOTES = [
+  { id:'n1', state:'evergreen', date:'tended weekly', read:'6 min', tags:['writing','gardening'],
+    title:'On the pleasure of <em>unfinishing</em>',
+    excerpt:"I keep a folder of things I will not finish. Not the unfinished-because-abandoned kind — the unfinished-on-purpose kind." },
+  { id:'n2', state:'seedling', date:'two Tuesdays ago', read:'4 min', tags:['process'],
+    title:'Three notes becoming an essay',
+    excerpt:"I'm planting these three half-thoughts next to each other to see whether they root." },
+  { id:'n3', state:'budding', date:'last Sunday', read:'3 min', tags:['reading','walking'],
+    title:'Walking as a kind of reading',
+    excerpt:"Solnit again. The sentence that undid me: the object of walking is never the destination." },
+  { id:'n4', state:'seedling', date:'earlier this week', read:'2 min', tags:['language'],
+    title:'A very small defense of <em>maybe</em>',
+    excerpt:'"I don\'t know yet" is a complete sentence and, some days, the bravest one.' },
+];
+function App() {
+  const [active, setActive] = React.useState('n2');
+  const [notes, setNotes] = React.useState(NOTES);
+  const note = notes.find(n => n.id === active) || notes[0];
+  React.useEffect(() => { if (window.lucide) lucide.createIcons(); });
+  return (
+    <div className="gh-app">
+      <Sidebar active={active} setActive={setActive} notes={notes} />
+      <Composer note={note} onChange={(n) => setNotes(notes.map(x => x.id === n.id ? n : x))} />
+      <Inspector note={note} />
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

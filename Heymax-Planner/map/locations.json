@@ -1,0 +1,45 @@
+{
+  "trip_id": "trip_9382",
+  "locations": [
+    {
+      "name": "Gardens by the Bay",
+      "lat": 1.2816,
+      "lng": 103.8636,
+      "category": "Attraction",
+      "address": "18 Marina Gardens Dr, Singapore 018953",
+      "opening_hours": "9:00 AM - 9:00 PM",
+      "phone": "+65 6420 6848",
+      "website": "https://www.gardensbythebay.com.sg"
+    },
+    {
+      "name": "Marina Bay Sands",
+      "lat": 1.2834,
+      "lng": 103.8607,
+      "category": "Hotel",
+      "address": "10 Bayfront Ave, Singapore 018956",
+      "opening_hours": "Open 24 hours",
+      "phone": "+65 6688 8868",
+      "website": "https://www.marinabaysands.com"
+    },
+    {
+      "name": "Maxwell Food Centre",
+      "lat": 1.2803,
+      "lng": 103.8447,
+      "category": "Food",
+      "address": "1 Kadayanallur St, Singapore 069184",
+      "opening_hours": "8:00 AM - 10:00 PM",
+      "phone": "",
+      "website": ""
+    },
+    {
+      "name": "Merlion Park",
+      "lat": 1.2868,
+      "lng": 103.8545,
+      "category": "Attraction",
+      "address": "1 Fullerton Rd, Singapore 049213",
+      "opening_hours": "Open 24 hours",
+      "phone": "",
+      "website": ""
+    }
+  ]
+}

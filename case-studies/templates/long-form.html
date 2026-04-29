@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en" data-theme="day">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[project title] — niik</title>
+  <link rel="stylesheet" href="../../design-system/colors_and_type.css" />
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="../../shared/components.js"></script>
+  <style>
+    /* path rewrites — we're one level deep */
+    .cs-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .nav__brand img { content: url("../../public/design-assets/brand/niik.png"); }
+    .hero-backdrop::after {
+      background-image: url("../../public/design-assets/stars/starfield.svg") !important;
+    }
+
+    .cs-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 32px;
+      font-family: var(--font-mono); font-size: var(--step--1);
+      color: var(--fg-3); text-decoration: none;
+    }
+    .cs-back:hover { color: var(--fg-1); }
+
+    .cs-hero { padding: 24px 0 20px; max-width: 760px; }
+    .cs-meta-row {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      font-family: var(--font-mono); font-size: var(--step--1); color: var(--fg-3);
+      margin-top: 18px;
+    }
+    .cs-meta-row .dot { width: 3px; height: 3px; border-radius: 999px; background: currentColor; opacity: .5; }
+    .cs-title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5.2vw, 64px);
+      font-weight: 400; letter-spacing: -0.035em;
+      line-height: 1.02; color: var(--fg-1);
+      margin: 18px 0 0;
+    }
+    .cs-title em { font-style: italic; color: var(--electric-200); font-weight: 300; }
+    .cs-subtitle {
+      font-family: var(--font-display);
+      font-style: italic; font-weight: 300;
+      font-size: var(--step-2);
+      color: var(--fg-2);
+      line-height: 1.35; margin: 20px 0 0; max-width: 52ch;
+    }
+
+    .cs-cover {
+      margin: 48px 0 32px;
+      aspect-ratio: 16/9;
+      border-radius: 22px;
+      background:
+        radial-gradient(80% 120% at 30% 20%, rgba(42,107,255,.18), transparent 60%),
+        radial-gradient(60% 100% at 80% 80%, rgba(124,184,255,.14), transparent 60%),
+        var(--midnight-800);
+      border: 1px solid var(--border-1);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--fg-4);
+      font-family: var(--font-mono);
+      font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    /* summary card */
+    .cs-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 24px;
+      padding: 24px;
+      border: 1px solid var(--border-1);
+      border-radius: 14px;
+      background: var(--midnight-850);
+      margin: 0 0 64px;
+    }
+    .cs-summary dt {
+      font-family: var(--font-body);
+      font-size: var(--step--1); letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--fg-3); font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .cs-summary dd {
+      font-family: var(--font-body); font-size: var(--step-0);
+      color: var(--fg-1); margin: 0; line-height: 1.5;
+    }
+
+    /* long-form body */
+    .cs-body { max-width: 760px; margin: 0 auto; }
+    .cs-body h2 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.2vw, 36px);
+      font-weight: 400; letter-spacing: -0.02em;
+      color: var(--fg-1);
+      margin: 64px 0 16px;
+    }
+    .cs-body h2 em { font-style: italic; color: var(--electric-200); font-weight: 300; }
+    .cs-body h2:first-child { margin-top: 0; }
+    .cs-body h3 {
+      font-family: var(--font-display);
+      font-size: var(--step-2); font-weight: 400;
+      letter-spacing: -0.015em; color: var(--fg-1);
+      margin: 40px 0 12px;
+    }
+    .cs-body p {
+      font-size: var(--step-0); line-height: 1.65; color: var(--fg-2);
+      margin: 0 0 16px; max-width: 62ch;
+    }
+    .cs-body ul { padding-left: 20px; color: var(--fg-2); line-height: 1.65; }
+    .cs-body li { margin-bottom: 8px; }
+    .cs-body blockquote {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: var(--step-2); line-height: 1.35;
+      color: var(--fg-1);
+      border-left: 2px solid var(--electric-400);
+      padding: 4px 0 4px 22px;
+      margin: 40px 0;
+      max-width: 58ch;
+    }
+
+    /* image slot */
+    .cs-image {
+      margin: 32px 0;
+      aspect-ratio: 16/10;
+      border-radius: 14px;
+      background: var(--midnight-800);
+      border: 1px solid var(--border-1);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--fg-4);
+      font-family: var(--font-mono); font-size: var(--step--1);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .cs-image--tall { aspect-ratio: 4/5; }
+    .cs-image--wide { aspect-ratio: 21/9; }
+    .cs-caption {
+      font-family: var(--font-mono); font-size: var(--step--1);
+      color: var(--fg-3); text-align: left; margin-top: -20px; margin-bottom: 40px;
+    }
+
+    /* two up */
+    .cs-twoup {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+      margin: 32px 0;
+    }
+    @media (max-width: 640px) { .cs-twoup { grid-template-columns: 1fr; } }
+
+    /* callout */
+    .cs-callout {
+      padding: 20px 24px;
+      border-left: 2px solid var(--electric-400);
+      background: rgba(124,184,255,.04);
+      border-radius: 0 10px 10px 0;
+      margin: 32px 0;
+    }
+    .cs-callout .eyebrow { margin-bottom: 8px; }
+    .cs-callout p { margin: 0; color: var(--fg-1); font-size: var(--step-0); }
+
+    /* next / prev */
+    .cs-next {
+      margin-top: 96px; padding-top: 40px;
+      border-top: 1px dashed var(--border-2);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    }
+    @media (max-width: 640px) { .cs-next { grid-template-columns: 1fr; } }
+    .cs-next a {
+      padding: 22px;
+      border: 1px solid var(--border-1); border-radius: 14px;
+      text-decoration: none; color: inherit;
+      background: var(--midnight-850);
+      transition: border-color var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
+    }
+    .cs-next a:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+    .cs-next .dir {
+      font-family: var(--font-mono); font-size: var(--step--1);
+      color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.14em;
+    }
+    .cs-next .t {
+      font-family: var(--font-display); font-size: var(--step-1); font-weight: 400;
+      color: var(--fg-1); margin-top: 8px;
+    }
+  </style>
+  <link rel="stylesheet" href="../../shared/shell.css" />
+  <link rel="stylesheet" href="../../shared/phase1-ds-bridge.css" />
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="env,react">
+    const { CaseStudyShellFooter, CaseStudySummary, Kind, Slot } = window;
+
+    function App() {
+      return (
+        <>
+          <main className="page page--wide hero-backdrop">
+            <div className="cs-shell">
+              <a
+                href="../../portfolio.html"
+                className="cs-back"
+                onClick={(event) => {
+                  if (window.history.length > 1) {
+                    event.preventDefault();
+                    window.history.back();
+                  }
+                }}
+              >
+                ← back to projects
+              </a>
+
+              <header className="cs-hero">
+                <div className="cs-meta-row">
+                  <Kind type="uiux">ui/ux</Kind>
+                  <span className="dot"></span>
+                  <span><Slot>2026</Slot></span>
+                  <span className="dot"></span>
+                  <span><Slot>role — e.g. design + code</Slot></span>
+                  <span className="dot"></span>
+                  <span><Slot>6 weeks</Slot></span>
+                </div>
+                <h1 className="cs-title">
+                  <Slot>project title</Slot> — <em>the long version</em>.
+                </h1>
+                <p className="cs-subtitle">
+                  <Slot>one-sentence hook — the big idea of the project, written as you'd say it out loud.</Slot>
+                </p>
+              </header>
+
+              <div className="cs-cover">cover image — 16:9</div>
+
+              <CaseStudySummary
+                items={[
+                  { label: 'role', value: <Slot>designer · engineer · both</Slot> },
+                  { label: 'team', value: <Slot>solo, or n people</Slot> },
+                  { label: 'timeline', value: <Slot>mar → apr 2026</Slot> },
+                  { label: 'stack', value: <Slot>figma, react, etc.</Slot> },
+                  { label: 'status', value: <Slot>shipped · in progress</Slot> },
+                  { label: 'outcome', value: <Slot>one-line metric or result</Slot> },
+                ]}
+              />
+
+              <article className="cs-body">
+                <h2>the <em>problem</em></h2>
+                <p><Slot>what was broken or missing. who was hurting. how you noticed. 2–4 paragraphs. be concrete — name actual people, actual moments, actual data.</Slot></p>
+                <p><Slot>paragraph two — expand on context, constraints, what had been tried before.</Slot></p>
+
+                <div className="cs-callout">
+                  <div className="eyebrow">the core question</div>
+                  <p><Slot>a single sentence that framed the whole project.</Slot></p>
+                </div>
+
+                <h2>the <em>approach</em></h2>
+                <p><Slot>how you thought about it. the frame you landed on. why this direction over others. 2–3 paragraphs.</Slot></p>
+
+                <div className="cs-image">process image — 16:10</div>
+                <div className="cs-caption"><Slot>caption — what this sketch, screenshot, or diagram is showing.</Slot></div>
+
+                <h3><Slot>a sub-section — a specific move you made</Slot></h3>
+                <p><Slot>zoom into one decision. what changed between v1 and v2. why.</Slot></p>
+
+                <div className="cs-twoup">
+                  <div className="cs-image">before</div>
+                  <div className="cs-image">after</div>
+                </div>
+
+                <h3><Slot>another sub-section — another decision</Slot></h3>
+                <p><Slot>body copy.</Slot></p>
+                <ul>
+                  <li><Slot>a concrete principle or rule you landed on</Slot></li>
+                  <li><Slot>another one</Slot></li>
+                  <li><Slot>another one</Slot></li>
+                </ul>
+
+                <blockquote>
+                  <Slot>a pull-quote — something you said to yourself, or something a user said. sets the tone.</Slot>
+                </blockquote>
+
+                <h2>the <em>outcome</em></h2>
+                <p><Slot>what shipped. numbers if you have them. screenshots of the real thing.</Slot></p>
+
+                <div className="cs-image cs-image--wide">final screen — 21:9</div>
+                <div className="cs-caption"><Slot>caption describing the final state.</Slot></div>
+
+                <h2>what i <em>learned</em></h2>
+                <p><Slot>reflection. what worked. what you'd do differently. what surprised you. this is the part people actually read.</Slot></p>
+
+                <hr />
+
+                <p style={{ color: 'var(--fg-3)', fontSize: 14 }}>
+                  thanks for reading. <a href="mailto:#"><Slot>email</Slot></a> for questions · <a href="../../portfolio.html">see more projects →</a>
+                </p>
+              </article>
+
+              <nav className="cs-next">
+                <a href="short-form.html">
+                  <div className="dir">← previous</div>
+                  <div className="t"><Slot>previous project</Slot></div>
+                </a>
+                <a href="short-form.html" style={{textAlign: 'right'}}>
+                  <div className="dir">next →</div>
+                  <div className="t"><Slot>next project</Slot></div>
+                </a>
+              </nav>
+
+              <CaseStudyShellFooter
+                project={{
+                  title: 'Project title (template)',
+                  kindLabel: 'ui/ux',
+                  year: '2026',
+                  role: 'Replace in your copy',
+                }}
+              />
+            </div>
+          </main>
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
