@@ -61,16 +61,92 @@
   const Nav = ({ current = 'home' }) => {
     const links = [
       { key: 'home', href: toSitePath('index.html'), label: 'home' },
-      { key: 'portfolio', href: toSitePath('portfolio.html'), label: 'projects' },
       { key: 'resume', href: toSitePath('resume.html'), label: 'resume' },
+      { key: 'portfolio', href: toSitePath('portfolio.html'), label: 'projects' },
     ];
+    React.useEffect(() => {
+      const navbars = Array.from(document.querySelectorAll('.navbar'));
+      const cleanups = [];
+
+      navbars.forEach((navbar) => {
+        const pill = navbar.querySelector('.pill');
+        const items = Array.from(navbar.querySelectorAll('.item'));
+        if (!pill || !items.length) return;
+        const activeItem = items.find((item) => item.getAttribute('aria-current') === 'page');
+
+        let isInitialHover = true;
+
+        const showPill = () => {
+          pill.classList.remove('transition-all');
+          pill.classList.add('transition-opacity');
+          pill.style.opacity = '1';
+          isInitialHover = false;
+        };
+
+        const hidePill = () => {
+          pill.style.opacity = '0';
+          pill.classList.remove('transition-all');
+          pill.classList.add('transition-opacity');
+        };
+
+        const animatePill = () => {
+          pill.classList.remove('transition-opacity');
+          pill.classList.add('transition-all');
+        };
+
+        const handleMouseout = (event) => {
+          if (!navbar.contains(event.relatedTarget)) {
+            if (activeItem) {
+              isInitialHover = false;
+              animatePill();
+              handleMouseover(activeItem);
+            } else {
+              isInitialHover = true;
+              hidePill();
+            }
+          }
+        };
+
+        const handleMouseover = (item) => {
+          const leftOffset = `translateX(${item.offsetLeft}px)`;
+          pill.style.width = `${item.offsetWidth}px`;
+          if (isInitialHover) {
+            showPill();
+          } else {
+            animatePill();
+          }
+          pill.style.transform = leftOffset;
+        };
+
+        const onMouseovers = items.map((item) => {
+          const handler = () => handleMouseover(item);
+          item.addEventListener('mouseover', handler);
+          return { item, handler };
+        });
+
+        navbar.addEventListener('mouseout', handleMouseout);
+        if (activeItem) {
+          showPill();
+          handleMouseover(activeItem);
+        } else {
+          hidePill();
+        }
+
+        cleanups.push(() => {
+          navbar.removeEventListener('mouseout', handleMouseout);
+          onMouseovers.forEach(({ item, handler }) => item.removeEventListener('mouseover', handler));
+        });
+      });
+
+      return () => cleanups.forEach((cleanup) => cleanup());
+    }, []);
+
     return e('header', { className: 'nav' },
       e(
-        'a',
+        'div',
         {
-          href: toSitePath('index.html'),
           className: 'nav__brand',
-          'aria-label': 'niik — home',
+          'aria-label': 'niik',
         },
         e('img', {
           src: toPublicAssetPath('design-assets/brand/niik.png'),
@@ -81,14 +157,15 @@
       ),
       e(
         'div',
-        { className: 'nav__links' },
+        { className: 'nav__links navbar' },
+        e('span', { className: 'pill transition-opacity', 'aria-hidden': 'true' }),
         links.map((link) =>
           e(
             'a',
             {
               key: link.key,
               href: link.href,
-              className: 'nav__link',
+              className: 'nav__link item',
               'aria-current':
                 current === link.key || (current === 'archive' && link.key === 'portfolio')
                   ? 'page'

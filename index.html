@@ -12,21 +12,215 @@
   <script src="shared/data.js"></script>
   <script src="shared/components.js"></script>
   <style>
+    .copied-landing {
+      margin-top: 12px;
+      margin-bottom: clamp(40px, 8vw, 88px);
+      border: 20px solid #f7f7fb;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #fcfcfd;
+      box-shadow: 0 16px 42px -36px rgba(29, 44, 98, 0.45);
+    }
+    .copied-landing__hero {
+      min-height: clamp(620px, 86vh, 920px);
+      padding: clamp(24px, 4vw, 44px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #fcfcfd;
+    }
+    .copied-landing__tabs {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 24px;
+      background: #f7f7fb;
+      padding: 20px 24px 0 0;
+      height: 54px;
+      margin-left: 20px;
+      position: relative;
+      width: fit-content;
+    }
+    .copied-landing__tabs::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 1px;
+      background: #dcdfea;
+    }
+    .copied-landing__tab {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 34px;
+      padding: 10px 12px 8px 16px;
+      font-family: "IBM Plex Mono", var(--font-mono);
+      font-size: 12px;
+      line-height: 1;
+      text-transform: lowercase;
+      letter-spacing: 0;
+      color: #fcfcfd;
+      background: #0e101b;
+      border: 0;
+      transition: all .15s ease-out;
+    }
+    .copied-landing__tab--active {
+      background: #fcfcfd;
+      color: #0e101b;
+      box-shadow: 0 -1px 2px rgba(125, 137, 176, 0.08);
+    }
+    .copied-landing__tab:not(.copied-landing__tab--active):hover {
+      height: auto;
+      padding-bottom: 20px;
+      color: #0e101b;
+    }
+    .copied-landing__tab--product:hover { background: #92f6ff; }
+    .copied-landing__tab--web:hover { background: #ffb9f0; }
+    .copied-landing__tab--play:hover { background: #bfff97; }
+    .copied-landing__body {
+      width: min(980px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: clamp(26px, 4vw, 42px);
+      align-items: center;
+    }
+    .copied-landing__title {
+      font-family: "Gelica Light", var(--font-display);
+      font-size: clamp(42px, 6.2vw, 72px);
+      line-height: 1.04;
+      color: #0e101b;
+      letter-spacing: 0;
+    }
+    .copied-landing__title em {
+      font-family: "Gelica Light Italic", var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+    }
+    .copied-landing__note {
+      margin-top: 18px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 24px;
+      background: #ff5101;
+      color: #fcfcfd;
+      padding: 8px 18px 6px;
+      font-family: "Gelica Light", var(--font-display);
+      font-size: 16px;
+      line-height: 1.2;
+    }
+    .copied-landing__cats {
+      margin-top: 18px;
+      width: fit-content;
+      background: #ff5101;
+      color: #fcfcfd;
+      padding: 1.1rem 1.4rem;
+      font-family: "IBM Plex Mono", var(--font-mono);
+      font-size: 1rem;
+      line-height: 1.6;
+      text-align: center;
+      transform: rotate(-8deg);
+    }
+    .copied-landing__visual {
+      width: min(100%, 420px);
+      aspect-ratio: 1 / 1;
+      background: rgba(255, 211, 191, 1);
+      padding: 2rem;
+      transform: rotate(-12deg);
+      justify-self: center;
+      position: relative;
+      overflow: visible;
+    }
+    .copied-landing__stack {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: all .2s ease-out;
+    }
+    .copied-landing__sheet {
+      position: absolute;
+      width: 72%;
+      aspect-ratio: 1 / 1;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(125, 137, 176, 0.1);
+      overflow: hidden;
+      transition: transform .15s ease-out;
+    }
+    .copied-landing__sheet img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .copied-landing__sheet--a {
+      left: -18%;
+      top: -12%;
+      transform: rotate(-16deg);
+      z-index: 1;
+    }
+    .copied-landing__sheet--b {
+      left: 10%;
+      top: 8%;
+      transform: rotate(-4deg);
+      z-index: 2;
+    }
+    .copied-landing__sheet--c {
+      right: -10%;
+      bottom: -14%;
+      transform: rotate(12deg);
+      z-index: 1;
+    }
+    .copied-landing__visual:hover .copied-landing__sheet--a {
+      transform: translate3d(-4%, 2%, 0) rotate(-14deg);
+    }
+    .copied-landing__visual:hover .copied-landing__sheet--b {
+      transform: rotate(-2deg);
+    }
+    .copied-landing__visual:hover .copied-landing__sheet--c {
+      transform: translate3d(2%, -4%, 0) rotate(14deg);
+    }
+    .copied-landing__spark {
+      position: absolute;
+      top: -10%;
+      right: -8%;
+      width: 28px;
+      height: 32px;
+      opacity: 0.72;
+    }
     .home-page {
-      max-width: 1160px;
+      max-width: none;
+      width: calc(100vw - (var(--page-gutter) * 2));
     }
     .home-page.hero-backdrop::before,
     .home-page.hero-backdrop::after {
       display: none;
     }
+    .home-page.hero-backdrop {
+      overflow: visible;
+    }
     .hero {
-      padding-top: clamp(52px, 7vw, 92px);
-      padding-right: 0;
-      padding-bottom: clamp(32px, 5vw, 56px);
+      width: calc(100% - 8px) !important;
+      max-width: none !important;
+      margin-left: 4px !important;
+      margin-right: 4px !important;
       padding-left: 0;
+      padding-right: 0;
+      margin-top: 0;
+      padding-top: clamp(40px, 6vw, 64px);
+      padding-bottom: clamp(40px, 6vw, 64px);
       height: fit-content;
+      height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       position: relative;
       isolation: isolate;
+      border-radius: 22px;
+      border: 1px solid color-mix(in srgb, var(--electric-500) 28%, var(--border-1));
+      background: #ffffff;
+      box-shadow: 0 18px 42px -36px rgba(35, 74, 160, 0.45);
+      padding-inline: clamp(18px, 2.5vw, 30px);
     }
     .hero::before {
       content: "";
@@ -46,8 +240,18 @@
       letter-spacing: -0.03em;
       line-height: 0.98;
       color: var(--fg-1);
-      margin: 14px 0 0;
+      margin: 0;
       max-width: none;
+    }
+    .hero__name-core {
+      font-style: normal;
+      font-weight: 700;
+      color: var(--midnight-500);
+    }
+    .hero__name-mark {
+      font-weight: 400;
+      color: var(--midnight-500);
+      margin-left: 4px;
     }
     .hero__name em { font-style: italic; color: var(--midnight-500); font-weight: 300; }
     .hero__lede {
@@ -182,6 +386,23 @@
       border-radius: 999px;
     }
     @media (max-width: 900px) {
+      .copied-landing {
+        border-width: 12px;
+      }
+      .copied-landing__tabs {
+        margin-left: 12px;
+        height: 46px;
+        gap: 16px;
+      }
+      .copied-landing__tab {
+        padding-bottom: 6px;
+      }
+      .copied-landing__body {
+        grid-template-columns: 1fr;
+      }
+      .copied-landing__visual {
+        justify-self: flex-start;
+      }
       .hero {
         padding-top: 40px;
       }
@@ -284,17 +505,64 @@
       max-height: none;
       overflow-y: visible;
       scroll-snap-align: start;
+      border-radius: 18px;
+      border: 1px solid color-mix(in srgb, var(--electric-500) 24%, var(--border-1));
+      background: color-mix(in srgb, var(--bg-2) 92%, var(--electric-500) 8%);
+      box-shadow: 0 16px 36px -30px rgba(35, 74, 160, 0.32);
       transition: none;
     }
-    .experience-row .card:hover {
+    .experience-row .card:hover,
+    .experience-row .card:active {
       border-color: var(--border-1);
-      background: var(--bg-3);
+      background: #ffffff;
+      box-shadow: 0 16px 36px -30px rgba(35, 74, 160, 0.32);
       transform: none;
-      box-shadow: none;
+    }
+    .experience-row .card:hover .card__thumb img {
+      transform: none;
       filter: none;
     }
-    .experience-row .card:hover .card__title {
-      color: var(--fg-1);
+    .experience-row .card:hover .card__title,
+    .experience-row .card:hover .card__foot .arrow,
+    .experience-row .card__foot .arrow:hover {
+      color: inherit;
+      animation: none;
+      transform: none;
+    }
+    .experience-row .card.card-tone-ink {
+      background: #ffffff;
+      border-color: var(--border-1);
+    }
+    .experience-row .card.card-tone-cream {
+      background: #ffffff;
+      border-color: var(--border-1);
+    }
+    .experience-row .card.card-tone-blue {
+      background: #ffffff;
+      border-color: var(--border-1);
+    }
+    .experience-row .card.card-tone-green {
+      background: #ffffff;
+      border-color: var(--border-1);
+    }
+    .experience-row .card.card-tone-orange {
+      background: #ffffff;
+      border-color: var(--border-1);
+    }
+    .experience-row .card,
+    .experience-row .card * {
+      color: #111827;
+    }
+    .experience-row .card .kind {
+      background: var(--kind-hover-bg, var(--electric-700));
+      border: 1px solid var(--kind-hover-bg, var(--electric-700));
+      color: #ffffff !important;
+    }
+    .experience-row .card .kind.kind--experience-internship {
+      --kind-hover-bg: var(--electric-700);
+    }
+    .experience-row .card .kind.kind--experience-cocurricular {
+      --kind-hover-bg: #2f7d57;
     }
     .experience-row .card__meta {
       display: grid;
@@ -450,6 +718,7 @@
       const workExperiences = [
         {
           company: 'Shopee',
+          cardTone: 'card-tone-ink',
           logo: 'public/design-assets/company-logos/shopee.png',
           role: 'Business Product Management Intern',
           badge: 'INTERNSHIP',
@@ -463,6 +732,7 @@
         },
         {
           company: 'NUS Developer Group',
+          cardTone: 'card-tone-cream',
           logo: 'public/design-assets/company-logos/developer_student_club.png',
           role: 'Head of Design',
           badge: 'co-curricular activity',
@@ -476,6 +746,7 @@
         },
         {
           company: 'Meter Cube Interiors',
+          cardTone: 'card-tone-blue',
           logo: 'public/design-assets/company-logos/metercube.png',
           role: 'Interior Design Intern',
           badge: 'INTERNSHIP',
@@ -489,6 +760,7 @@
         },
         {
           company: 'Capital JDI',
+          cardTone: 'card-tone-green',
           logo: 'public/design-assets/company-logos/jdi.png',
           role: 'Project Research Intern',
           badge: 'INTERNSHIP',
@@ -502,6 +774,7 @@
         },
         {
           company: 'GovTech',
+          cardTone: 'card-tone-orange',
           logo: 'public/design-assets/company-logos/govtech_logo.gif',
           role: 'Product Design Intern',
           badge: 'INTERNSHIP',
@@ -515,6 +788,7 @@
         },
         {
           company: 'DBS Bank',
+          cardTone: 'card-tone-cream',
           logo: 'public/design-assets/company-logos/dbs.png',
           role: 'UI/UX Design Intern',
           badge: 'INTERNSHIP',
@@ -528,6 +802,7 @@
         },
         {
           company: 'NUS Fintech Society',
+          cardTone: 'card-tone-blue',
           logo: 'public/design-assets/company-logos/nus_fintech_society.png',
           role: 'Software Developer',
           badge: 'co-curricular activity',
@@ -563,6 +838,11 @@
       };
       workExperiences.sort((a, b) => parsePeriodStart(b.period) - parsePeriodStart(a.period));
       const formatPeriod = (period) => String(period || '').replace(/\s*-\s*/g, ' - ');
+      const getExperienceBadgeVariant = (badge) => {
+        const normalized = String(badge || '').toLowerCase();
+        if (normalized.includes('co-curricular')) return 'experience-cocurricular';
+        return 'experience-internship';
+      };
       const renderWorkloadBullet = (text) => {
         const raw = String(text ?? '');
         const m = raw.match(/^(\s*)(\S+)([\s\S]*)$/);
@@ -589,9 +869,7 @@
           <Nav current="home" />
           <main className="page hero-backdrop home-page">
             <section className="hero">
-              <h1 className="hero__name">
-                Hello, I'm <em>niik</em>.
-              </h1>
+              <h1 className="hero__name"><span className="hero__name-core">niik</span><span className="hero__name-mark">✦︎</span></h1>
 
               <div className="hero__meta">
                 <div className="bio-row">
@@ -627,7 +905,7 @@
             </div>
             <div className="experience-row">
               {workExperiences.map((exp) => (
-                <article className="card" key={`${exp.company}-${exp.period}`}>
+                <article className={`card ${exp.cardTone || ''}`.trim()} key={`${exp.company}-${exp.period}`}>
                   <div className="card__meta">
                     <span className="company-lockup">
                       {exp.logo && (
@@ -653,7 +931,7 @@
                       <span className="company-name">{exp.company}</span>
                     </span>
                     <span className="company-meta-sub">
-                      <span className={`kind kind--${exp.badgeClass || 'role-product'}`}>{exp.badge || 'INTERNSHIP'}</span>
+                      <span className={`kind kind--${exp.badgeClass || 'role-product'} kind--${getExperienceBadgeVariant(exp.badge)}`}>{exp.badge || 'INTERNSHIP'}</span>
                       <span className="company-period">{formatPeriod(exp.period)}</span>
                     </span>
                   </div>

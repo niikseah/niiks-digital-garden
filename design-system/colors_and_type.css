@@ -291,3 +291,107 @@ hr {
 }
 
 ::selection { background: var(--electric-500); color: white; }
+
+/* ── Case-study skin inspired by telegram-bot-heymax ─────────── */
+body:has(main.tldr),
+body:has(.cs-body) {
+  --cs-paper: #fafaf7;
+  --cs-paper-warm: #f4f2ec;
+  --cs-ink: #0f1729;
+  --cs-ink-soft: #3c445a;
+  --cs-ink-mute: #6b7388;
+  --cs-rule: #e4e1d8;
+  --cs-blue: #2e5aac;
+  --cs-blue-deep: #1e3a8a;
+  background: var(--cs-paper);
+  color: var(--cs-ink);
+}
+
+body:has(main.tldr) .hero,
+body:has(.cs-body) .cs-hero {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--cs-rule);
+}
+
+body:has(main.tldr) .hero {
+  padding: 92px 32px 68px;
+}
+
+body:has(main.tldr) .hero .eyebrow,
+body:has(.cs-body) .cs-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cs-blue);
+}
+
+body:has(main.tldr) .hero h1,
+body:has(.cs-body) .cs-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+  color: var(--cs-ink);
+}
+
+body:has(main.tldr) .hero h1 {
+  font-size: clamp(46px, 7vw, 90px);
+}
+
+body:has(main.tldr) .hero-deck,
+body:has(.cs-body) .cs-subtitle {
+  color: var(--cs-ink-soft);
+  font-weight: 300;
+}
+
+body:has(main.tldr) .tldr,
+body:has(main.tldr) .full-inner,
+body:has(.cs-body) .cs-body {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+body:has(main.tldr) .tldr,
+body:has(main.tldr) .full-inner {
+  padding: 28px;
+}
+
+body:has(main.tldr) .tldr-side,
+body:has(main.tldr) .chapter,
+body:has(.cs-body) .cs-section {
+  border-color: var(--cs-rule);
+}
+
+body:has(main.tldr) .tldr-side {
+  background: var(--cs-paper-warm);
+  border-radius: 10px;
+}
+
+body:has(main.tldr) .strategy {
+  background: var(--cs-ink);
+  color: var(--cs-paper);
+  border-radius: 8px;
+}
+
+body:has(main.tldr) .chapter h2,
+body:has(.cs-body) .cs-section h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--cs-ink);
+}
+
+body:has(main.tldr) .chapter-num {
+  font-family: var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cs-blue);
+}
+
+body:has(.cs-body) .cs-summary,
+body:has(main.tldr) .hero .cs-summary {
+  border-top: 1px solid var(--cs-rule);
+  border-bottom: 1px solid var(--cs-rule);
+}
