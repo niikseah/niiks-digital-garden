@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClinicConnect — Desktop App + UG/DG | niik</title>
+  <link rel="stylesheet" href="../design-system/colors_and_type.css" />
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+  <script src="../shared/components.js"></script>
+  <style>
+    :root {
+      --paper:#fafaf7; --paper-warm:#f4f2ec; --ink:#0f1729; --ink-soft:#3c445a; --ink-mute:#6b7388;
+      --rule:#e4e1d8; --blue:#2e5aac; --blue-tint:#ebf1fb; --display:"Apple Garamond", Georgia, serif;
+      --body:"Helvetica Neue", -apple-system, system-ui, sans-serif; --mono:"JetBrains Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--body); background: var(--paper); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    .tag { border: 1px solid var(--rule); border-radius: 999px; padding: 6px 12px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); background: var(--paper-warm); }
+    main { max-width: 1120px; margin: 0 auto; padding: 56px 24px 90px; }
+    h1 { font-family: var(--display); font-size: clamp(44px, 6vw, 74px); font-weight: 400; line-height: .98; letter-spacing: -.03em; margin-bottom: 14px; max-width: 15ch; }
+    .lede { max-width: 70ch; color: var(--ink-soft); font-size: 18px; margin-bottom: 24px; }
+    main > .cs-summary {
+      width: 100%;
+      max-width: none;
+      margin-top: 0;
+      padding: 10px 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: minmax(0, max-content);
+      justify-content: start;
+    }
+    main > .cs-summary > div {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+      padding-left: 24px;
+      justify-items: start;
+    }
+    main > .cs-summary dt {
+      margin-bottom: 0;
+      letter-spacing: .1em;
+    }
+    main > .cs-summary dd {
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    .meta { font-family: var(--mono); font-size: 12px; color: var(--ink-mute); margin-bottom: 22px; letter-spacing: .03em; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+    .btn {
+      display: inline-flex; align-items: center; text-decoration: none; border: 1px solid var(--rule); border-radius: 999px;
+      padding: 10px 14px; font-size: 14px; color: var(--ink); background: #fff;
+    }
+    .btn:hover { border-color: var(--blue); color: var(--blue); }
+    .btn.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .section { border: 1px solid var(--rule); border-radius: 14px; background: #fff; padding: 16px; margin-top: 18px; }
+    .section h2 { font-family: var(--display); font-size: 34px; font-weight: 500; margin-bottom: 8px; }
+    .section p { color: var(--ink-soft); }
+    .code {
+      margin-top: 10px; border: 1px solid var(--rule); border-radius: 10px; background: var(--paper-warm);
+      padding: 10px 12px; font-family: var(--mono); font-size: 13px; color: var(--ink);
+      white-space: pre-wrap; word-break: break-word;
+    }
+    .guide-toggle {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      background: var(--paper-warm);
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+    .guide-toggle button {
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: transparent;
+      color: var(--ink-soft);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .guide-toggle button.is-active {
+      background: #fff;
+      border-color: var(--rule);
+      color: var(--ink);
+    }
+    .doc-grid { display: block; margin-top: 0; }
+    .doc-card { border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; background: #fff; padding: 0 0 12px; }
+    .doc-card[hidden] { display: none; }
+    .pdf-frame {
+      padding: 12px;
+      display: grid;
+      grid-template-columns: auto 116px;
+      gap: 12px;
+      align-items: start;
+      justify-content: center;
+    }
+    .pdf-scroll {
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      background: var(--paper-warm);
+      padding: 12px;
+      height: min(78vh, 980px);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      overflow: auto;
+      width: fit-content;
+      max-width: 100%;
+      justify-self: end;
+    }
+    .pdf-stage {
+      width: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+    .pdf-page-wrap {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    .pdf-page {
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      box-shadow: 0 10px 30px rgba(15, 23, 41, 0.08);
+      background: #fff;
+    }
+    .pdf-loading {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--ink-mute);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .pdf-thumbs {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      max-height: min(78vh, 980px);
+      overflow: auto;
+      align-content: start;
+    }
+    .pdf-thumb {
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      background: #fff;
+      padding: 8px;
+      cursor: pointer;
+      transition: border-color .2s ease, transform .2s ease, background .2s ease;
+    }
+    .pdf-thumb:hover { border-color: var(--blue); transform: translateY(-1px); }
+    .pdf-thumb.is-active { border-color: var(--blue); background: var(--blue-tint); }
+    .pdf-thumb-canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+      background: #fff;
+    }
+    .pdf-thumb-label {
+      margin-top: 6px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-mute);
+      text-align: center;
+    }
+    @media (max-width: 980px) {
+      .pdf-frame {
+        grid-template-columns: 1fr;
+      }
+      .pdf-scroll {
+        width: 100%;
+      }
+      .pdf-stage {
+        width: 100%;
+        align-items: center;
+      }
+      .pdf-thumbs {
+        grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+        max-height: none;
+      }
+    }
+    .cli-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 14px; margin-top: 12px; }
+    .cli-box { border: 1px solid var(--rule); border-radius: 12px; background: #fff; padding: 12px; width: 100%; }
+    .cli-grid > .cli-box:first-child { grid-column: 1 / -1; }
+    .cli-label { font-family: var(--mono); font-size: 12px; text-transform: uppercase; color: var(--ink-mute); letter-spacing: .05em; margin-bottom: 8px; }
+    .cmd-row { display: flex; gap: 8px; align-items: center; }
+    .cmd-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.95fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+    .cmd-panel {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .cmd-input {
+      flex: 1; border: 1px solid var(--rule); border-radius: 10px; padding: 10px 12px; font-family: var(--mono);
+      font-size: 13px; background: var(--paper);
+    }
+    .cli-output {
+      margin-top: 10px; border: 1px solid var(--rule); border-radius: 10px; background: var(--paper-warm);
+      padding: 10px 12px; min-height: 82px; flex: 1; font-family: var(--mono); font-size: 13px; white-space: pre-wrap;
+    }
+    .chip-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .chip {
+      border: 1px solid var(--rule); border-radius: 999px; padding: 5px 9px; font-size: 12px; color: var(--ink-soft);
+      background: #fff; font-family: var(--mono);
+    }
+    .patient-form {
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      background: var(--paper-warm);
+      padding: 12px;
+      height: 100%;
+    }
+    .patient-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 12px;
+    }
+    .patient-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .patient-field--full {
+      grid-column: 1 / -1;
+    }
+    .patient-field label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+    }
+    .patient-field input,
+    .patient-field select,
+    .patient-field textarea {
+      width: 100%;
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+    }
+    .patient-field textarea {
+      min-height: 88px;
+      resize: vertical;
+    }
+    .patient-form-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .patient-form-actions .btn {
+      min-width: 132px;
+      justify-content: center;
+    }
+    .command-list {
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+      color: var(--ink-soft);
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 12px;
+    }
+    .command-list li {
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      background: #fff;
+      padding: 10px 12px;
+      display: grid;
+      gap: 6px;
+      align-content: start;
+    }
+    .command-list strong {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--ink);
+      line-height: 1;
+    }
+    @media (max-width: 800px) {
+      .command-list { grid-template-columns: 1fr; }
+    }
+    .tbl-wrap { overflow: auto; border: 1px solid var(--rule); border-radius: 10px; }
+    table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 13px; }
+    th, td { border-bottom: 1px solid var(--rule); padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: var(--blue-tint); font-family: var(--mono); text-transform: uppercase; font-size: 11px; letter-spacing: .05em; }
+    tr:last-child td { border-bottom: none; }
+    @media (max-width: 980px) { .cli-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 980px) { .cmd-layout { grid-template-columns: 1fr; } }
+    @media (max-width: 720px) { .patient-form-grid { grid-template-columns: 1fr; } }
+  </style>
+  <link rel="stylesheet" href="../shared/shell.css" />
+  <link rel="stylesheet" href="../shared/phase1-ds-bridge.css" />
+</head>
+<body>
+  <div id="project-topbar-root"></div>
+
+  <main>
+    <h1>ClinicConnect</h1>
+    <p class="lede">Command-Line Interface Application to support Triage Coordinators' workflow.</p>
+    <dl class="cs-summary">
+      <div><dt>Tools</dt><dd>Java</dd></div>
+    </dl>
+
+    <section class="section">
+      <h2>Web CLI Simulator</h2>
+      <div class="cli-grid">
+        <article class="cli-box">
+          <div class="cli-label">Command input</div>
+          <div class="cmd-layout">
+            <div class="cmd-panel">
+              <div class="cmd-row">
+                <input id="cmdInput" class="cmd-input" value="list" />
+                <button id="runCmdBtn" class="btn primary" style="padding:9px 12px;">Run</button>
+              </div>
+              <div class="chip-row">
+                <button class="chip" data-example="help">help</button>
+                <button class="chip" data-example="add pn/[name] p/[phone] e/[email] a/[address] ic/[ic] u/[urgency] nk/[next of kin] nkp/[next of kin phone] nkr/[relationship] d/[doctor] s/[symptom] n/[notes]">add pn/[name] ... u/[urgency] ...</button>
+                <button class="chip" data-example="list u/[urgency] s/[symptom]">list u/[urgency] s/[symptom]</button>
+                <button class="chip" data-example="find pn/[name] ic/[ic] p/[phone] e/[email] d/[doctor]">find pn/[name] ic/[ic] ...</button>
+                <button class="chip" data-example="update [index,index] pn/[name] p/[phone] e/[email] a/[address] ic/[ic] u/[urgency] nk/[next of kin] nkp/[next of kin phone] nkr/[relationship] d/[doctor] s/[symptom] n/[notes]">update [index,index] pn/[name] ...</button>
+                <button class="chip" data-example="delete [index|index,index|start-end]">delete [index|index,index|start-end]</button>
+                <button class="chip" data-example="undo">undo</button>
+                <button class="chip" data-example="clear">clear</button>
+              </div>
+              <div id="cmdOutput" class="cli-output">Ready. Type a command and press Run.</div>
+            </div>
+
+            <div class="patient-form" aria-label="Add patient form">
+              <div class="cli-label" style="margin-bottom:10px; text-transform:none; letter-spacing:0;">This form is provided only on this simulator for ease of testing</div>
+              <div class="patient-form-grid">
+                <div class="patient-field">
+                  <label for="pfName">Patient name</label>
+                  <input id="pfName" type="text" placeholder="John Doe" />
+                </div>
+                <div class="patient-field">
+                  <label for="pfUrgency">Urgency</label>
+                  <select id="pfUrgency">
+                    <option value="">Select urgency</option>
+                    <option value="low">low</option>
+                    <option value="moderate">moderate</option>
+                    <option value="high">high</option>
+                    <option value="extreme">extreme</option>
+                  </select>
+                </div>
+                <div class="patient-field">
+                  <label for="pfPhone">Phone</label>
+                  <input id="pfPhone" type="text" placeholder="98765432" />
+                </div>
+                <div class="patient-field">
+                  <label for="pfEmail">Email</label>
+                  <input id="pfEmail" type="email" placeholder="john@example.com" />
+                </div>
+                <div class="patient-field patient-field--full">
+                  <label for="pfAddress">Address</label>
+                  <input id="pfAddress" type="text" placeholder="311 Clementi Ave 2, #02-25" />
+                </div>
+                <div class="patient-field">
+                  <label for="pfIc">IC</label>
+                  <input id="pfIc" type="text" placeholder="F1234567A" />
+                </div>
+                <div class="patient-field">
+                  <label for="pfDoctor">Doctor</label>
+                  <input id="pfDoctor" type="text" placeholder="Dr Sally" />
+                </div>
+                <div class="patient-field">
+                  <label for="pfNextKin">Next of kin</label>
+                  <input id="pfNextKin" type="text" placeholder="Jane Doe" />
+                </div>
+                <div class="patient-field">
+                  <label for="pfNextKinPhone">Next of kin phone</label>
+                  <input id="pfNextKinPhone" type="text" placeholder="91234567" />
+                </div>
+                <div class="patient-field">
+                  <label for="pfRelationship">Relationship</label>
+                  <input id="pfRelationship" type="text" placeholder="Sister" />
+                </div>
+                <div class="patient-field">
+                  <label for="pfSymptoms">Symptoms</label>
+                  <input id="pfSymptoms" type="text" placeholder="fever, cough" />
+                </div>
+                <div class="patient-field patient-field--full">
+                  <label for="pfNotes">Notes</label>
+                  <textarea id="pfNotes" placeholder="Needs observation"></textarea>
+                </div>
+              </div>
+              <div class="patient-form-actions">
+                <button id="randomizePatientBtn" type="button" class="btn">Randomize</button>
+                <button id="submitAddPatientBtn" type="button" class="btn primary">Add patient</button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <article class="cli-box" style="margin-top:14px;">
+        <div class="cli-label">Patient records</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th><th>Urgency</th><th>Patient</th><th>IC</th><th>Doctor</th><th>Symptoms</th><th>Notes</th>
+              </tr>
+            </thead>
+            <tbody id="patientRows">
+              <tr><td colspan="7">No patient records.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="cli-box" style="margin-top:14px;">
+        <div class="cli-label">List of commands</div>
+        <ul class="command-list">
+          <li><strong>help</strong> Shows available commands and usage notes.</li>
+          <li><strong>add</strong> Adds a patient with prefixed fields.</li>
+          <li><strong>list</strong> Displays all patients, or filters them by urgency.</li>
+          <li><strong>find</strong> Searches for patients by name in the current records.</li>
+          <li><strong>update</strong> Updates the selected patient's details.</li>
+          <li><strong>delete</strong> Removes a patient from the current list.</li>
+          <li><strong>undo</strong> Restores the last data-changing action.</li>
+          <li><strong>clear</strong> Clears the current filtered view.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>Guides</h2>
+      <div class="guide-toggle" role="tablist" aria-label="Guide viewer toggle">
+        <button type="button" class="is-active" data-guide="ug" aria-selected="true">User Guide</button>
+        <button type="button" data-guide="dg" aria-selected="false">Developer Guide</button>
+      </div>
+      <div class="doc-grid">
+        <article class="doc-card" data-guide-panel="ug">
+          <div class="pdf-frame">
+            <div class="pdf-scroll">
+              <div class="pdf-loading" id="ugLoading">Loading user guide…</div>
+              <div class="pdf-stage" id="ugStage"></div>
+            </div>
+            <div class="pdf-thumbs" id="ugThumbs" aria-label="User Guide pages"></div>
+          </div>
+        </article>
+        <article class="doc-card" data-guide-panel="dg" hidden>
+          <div class="pdf-frame">
+            <div class="pdf-scroll">
+              <div class="pdf-loading" id="dgLoading">Loading developer guide…</div>
+              <div class="pdf-stage" id="dgStage"></div>
+            </div>
+            <div class="pdf-thumbs" id="dgThumbs" aria-label="Developer Guide pages"></div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="case-footer" aria-label="Project details">
+    <div class="case-footer__inner">
+      <div class="case-footer__grid">
+        <div class="case-footer__mark">
+          <em>tended with love and care 💐</em>
+        </div>
+        <div class="case-footer__meta">
+          <p class="case-footer__row"><span class="case-footer__k">Course</span> <span class="case-footer__v">CS2103 Software Engineering</span></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const { ProjectTopbar } = window;
+    ReactDOM.createRoot(document.getElementById('project-topbar-root')).render(
+      React.createElement(ProjectTopbar)
+    );
+  </script>
+
+  <script src="https://unpkg.com/pdfjs-dist@3.11.174/legacy/build/pdf.min.js"></script>
+
+  <script>
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://unpkg.com/pdfjs-dist@3.11.174/legacy/build/pdf.worker.min.js';
+
+    async function mountPdfViewer({ pdfUrl, stageId, thumbsId, loadingId }) {
+      const stageEl = document.getElementById(stageId);
+      const thumbsEl = document.getElementById(thumbsId);
+      const loadingEl = document.getElementById(loadingId);
+      const scrollEl = stageEl ? stageEl.closest('.pdf-scroll') : null;
+      if (!stageEl || !thumbsEl || !loadingEl || !scrollEl || !window.pdfjsLib) return;
+
+      let pdfDoc = null;
+      let currentPage = 0;
+      const pageNodes = new Map();
+
+      const setActiveThumb = () => {
+        thumbsEl.querySelectorAll('.pdf-thumb').forEach((btn) => {
+          btn.classList.toggle('is-active', Number(btn.dataset.page) === currentPage);
+        });
+      };
+
+      const activatePage = (pageNum) => {
+        if (currentPage === pageNum) return;
+        currentPage = pageNum;
+        setActiveThumb();
+      };
+
+      const renderAllPages = async () => {
+        stageEl.innerHTML = '';
+        pageNodes.clear();
+        for (let i = 1; i <= pdfDoc.numPages; i += 1) {
+          const page = await pdfDoc.getPage(i);
+          const viewport = page.getViewport({ scale: 1.3 });
+          const pageWrap = document.createElement('div');
+          pageWrap.className = 'pdf-page-wrap';
+          pageWrap.dataset.page = String(i);
+
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          canvas.className = 'pdf-page';
+
+          await page.render({ canvasContext: context, viewport }).promise;
+          pageWrap.appendChild(canvas);
+          stageEl.appendChild(pageWrap);
+          pageNodes.set(i, pageWrap);
+        }
+      };
+
+      const bindScrollSync = () => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((entry) => entry.isIntersecting)
+              .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+            if (!visible) return;
+            activatePage(Number(visible.target.dataset.page));
+          },
+          {
+            root: scrollEl,
+            threshold: [0.25, 0.5, 0.75],
+          }
+        );
+
+        pageNodes.forEach((pageNode) => observer.observe(pageNode));
+      };
+
+      try {
+        const task = window.pdfjsLib.getDocument(pdfUrl);
+        pdfDoc = await task.promise;
+        thumbsEl.innerHTML = '';
+
+        for (let i = 1; i <= pdfDoc.numPages; i += 1) {
+          const page = await pdfDoc.getPage(i);
+          const thumbViewport = page.getViewport({ scale: 0.22 });
+          const thumbBtn = document.createElement('button');
+          thumbBtn.type = 'button';
+          thumbBtn.className = 'pdf-thumb';
+          thumbBtn.dataset.page = String(i);
+
+          const thumbCanvas = document.createElement('canvas');
+          const thumbContext = thumbCanvas.getContext('2d');
+          thumbCanvas.width = thumbViewport.width;
+          thumbCanvas.height = thumbViewport.height;
+          thumbCanvas.className = 'pdf-thumb-canvas';
+          await page.render({ canvasContext: thumbContext, viewport: thumbViewport }).promise;
+
+          const thumbLabel = document.createElement('div');
+          thumbLabel.className = 'pdf-thumb-label';
+          thumbLabel.textContent = String(i);
+
+          thumbBtn.appendChild(thumbCanvas);
+          thumbBtn.appendChild(thumbLabel);
+          thumbBtn.addEventListener('click', () => {
+            const targetPage = pageNodes.get(i);
+            if (!targetPage) return;
+            targetPage.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+            activatePage(i);
+          });
+          thumbsEl.appendChild(thumbBtn);
+        }
+
+        loadingEl.style.display = 'none';
+        await renderAllPages();
+        activatePage(1);
+        bindScrollSync();
+      } catch (error) {
+        loadingEl.innerHTML = `Could not render PDF in-page. <a href="${pdfUrl}" target="_blank" rel="noopener">Open PDF</a>`;
+      }
+    }
+
+    mountPdfViewer({
+      pdfUrl: '../clinicconnect/%5BCS2103-F11-4%5D%5BClinicConnect%5DUG.pdf',
+      stageId: 'ugStage',
+      thumbsId: 'ugThumbs',
+      loadingId: 'ugLoading',
+    });
+    mountPdfViewer({
+      pdfUrl: '../clinicconnect/%5BCS2103-F11-4%5D%5BClinicConnect%5DDG.pdf',
+      stageId: 'dgStage',
+      thumbsId: 'dgThumbs',
+      loadingId: 'dgLoading',
+    });
+
+    const guideToggleButtons = Array.from(document.querySelectorAll('.guide-toggle button'));
+    const guidePanels = Array.from(document.querySelectorAll('[data-guide-panel]'));
+
+    function setActiveGuide(nextGuide) {
+      guideToggleButtons.forEach((button) => {
+        const isActive = button.dataset.guide === nextGuide;
+        button.classList.toggle('is-active', isActive);
+        button.setAttribute('aria-selected', String(isActive));
+      });
+      guidePanels.forEach((panel) => {
+        panel.hidden = panel.dataset.guidePanel !== nextGuide;
+      });
+    }
+
+    guideToggleButtons.forEach((button) => {
+      button.addEventListener('click', () => setActiveGuide(button.dataset.guide));
+    });
+
+    const urgencyRank = { extreme: 4, high: 3, moderate: 2, low: 1 };
+    const requiredPrefixes = ["pn","p","e","a","ic","u","nk","nkp","nkr","d"];
+    let patients = [
+      { pn: "Amy Lim", p: "91234567", e: "amy@example.com", a: "Blk 1", ic: "S1234567A", u: "high", nk: "Ken Lim", nkp: "98761234", nkr: "Brother", d: "Dr Tan", symptoms: ["fever"], notes: "monitor closely" },
+      { pn: "Ben Goh", p: "81234567", e: "ben@example.com", a: "Blk 2", ic: "T7654321B", u: "moderate", nk: "Sue Goh", nkp: "92345678", nkr: "Mother", d: "Dr Lee", symptoms: ["cough"], notes: "" }
+    ];
+    let visible = [...patients];
+    let lastSnapshot = null;
+    const randomizedIcHistory = new Set();
+
+    function deepCopy(obj) { return JSON.parse(JSON.stringify(obj)); }
+    function snapshot() { lastSnapshot = deepCopy({ patients, visible }); }
+    function restore() {
+      if (!lastSnapshot) return false;
+      patients = deepCopy(lastSnapshot.patients);
+      visible = deepCopy(lastSnapshot.visible);
+      lastSnapshot = null;
+      return true;
+    }
+    function sortPatients(list) {
+      return list.sort((a,b) => (urgencyRank[b.u] - urgencyRank[a.u]) || a.ic.toLowerCase().localeCompare(b.ic.toLowerCase()));
+    }
+    function renderTable() {
+      sortPatients(patients);
+      const tbody = document.getElementById("patientRows");
+      if (!visible.length) {
+        tbody.innerHTML = '<tr><td colspan="7">No records in current view.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = visible.map((p, i) =>
+        `<tr><td>${i + 1}</td><td>${p.u.toUpperCase()}</td><td>${p.pn}</td><td>${p.ic}</td><td>${p.d}</td><td>${(p.symptoms || []).join(", ") || "-"}</td><td>${p.notes || "-"}</td></tr>`
+      ).join("");
+    }
+
+    function parsePrefixedArgs(raw) {
+      const pairs = [...raw.matchAll(/([a-z]+)\/([^]*?)(?=\s+[a-z]+\/|$)/gi)].map(m => [m[1].toLowerCase(), m[2].trim()]);
+      const out = {};
+      for (const [k, v] of pairs) {
+        if (k === "s") {
+          if (!out.s) out.s = [];
+          if (v) out.s.push(v.toLowerCase());
+        } else {
+          out[k] = v;
+        }
+      }
+      return out;
+    }
+
+    function runCommand(input) {
+      const txt = input.trim();
+      if (!txt) return "Please enter a command.";
+      const cmd = txt.split(/\s+/)[0].toLowerCase();
+      const rest = txt.slice(cmd.length).trim();
+
+      if (cmd === "help") {
+        return "Commands: help, add, list, find, update, delete, undo, clear";
+      }
+      if (cmd === "list") {
+        const args = parsePrefixedArgs(rest);
+        const urg = Object.entries(args).filter(([k]) => k === "u").map(([,v]) => String(v).toLowerCase()).filter(Boolean);
+        const syms = (args.s || []).map(s => s.toLowerCase());
+        if (!urg.length && !syms.length) {
+          visible = [...patients];
+        } else {
+          visible = patients.filter(p =>
+            urg.includes(p.u) || (p.symptoms || []).some(s => syms.includes(String(s).toLowerCase()))
+          );
+        }
+        sortPatients(visible);
+        renderTable();
+        return `Listed ${visible.length} patient(s).`;
+      }
+      if (cmd === "add") {
+        const args = parsePrefixedArgs(rest);
+        for (const key of requiredPrefixes) {
+          if (!args[key]) return `Missing required prefix: ${key}/`;
+        }
+        const urgency = args.u.toLowerCase();
+        if (!urgencyRank[urgency]) return "Invalid urgency. Use low/moderate/high/extreme.";
+        if (patients.some(p => p.ic.toLowerCase() === args.ic.toLowerCase())) return "Duplicate IC not allowed.";
+        snapshot();
+        patients.push({
+          pn: args.pn, p: args.p, e: args.e, a: args.a, ic: args.ic.toUpperCase(), u: urgency,
+          nk: args.nk, nkp: args.nkp, nkr: args.nkr, d: args.d,
+          symptoms: [...new Set((args.s || []).filter(Boolean))],
+          notes: args.n || ""
+        });
+        visible = [...patients];
+        sortPatients(visible);
+        renderTable();
+        return `Added ${args.pn} with urgency ${urgency.toUpperCase()}.`;
+      }
+      if (cmd === "find") {
+        const args = parsePrefixedArgs(rest);
+        const valid = ["pn","ic","p","e","d"];
+        const keys = Object.keys(args).filter(k => valid.includes(k) && args[k]);
+        if (!keys.length) return "find requires at least one of pn/, ic/, p/, e/, d/.";
+        visible = patients.filter(p =>
+          keys.some(k => String(p[k]).toLowerCase().includes(String(args[k]).toLowerCase()))
+        );
+        sortPatients(visible);
+        renderTable();
+        return `Found ${visible.length} patient(s).`;
+      }
+      if (cmd === "update") {
+        const match = rest.match(/^([0-9]+(?:,[0-9]+)*)\s+(.+)$/);
+        if (!match) return "Format: update <index[,index...]> <prefixed fields>";
+        const idxs = [...new Set(match[1].split(",").map(n => Number(n.trim()) - 1))];
+        const args = parsePrefixedArgs(match[2]);
+        if (!Object.keys(args).length) return "Provide at least one field to update.";
+        if (idxs.some(i => i < 0 || i >= visible.length)) return "Invalid index in update command.";
+        snapshot();
+        const targets = idxs.map(i => visible[i]);
+        for (const t of targets) {
+          const p = patients.find(x => x.ic === t.ic);
+          if (!p) continue;
+          for (const [k,v] of Object.entries(args)) {
+            if (k === "s") p.symptoms = [...new Set(v)];
+            else if (k === "u") {
+              const u = v.toLowerCase();
+              if (!urgencyRank[u]) return "Invalid urgency. Use low/moderate/high/extreme.";
+              p.u = u;
+            } else p[k] = v;
+          }
+        }
+        visible = [...patients];
+        sortPatients(visible);
+        renderTable();
+        return `Updated ${targets.length} patient(s).`;
+      }
+      if (cmd === "delete") {
+        if (!rest) return "Format: delete <index|index,index|start-end>";
+        snapshot();
+        let indices = [];
+        if (/^\d+-\d+$/.test(rest)) {
+          const [a, b] = rest.split("-").map(n => Number(n) - 1);
+          if (a > b) return "Invalid range.";
+          for (let i = a; i <= b; i += 1) indices.push(i);
+        } else if (/^\d+(,\d+)*$/.test(rest)) {
+          indices = rest.split(",").map(n => Number(n) - 1);
+        } else if (/^\d+$/.test(rest)) {
+          indices = [Number(rest) - 1];
+        } else {
+          return "Unsupported delete format for simulator.";
+        }
+        indices = [...new Set(indices)];
+        if (indices.some(i => i < 0 || i >= visible.length)) return "Invalid index in delete command.";
+        const icsToDelete = indices.map(i => visible[i].ic);
+        patients = patients.filter(p => !icsToDelete.includes(p.ic));
+        visible = [...patients];
+        sortPatients(visible);
+        renderTable();
+        return `Deleted ${icsToDelete.length} patient(s).`;
+      }
+      if (cmd === "undo") {
+        if (!restore()) return "Cannot undo: no recent action to undo.";
+        renderTable();
+        return "Undo successful.";
+      }
+      if (cmd === "clear") {
+        snapshot();
+        patients = [];
+        visible = [];
+        renderTable();
+        return "All records cleared.";
+      }
+      return `Unknown command: ${cmd}`;
+    }
+
+    function exec() {
+      const input = document.getElementById("cmdInput").value;
+      const msg = runCommand(input);
+      document.getElementById("cmdOutput").textContent = msg;
+    }
+
+    function buildAddCommandFromForm() {
+      const values = {
+        pn: document.getElementById("pfName").value.trim(),
+        p: document.getElementById("pfPhone").value.trim(),
+        e: document.getElementById("pfEmail").value.trim(),
+        a: document.getElementById("pfAddress").value.trim(),
+        ic: document.getElementById("pfIc").value.trim(),
+        u: document.getElementById("pfUrgency").value.trim(),
+        nk: document.getElementById("pfNextKin").value.trim(),
+        nkp: document.getElementById("pfNextKinPhone").value.trim(),
+        nkr: document.getElementById("pfRelationship").value.trim(),
+        d: document.getElementById("pfDoctor").value.trim(),
+        n: document.getElementById("pfNotes").value.trim(),
+      };
+      const symptoms = document.getElementById("pfSymptoms").value
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean);
+
+      const parts = ["add"];
+      const orderedKeys = ["pn", "p", "e", "a", "ic", "u", "nk", "nkp", "nkr", "d"];
+      for (const key of orderedKeys) {
+        if (values[key]) parts.push(`${key}/${values[key]}`);
+      }
+      symptoms.forEach((symptom) => parts.push(`s/${symptom}`));
+      if (values.n) parts.push(`n/${values.n}`);
+      return parts.join(" ");
+    }
+
+    function randomizePatientForm() {
+      const samples = [
+        {
+          name: "Sarah Tan",
+          urgency: "high",
+          phone: "90112233",
+          email: "sarah.tan@example.com",
+          address: "Blk 123 Toa Payoh Lor 1, #08-45",
+          ic: "S9123456A",
+          doctor: "Dr Lim",
+          nextKin: "Daniel Tan",
+          nextKinPhone: "87654321",
+          relationship: "Husband",
+          symptoms: "fever, dizziness",
+          notes: "Monitor vitals closely",
+        },
+        {
+          name: "Marcus Lee",
+          urgency: "moderate",
+          phone: "92334455",
+          email: "marcus.lee@example.com",
+          address: "Blk 45 Tampines St 32, #11-08",
+          ic: "T0345678B",
+          doctor: "Dr Ong",
+          nextKin: "Elaine Lee",
+          nextKinPhone: "81239876",
+          relationship: "Mother",
+          symptoms: "cough, fatigue",
+          notes: "Returned from overseas trip",
+        },
+        {
+          name: "Nur Aisyah",
+          urgency: "extreme",
+          phone: "93445566",
+          email: "nur.aisyah@example.com",
+          address: "Blk 9 Bedok South Ave 2, #03-12",
+          ic: "S9988776C",
+          doctor: "Dr Ng",
+          nextKin: "Hakim Rahman",
+          nextKinPhone: "81112223",
+          relationship: "Brother",
+          symptoms: "shortness of breath, chest pain",
+          notes: "Escalate immediately if symptoms worsen",
+        }
+      ];
+      const existingIcSet = new Set([
+        ...patients.map((p) => String(p.ic || "").toUpperCase()),
+        ...Array.from(randomizedIcHistory),
+      ]);
+
+      function generateUniqueIc() {
+        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let candidate = "";
+        do {
+          const prefix = Math.random() < 0.5 ? "S" : "T";
+          const digits = String(Math.floor(Math.random() * 10000000)).padStart(7, "0");
+          const suffix = alphabet[Math.floor(Math.random() * alphabet.length)];
+          candidate = `${prefix}${digits}${suffix}`;
+        } while (existingIcSet.has(candidate));
+        return candidate;
+      }
+
+      const sample = { ...samples[Math.floor(Math.random() * samples.length)] };
+      sample.ic = generateUniqueIc();
+      randomizedIcHistory.add(sample.ic.toUpperCase());
+      document.getElementById("pfName").value = sample.name;
+      document.getElementById("pfUrgency").value = sample.urgency;
+      document.getElementById("pfPhone").value = sample.phone;
+      document.getElementById("pfEmail").value = sample.email;
+      document.getElementById("pfAddress").value = sample.address;
+      document.getElementById("pfIc").value = sample.ic;
+      document.getElementById("pfDoctor").value = sample.doctor;
+      document.getElementById("pfNextKin").value = sample.nextKin;
+      document.getElementById("pfNextKinPhone").value = sample.nextKinPhone;
+      document.getElementById("pfRelationship").value = sample.relationship;
+      document.getElementById("pfSymptoms").value = sample.symptoms;
+      document.getElementById("pfNotes").value = sample.notes;
+    }
+
+    document.getElementById("runCmdBtn").addEventListener("click", exec);
+    document.getElementById("cmdInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") exec();
+    });
+    document.querySelectorAll("[data-example]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.getElementById("cmdInput").value = btn.dataset.example;
+      });
+    });
+    document.getElementById("randomizePatientBtn").addEventListener("click", randomizePatientForm);
+    document.getElementById("submitAddPatientBtn").addEventListener("click", () => {
+      document.getElementById("cmdInput").value = buildAddCommandFromForm();
+      exec();
+    });
+    visible = [...patients];
+    sortPatients(visible);
+    renderTable();
+  </script>
+</body>
+</html>

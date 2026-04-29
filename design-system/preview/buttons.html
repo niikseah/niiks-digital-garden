@@ -1,0 +1,22 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>body{margin:0;background:var(--bg-1);color:var(--fg-1);padding:22px 24px;font-family:var(--font-body);font-size:13px}
+.btn{font-family:var(--font-body);font-size:13px;padding:8px 16px;border-radius:999px;border:1px solid transparent;cursor:pointer;transition:all .2s var(--ease-out)}
+.primary{background:var(--electric-500);color:#fff;box-shadow:0 0 0 1px rgba(124,184,255,.28), 0 0 24px -6px rgba(60,130,255,.35)}
+.primary:hover{background:var(--electric-400);box-shadow:0 0 0 1px rgba(124,184,255,.4), 0 0 48px -8px rgba(60,130,255,.55)}
+.ghost{background:transparent;color:var(--fg-1);border-color:var(--border-2)}
+.ghost:hover{border-color:var(--border-strong);color:var(--electric-glow)}
+.quiet{background:transparent;color:var(--fg-2);border-color:transparent;padding:8px 10px}
+.quiet:hover{color:var(--electric-glow)}
+.danger{background:transparent;color:var(--rose);border-color:rgba(232,105,122,.35)}
+.danger:hover{background:rgba(232,105,122,.08)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.l{font-family:var(--font-mono);font-size:10px;color:var(--fg-3);width:70px}
+  <link rel="stylesheet" href="../../shared/shell.css" />
+  <link rel="stylesheet" href="../../shared/phase1-ds-bridge.css" />
+</head><body>
+<div class="eyebrow" style="margin-bottom:10px">Buttons</div>
+<div class="row"><div class="l">primary</div><button class="btn primary">Plant a note</button><button class="btn primary">Read on →</button></div>
+<div class="row"><div class="l">ghost</div><button class="btn ghost">Browse archive</button><button class="btn ghost">Open graph</button></div>
+<div class="row"><div class="l">quiet</div><button class="btn quiet">Cancel</button><button class="btn quiet">← Back</button></div>
+<div class="row"><div class="l">destructive</div><button class="btn danger">Uproot note</button></div>
+</body></html>

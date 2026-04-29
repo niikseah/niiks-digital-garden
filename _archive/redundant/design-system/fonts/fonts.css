@@ -1,0 +1,120 @@
+/* niik's digital garden — webfonts
+   Apple Garamond (display) + Helvetica Neue (body) — both brand-supplied, self-hosted.
+   JetBrains Mono (code, Google Fonts). */
+
+/* ── Apple Garamond (display) ─────────────────────────────── */
+@font-face {
+  font-family: "Apple Garamond";
+  src: url("./AppleGaramond-Light.ttf") format("truetype");
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Apple Garamond";
+  src: url("./AppleGaramond-LightItalic.ttf") format("truetype");
+  font-weight: 300; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Apple Garamond";
+  src: url("./AppleGaramond.ttf") format("truetype");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Apple Garamond";
+  src: url("./AppleGaramond-Italic.ttf") format("truetype");
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Apple Garamond";
+  src: url("./AppleGaramond-Bold.ttf") format("truetype");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Apple Garamond";
+  src: url("./AppleGaramond-BoldItalic.ttf") format("truetype");
+  font-weight: 700; font-style: italic; font-display: swap;
+}
+
+/* ── Helvetica Neue (body) ────────────────────────────────── */
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./HelveticaNeueUltraLight.otf") format("opentype");
+  font-weight: 100; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./HelveticaNeueUltraLightItalic.otf") format("opentype");
+  font-weight: 100; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./HelveticaNeueThin.otf") format("opentype");
+  font-weight: 200; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./HelveticaNeueThinItalic.otf") format("opentype");
+  font-weight: 200; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./HelveticaNeueLight.otf") format("opentype");
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./HelveticaNeueLightItalic.otf") format("opentype");
+  font-weight: 300; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./HelveticaNeueRoman.otf") format("opentype");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./HelveticaNeueItalic.ttf") format("truetype");
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./HelveticaNeueMedium.otf") format("opentype");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./HelveticaNeueMediumItalic.otf") format("opentype");
+  font-weight: 500; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./HelveticaNeueBold.otf") format("opentype");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./HelveticaNeueBoldItalic.otf") format("opentype");
+  font-weight: 700; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./HelveticaNeueHeavy.otf") format("opentype");
+  font-weight: 800; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./HelveticaNeueHeavyItalic.otf") format("opentype");
+  font-weight: 800; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./HelveticaNeueBlack.otf") format("opentype");
+  font-weight: 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("./HelveticaNeueBlackItalic.otf") format("opentype");
+  font-weight: 900; font-style: italic; font-display: swap;
+}
+
+/* ── Mono (still Google Fonts — flag) ─────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');

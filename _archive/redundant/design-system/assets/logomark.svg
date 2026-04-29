@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96" width="320" height="96">
+  <defs>
+    
+  </defs>
+  <text class="w" x="16" y="70" font-size="72" letter-spacing="-2">niik</text>
+  <g class="o" transform="translate(198 30)">
+    
+    <g>
+      <circle r="3.2"></circle>
+      <g opacity=".85">
+        <rect x="-1.2" y="-16" width="2.4" height="10" rx="1.2"></rect>
+        <rect x="-1.2" y="6" width="2.4" height="10" rx="1.2"></rect>
+        <rect x="-16" y="-1.2" width="10" height="2.4" rx="1.2"></rect>
+        <rect x="6" y="-1.2" width="10" height="2.4" rx="1.2"></rect>
+      </g>
+      <g opacity=".55" transform="rotate(45)">
+        <rect x="-1" y="-13" width="2" height="8" rx="1"></rect>
+        <rect x="-1" y="5" width="2" height="8" rx="1"></rect>
+        <rect x="-13" y="-1" width="8" height="2" rx="1"></rect>
+        <rect x="5" y="-1" width="8" height="2" rx="1"></rect>
+      </g>
+    </g>
+  </g>
+  <text class="w" x="16" y="92" font-size="11" font-style="normal" letter-spacing="4" opacity=".55" fill="currentColor">DIGITAL · GARDEN</text>
+</svg>

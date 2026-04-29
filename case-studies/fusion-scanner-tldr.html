@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en" data-theme="day">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fusion Scanner — TL;DR</title>
+  <link rel="stylesheet" href="../design-system/colors_and_type.css" />
+  <style>
+    .article { max-width: 900px; margin: 0 auto; padding: 24px 0 72px; }
+    h1, h2, h3 { color: var(--fg-1); }
+    h1 { font-family: var(--font-display); font-size: clamp(36px,5vw,58px); line-height:1.06; margin:0 0 8px; }
+    h2 { margin-top: 36px; font-size: clamp(28px,3vw,36px); }
+    h3 { margin-top: 22px; font-size: clamp(20px,2.1vw,26px); }
+    p, li, blockquote { color: var(--fg-2); line-height: 1.7; font-size: var(--step-0); max-width:none; }
+    ul { padding-left: 22px; }
+    hr { border:0; border-top:1px solid var(--border-1); margin: 26px 0; }
+    table { width:100%; border-collapse: collapse; margin: 14px 0; }
+    th, td { border:1px solid var(--border-1); padding:10px; text-align:left; vertical-align:top; }
+    th { color:var(--fg-1); background:var(--bg-3); font-weight:600; }
+    blockquote { border-left: 3px solid var(--electric-300); padding-left: 12px; margin-left: 0; }
+    .cta { margin-top: 34px; display: inline-block; border: 1px solid var(--border-1); border-radius: 999px; padding: 10px 16px; text-decoration: none; color: var(--fg-1); }
+    .cta:hover { border-color: var(--border-strong); }
+  </style>
+  <link rel="stylesheet" href="../shared/shell.css" />
+  <link rel="stylesheet" href="../shared/phase1-ds-bridge.css" />
+</head>
+<body>
+  <header class="project-topbar">
+    <div class="project-topbar__inner">
+      <a class="project-topbar__back" href="../portfolio.html" onclick="if (window.history.length > 1) { event.preventDefault(); window.history.back(); }">← Back</a>
+    </div>
+  </header>
+  <main class="page hero-backdrop">
+    <article class="article">
+      <h1>Fusion Scanner — TL;DR</h1>
+      <p><strong>An AI-powered browser extension that helps multilingual readers comprehend dense English text.</strong></p>
+      <p><strong>Role:</strong> Product Designer &amp; Researcher · <strong>Team:</strong> 5 · <strong>Timeline:</strong> 12 weeks · <strong>Tools:</strong> Figma</p>
+      <dl class="cs-summary">
+        <div><dt>Course</dt><dd>CS3240 Interaction Design</dd></div>
+        <div><dt>Role</dt><dd>Product Designer &amp; Researcher</dd></div>
+        <div><dt>Timeline</dt><dd>12 weeks</dd></div>
+        <div><dt>Tools</dt><dd>Figma</dd></div>
+      </dl>
+      <hr>
+      <h3>Problem</h3>
+      <p>Multilingual readers — international students, immigrants, language learners — abandon dense English content because comprehension friction outweighs payoff. Existing tools force a tradeoff: translators flatten nuance, dictionaries break flow, summarisers replace the source instead of supporting it.</p>
+      <h3>Solution</h3>
+      <p>A browser extension with three panels that <strong>augment</strong> reading instead of replacing it:</p>
+      <ul>
+      <li><strong>Summarise</strong> — AI-generated key themes + quick summary, with granular regeneration and a feedback loop</li>
+      <li><strong>Define</strong> — hover-to-define unfamiliar words, save definitions back into the article</li>
+      <li><strong>Annotate</strong> — rich-text notes that drag onto specific paragraphs, exportable as PDF</li>
+      </ul>
+      <h3>Approach</h3>
+      <p>Contextual inquiry with 5 users → affinity diagrams → mid-fidelity Figma prototype → <strong>two-track evaluation</strong>: usability testing (n=5, screened from 15) + heuristic audit against Weinschenk&#x27;s principles → 9 design changes shipped.</p>
+      <h3>Key design decisions</h3>
+      <ul>
+      <li><strong>Feedback before regeneration</strong>, not after — so the AI has direction, not random retries</li>
+      <li><strong>Granular regeneration</strong> (Key Themes and Quick Summary refresh independently) — keeps the half users liked</li>
+      <li><strong>&quot;Back to Full Summary&quot;</strong> replaced an ambiguous toggle dot — state goes in the label, not a colour</li>
+      <li><strong>Source-paragraph indicator</strong> for AI summaries — trust in AI output is the long-term moat</li>
+      </ul>
+      <h3>Outcomes</h3>
+      <ul>
+      <li><strong>4/4 task completion</strong> across all 5 usability participants</li>
+      <li><strong>Every severity-3 heuristic violation resolved</strong> in the v2 redesign</li>
+      <li>3 of 5 participants asked when the tool would ship</li>
+      <li>Negative feedback (mode confusion, missing error states, sparse documentation) drove every major iteration</li>
+      </ul>
+      <h3>What I&#x27;d do differently</h3>
+      <p>Define success metrics <em>before</em> testing, evaluate AI quality (not just AI UX), and wireframe before going high-fidelity.</p>
+      <p>→ <strong>[Read the full case study]</strong></p>
+      <a class="cta" href="fusion-scanner.html">Read full case study</a>
+    </article>
+  </main>
+
+  <footer class="case-footer" aria-label="Project details">
+    <div class="case-footer__inner">
+      <div class="case-footer__grid">
+        <div class="case-footer__mark">
+          <em>tended with love and care 💐</em>
+        </div>
+        <div class="case-footer__meta">
+          <p class="case-footer__row"><span class="case-footer__k">Project Name</span> <span class="case-footer__v">Fusion Scanner</span></p>
+          <p class="case-footer__row"><span class="case-footer__k">Format</span> <span class="case-footer__v">TL;DR · <a href="fusion-scanner.html">Full case study</a></span></p>
+          <p class="case-footer__row"><span class="case-footer__k">Course</span> <span class="case-footer__v">CS3240 · NUS</span></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

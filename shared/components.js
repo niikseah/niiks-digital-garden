@@ -9,7 +9,23 @@
     isGithubPagesHost && pathParts.length > 0 && !pathParts[0].includes('.')
       ? `/${pathParts[0]}/`
       : '/';
-  const toSitePath = (relativePath) => `${basePath}${relativePath}`;
+  const toSitePath = (relativePath) => {
+    const clean = String(relativePath || '').replace(/^\//, '');
+    if (window.location.protocol === 'file:') {
+      return new URL(clean, window.location.href).href;
+    }
+    return `${basePath}${clean}`;
+  };
+
+  /** Resolves `public/...` for img/script URLs from any page depth (avoids `/public/...` breaking under /repo/). */
+  const toPublicAssetPath = (publicRelative) => {
+    const clean = String(publicRelative || '').replace(/^\//, '');
+    const normalized = clean.startsWith('public/') ? clean : `public/${clean}`;
+    const path = window.location.pathname;
+    if (path.includes('/case-studies/templates/')) return `../../${normalized}`;
+    if (path.includes('/case-studies/')) return `../${normalized}`;
+    return normalized;
+  };
 
   // ─── Icon (Lucide-style) ───────────────────────────────
   const iconPaths = {
@@ -21,6 +37,11 @@
     twitter: e('path', { d: 'M18 2h3l-7.5 8.5L22 22h-6.8l-5.3-6.9L3.7 22H.7l8-9.1L.3 2h7l4.8 6.4L18 2z' }),
     linkedin: [e('path', { key: 'a', d: 'M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z' }), e('rect', { key: 'b', x: 2, y: 9, width: 4, height: 12 }), e('circle', { key: 'c', cx: 4, cy: 4, r: 2 })],
     mail: [e('rect', { key: 'r', x: 2, y: 4, width: 20, height: 16, rx: 2 }), e('path', { key: 'p', d: 'm22 6-10 7L2 6' })],
+    pdf: [
+      e('path', { key: 'a', d: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z' }),
+      e('path', { key: 'b', d: 'M14 2v6h6' }),
+      e('path', { key: 'c', d: 'M8 13h8M8 17h8' }),
+    ],
     rss: [e('path', { key: 'a', d: 'M4 11a9 9 0 0 1 9 9' }), e('path', { key: 'b', d: 'M4 4a16 16 0 0 1 16 16' }), e('circle', { key: 'c', cx: 5, cy: 19, r: 1 })],
     filter: e('path', { d: 'M22 3H2l8 9.5V19l4 2v-8.5L22 3z' }),
     layout: [e('rect', { key: 'r', x: 3, y: 3, width: 18, height: 18, rx: 2 }), e('path', { key: 'p', d: 'M9 3v18M3 9h18' })],
@@ -41,31 +62,173 @@
     const links = [
       { key: 'home', href: toSitePath('index.html'), label: 'home' },
       { key: 'portfolio', href: toSitePath('portfolio.html'), label: 'projects' },
+      { key: 'resume', href: toSitePath('resume.html'), label: 'resume' },
     ];
     return e('header', { className: 'nav' },
-      e('a', { href: toSitePath('index.html'), className: 'nav__brand' },
-        e('img', { src: toSitePath('public/design-assets/brand/niik_logo.png'), alt: '' }),
-        e('span', null, 'niik', e('span', { className: 'dot' }, '.')),
+      e(
+        'a',
+        {
+          href: toSitePath('index.html'),
+          className: 'nav__brand',
+          'aria-label': 'niik — home',
+        },
+        e('img', {
+          src: toPublicAssetPath('design-assets/brand/niik.png'),
+          alt: 'niik',
+          loading: 'lazy',
+          decoding: 'async',
+        })
       ),
-      e('nav', { className: 'nav__links' },
-        links.map(l => e('a', {
-          key: l.key, href: l.href, className: 'nav__link',
-          'aria-current': current === l.key ? 'page' : undefined,
-        }, l.label))
+      e(
+        'div',
+        { className: 'nav__links' },
+        links.map((link) =>
+          e(
+            'a',
+            {
+              key: link.key,
+              href: link.href,
+              className: 'nav__link',
+              'aria-current':
+                current === link.key || (current === 'archive' && link.key === 'portfolio')
+                  ? 'page'
+                  : undefined,
+            },
+            link.label
+          )
+        )
       ),
       e('div', { className: 'nav__spacer' }),
-      e('div', { className: 'nav__meta' },
-        e('span', { className: 'spark' }),
-        e('span', null, 'open to work'),
+    );
+  };
+
+  const ProjectTopbar = ({ title, backHref = 'portfolio.html' }) =>
+    e(
+      'header',
+      { className: 'project-topbar' },
+      e(
+        'div',
+        { className: 'project-topbar__inner' },
+        e(
+          'a',
+          {
+            className: 'project-topbar__back',
+            href: toSitePath(backHref),
+            onClick: (event) => {
+              if (window.history.length > 1) {
+                event.preventDefault();
+                window.history.back();
+              }
+            },
+          },
+          '← Back'
+        ),
+        title ? e('span', { className: 'tag' }, title) : null,
+      ),
+    );
+
+  // ─── Footer ─────────────────────────────────────────────
+  const Footer = () =>
+    e(
+      'footer',
+      { className: 'footer', 'aria-label': 'Site footer' },
+      e('em', null, 'tended with love and care 💐'),
+    );
+
+  /** Case-study / project detail pages — matches `footer.case-footer` in shell.css */
+  const CaseStudySummary = ({ items = [], className = 'cs-summary', style }) => {
+    const normalizedItems = Array.isArray(items)
+      ? items.filter((item) => item && String(item.value || '').trim())
+      : [];
+    if (!normalizedItems.length) return null;
+    return e(
+      'dl',
+      { className, style },
+      normalizedItems.map((item, idx) =>
+        e(
+          'div',
+          { key: item.key || item.label || idx },
+          e('dt', null, item.label),
+          e('dd', null, item.value),
+        )
       ),
     );
   };
 
-  // ─── Footer ─────────────────────────────────────────────
-  const Footer = () =>
-    e('footer', { className: 'footer' },
-      e('span', null, 'tended with love and care 🪴'),
+  /** Case-study / project detail pages — matches `footer.case-footer` in shell.css */
+  const CaseStudyShellFooter = ({ project }) => {
+    const p = project && typeof project === 'object' ? project : {};
+    const kindLabel = String(p.kindLabel || p.kind || 'project').trim();
+    const focus = String(p.focusLabel || p.kindLabel || p.kind || '—').trim() || '—';
+    const year = p.year != null && String(p.year).trim() ? String(p.year) : '—';
+    const role = String(p.role || '—').trim() || '—';
+    const tools = String(p.toolsLabel || p.tools || '').trim();
+    const hideKindFooter = p.hideKindFooter === true;
+    const hideYearFooter = p.hideYearFooter === true;
+    const customFooterRows = Array.isArray(p.footerRows)
+      ? p.footerRows
+          .filter((row) => row && String(row.label || '').trim() && String(row.value || '').trim())
+          .map((row, idx) =>
+            e(
+              'p',
+              { className: 'case-footer__row', key: `footer-row-${idx}` },
+              e('span', { className: 'case-footer__k' }, String(row.label).trim()),
+              ' ',
+              e('span', { className: 'case-footer__v' }, String(row.value).trim()),
+            )
+          )
+      : [];
+    return e(
+      'footer',
+      { className: 'case-footer', 'aria-label': 'Project details' },
+      e(
+        'div',
+        { className: 'case-footer__inner' },
+        e(
+          'div',
+          { className: 'case-footer__grid' },
+          e(
+            'div',
+            { className: 'case-footer__mark' },
+            e('em', null, 'tended with love and care 💐'),
+          ),
+          e(
+            'div',
+            { className: 'case-footer__meta' },
+            e(
+              'p',
+              { className: 'case-footer__row' },
+              e('span', { className: 'case-footer__k' }, hideKindFooter ? 'Focus' : 'Kind'),
+              ' ',
+              e('span', { className: 'case-footer__v' }, hideKindFooter ? focus : kindLabel),
+            ),
+            hideYearFooter ? null : e(
+              'p',
+              { className: 'case-footer__row' },
+              e('span', { className: 'case-footer__k' }, 'Year'),
+              ' ',
+              e('span', { className: 'case-footer__v' }, year),
+            ),
+            e(
+              'p',
+              { className: 'case-footer__row' },
+              e('span', { className: 'case-footer__k' }, 'Role'),
+              ' ',
+              e('span', { className: 'case-footer__v' }, role),
+            ),
+            tools ? e(
+              'p',
+              { className: 'case-footer__row' },
+              e('span', { className: 'case-footer__k' }, 'Tools'),
+              ' ',
+              e('span', { className: 'case-footer__v' }, tools),
+            ) : null,
+            ...customFooterRows,
+          ),
+        ),
+      ),
     );
+  };
 
   // ─── Eyebrow ────────────────────────────────────────────
   const Eyebrow = ({ children, style }) =>
@@ -78,7 +241,7 @@
     const normalized = String(role || '').toLowerCase();
     if (normalized.includes('product')) return { key: 'product', label: 'product' };
     if (normalized.includes('ux') || normalized.includes('ui') || normalized.includes('designer')) {
-      return { key: 'design', label: 'design' };
+      return { key: 'design', label: 'graphic design' };
     }
     if (normalized.includes('research')) return { key: 'research', label: 'research' };
     if (normalized.includes('graphic')) return { key: 'graphic', label: 'graphic' };
@@ -86,7 +249,7 @@
       return { key: 'video', label: 'video' };
     }
     if (normalized.includes('engineer') || normalized.includes('developer') || normalized.includes('coding')) {
-      return { key: 'engineering', label: 'engineering' };
+      return { key: 'engineering', label: 'software engineering' };
     }
     if (normalized.includes('strategy') || normalized.includes('communication')) {
       return { key: 'strategy', label: 'strategy' };
@@ -120,8 +283,11 @@
   // ─── Project Card ───────────────────────────────────────
   const ProjectCard = ({ project, showThumb = true, href }) => {
     const p = project;
+    const hugThumb = ['magic-of-resilience', 'niik-personal-brand-case-study', 'ziq-ip-cs2103', 'clinicconnect-cs2103'].includes(p.slug);
     const roleCategory = deriveRoleCategory(p.role);
     const hasCustomRoleTag = Boolean(p.roleKind || p.roleCategory);
+    const showKindTag = p.hideKindTag !== true;
+    const showRoleTag = p.hideRoleTag !== true;
     const roleType = p.roleKind || `role-${roleCategory.key}`;
     const roleLabel = (p.roleCategory || roleCategory.label).toUpperCase();
     const goToKindCategory = () => {
@@ -130,26 +296,65 @@
     const goToRoleCategory = () => {
       window.location.href = toSitePath(`portfolio.html?role=${encodeURIComponent(roleCategory.key)}`);
     };
+    const statusKey = ['planted', 'growing', 'grown'].includes(String(p.status || '').toLowerCase())
+      ? String(p.status).toLowerCase()
+      : 'grown';
+    const grownOn = p.statusDate || p.year;
+    const growingSince = p.statusSince || p.year;
+    const statusLabelMap = {
+      planted: '🌱 planted',
+      growing: growingSince ? `🌿 growing since ${growingSince}` : '🌿 growing',
+      grown: grownOn ? `🌳 grown on ${grownOn}` : '🌳 grown',
+    };
+    const excerptNode = p.slug === 'homework-1-interactive-timeline'
+      ? e(
+          React.Fragment,
+          null,
+          'A language detector that predicts whether text is ',
+          e('span', { className: 'card__language card__language--ms' }, 'Malaysian'),
+          ', ',
+          e('span', { className: 'card__language card__language--id' }, 'Indonesian'),
+          ', or ',
+          e('span', { className: 'card__language card__language--ta' }, 'Tamil'),
+          '.'
+        )
+      : p.slug === 'telegram-bot-heymax'
+        ? e(
+            React.Fragment,
+            null,
+            'A trip-planning Telegram bot with AI\u2011generated summary messages and an in\u2011built interactive map. Built with ',
+            e('span', { className: 'card__partner card__partner--nus' }, 'NUS Fintech Society'),
+            ' and ',
+            e('span', { className: 'card__partner card__partner--heymax' }, 'HeyMax'),
+            '.'
+          )
+        : (p.excerpt || e(Slot, null, 'one–two sentence summary of the problem, approach, and outcome.'));
     return e('a', { href: href || p.href || '#', className: 'card' },
-      showThumb && e(
+      showThumb && !p.hideThumb && e(
         'div',
-        { className: 'card__thumb' },
+        { className: `card__thumb${hugThumb ? ' card__thumb--hug' : ''}` },
         p.thumb
           ? e('img', {
               src: p.thumb,
               alt: p.title || 'project image',
               loading: 'lazy',
-              style: { width: '100%', height: '100%', objectFit: 'cover', borderRadius: 8 },
+              style: {
+                width: '100%',
+                height: hugThumb ? 'auto' : '100%',
+                objectFit: hugThumb ? 'contain' : 'cover',
+                background: hugThumb ? 'transparent' : 'transparent',
+                borderRadius: 8,
+              },
             })
           : (p.thumbLabel || 'project image')
       ),
       e('div', { className: 'card__meta' },
-        e(Kind, { type: p.kind, onClick: goToKindCategory }, p.kindLabel),
-        e(Kind, { type: roleType, onClick: hasCustomRoleTag ? undefined : goToRoleCategory }, roleLabel),
-        e('span', { className: 'card__year' }, p.year || e(Slot, null, 'year')),
+        showKindTag ? e(Kind, { type: p.kind, onClick: goToKindCategory }, p.kindLabel) : null,
+        showRoleTag ? e(Kind, { type: roleType, onClick: hasCustomRoleTag ? undefined : goToRoleCategory }, roleLabel) : null,
+        e(Kind, { type: `status-${statusKey}` }, statusLabelMap[statusKey]),
       ),
       e('h3', { className: 'card__title' }, p.title || e(Slot, null, 'project title')),
-      e('p', { className: 'card__excerpt' }, p.excerpt || e(Slot, null, 'one–two sentence summary of the problem, approach, and outcome.')),
+      e('p', { className: 'card__excerpt' }, excerptNode),
       e('div', { className: 'card__foot' },
         e('span', { className: 'arrow' }, 'read →'),
       ),
@@ -161,6 +366,7 @@
     const p = project;
     const roleCategory = deriveRoleCategory(p.role);
     const hasCustomRoleTag = Boolean(p.roleKind || p.roleCategory);
+    const showRoleTag = p.hideRoleTag !== true;
     const roleType = p.roleKind || `role-${roleCategory.key}`;
     const goToRoleCategory = () => {
       window.location.href = toSitePath(`portfolio.html?role=${encodeURIComponent(roleCategory.key)}`);
@@ -171,10 +377,10 @@
         e('div', { className: 'list-row__title' }, p.title || e(Slot, null, 'project title')),
         e('div', { className: 'list-row__excerpt' }, p.excerpt || e(Slot, null, 'short line')),
       ),
-      e('span', { className: 'list-row__kind' }, e(Kind, {
+      e('span', { className: 'list-row__kind' }, showRoleTag ? e(Kind, {
         type: roleType,
         onClick: hasCustomRoleTag ? undefined : goToRoleCategory,
-      }, (p.roleCategory || roleCategory.label).toUpperCase())),
+      }, (p.roleCategory || roleCategory.label).toUpperCase()) : null),
       e('span', { className: 'list-row__arrow' }, '→'),
     );
   };
@@ -199,7 +405,7 @@
   }
 
   Object.assign(window, {
-    Icon, Nav, Footer, Eyebrow, Slot, Kind, ProjectCard, ListRow,
+    Icon, Nav, Footer, ProjectTopbar, CaseStudyShellFooter, CaseStudySummary, Eyebrow, Slot, Kind, ProjectCard, ListRow,
     deriveRoleCategory,
     useTweaksHost, persistTweak,
   });

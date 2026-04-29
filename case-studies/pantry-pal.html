@@ -50,77 +50,6 @@
   ::selection { background: var(--blue); color: var(--paper); }
 
   /* ============================================================
-     NAV
-  ============================================================ */
-  .nav {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: rgba(250, 250, 247, 0.85);
-    backdrop-filter: saturate(180%) blur(12px);
-    -webkit-backdrop-filter: saturate(180%) blur(12px);
-    border-bottom: 1px solid var(--rule);
-  }
-  .nav-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 18px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .nav-brand {
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: 18px;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-    text-decoration: none;
-  }
-  .nav-brand em {
-    font-style: italic;
-    font-weight: 400;
-    color: var(--ink-mute);
-  }
-  .nav-modes {
-    display: flex;
-    gap: 4px;
-    padding: 4px;
-    background: var(--paper-warm);
-    border-radius: 999px;
-    border: 1px solid var(--rule);
-  }
-  .mode-btn {
-    font-family: var(--body);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    color: var(--ink-mute);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 7px 16px;
-    border-radius: 999px;
-    transition: all 0.25s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .mode-btn:hover { color: var(--ink); }
-  .mode-btn.active {
-    background: var(--ink);
-    color: var(--paper);
-    box-shadow: 0 1px 3px rgba(15, 23, 41, 0.15);
-  }
-  .mode-btn .star-mark {
-    width: 10px;
-    height: 10px;
-    opacity: 0;
-    transition: opacity 0.25s ease;
-  }
-  .mode-btn.active .star-mark { opacity: 1; }
-
-  /* ============================================================
      HERO
   ============================================================ */
   .hero {
@@ -414,6 +343,13 @@
     color: #C3C8D2;
     font-weight: 300;
   }
+  .strategy ul {
+    margin: 0;
+    padding-left: 20px;
+    max-width: 680px;
+    color: #C3C8D2;
+  }
+  .strategy li + li { margin-top: 8px; }
 
   /* Role / decisions grid */
   .at-a-glance {
@@ -719,6 +655,25 @@
     font-size: 16px;
   }
   .feature-table td:last-child { color: var(--ink-soft); }
+  .chapter figure {
+    margin: 24px 0;
+  }
+  .chapter figure img {
+    width: 100%;
+    max-width: 920px;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    display: block;
+    background: var(--paper-warm);
+  }
+  .chapter figure figcaption {
+    margin-top: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
 
   .reflection-card {
     background: var(--ink);
@@ -746,29 +701,6 @@
     margin-bottom: 16px;
   }
   .reflection-card p:last-child { margin-bottom: 0; }
-
-  /* ============================================================
-     FOOTER
-  ============================================================ */
-  .footer {
-    border-top: 1px solid var(--rule);
-    padding: 48px 32px;
-    text-align: center;
-    background: var(--paper-warm);
-  }
-  .footer p {
-    font-family: var(--display);
-    font-size: 16px;
-    color: var(--ink-mute);
-    font-style: italic;
-  }
-  .footer a {
-    color: var(--blue);
-    text-decoration: none;
-    border-bottom: 1px solid currentColor;
-    font-style: normal;
-    margin: 0 6px;
-  }
 
   /* star hidden easter egg — appears only on hover over the final period */
   .signature {
@@ -814,49 +746,53 @@
     .full-inner { padding: 24px 24px 96px; }
     .strategy { padding: 48px 32px; }
     .pull-quote { margin: 32px -24px; padding: 32px 32px; }
-    .nav-inner { padding: 14px 20px; }
-    .nav-brand { font-size: 15px; }
+    .project-topbar__inner { padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); }
     .mode-btn { padding: 6px 12px; font-size: 12px; }
   }
 </style>
+  <link rel="stylesheet" href="../design-system/colors_and_type.css" />
+  <link rel="stylesheet" href="../shared/shell.css" />
+  <link rel="stylesheet" href="../shared/phase1-ds-bridge.css" />
 </head>
 <body>
 
 <!-- ================================= NAV ================================= -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="../portfolio.html" class="nav-brand">Niik Seah <em>/ Selected Work</em></a>
-    <div class="nav-modes" role="tablist">
-      <button class="mode-btn active" data-mode="tldr" role="tab">
-        <svg class="star-mark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg>
-        TL;DR
-      </button>
-      <button class="mode-btn" data-mode="full" role="tab">Full read · 6 min</button>
+<header class="project-topbar">
+  <div class="project-topbar__inner">
+    <a class="project-topbar__back" href="../portfolio.html" onclick="if (window.history.length > 1) { event.preventDefault(); window.history.back(); }">← Back</a>
+    <div class="nav-modes" role="tablist" aria-label="Reading modes">
+      <button type="button" class="mode-btn active" data-mode="tldr" role="tab">TL;DR</button>
+      <button type="button" class="mode-btn" data-mode="full" role="tab">Full read · 6 min</button>
     </div>
   </div>
-</nav>
+</header>
 
 <!-- ================================= HERO ================================= -->
 <header class="hero">
-  <div class="eyebrow reveal reveal-1">Case Study · 2024</div>
   <h1 class="reveal reveal-2">Pantry&nbsp;Pal.<br>Making good habits the <em>easy default</em></h1>
   <p class="hero-deck reveal reveal-3">A mobile app that fights Singapore's 755,000-tonne household food-waste problem — disguised as a diet tracker, because the best way to change behavior is to smuggle it in through one you already have.</p>
+  <dl class="cs-summary reveal reveal-4">
+    <div><dt>Role</dt><dd>UI Designer, UX Researcher</dd></div>
+    <div><dt>Scope</dt><dd>Research → High-fi</dd></div>
+    <div><dt>Timeline</dt><dd>Oct 2024 – Nov 2024</dd></div>
+    <div><dt>Team</dt><dd>Sole Project Owner</dd></div>
+  </dl>
   <div class="hero-meta reveal reveal-4">
     <div>
       <div class="meta-label">Role</div>
-      <div class="meta-value">Sole Owner</div>
+      <div class="meta-value">UI Designer, UX Researcher</div>
     </div>
     <div>
       <div class="meta-label">Scope</div>
-      <div class="meta-value">Research → Mid-fi</div>
+      <div class="meta-value">Research → High-fi</div>
+    </div>
+    <div>
+      <div class="meta-label">Timeline</div>
+      <div class="meta-value">Oct 2024 - Nov 2024</div>
     </div>
     <div>
       <div class="meta-label">Team</div>
-      <div class="meta-value">1 (me)</div>
-    </div>
-    <div>
-      <div class="meta-label">Context</div>
-      <div class="meta-value">NM4259 · NUS</div>
+      <div class="meta-value">Sole Project Owner</div>
     </div>
   </div>
 </header>
@@ -881,11 +817,40 @@
     </aside>
   </section>
 
+  <section class="tldr-grid">
+    <div>
+      <div class="eyebrow">Target Audience</div>
+      <h2 class="tldr-headline">Young adults aged <strong>18-24</strong> who care about healthier living but need low-friction support to plan meals, track pantry inventory, and reduce accidental over-buying.</h2>
+    </div>
+    <aside class="tldr-side">
+      <h3>Audience profile</h3>
+      <ul>
+        <li><strong>Primary users:</strong> Students and early-career adults managing food decisions independently.</li>
+        <li><strong>Behavior context:</strong> Busy, mobile-first routines with limited time for manual logging.</li>
+        <li><strong>Pain points:</strong> Forgotten groceries, duplicate purchases, and poor visibility of expiry dates.</li>
+        <li><strong>Motivation:</strong> Save money, eat better, and build practical sustainability habits over time.</li>
+      </ul>
+    </aside>
+  </section>
+
   <!-- Strategy block -->
   <section class="strategy">
     <div class="eyebrow">The Bet</div>
     <h2>Users won't download a pantry app. They <em>will</em> download a calorie counter — and log their groceries as a side-effect.</h2>
     <p>Existing apps (Treatsure, Olio) fix waste after purchase. KitchenPal fixes it before — but requires users to already care. Pantry Pal pairs a pantry manager with a diet tracker, so the acquisition hook is a habit users already have, and the waste-reduction behaviors ride along for free.</p>
+  </section>
+
+  <section class="strategy">
+    <div class="eyebrow">The Solution</div>
+    <p>Pantry Pal is a mobile app designed for youths aged 18-24 to simplify pantry management and meal planning while reducing food waste.</p>
+    <h2>Key features include:</h2>
+    <ul>
+      <li>Meal Planner</li>
+      <li>Family Integration</li>
+      <li>Expiry Date Tracker</li>
+      <li>Diet Tracker</li>
+      <li>Ease of Input of Expiry Dates of Groceries</li>
+    </ul>
   </section>
 
   <!-- Impact metrics -->
@@ -957,6 +922,15 @@
       <p class="lead">Singapore's Semakau landfill is projected to run out of space by 2035. The government has a Zero Waste Masterplan, the NEA runs annual reduction campaigns, and NGOs like ZeroWasteSG have been educating consumers for years. And yet food waste in 2023 — 755,000 tonnes — was higher than in 2020.</p>
       <p>The education-first approach had hit a ceiling. My interview subjects, both 23-year-old Singaporeans, confirmed it in the bluntest possible way: they knew exactly why food waste mattered, and they still didn't change their behavior. The gap between knowledge and action was the real problem — and no existing app was addressing it for the demographic that needed it most.</p>
 
+      <h3>Target audience</h3>
+      <p>Pantry Pal is designed for youths aged 18-24 navigating independent food decisions for the first time. This group is highly mobile-first and goal-oriented, but often lacks lightweight systems for pantry visibility, expiry tracking, and meal planning.</p>
+      <ul>
+        <li><strong>Who:</strong> University students and young working adults.</li>
+        <li><strong>Needs:</strong> Fast grocery input, clear pantry awareness, and practical meal planning support.</li>
+        <li><strong>Constraints:</strong> Time pressure, inconsistent routines, and low tolerance for complex setup.</li>
+        <li><strong>Desired outcome:</strong> Reduce food waste without adding friction to everyday life.</li>
+      </ul>
+
       <div class="pull-quote">
         <p>I knew about it, I just didn't care enough to do anything differently.</p>
       </div>
@@ -975,6 +949,8 @@
 
       <p class="lead">This is the single most important decision in the project. Everything else follows from it.</p>
 
+      <p>Pantry Pal is a dynamic mobile app designed to simplify pantry management and meal planning while reducing food waste at the point of purchase. By integrating essential features for efficient meal prep and inventory tracking, the app empowers users to make smarter, more sustainable purchasing decisions. Pantry Pal goes beyond basic functionality, integrating complementary features that make it easier to adopt waste-reducing habits, encouraging consistent use, and fostering long-term behavioural change. This holistic approach not only supports sustainability but also fits seamlessly into users' daily lives, making Pantry Pal more effective and practical.</p>
+
       <h3>Five features, each earning its place</h3>
       <table class="feature-table">
         <thead>
@@ -991,7 +967,107 @@
     </section>
 
     <section class="chapter">
-      <div class="chapter-num">Chapter 03 · The decisions</div>
+      <div class="chapter-num">Chapter 03 · Design Process</div>
+      <h2>Design <em>Process</em></h2>
+
+      <h3>Barriers to Action: Understanding Youths' Disconnect with Food Waste</h3>
+      <p>2 semi-structured interviews were conducted with members of the target audience to gain deeper insights into the attitudes of Singaporean youths toward food waste and to uncover the underlying reasons behind their lack of engagement in waste-reducing practices.</p>
+      <p>Based on the interviews, several key themes emerged:</p>
+      <ol>
+        <li><strong>Awareness</strong> of Environmental Impact of Food Waste</li>
+        <li><strong>Lack</strong> of <strong>Immediate</strong> Consequences</li>
+        <li><strong>Convenience</strong> over <strong>Sustainability</strong></li>
+        <li><strong>Tediousness</strong> of Waste-Reducing Practices</li>
+      </ol>
+      <p>An empathy map and a persona were created using the interview findings to better understand the feelings and perspectives of my interviewees.</p>
+
+      <figure>
+        <img src="../public/design-assets/project-media/pantry-pal/8fea386d-f56f-4252-96e0-98efbbb2fbfe.png" alt="Empathy map for Pantry Pal target users" loading="lazy" />
+        <figcaption>Empathy Map</figcaption>
+      </figure>
+
+      <figure>
+        <img src="../public/design-assets/project-media/pantry-pal/39b9c882-e150-425e-8bb1-80b897ed7aed.png" alt="Persona used for Pantry Pal design process" loading="lazy" />
+        <figcaption>Persona</figcaption>
+      </figure>
+
+      <h3>Existing User Flow</h3>
+      <p>John Tan heads to the grocery store to buy groceries for the week. He browses through the aisles and picks up food as he goes, <strong>impulsively</strong> purchasing items based on his preferences and promotions, such as a frozen pizza offer. After shopping, he heads home and begins unpacking his groceries, only to realize that his parents had already bought the frozen pizza earlier, and he didn't check with them beforehand. <strong>Lack of family coordination</strong> leads to unnecessary duplicate purchases. Additionally, John forgets to buy some key ingredients he had intended to use for the week, which leads to another trip to the store. <strong>Forgetfulness in planning</strong> causes additional time and effort. A few weeks later, he notices that he has over-purchased and some items have expired because he didn't track their expiry dates. <strong>Over-purchasing and expiry management issues</strong> lead to food waste.</p>
+
+      <h3>Proposed User Flow</h3>
+      <p>John Tan starts by planning his meals for the week within the app. <strong>Meal planning</strong> helps him stay organized and focused. The app automatically generates a grocery list based on the meals he selects and the ingredients he already has at home. <strong>Smart shopping list generation</strong> ensures he only buys what is needed. He doesn't need to ask his family about their grocery needs, as their purchases are already integrated into the shared list. <strong>Family coordination</strong> is streamlined, avoiding duplicate purchases. During his shopping trip, John scans, types, or uses voice input to add items into the app's virtual shopping cart. <strong>Real-time shopping cart tracking</strong> ensures he stays on top of what has been added. As he picks up items, the app updates his grocery list in real time, ensuring that he knows exactly which items are still needed. <strong>Real-time updates</strong> make the shopping process more efficient.</p>
+      <p>When John sees the frozen pizza on promotion, the app alerts him that it's already on the list - thanks to the shared grocery feature with his parents. <strong>Over-purchasing prevention</strong> reduces unnecessary purchases. After checking out, the app helps John store his groceries properly by automatically categorizing them into the correct pantry sections - refrigerated, frozen, or pantry. <strong>Food storage guidance</strong> ensures that items last longer, reducing food waste.</p>
+      <p>Once at home, John can use the app to track his inventory: where each item is stored, how much of each item he has, and the expiration dates of everything in his pantry. <strong>Inventory and expiry management</strong> allows him to stay on top of his food supplies and avoid spoilage. The app also tracks his calories based on the meals he prepares, helping him stay on track with his bulking goals. <strong>Calorie and meal tracking</strong> offer an integrated solution for his dietary needs.</p>
+
+      <h3>Prototypes</h3>
+      <h3>Key Features</h3>
+      <ol>
+        <li><strong>Diet Tracker:</strong> The app integrates meal tracking with pantry management, allowing users to track calories while ensuring groceries are purchased and consumed efficiently.</li>
+        <li><strong>Meal Planner:</strong> Users can plan meals, generate accurate shopping lists, and avoid impulse buying, reducing food waste by buying only what's needed.</li>
+        <li><strong>Expiry Date Tracker:</strong> Timely expiry date reminders and recipe suggestions based on expiring ingredients help users minimize waste and use food before it spoils.</li>
+        <li><strong>Family Integration:</strong> The app enables family members to share and update the pantry and grocery list, preventing duplicate purchases and improving coordination.</li>
+        <li><strong>Ease of Input:</strong> Multiple input options, including barcode scanning, voice input, and a comprehensive grocery database, make managing the pantry quick and hassle-free.</li>
+        <li><strong>Proper Storage Methods:</strong> The app categorizes groceries based on storage needs, ensuring proper food organization and reducing spoilage.</li>
+      </ol>
+
+      <h3>Lo-Fi Prototype</h3>
+      <p><a href="https://embed.figma.com/design/1ErGIq0cQiylL6TZeViAtS/Wireframes?node-id=0-1&t=VeX3QZs4sp5cXe3T-1&embed-host=notion&footer=false&theme=system" target="_blank" rel="noopener noreferrer">Open Lo-Fi Prototype (Figma Embed)</a></p>
+
+      <h3>User Testing Results</h3>
+      <ol>
+        <li><strong>Onboarding - User Details:</strong> Participants found the onboarding process clear and intuitive. The Diet Tracker feature was easily understood, with one participant drawing a comparison to MyFitnessPal, which validated the feature's approach.</li>
+        <li><strong>Onboarding - Family Details:</strong> The concept of Family was understood without the need for additional tooltips. While this was clear, I decided to keep the information visible for greater clarity and ease of understanding.</li>
+        <li><strong>Pantry Navigation:</strong> The navigation bar was generally useful, but one participant suggested placing the Pantry button in the center for easier access. I implemented this change while keeping the Profile button on the right as the least accessed.</li>
+        <li><strong>Adding Groceries to Pantry/Cart:</strong> One participant suggested that the grocery list should reflect past inputs for convenience. Users also struggled with a Cancel button that looked like clear, so it was redesigned as Back. Multiple input methods (voice/barcode/text) were positively received for one-handed shopping contexts.</li>
+        <li><strong>Expired Groceries:</strong> A/B testing favored grid view for identifying items by packaging. Users preferred a smaller bottom-left XX Days Left indicator. This also led to an Ingredients page to help find recipes based on expiring items.</li>
+        <li><strong>Recipes:</strong> Portion-size adjustment was validated as useful by all participants and supports waste reduction.</li>
+        <li><strong>Meal Planner:</strong> A/B testing favored full-week display for flexibility and alignment with weekly shopping habits. Food Item vs Recipe separation also improved logging flexibility.</li>
+        <li><strong>Shopping:</strong> Shopping List and Shopping Cart mental models were intuitive due to familiarity with e-commerce flows.</li>
+      </ol>
+
+      <figure>
+        <img src="../public/design-assets/project-media/pantry-pal/Screenshot_2025-04-09_at_09.15.11.png" alt="Meal planner prototype screen 1" loading="lazy" />
+      </figure>
+      <figure>
+        <img src="../public/design-assets/project-media/pantry-pal/Screenshot_2025-04-09_at_09.15.42.png" alt="Meal planner prototype screen 2" loading="lazy" />
+      </figure>
+
+      <h3>Mid-Fi Prototype</h3>
+      <h3>Design Considerations</h3>
+      <ol>
+        <li><strong>Color Scheme:</strong> Green-forward palette reinforces sustainability goals while maintaining readability and contrast.</li>
+        <li><strong>Fresh Food Expiry Tracking:</strong> Expiry logic for fresh produce is based on item shelf-life data to improve practical accuracy.</li>
+        <li><strong>Storage Display:</strong> Bottom display was selected for better balance between visibility and simplicity.</li>
+        <li><strong>Family Integration:</strong> Users can join/leave families and add members for better list and pantry coordination.</li>
+        <li><strong>Receipt Scanning:</strong> De-prioritized due to missing expiry data and unclear abbreviations; manual expiry input remains the more reliable path.</li>
+        <li><strong>Profile Border:</strong> Replaced with profile-picture differentiation to reduce confusion and clutter.</li>
+        <li><strong>Diet Tracker:</strong> Moved to Profile as an optional add-on so pantry management remains the core function.</li>
+        <li><strong>Input Methods:</strong> Voice, barcode, and text consolidated into one Google-style input pattern for faster capture.</li>
+        <li><strong>Recipe Filter:</strong> Overlapping filters were merged, with ingredient-availability highlighting for clarity.</li>
+        <li><strong>Pantry Picks:</strong> Renamed for clarity and aligned with user intent around cooking from existing inventory.</li>
+        <li><strong>Meal Planner Integration:</strong> Added quick recipe-to-planner action to support planning while browsing.</li>
+      </ol>
+
+      <figure>
+        <img src="../public/design-assets/project-media/pantry-pal/Screenshot_2025-04-09_at_09.23.09.png" alt="Mid-fi prototype screen" loading="lazy" />
+      </figure>
+
+      <h3>Lo-Fi to Mid-Fi Design Considerations</h3>
+      <ol>
+        <li><strong>Navigation Bar Activation:</strong> Hollow (inactive) and filled (active) icon treatment improved contrast and state visibility.</li>
+        <li><strong>Family and Diet Tracker Features:</strong> Card layouts with icons made both features more discoverable and engaging.</li>
+        <li><strong>Speech Input Template:</strong> Reworded from Use this template to Speak in the following format for clearer instruction.</li>
+      </ol>
+
+      <h3>Limitations of the Current Design</h3>
+      <ol>
+        <li><strong>Image Use:</strong> Heavy image usage increases app size and may reduce accessibility for lower-spec devices or limited data plans.</li>
+        <li><strong>Database Size:</strong> A universal grocery database remains difficult to maintain comprehensively across item varieties.</li>
+      </ol>
+    </section>
+
+    <section class="chapter">
+      <div class="chapter-num">Chapter 04 · The decisions</div>
       <h2>Five calls, with the reasoning showing</h2>
 
       <div class="decision-block">
@@ -1042,8 +1118,42 @@
     </section>
 
     <section class="chapter">
-      <div class="chapter-num">Chapter 04 · Validation</div>
+      <div class="chapter-num">Chapter 05 · Validation</div>
       <h2>What the testing actually <em>proved</em></h2>
+      <p><strong>Heuristic Evaluation</strong></p>
+      <p>A self-heuristic evaluation was conducted on the Mid-fi prototype, using Nielsen's 10 Usability Heuristic.</p>
+      <p>These scores were calculated based on the aggregate of 3 factors - frequency, impact, and persistence of heuristic violation. The heuristic violations are listed in order of their discovery.</p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>Severity Level</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>Do not agree that this is a usability problem</td></tr>
+          <tr><td>1</td><td>This is a cosmetic/superficial usability problem</td></tr>
+          <tr><td>2</td><td>This is a minor usability problem</td></tr>
+          <tr><td>3</td><td>This is a major usability problem; Important to fix</td></tr>
+          <tr><td>4</td><td>This is a usability catastrophe; Imperative to fix</td></tr>
+        </tbody>
+      </table>
+      <table class="feature-table">
+        <thead>
+          <tr><th>#</th><th>Usability Issue</th><th>Severity</th><th>Solution</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Irrelevance of Number of Family Members</td><td>1</td><td>Remove the field; the portion size customization serves the purpose of meal quantity.</td></tr>
+          <tr><td>2</td><td>Lack of Customizability of Pantry Sections</td><td>4</td><td>Allow users to add/remove sections and rename them; double-click pantry names to edit. Ensure clarity in button functionality through further testing.</td></tr>
+          <tr><td>3</td><td>No "Add Groceries" Function on Pantry Page</td><td>1</td><td>Add an actionable "Add Groceries" button under the error message for convenience.</td></tr>
+          <tr><td>4</td><td>Varying Tooltips</td><td>0</td><td>Standardize tooltips for visual coherence, though not critical for usability.</td></tr>
+          <tr><td>5</td><td>Editable and Uneditable Fields Look the Same</td><td>3</td><td>Color-code fields; uneditable fields will be black, and editable fields will have an outlined box.</td></tr>
+          <tr><td>6</td><td>No Description of Diet Tracker</td><td>3</td><td>Display a more detailed description or list of features when prompting users to activate it.</td></tr>
+          <tr><td>7</td><td>"Activity Level" Fill-Up Field is Vague</td><td>3</td><td>Add a brief description below the field explaining each activity level.</td></tr>
+          <tr><td>8</td><td>Bar Code Outline Missing</td><td>0</td><td>Add a clear outline around the barcode scanner to guide users.</td></tr>
+          <tr><td>9</td><td>Inability to Customize Grocery Quantity</td><td>4</td><td>Provide an option to customize the quantity during the grocery entry process.</td></tr>
+          <tr><td>10</td><td>No Recipes Created or Saved</td><td>1</td><td>Add an actionable button under the error message to easily create/save recipes.</td></tr>
+          <tr><td>11</td><td>"Add" Text in Button for Meal Planner is Vague</td><td>1</td><td>Change button label to "Add to Meal Planner" for clarity.</td></tr>
+          <tr><td>12</td><td>"Add" Button on Shopping List and Cart Are in Different Spots</td><td>1</td><td>Standardize the position of the "Add" button for a more coherent user experience.</td></tr>
+        </tbody>
+      </table>
       <p>Three Wizard-of-Oz sessions with 18–24-year-olds, each walking through a seven-task script: sign up, activate diet tracker, add granola, handle expiring granola, meal-plan a recipe, shop for missing ingredients, and stock the pantry.</p>
 
       <h3>What held up</h3>
@@ -1063,7 +1173,7 @@
     </section>
 
     <section class="chapter">
-      <div class="chapter-num">Chapter 05 · Reflection</div>
+      <div class="chapter-num">Chapter 06 · Reflection</div>
       <h2>What I'd do <em>differently</em></h2>
 
       <div class="reflection-card">
@@ -1074,20 +1184,65 @@
       </div>
 
       <h3>What comes next</h3>
+      <p><strong>Plans for Future Enhancements</strong></p>
+      <p>Several features and improvements are planned for the future but remain beyond current time constraints:</p>
       <ol>
-        <li><strong>Next:</strong> Gamification, tutorial, and help center — fix the Diet Tracker discoverability issue I couldn't solve in this pass.</li>
-        <li><strong>Later:</strong> Ingredient history, exercise tracker, education content.</li>
-        <li><strong>Maybe, deliberately parked:</strong> Receipt scanning. Revisit only when OCR + product databases are reliable enough to not train distrust.</li>
+        <li><strong>Customizable Recipes:</strong> Allow users to modify recipes by adjusting ingredients and estimate calories based on those changes, providing more flexibility.</li>
+        <li><strong>Gamification:</strong> Introduce gamification to track food-waste reduction progress, potentially adding a competitive element for families to engage with.</li>
+        <li><strong>Ingredient History:</strong> Add a history of ingredient usage to help users track and manage their pantry more effectively.</li>
+        <li><strong>In-App Tutorial:</strong> Integrate a tutorial to raise visibility of the Diet Tracker feature and guide new users through the app.</li>
+        <li><strong>Add Grocery Functionality:</strong> Enable users to add grocery items manually, filling in gaps left by the database.</li>
+        <li><strong>Customizable Expiry Date Tracker:</strong> Allow users to adjust when expiry date alerts and color changes occur on grocery cards, offering greater flexibility.</li>
+        <li><strong>Help Center:</strong> Implement a help and support section for users who need assistance, addressing the need for documentation and user guidance.</li>
+        <li><strong>Exercise Tracker:</strong> Expand the Diet Tracker to include an exercise tracker, linking diet and activity, but requires testing for potential complexity overload.</li>
+        <li><strong>Educational Tips:</strong> Introduce educational content to inform users about food waste reduction and align more closely with PantryPal's mission.</li>
       </ol>
-      <p>The single biggest untested variable: the mobile context. I designed for it, but I haven't yet tested the prototype in an actual grocery store, one-handed, in a hurry. That's the first thing I'd do in v2.</p>
+      <p><strong>Key Testing and Mobile Context Considerations</strong></p>
+      <p>The most critical test that remains is ensuring the app works well in mobile contexts, given that grocery shopping frequently takes place in dynamic, on-the-go environments. This needs to be a key focus moving forward.</p>
+      <p>This version clarifies the main changes, solutions, and future plans, making it easier for readers to follow the design rationale and understand the priorities for future work.</p>
+    </section>
+
+    <section class="chapter">
+      <h2>Software and <em>Skills Used</em></h2>
+
+      <h3>Software Used</h3>
+      <ul>
+        <li>Figma</li>
+      </ul>
+
+      <h3>Skills Used</h3>
+      <ul>
+        <li>User Research and Analysis</li>
+        <li>Data Gathering and Analysis</li>
+        <li>User Interviews</li>
+        <li>Empathy Mapping</li>
+        <li>Affinity Diagram</li>
+        <li>Heuristic Evaluation</li>
+        <li>Wireframing and Prototyping</li>
+        <li>Personas</li>
+        <li>Scenarios</li>
+      </ul>
     </section>
 
   </div>
 </article>
 
 <!-- ================================= FOOTER ================================= -->
-<footer class="footer">
-  <p>Designed and written by <a href="../index.html">Niik Seah</a> &middot; <span class="signature">2024</span></p>
+<footer class="case-footer" aria-label="Project details">
+  <div class="case-footer__inner">
+    <div class="case-footer__grid">
+      <div class="case-footer__mark">
+        <em>tended with love and care 💐</em>
+      </div>
+      <div class="case-footer__meta">
+        <p class="case-footer__row"><span class="case-footer__k">Project Name</span> <span class="case-footer__v">Pantry Pal</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">Role</span> <span class="case-footer__v">UI designer, UX researcher</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">Scope</span> <span class="case-footer__v">Research → high-fi</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">Timeline</span> <span class="case-footer__v">Oct 2024 – Nov 2024</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">Team</span> <span class="case-footer__v">Sole project owner</span></p>
+      </div>
+    </div>
+  </div>
 </footer>
 
 <script>

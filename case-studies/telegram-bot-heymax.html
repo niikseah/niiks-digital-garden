@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telegram Bot for Trip Planning — Case Study · Niik Seah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FAFAF7;
+    --paper-warm: #F4F2EC;
+    --ink: #0F1729;
+    --ink-soft: #3C445A;
+    --ink-mute: #6B7388;
+    --rule: #E4E1D8;
+    --blue-deep: #1E3A8A;
+    --blue: #2E5AAC;
+    --blue-bright: #3B82F6;
+    --blue-tint: #EBF1FB;
+    --blue-faint: #F5F8FD;
+    --star: #F5B841;
+    --display: 'Apple Garamond', Georgia, serif;
+    --body: 'Helvetica Neue', -apple-system, system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .hero {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 92px 32px 68px;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(46px, 7vw, 90px);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    max-width: 960px;
+    margin-bottom: 24px;
+  }
+  .hero h1 em { font-style: italic; color: var(--blue); font-weight: 300; }
+  .hero-deck {
+    font-size: 20px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 760px;
+    margin-bottom: 44px;
+    font-weight: 300;
+  }
+  .hero .cs-summary {
+    width: 100%;
+    max-width: none;
+    margin-top: 0;
+    padding: 10px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, max-content));
+    column-gap: 28px;
+    row-gap: 0;
+    justify-content: start;
+  }
+  .hero .cs-summary > div {
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+    padding-left: 24px;
+    justify-items: start;
+  }
+  .hero .cs-summary dt {
+    margin-bottom: 0;
+    letter-spacing: 0.1em;
+  }
+  .hero .cs-summary dd {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-meta > div { background: var(--paper); padding: 20px 24px; }
+  .meta-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 6px;
+  }
+  .meta-value {
+    font-family: var(--display);
+    font-size: 17px;
+    color: var(--ink);
+  }
+  .tldr, .full-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px;
+  }
+  .tldr {
+    max-width: none;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .full { display: none; }
+  .full.active { display: block; }
+  .tldr.hidden { display: none; }
+  .tldr-grid {
+    margin-bottom: 60px;
+    max-width: none;
+    width: 100%;
+  }
+  .tldr-grid.tldr-grid--kicker-only {
+    margin-bottom: 20px;
+  }
+  .tldr-grid.tldr-grid--kicker-only .eyebrow {
+    margin-bottom: 0;
+  }
+  .tldr-headline {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(30px, 3.5vw, 42px);
+    line-height: 1.15;
+    width: 100%;
+  }
+  .tldr-headline strong {
+    background: linear-gradient(180deg, transparent 65%, var(--blue-tint) 65%);
+  }
+  .tldr-headline .hl-end-1,
+  .tldr-headline .hl-end-2,
+  .tldr-headline .hl-end-3 {
+    color: var(--blue);
+    font-weight: 500;
+  }
+  .tldr-side {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 28px;
+  }
+  main.tldr > .tldr-side {
+    margin-bottom: 52px;
+  }
+  .tldr-side h3 {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 16px;
+  }
+  .tldr-side ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .tldr-side li {
+    padding: 12px 14px;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--ink-soft);
+  }
+  .tldr-side li:not(.tldr-side__title-card) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
+    min-height: 136px;
+  }
+  .tldr-side .feature-card__title {
+    font-weight: 700;
+    color: var(--ink);
+    display: block;
+  }
+  .tldr-side .feature-card__body {
+    display: block;
+  }
+  .tldr-side li.tldr-side__title-card {
+    font-family: var(--display);
+    font-size: clamp(24px, 3.2vw, 34px);
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 400;
+  }
+  .strategy {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 60px 40px;
+    border-radius: 8px;
+    margin-bottom: 60px;
+  }
+  .strategy--compact {
+    padding: 34px 28px;
+  }
+  .strategy .eyebrow { color: var(--star); margin-bottom: 18px; }
+  .strategy h2 {
+    font-family: var(--display);
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 400;
+    margin-bottom: 18px;
+    color: var(--paper);
+  }
+  .strategy h2 em { color: var(--star); font-style: italic; }
+  .strategy p { max-width: 760px; color: #C3C8D2; }
+  .at-a-glance {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 52px;
+  }
+  .glance-col h3 {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .glance-col ul { list-style: none; }
+  .glance-col li { padding: 12px 0; color: var(--ink-soft); }
+  .glance-col li .decision { font-family: var(--display); color: var(--ink); margin-right: 8px; }
+  .chapter { max-width: 960px; margin: 0 auto 80px; }
+  .chapter-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--blue);
+    margin-bottom: 12px;
+  }
+  .chapter h2 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(34px, 5vw, 50px);
+    line-height: 1.06;
+    margin-bottom: 24px;
+  }
+  .chapter h2 em { font-style: italic; color: var(--blue); }
+  .chapter h3 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(26px, 3.2vw, 34px);
+    line-height: 1.18;
+    margin: 8px 0 14px;
+  }
+  .chapter h4 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(22px, 2.4vw, 28px);
+    line-height: 1.2;
+    margin: 2px 0 12px;
+    color: var(--ink);
+  }
+  .chapter .chapter-lead {
+    font-size: clamp(34px, 5vw, 50px);
+    line-height: 1.06;
+    margin: 0 0 24px;
+  }
+  .chapter p, .chapter li { font-size: 17px; line-height: 1.68; color: var(--ink-soft); }
+  .chapter p {
+    max-width: none;
+    width: 100%;
+  }
+  .chapter ul, .chapter ol { margin: 10px 0 18px 22px; }
+  .mini-app-grid {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .mini-app-grid li {
+    margin: 0;
+    padding: 12px 14px;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    background: #fff;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 96px;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+  .chapter-block {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    padding: 24px;
+    margin: 18px 0 20px;
+  }
+  .chapter-block h3 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink);
+    margin: 0 0 12px;
+  }
+  .chapter-block .block-kicker {
+    font-family: var(--display);
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .chapter-block p:last-child,
+  .chapter-block ul:last-child,
+  .chapter-block ol:last-child {
+    margin-bottom: 0;
+  }
+  .mini-app-functions {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .mini-app-functions li {
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    position: relative;
+    padding-left: 44px;
+  }
+  .mini-app-functions li::before {
+    counter-increment: mini-app-feature;
+    content: counter(mini-app-feature);
+    position: absolute;
+    left: 12px;
+    top: 10px;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--blue);
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 20px;
+    text-align: center;
+  }
+  .chapter-block .mini-app-functions {
+    counter-reset: mini-app-feature;
+  }
+  @media (max-width: 900px) {
+    .at-a-glance, .hero-meta { grid-template-columns: 1fr; }
+    .hero { padding-top: 68px; }
+    .hero .cs-summary {
+      grid-template-columns: repeat(2, minmax(0, max-content));
+      row-gap: 12px;
+    }
+    .tldr-side ul {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .mini-app-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 640px) {
+    .tldr-side ul {
+      grid-template-columns: 1fr;
+    }
+    .mini-app-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+  <link rel="stylesheet" href="../design-system/colors_and_type.css" />
+  <link rel="stylesheet" href="../shared/shell.css" />
+  <link rel="stylesheet" href="../shared/phase1-ds-bridge.css" />
+</head>
+<body>
+<header class="project-topbar">
+  <div class="project-topbar__inner">
+    <a class="project-topbar__back" href="../portfolio.html" onclick="if (window.history.length > 1) { event.preventDefault(); window.history.back(); }">← Back</a>
+    <div class="nav-modes" role="tablist" aria-label="Reading modes">
+      <button type="button" class="mode-btn active" data-mode="tldr" role="tab">TL;DR</button>
+      <button type="button" class="mode-btn" data-mode="full" role="tab">Full read · 3 min</button>
+    </div>
+  </div>
+</header>
+
+<header class="hero">
+  <h1>Telegram Bot for <em>Trip Planning</em>.</h1>
+  <p class="hero-deck">A collaboration between <span class="card__partner card__partner--nus">NUS Fintech Society</span> and <span class="card__partner card__partner--heymax">HeyMax</span> to reduce planning chaos in Telegram group chats by turning scattered travel links into a structured, AI-assisted trip summary and interactive map.</p>
+  <dl class="cs-summary">
+    <div><dt>Role</dt><dd>Software Developer</dd></div>
+    <div><dt>Partners</dt><dd>HeyMax</dd></div>
+    <div><dt>Timeline</dt><dd>Aug 2025 – May 2026</dd></div>
+    <div><dt>Tool</dt><dd>Python</dd></div>
+  </dl>
+</header>
+
+<main class="tldr" id="tldr-view">
+  <section class="tldr-grid">
+    <div>
+      <div class="eyebrow">The Problem</div>
+      <h2 class="tldr-headline">Trip planning on Telegram is <strong>fragmented</strong>; links are scattered across messages, and people waste too much time manually consolidating <span class="hl-end-1">places</span>, <span class="hl-end-2">stays</span>, and <span class="hl-end-3">activities</span>.</h2>
+    </div>
+  </section>
+
+  <section class="strategy">
+    <div class="eyebrow">The solution</div>
+    <h2>Meet users where they already coordinate: <em>inside Telegram</em>, not another standalone planner app.</h2>
+    <p>This product direction prioritizes low-friction adoption by embedding planning tools into existing group-chat behavior. Instead of asking users to migrate tools, the bot turns current chat activity into structured travel planning artifacts.</p>
+  </section>
+
+  <aside class="tldr-side">
+    <ul>
+      <li class="tldr-side__title-card">Core Features</li>
+      <li><span class="feature-card__title">Pre-processing Q&amp;A</span><span class="feature-card__body">Captures trip background before planning to ensure summaries are personalised.</span></li>
+      <li><span class="feature-card__title">Content analysis</span><span class="feature-card__body">Shared links are parsed to extract destinations, activities, and accommodation options.</span></li>
+      <li><span class="feature-card__title">AI summary message</span><span class="feature-card__body">A structured, group-ready trip overview with key recommendations is generated.</span></li>
+      <li><span class="feature-card__title">Trip overview</span><span class="feature-card__body">Flights, rough duration, and key timing cues for faster alignment are highlighted.</span></li>
+      <li><span class="feature-card__title">Visual map</span><span class="feature-card__body">Pinned locations are shown on the map to support visualisation.</span></li>
+    </ul>
+  </aside>
+
+  <section class="strategy strategy--compact">
+    <div class="eyebrow">Try it out for yourself!</div>
+    <p>Search <strong>@heymax_planner_bot</strong> on Telegram or click this link: <a href="https://t.me/heymax_planner_bot" target="_blank" rel="noopener noreferrer">https://t.me/heymax_planner_bot</a></p>
+  </section>
+
+</main>
+
+<article class="full" id="full-view">
+  <div class="full-inner">
+    <section class="chapter">
+      <div class="chapter-num">Chapter 01 · Problem Framing</div>
+      <h2>Planning breaks in the <em>chat</em></h2>
+      <p>Young adults, especially university students, often plan trips on Telegram. Telegram does not have specialised features for trip planning: links and comments get buried, and the group wastes time scrolling and manually reorganising information.</p>
+      <p>The messy and time-consuming collaboration faced opens up an opportunity to introduce structure without changing user behaviour or platform. The solution needed to work in the same place conversations already happen.</p>
+    </section>
+
+    <section class="chapter">
+      <div class="chapter-num">Chapter 02 · Solution Overview</div>
+      <h2>A command-led bot with <em>LLM summarisation</em></h2>
+      <p>The solution involves a Telegram bot that optimises the trip-planning experience by turning unstructured trip chat into a usable planning view without requiring users to leave their existing conversation flow.</p>
+      <p>At a high level, it captures group intent, organising shared links into clear categories, and returns a concise AI-generated trip summary with map-based context.</p>
+    </section>
+
+    <section class="chapter">
+      <div class="chapter-num">Chapter 03 · User Flow</div>
+      <h3 class="chapter-lead">From chat signals to a <em>group-ready plan</em></h3>
+      <p><strong>1. Start the flow:</strong> The bot can be added at any point in the group conversation and activated with <code>/start</code>.</p>
+      <p><strong>2. Capture context:</strong> A short Q&amp;A collects trip intent, constraints, and preferences before links are processed.</p>
+      <p><strong>3. Gather and confirm links:</strong> Shared links are collated and surfaced via <code>/links</code>, with an option to remove irrelevant entries before summarisation.</p>
+      <p><strong>4. Analyse shared content:</strong> Link content is parsed to extract destinations, points of interest, and themes into machine-readable inputs.</p>
+      <p><strong>5. Generate summary output:</strong> Structured inputs are sent to the LLM to produce a concise, group-ready planning summary.</p>
+      <p><strong>6. Iterate with new inputs:</strong> Running <code>/plan</code> regenerates the summary as new links arrive, while preserving useful context when still valid.</p>
+    </section>
+
+    <section class="chapter">
+      <div class="chapter-num">Chapter 04 · Feature Scope</div>
+      <aside class="tldr-side">
+        <ul>
+          <li class="tldr-side__title-card">Core Features</li>
+          <li><span class="feature-card__title">Pre-processing Q&amp;A</span><span class="feature-card__body">Captures trip background before planning to ensure summaries are personalised.</span></li>
+          <li><span class="feature-card__title">Content analysis</span><span class="feature-card__body">Shared links are parsed to extract destinations, activities, and accommodation options.</span></li>
+          <li><span class="feature-card__title">AI summary message</span><span class="feature-card__body">A structured, group-ready trip overview with key recommendations is generated.</span></li>
+          <li><span class="feature-card__title">Trip overview</span><span class="feature-card__body">Flights, rough duration, and key timing cues for faster alignment are highlighted.</span></li>
+          <li><span class="feature-card__title">Visual map</span><span class="feature-card__body">Pinned locations are shown on the map to support visualisation.</span></li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="chapter">
+      <div class="chapter-num">Chapter 05 · Implementation of Map</div>
+      <h2>Mini app map for richer <em>interactions</em></h2>
+      <h4>Work Flow</h4>
+      <ol>
+        <li>Telegram bot sends the map link (rendered in a webpage) after the summary output.</li>
+        <li>Clicking the link guides users to the webpage, either in Telegram via Mini App or in a web browser.</li>
+        <li>The map is live and interactive, allowing users to view pinned locations and click pins for more details.</li>
+      </ol>
+
+          <h4>Technical Implementation Plan for Telegram Mini App</h4>
+      <p>Telegram's inbuilt UI restricts custom markers. Shifting the map into a mini app to load markers based on chat is the proposed workaround.</p>
+      <p>The mini app provides the following functionalities:</p>
+      <ol class="mini-app-grid">
+        <li>Info Cards when pins are clicked</li>
+        <li>Different Colours based on Different Categories</li>
+      </ol>
+    </section>
+
+    <section class="chapter">
+      <div class="chapter-num">Chapter 06 · Next Steps</div>
+      <h2>What to improve <em>next</em></h2>
+      <ul>
+        <li>Ensure map interface passes accessibility checks.</li>
+        <li>Facilitate customisation of pins through emojis/tags.</li>
+        <li>Add dark mode to the map.</li>
+        <li>Enhance robustness of API reliability and parsing coverage across link types.</li>
+      </ul>
+    </section>
+  </div>
+</article>
+
+<footer class="case-footer" aria-label="Project details">
+  <div class="case-footer__inner">
+    <div class="case-footer__grid">
+      <div class="case-footer__mark">
+        <em>tended with love and care 💐</em>
+      </div>
+      <div class="case-footer__meta">
+        <p class="case-footer__row"><span class="case-footer__k">Tool</span> <span class="case-footer__v">Python</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">Role</span> <span class="case-footer__v">Software Developer</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">Partners</span> <span class="case-footer__v">HeyMax</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">Timeline</span> <span class="case-footer__v">Aug 2025 – May 2026</span></p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function setMode(mode) {
+    document.querySelectorAll('.mode-btn').forEach((b) => {
+      b.classList.toggle('active', b.dataset.mode === mode);
+    });
+    document.getElementById('tldr-view').classList.toggle('hidden', mode !== 'tldr');
+    document.getElementById('full-view').classList.toggle('active', mode === 'full');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  document.querySelectorAll('.mode-btn').forEach((btn) => {
+    btn.addEventListener('click', () => setMode(btn.dataset.mode));
+  });
+</script>
+</body>
+</html>

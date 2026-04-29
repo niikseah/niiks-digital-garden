@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en" data-theme="day">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>resume — niik</title>
+  <meta name="description" content="Niik Seah — resume: education, experience, and skills." />
+  <link rel="stylesheet" href="design-system/colors_and_type.css" />
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="shared/components.js"></script>
+  <style>
+    .page.hero-backdrop.resume-page::before,
+    .page.hero-backdrop.resume-page::after {
+      display: none;
+    }
+    .resume-page {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0;
+    }
+    .resume-page > .resume-hero {
+      margin-top: 24px;
+    }
+    .resume-page > footer.case-footer {
+      margin-top: 24px !important;
+      padding: 24px 0 !important;
+    }
+    .resume-hero {
+      padding-bottom: 28px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--border-1);
+    }
+    .resume-hero__name {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 52px);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: var(--fg-1);
+      margin: 0 0 10px;
+    }
+    .resume-hero__name em {
+      font-style: italic;
+      color: var(--electric-600);
+      font-weight: 300;
+    }
+    .resume-hero__tag {
+      font-size: var(--step-0);
+      color: var(--fg-2);
+      line-height: 1.5;
+      max-width: 52ch;
+      margin: 0 0 18px;
+    }
+    .resume-contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      font-family: var(--font-mono);
+      font-size: var(--step--1);
+      letter-spacing: 0.02em;
+    }
+    .resume-contact a {
+      color: var(--electric-700);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .resume-contact a:hover {
+      color: var(--electric-500);
+    }
+    .resume-actions {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+    .resume-actions a.pdf {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border-1);
+      background: color-mix(in srgb, var(--bg-3) 94%, var(--electric-100) 6%);
+      color: var(--fg-1);
+      font-size: var(--step--1);
+      font-family: var(--font-mono);
+      text-decoration: none;
+    }
+    .resume-actions a.pdf:hover {
+      border-color: var(--electric-400);
+      color: var(--electric-700);
+    }
+    .resume-section {
+      margin-top: 44px;
+    }
+    .resume-section__title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--electric-700);
+      margin: 0 0 18px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-1);
+    }
+    .resume-entry {
+      margin-bottom: 28px;
+    }
+    .resume-entry:last-child {
+      margin-bottom: 0;
+    }
+    .resume-entry__head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px 16px;
+      margin-bottom: 6px;
+    }
+    .resume-entry__org {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--fg-1);
+      font-weight: 500;
+    }
+    .resume-entry__dates {
+      font-family: var(--font-mono);
+      font-size: var(--step--1);
+      color: var(--fg-3);
+      white-space: nowrap;
+    }
+    .resume-entry__role {
+      font-size: var(--step-0);
+      color: var(--fg-2);
+      margin: 0 0 10px;
+      line-height: 1.45;
+    }
+    .resume-list {
+      margin: 0;
+      padding-left: 1.2em;
+      color: var(--fg-2);
+      font-size: var(--step-0);
+      line-height: 1.65;
+    }
+    .resume-list li {
+      margin-bottom: 8px;
+    }
+    .resume-list li:last-child {
+      margin-bottom: 0;
+    }
+    .resume-skills-grid {
+      display: grid;
+      gap: 14px 28px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+    .resume-skill {
+      font-size: var(--step-0);
+      color: var(--fg-2);
+      line-height: 1.55;
+    }
+    .resume-skill strong {
+      color: var(--fg-1);
+      font-weight: 600;
+    }
+  </style>
+  <link rel="stylesheet" href="shared/shell.css" />
+  <link rel="stylesheet" href="shared/phase1-ds-bridge.css" />
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="env,react">
+    const { Nav, Footer } = window;
+
+    function App() {
+      return (
+        <>
+          <Nav current="resume" />
+          <main className="page hero-backdrop resume-page">
+            <header className="resume-hero">
+              <h1 className="resume-hero__name">Niik Seah</h1>
+              <p className="resume-hero__tag">
+                <strong>Major:</strong> Communications &amp; New Media
+                <br />
+                <strong>Second Major:</strong> Computer Science
+                <br />
+                <strong>Minor:</strong> Interactive Media Design
+              </p>
+              <div className="resume-contact">
+                <a href="tel:+6582801003">+65 8280 1003</a>
+                <span aria-hidden="true">·</span>
+                <a href="mailto:niikseah@u.nus.edu">niikseah@u.nus.edu</a>
+                <span aria-hidden="true">·</span>
+                <a href="https://www.linkedin.com/in/niikseah" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <span aria-hidden="true">·</span>
+                <a href="https://niik.notion.site/niikportfolio" target="_blank" rel="noopener noreferrer">Portfolio</a>
+              </div>
+              <div className="resume-actions">
+                <a className="pdf" href="public/documents/resume.pdf" download>
+                  Download PDF
+                </a>
+              </div>
+            </header>
+
+            <section className="resume-section" aria-labelledby="sec-edu">
+              <h2 id="sec-edu" className="resume-section__title">Education</h2>
+
+              <article className="resume-entry">
+                <div className="resume-entry__head">
+                  <span className="resume-entry__org">National University of Singapore (NUS)</span>
+                  <span className="resume-entry__dates">Aug 2022 – May 2026</span>
+                </div>
+                <p className="resume-entry__role">Bachelor of Social Sciences (Hons)</p>
+                <ul className="resume-list">
+                  <li>Major in Communications and New Media, Second Major in Computer Science</li>
+                  <li>Minor in Interactive Media Design</li>
+                </ul>
+              </article>
+            </section>
+
+            <section className="resume-section" aria-labelledby="sec-work">
+              <h2 id="sec-work" className="resume-section__title">Work experience</h2>
+
+              <article className="resume-entry">
+                <div className="resume-entry__head">
+                  <span className="resume-entry__org">Shopee</span>
+                  <span className="resume-entry__dates">Jan 2026 – Apr 2026</span>
+                </div>
+                <p className="resume-entry__role">Business Product Management Intern</p>
+                <ul className="resume-list">
+                  <li>Spearheaded a strategic initiative through rigorous competitor benchmarking and user journey mapping to expand Buyer Self-Collection coverage from 30% to 40%.</li>
+                  <li>Developed comprehensive user guides and documentation to simplify complex product features for stakeholders, ensuring seamless adoption of new supply chain solutions.</li>
+                  <li>Managed User Acceptance Testing (UAT) end-to-end to ensure products functioned as intended; proactively tracked and followed up on identified bugs to guarantee resolution prior to deployment.</li>
+                </ul>
+              </article>
+
+              <article className="resume-entry">
+                <div className="resume-entry__head">
+                  <span className="resume-entry__org">NUS Developer Group</span>
+                  <span className="resume-entry__dates">Jul 2025 – May 2026</span>
+                </div>
+                <p className="resume-entry__role">Head of Design</p>
+                <ul className="resume-list">
+                  <li>Led a team of 5 designers, guiding them through design workflows and skill-building to craft design deliverables, including wireframes, interactive prototypes, and high-fidelity mockups.</li>
+                  <li>Architected scalable Figma design systems, significantly reducing design turnaround time and maintaining visual consistency across the project.</li>
+                  <li>Collaborated with Tech and Product leads to bridge the gap between design and development, maintaining alignment on product vision and objectives.</li>
+                </ul>
+              </article>
+
+              <article className="resume-entry">
+                <div className="resume-entry__head">
+                  <span className="resume-entry__org">GovTech</span>
+                  <span className="resume-entry__dates">May 2025 – Aug 2025</span>
+                </div>
+                <p className="resume-entry__role">Product Design Intern</p>
+                <ul className="resume-list">
+                  <li>Spearheaded a user research initiative involving 6,000 participants; synthesized 450+ responses into data-driven requirements that defined the MVP scope for 70% of target users.</li>
+                  <li>Facilitated cross-functional collaboration between Product Owners, Business Analysts, and Engineers to drive project from research to concept validation in the Product Lifecycle.</li>
+                  <li>Analyzed complex workflows and business requirements across 7 organizations to develop insights, delivering research synthesis that directly informed key design and business decisions.</li>
+                </ul>
+              </article>
+
+              <article className="resume-entry">
+                <div className="resume-entry__head">
+                  <span className="resume-entry__org">DBS Bank</span>
+                  <span className="resume-entry__dates">Aug 2024 – Dec 2024</span>
+                </div>
+                <p className="resume-entry__role">UI/UX Design Intern</p>
+                <ul className="resume-list">
+                  <li>Designed digital experiences and promotional assets for internal innovation campaigns, contributing to a 30% increase in employee engagement.</li>
+                  <li>Spearheaded innovation challenges, facilitating cross-functional brainstorming sessions that generated 50+ innovative concepts and accelerated time-to-market for new product ideation by 25%.</li>
+                  <li>Orchestrated the planning and execution of 3 large-scale innovation events with 300+ attendees each, driving 40% increase in employee participation in intrapreneurial initiatives, fostering innovation culture across the bank.</li>
+                </ul>
+              </article>
+            </section>
+
+            <section className="resume-section" aria-labelledby="sec-lead">
+              <h2 id="sec-lead" className="resume-section__title">Achievements, leadership &amp; committee experience</h2>
+              <ul className="resume-list">
+                <li>Software Developer in NUS Fintech Society, where I worked in a team to build an AI-powered Telegram travel planning bot in collaboration with HeyMax.</li>
+                <li>UI/UX Designer in NUS Google Developer Student Club, where I worked in a team to design Volunteer and Donor Management Systems, and a comprehensive design system for Caregiving Welfare Association.</li>
+                <li>Publicity Head for NUS Netball Recreational Club, where I directed social media strategy and crafted engaging content that enhanced visibility of the club.</li>
+              </ul>
+            </section>
+
+            <section className="resume-section" aria-labelledby="sec-skills">
+              <h2 id="sec-skills" className="resume-section__title">Skills and interests</h2>
+              <ul className="resume-list">
+                <li>Programming: HTML, CSS, JavaScript, Python, Java, C, Unity3D</li>
+                <li>Design: Figma, Adobe Suite (Illustrator, Photoshop, InDesign), Balsamiq</li>
+                <li>User Experience: Wireframing, Prototyping, User Testing</li>
+                <li>User Research: Affinity Diagram, Contextual Inquiry, Interview, Persona, Storyboard, Survey, Usability Testing</li>
+                <li>Product Strategy: Competitive Analysis, A/B Testing, Business Requirement Documents</li>
+                <li>Product Management: Agile/Scrum Methodology, User Acceptance Testing (UAT), Data Analytics (SQL/Python)</li>
+                <li>Interests: UI/UX, Tennis</li>
+              </ul>
+            </section>
+            <Footer />
+          </main>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

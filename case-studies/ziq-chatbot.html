@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ziq — Task chatbot (iP demo) | niik</title>
+  <link rel="stylesheet" href="../design-system/colors_and_type.css" />
+  <style>
+    :root {
+      --paper:#f0f2f5; --paper-warm:#ffffff; --ink:#0f1729; --ink-soft:#3c445a; --ink-mute:#6b7388;
+      --rule:#dfe3e8; --blue:#5a9bd5; --blue-tint:#ebf1fb; --display:"Apple Garamond", Georgia, serif;
+      --body:"Segoe UI","Helvetica Neue",-apple-system,system-ui,sans-serif; --mono:"JetBrains Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--body); background: var(--paper); color: var(--ink); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+    main { max-width: 1120px; margin: 0 auto; padding: 56px 24px 90px; }
+    h1 { font-family: var(--display); font-size: clamp(40px, 5.5vw, 68px); font-weight: 400; line-height: .98; letter-spacing: -.03em; margin-bottom: 14px; max-width: 18ch; }
+    .lede { max-width: 70ch; color: var(--ink-soft); font-size: 18px; margin-bottom: 24px; }
+    main > .cs-summary {
+      width: 100%;
+      max-width: none;
+      margin-top: 0;
+      padding: 10px 0;
+      border-top: none;
+      border-bottom: none;
+      display: grid;
+      grid-template-columns: minmax(0, max-content);
+      justify-content: start;
+      position: relative;
+    }
+    main > .cs-summary::before,
+    main > .cs-summary::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      border-top: 1px solid var(--rule);
+      pointer-events: none;
+    }
+    main > .cs-summary::before { top: 0; }
+    main > .cs-summary::after { bottom: 0; }
+    main > .cs-summary > div {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+      padding-left: 24px;
+      justify-items: start;
+    }
+    main > .cs-summary dt {
+      margin-bottom: 0;
+      letter-spacing: .1em;
+    }
+    main > .cs-summary dd {
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    .tool-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      padding: 4px 10px 4px 6px;
+      background: #fff;
+    }
+    .tool-logo {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+      background: #f89820;
+      border: 1px solid #d77f14;
+      line-height: 1;
+    }
+    .tool-logo--java {
+      padding: 0;
+      border: none;
+      background: transparent;
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      object-fit: cover;
+      display: block;
+    }
+    .tool-name { line-height: 1.2; }
+    .meta { font-family: var(--mono); font-size: 12px; color: var(--ink-mute); margin-bottom: 22px; letter-spacing: .03em; }
+    .section { border: 1px solid var(--rule); border-radius: 14px; background: #fff; padding: 16px; margin-top: 18px; }
+    .section h2 { font-family: var(--display); font-size: 28px; font-weight: 500; margin-bottom: 8px; }
+    .section p { color: var(--ink-soft); margin-bottom: 8px; }
+    .code { margin-top: 8px; border: 1px solid var(--rule); border-radius: 10px; background: var(--paper-warm); padding: 10px 12px; font-family: var(--mono); font-size: 13px; white-space: pre-wrap; word-break: break-word; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: 1px solid var(--rule); border-radius: 999px;
+      padding: 10px 14px; font-size: 14px; color: var(--ink); background: #fff; cursor: pointer; font-family: var(--body);
+    }
+    .btn:hover { border-color: var(--blue); color: var(--blue); }
+    .btn.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .btn:disabled { opacity: .45; cursor: not-allowed; }
+    .chat-wrap { display: block; margin-top: 14px; width: 100%; }
+    .chat-panel { width: 100%; display: flex; flex-direction: column; min-height: 600px; max-height: 600px; background: transparent; }
+    .chat-log {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border: 1px solid var(--rule);
+      border-radius: 14px;
+      background: var(--paper);
+    }
+    .msg-row { display: flex; align-items: flex-start; gap: 8px; padding: 0 10px; }
+    .msg-row.user { justify-content: flex-end; }
+    .msg-row.ziq { justify-content: flex-start; }
+    .avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      flex: 0 0 32px;
+      border: 1px solid #d0d7df;
+      background: #fff;
+      color: #4f5d6b;
+      overflow: hidden;
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .msg {
+      max-width: 78%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.45;
+      box-shadow: 0 2px 6px rgba(0,0,0,.08);
+    }
+    .msg.user { background: #fff; border: 1px solid #d9dde3; color: var(--ink); }
+    .msg.ziq { background: var(--blue); border: 1px solid var(--blue); color: #fff; }
+    .msg.sys { align-self: center; font-size: 12px; color: var(--ink-mute); background: transparent; border: none; max-width: 100%; text-align: center; box-shadow: none; }
+    .chat-input-row { display: flex; gap: 8px; padding: 10px 0 0; background: transparent; }
+    .chat-input { flex: 1; border: 1px solid #e0e0e0; border-radius: 20px; padding: 10px 16px; font-family: var(--body); font-size: 14px; background: #fff; }
+    #sendBtn.btn.primary { background: var(--blue); border-color: var(--blue); border-radius: 20px; min-width: 70px; font-weight: 700; }
+    #sendBtn.btn.primary:hover { background: #4a8bc5; border-color: #4a8bc5; }
+    .chip-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 0; }
+    .chip { border: 1px solid var(--rule); border-radius: 999px; padding: 5px 9px; font-size: 12px; color: var(--ink-soft); background: #fff; font-family: var(--mono); cursor: pointer; }
+    .chip:hover { border-color: var(--blue); color: var(--blue); }
+    .try-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr);
+      gap: 14px;
+      margin-top: 0;
+      align-items: stretch;
+    }
+    .try-layout > div:first-child {
+      box-sizing: border-box;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .commands-card {
+      border: 1px solid var(--rule);
+      border-radius: 14px;
+      background: #fff;
+      padding: 4px 16px 16px;
+      box-sizing: border-box;
+      min-height: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .commands-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0 0 8px;
+      padding: 4px 0;
+      color: var(--ink);
+    }
+    .commands-card p {
+      margin: 0 0 10px;
+      font-size: 13px;
+      color: var(--ink-mute);
+    }
+    .commands-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .commands-list li {
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      background: #fff;
+      padding: 8px 10px;
+      font-size: 13px;
+      color: var(--ink-soft);
+      line-height: 1.4;
+    }
+    .commands-list code {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--ink);
+      background: transparent;
+    }
+    @media (max-width: 980px) {
+      .try-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="../shared/shell.css" />
+  <link rel="stylesheet" href="../shared/phase1-ds-bridge.css" />
+</head>
+<body>
+  <header class="project-topbar">
+    <div class="project-topbar__inner">
+      <a class="project-topbar__back" href="../portfolio.html" onclick="if (window.history.length > 1) { event.preventDefault(); window.history.back(); }">← Back</a>
+    </div>
+  </header>
+
+  <main>
+      <h1>Ziq</h1>
+      <p class="lede">An in-built simulator of Ziq, a task chatbot.</p>
+      <dl class="cs-summary">
+        <div>
+          <dt>Tool</dt>
+          <dd>
+            <span class="tool-chip">
+              <img
+                class="tool-logo tool-logo--java"
+                src="https://upload.wikimedia.org/wikipedia/en/3/30/Java_programming_language_logo.svg"
+                alt="Java logo"
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="tool-name">Java</span>
+            </span>
+          </dd>
+        </div>
+      </dl>
+
+      <section class="section">
+        <div class="try-layout">
+          <div>
+            <div class="chip-row">
+              <button type="button" class="chip" data-cmd="help">help</button>
+              <button type="button" class="chip" data-cmd="list">list</button>
+              <button type="button" class="chip" data-cmd="todo <task>">todo &lt;task&gt;</button>
+              <button type="button" class="chip" data-cmd="deadline <task> /by <DDMMYYYY> <HHmm>">deadline &lt;task&gt; /by &lt;DDMMYYYY&gt; &lt;HHmm&gt;</button>
+              <button type="button" class="chip" data-cmd="organise <tag|deadline>">organise &lt;tag|deadline&gt;</button>
+              <button type="button" class="chip" data-cmd="schedule <DD|DDMM|DDMMYYYY>">schedule &lt;DD|DDMM|DDMMYYYY&gt;</button>
+              <button type="button" id="newSessionBtn" class="chip">reset</button>
+            </div>
+            <div class="chat-wrap">
+              <div class="chat-panel">
+                <div id="chatLog" class="chat-log" aria-live="polite"></div>
+                <div class="chat-input-row">
+                  <input id="chatInput" class="chat-input" type="text" autocomplete="off" placeholder="e.g. todo buy milk" />
+                  <button type="button" id="sendBtn" class="btn primary" style="padding:9px 16px;">Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <aside class="commands-card" aria-label="List of supported commands">
+            <h3>List of Commands</h3>
+            <ul class="commands-list">
+              <li><code>help</code> - show all available commands</li>
+              <li><code>list</code> - show current tasks</li>
+              <li><code>todo &lt;task&gt;</code> - add a todo task</li>
+              <li><code>deadline &lt;task&gt; /by &lt;DDMMYYYY&gt; [&lt;HHmm&gt;]</code> - add a deadline task</li>
+              <li><code>event &lt;task&gt; /from &lt;DDMMYYYY&gt; &lt;HHmm&gt; /to &lt;DDMMYYYY&gt; &lt;HHmm&gt;</code> - add an event task</li>
+              <li><code>mark &lt;index&gt;</code> / <code>unmark &lt;index&gt;</code> - update task status</li>
+              <li><code>delete &lt;index&gt;</code> - remove a task</li>
+              <li><code>find &lt;keyword&gt;</code> - search tasks by keyword</li>
+              <li><code>tag &lt;index&gt; &lt;tag&gt;</code> - add a tag to task</li>
+              <li><code>organise tag</code> / <code>organise deadline</code> - organize task list</li>
+              <li><code>schedule &lt;DD|DDMM|DDMMYYYY&gt;</code> - show tasks for a date</li>
+              <li><code>clear</code> - remove all tasks</li>
+              <li><code>reset</code> - reset the current session</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+  </main>
+
+  <footer class="case-footer" aria-label="Project details">
+    <div class="case-footer__inner">
+      <div class="case-footer__grid">
+        <div class="case-footer__mark">
+          <em>tended with love and care 💐</em>
+        </div>
+        <div class="case-footer__meta">
+          <p class="case-footer__row"><span class="case-footer__k">Course</span> <span class="case-footer__v">CS2103 Software Engineering</span></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+(function () {
+  const AVATAR_PATHS = {
+    user: '../public/design-assets/ziq/user.jpg',
+    ziq: '../public/design-assets/ziq/ziq.jpg',
+  };
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const DISPLAY_INDEX_OFFSET = 1;
+  /** Match Java Integer.parseInt on whole token (reject "12ab", "1.2"). */
+  function strictParseInt(s) {
+    const t = String(s).trim();
+    if (!/^\d+$/.test(t)) throw new Error('NF');
+    return parseInt(t, 10);
+  }
+  const L_TODO = 5;
+  const L_DEADLINE = 9;
+  const L_EVENT = 6;
+  const L_DELETE = 7;
+  const L_FIND = 5;
+  const L_SCHEDULE = 9;
+  const L_ORGANISE = 9;
+
+  function pad2(n) { return String(n).padStart(2, '0'); }
+
+  /** MMM dd yyyy, h:mm a (Java Parser.OUTPUT_FORMAT style) */
+  function formatDateTime(dt) {
+    const mon = MONTHS[dt.getMonth()];
+    const d = pad2(dt.getDate());
+    const y = dt.getFullYear();
+    let h = dt.getHours();
+    const m = pad2(dt.getMinutes());
+    const am = h >= 12 ? 'PM' : 'AM';
+    h = h % 12;
+    if (h === 0) h = 12;
+    return `${mon} ${d} ${y}, ${h}:${m} ${am}`;
+  }
+
+  function formatDateOnly(dt) {
+    return `${MONTHS[dt.getMonth()]} ${pad2(dt.getDate())} ${dt.getFullYear()}`;
+  }
+
+  function parseDdMmYyyy(digits) {
+    if (digits.length !== 8) throw new Error('bad');
+    const day = parseInt(digits.slice(0, 2), 10);
+    const month = parseInt(digits.slice(2, 4), 10);
+    const year = parseInt(digits.slice(4, 8), 10);
+    const dt = new Date(year, month - 1, day);
+    if (dt.getFullYear() !== year || dt.getMonth() !== month - 1 || dt.getDate() !== day) throw new Error('invalid');
+    dt.setHours(0, 0, 0, 0);
+    return dt;
+  }
+
+  function parseDdMmYyyyHhmm(str) {
+    const parts = str.trim().split(/\s+/, 2);
+    if (parts.length !== 2 || !parts[1] || parts[1].trim().length !== 4) throw new Error('bad');
+    const datePart = parts[0].replace(/\s/g, '');
+    const hm = parts[1].trim();
+    if (hm.length !== 4) throw new Error('bad');
+    const base = parseDdMmYyyy(datePart);
+    const hh = parseInt(hm.slice(0, 2), 10);
+    const mm = parseInt(hm.slice(2, 4), 10);
+    if (hh > 23 || mm > 59) throw new Error('bad');
+    base.setHours(hh, mm, 0, 0);
+    return base;
+  }
+
+  function parsePartialDate(dateStr) {
+    const digits = dateStr.replace(/\s/g, '');
+    const now = new Date();
+    const y0 = now.getFullYear();
+    const m0 = now.getMonth() + 1;
+    const d0 = now.getDate();
+    let day; let month; let year;
+    if (digits.length === 2) {
+      day = parseInt(digits.slice(0, 2), 10);
+      month = m0;
+      year = y0;
+    } else if (digits.length === 4) {
+      day = parseInt(digits.slice(0, 2), 10);
+      month = parseInt(digits.slice(2, 4), 10);
+      year = y0;
+    } else if (digits.length === 8) {
+      return parseDdMmYyyy(digits);
+    } else {
+      throw new Error('partial');
+    }
+    const dt = new Date(year, month - 1, day);
+    if (dt.getFullYear() !== year || dt.getMonth() !== month - 1 || dt.getDate() !== day) throw new Error('invalid');
+    dt.setHours(0, 0, 0, 0);
+    return dt;
+  }
+
+  function sameCalendar(a, b) {
+    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  }
+
+  function toLocalDate(d) {
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  }
+
+  function taskStatusChar(t) {
+    return t.isDone ? '✅' : ' ';
+  }
+
+  function taskBaseString(t) {
+    const tagStr = t.tag ? ` [${t.tag}]` : '';
+    return `[${taskStatusChar(t)}] ${t.description}${tagStr}`;
+  }
+
+  function taskToString(t) {
+    if (t.kind === 'todo') return '[T]' + taskBaseString(t);
+    if (t.kind === 'deadline') {
+      const dstr = t.hasTime ? formatDateTime(t.by) : formatDateOnly(t.by);
+      return '[D]' + taskBaseString(t) + ' (by ' + dstr + ')';
+    }
+    if (t.kind === 'event') {
+      return '[E]' + taskBaseString(t)
+        + ' (from: ' + formatDateTime(t.from) + ' to: ' + formatDateTime(t.to) + ')';
+    }
+    return taskBaseString(t);
+  }
+
+  function hasSameDetailsAs(a, b) {
+    if (!b || a.kind !== b.kind) return false;
+    if (a.kind === 'todo') return a.description === b.description;
+    if (a.kind === 'deadline') return a.description === b.description && a.by.getTime() === b.by.getTime();
+    if (a.kind === 'event') {
+      return a.description === b.description
+        && a.from.getTime() === b.from.getTime()
+        && a.to.getTime() === b.to.getTime();
+    }
+    return false;
+  }
+
+  function containsDuplicateOf(tasks, task) {
+    return tasks.some((x) => hasSameDetailsAs(x, task));
+  }
+
+  function isTaskOnDate(task, dateMidnight) {
+    const dateOnly = toLocalDate(dateMidnight);
+    if (task.kind === 'deadline') {
+      return sameCalendar(toLocalDate(task.by), dateOnly);
+    }
+    if (task.kind === 'event') {
+      const fromD = toLocalDate(task.from);
+      const toD = toLocalDate(task.to);
+      return dateOnly >= fromD && dateOnly <= toD;
+    }
+    return false;
+  }
+
+  function getScheduleTime(task) {
+    if (task.kind === 'deadline') return task.by.getTime();
+    if (task.kind === 'event') return task.from.getTime();
+    return -8.64e15;
+  }
+
+  function getTasksOnDate(tasks, dateMidnight) {
+    return tasks
+      .filter((t) => isTaskOnDate(t, dateMidnight))
+      .sort((a, b) => getScheduleTime(a) - getScheduleTime(b));
+  }
+
+  class ZiqSession {
+    constructor() {
+      this.tasks = [];
+      this.exited = false;
+    }
+
+    getResponse(input) {
+      const trimmed = input.trim();
+      if (this.exited) return { text: 'Session ended. Click “New session” to start again.', exit: false };
+      if (!trimmed) return { text: '', exit: false };
+      const lines = [];
+      const ui = {
+        printLine: (...ls) => {
+          for (const line of ls) lines.push(line);
+        },
+      };
+
+      try {
+        const exit = this.executeCommand(trimmed, ui);
+        if (exit) {
+          this.exited = true;
+          return { text: 'Bye. Hope to see you again!', exit: true };
+        }
+        return { text: lines.join('\n').trimEnd(), exit: false };
+      } catch (e) {
+        ui.printLine('oop. ' + (e.message || String(e)));
+        return { text: lines.join('\n').trimEnd(), exit: false };
+      }
+    }
+
+    executeCommand(input, ui) {
+      const trimmed = input.trim();
+      if (!trimmed.length) {
+        throw new Error("command me now. enter 'help' for a list of commands.");
+      }
+      const normalized = trimmed.replace(/\s+/g, ' ');
+
+      if (normalized.toLowerCase() === 'bye') return true;
+
+      if (normalized.toLowerCase() === 'list') {
+        this.printTaskList(ui);
+      } else if (normalized.toLowerCase() === 'clear') {
+        this.handleClear(ui);
+      } else if (normalized.toLowerCase() === 'mark' || normalized.startsWith('mark ')) {
+        this.handleMark(normalized, ui, true);
+      } else if (normalized.toLowerCase() === 'unmark' || normalized.startsWith('unmark ')) {
+        this.handleMark(normalized, ui, false);
+      } else if (normalized.toLowerCase() === 'todo' || normalized.startsWith('todo ')) {
+        this.handleTodo(normalized, ui);
+      } else if (normalized.toLowerCase() === 'deadline' || normalized.startsWith('deadline ')) {
+        this.handleDeadline(normalized, ui);
+      } else if (normalized.toLowerCase() === 'event' || normalized.startsWith('event ')) {
+        this.handleEvent(normalized, ui);
+      } else if (normalized.toLowerCase() === 'delete' || normalized.startsWith('delete ')) {
+        this.handleDelete(normalized, ui);
+      } else if (normalized.toLowerCase() === 'find' || normalized.startsWith('find ')) {
+        this.handleFind(normalized, ui);
+      } else if (normalized.toLowerCase() === 'schedule' || normalized.startsWith('schedule ')) {
+        this.handleSchedule(normalized, ui);
+      } else if (normalized.toLowerCase() === 'tag' || normalized.startsWith('tag ')) {
+        this.handleTag(normalized, ui);
+      } else if (normalized.toLowerCase() === 'organise' || normalized.startsWith('organise ')) {
+        this.handleOrganise(normalized, ui);
+      } else if (normalized.toLowerCase().startsWith('help')) {
+        this.getHelp(ui);
+      } else {
+        throw new Error("Unknown command. Enter 'help' for a list of commands.");
+      }
+      return false;
+    }
+
+    handleMark(input, ui, isMark) {
+      const parts = input.split(' ', 2);
+      if (parts.length < 2 || !parts[1].trim()) {
+        throw new Error("task number is missing. enter 'list' to see task numbers.");
+      }
+      let taskNumber;
+      try {
+        taskNumber = strictParseInt(parts[1].trim());
+      } catch {
+        throw new Error("task number must be a number. enter 'list' to see task numbers.");
+      }
+      const index = taskNumber - DISPLAY_INDEX_OFFSET;
+      if (index < 0 || taskNumber < 1) {
+        throw new Error("task number must be at least 1. enter 'list' to see task numbers.");
+      }
+      if (index >= this.tasks.length) {
+        throw new Error("invalid task number.enter 'list' to see task numbers.");
+      }
+      const task = this.tasks[index];
+      const previousStatus = task.isDone;
+      const already = (isMark && previousStatus) || (!isMark && !previousStatus);
+      if (already) {
+        if (isMark) ui.printLine('this task has been marked!');
+        else ui.printLine('this task has been unmarked!');
+        ui.printLine('  ' + taskToString(task));
+        return;
+      }
+      task.isDone = !!isMark;
+      if (isMark) ui.printLine('task marked as done:');
+      else ui.printLine('task marked as not done:');
+      ui.printLine('  ' + taskToString(task));
+    }
+
+    handleTodo(input, ui) {
+      if (input.length <= L_TODO) throw new Error('description of task cannot be empty.');
+      const description = input.substring(L_TODO).trim();
+      if (!description) throw new Error('description of task cannot be empty.');
+      const t = { kind: 'todo', description, isDone: false, tag: null };
+      this.addTaskAndSave(t, ui);
+    }
+
+    handleDeadline(input, ui) {
+      if (!input.includes(' /by ')) {
+        throw new Error("deadline must have '/by' with date. e.g."
+          + "deadline <description> /by DDMMYYYY [HHmm] (e.g. deadline submit report /by 22022022 1200)");
+      }
+      const commandBody = input.substring(L_DEADLINE).trim();
+      const parts = commandBody.split(' /by ');
+      if (parts.length !== 2) {
+        throw new Error("deadline can only one '/by'. e.g."
+          + "deadline <description> /by DDMMYYYY [HHmm] (e.g. deadline submit report /by 22022022 1200)");
+      }
+      const description = parts[0].trim();
+      const dateTimeStr = parts[1].trim();
+      if (!description) {
+        throw new Error("description of deadline cannot be empty. e.g."
+          + "deadline <description> /by DDMMYYYY [HHmm]");
+      }
+      if (!dateTimeStr) {
+        throw new Error("deadline date cannot be empty. e.g."
+          + "deadline <description> /by DDMMYYYY [HHmm] (e.g. /by 22022022 1200)");
+      }
+      let by; let hasTime;
+      try {
+        const dateTimeParts = dateTimeStr.split(' ', 2);
+        if (dateTimeParts.length === 2 && dateTimeParts[1].trim()) {
+          by = parseDdMmYyyyHhmm(dateTimeStr);
+          hasTime = true;
+        } else {
+          by = parseDdMmYyyy(dateTimeParts[0].trim());
+          hasTime = false;
+        }
+      } catch {
+        throw new Error('invalid date for deadline. use DDMMYYYY [HHmm]. (e.g. 22022022 1200 or 22022022). dates like Feb 30 are not allowed.');
+      }
+      const task = { kind: 'deadline', description, isDone: false, tag: null, by, hasTime };
+      this.addTaskAndSave(task, ui);
+    }
+
+    handleEvent(input, ui) {
+      if (!input.includes(' /from ') || !input.includes(' /to ')) {
+        throw new Error("event must include '/from' and '/to' with date and time. e.g."
+          + "event <description> /from DDMMYYYY HHmm /to DDMMYYYY HHmm "
+          + "(e.g. event meeting /from 22022022 1200 /to 22022022 1400)");
+      }
+      const commandBody = input.substring(L_EVENT).trim();
+      const parts = commandBody.split(/ \/from | \/to /);
+      if (parts.length !== 3) {
+        throw new Error("event can only one '/from' and one '/to'. e.g."
+          + "event <description> /from DDMMYYYY HHmm /to DDMMYYYY HHmm");
+      }
+      const description = parts[0].trim();
+      const fromStr = parts[1].trim();
+      const toStr = parts[2].trim();
+      if (!description) {
+        throw new Error("description of event cannot be empty. e.g."
+          + "event <description> /from DDMMYYYY HHmm /to DDMMYYYY HHmm");
+      }
+      if (!fromStr || !toStr) {
+        throw new Error("event must have both /from and /to dates. e.g."
+          + "event <description> /from DDMMYYYY HHmm /to DDMMYYYY HHmm");
+      }
+      let from; let to;
+      try {
+        from = parseDdMmYyyyHhmm(fromStr);
+        to = parseDdMmYyyyHhmm(toStr);
+      } catch {
+        throw new Error('invalid date for event. use DDMMYYYY HHmm. dates like Feb 30 are not allowed.');
+      }
+      if (from.getTime() >= to.getTime()) {
+        throw new Error('event end time must be after start time.');
+      }
+      const task = { kind: 'event', description, isDone: false, tag: null, from, to };
+      this.addTaskAndSave(task, ui);
+    }
+
+    handleDelete(input, ui) {
+      const taskNumberString = input.length > L_DELETE ? input.substring(L_DELETE).trim() : '';
+      if (!taskNumberString) {
+        throw new Error("task number is missing. enter 'list' to see task numbers.");
+      }
+      let taskNumber;
+      try {
+        taskNumber = strictParseInt(taskNumberString);
+      } catch {
+        throw new Error("task number must be a number. enter 'list' to see task numbers.");
+      }
+      const index = taskNumber - DISPLAY_INDEX_OFFSET;
+      if (index < 0 || taskNumber < 1) {
+        throw new Error("task number must be at least 1. enter 'list' to see task numbers.");
+      }
+      if (index >= this.tasks.length) {
+        throw new Error("task number does not exist. enter 'list' to see valid task numbers");
+      }
+      const removed = this.tasks.splice(index, 1)[0];
+      ui.printLine('task removed:');
+      ui.printLine('  ' + taskToString(removed));
+      ui.printLine('now you have ' + this.tasks.length + ' task(s) in the list.');
+    }
+
+    handleFind(input, ui) {
+      if (input.length <= L_FIND) {
+        this.printTaskList(ui);
+        return;
+      }
+      const keyword = input.substring(L_FIND).trim().toLowerCase();
+      let matchCount = 0;
+      for (const t of this.tasks) {
+        if (t.description.toLowerCase().includes(keyword)) matchCount++;
+      }
+      if (matchCount === 0) {
+        ui.printLine('no matches found!');
+        return;
+      }
+      ui.printLine('here are the matching tasks in your list:');
+      let displayCount = 0;
+      for (const t of this.tasks) {
+        if (t.description.toLowerCase().includes(keyword)) {
+          displayCount++;
+          ui.printLine(displayCount + '. ' + taskToString(t));
+        }
+      }
+    }
+
+    handleSchedule(input, ui) {
+      if (input.length <= L_SCHEDULE) {
+        throw new Error('Schedule needs a date. Correct format: schedule DDMMYYYY '
+          + '(e.g. schedule 22022022 or schedule 22)');
+      }
+      const dateStr = input.substring(L_SCHEDULE).trim();
+      if (!dateStr) {
+        throw new Error('Schedule date cannot be empty. Correct format: schedule DDMMYYYY '
+          + '(e.g. schedule 22022022 or schedule 22)');
+      }
+      let date;
+      try {
+        date = parsePartialDate(dateStr);
+      } catch {
+        throw new Error('Invalid date for schedule. Use DD, DDMM, or DDMMYYYY '
+          + '(e.g. schedule 22, schedule 2202, or schedule 22022022). '
+          + 'Dates like Feb 30 are not allowed.');
+      }
+      const onDate = getTasksOnDate(this.tasks, date);
+      ui.printLine('schedule for ' + formatDateOnly(date) + ':');
+      if (!onDate.length) ui.printLine('  (no tasks on this date)');
+      else {
+        for (let i = 0; i < onDate.length; i++) {
+          ui.printLine((i + DISPLAY_INDEX_OFFSET) + '. ' + taskToString(onDate[i]));
+        }
+      }
+    }
+
+    handleTag(input, ui) {
+      const parts = input.split(' ', 3);
+      if (parts.length < 3 || !parts[2].trim()) {
+        throw new Error("tag command needs task number and tag. e.g."
+          + "(e.g. tag 1 meeting)");
+      }
+      let taskNumber;
+      try {
+        taskNumber = strictParseInt(parts[1].trim());
+      } catch {
+        throw new Error("task number must be a number. e.g."
+          + " enter 'list' to see task numbers.");
+      }
+      const index = taskNumber - DISPLAY_INDEX_OFFSET;
+      if (index < 0 || taskNumber < 1) {
+        throw new Error("task number must be at least 1. e.g."
+          + " enter 'list' to see task numbers.");
+      }
+      if (index >= this.tasks.length) {
+        throw new Error("invalid task number. e.g."
+          + " enter 'list' to see task numbers.");
+      }
+      const task = this.tasks[index];
+      task.tag = parts[2].trim();
+      ui.printLine('tag added to task:');
+      ui.printLine('  ' + taskToString(task));
+    }
+
+    handleOrganise(input, ui) {
+      if (input.length <= L_ORGANISE) {
+        throw new Error("organise needs to know if it's by tag or deadline.");
+      }
+      const type = input.substring(L_ORGANISE).trim().toLowerCase();
+      if (!type) throw new Error('organise must have a filter of either tag or deadline');
+      if (type === 'tag') this.printTasksOrganisedByTag(ui);
+      else if (type === 'deadline') this.printTasksOrganisedByDeadline(ui);
+      else throw new Error("invalid organise type. enter 'organise tag' or 'organise deadline'");
+    }
+
+    printTasksOrganisedByTag(ui) {
+      if (!this.tasks.length) {
+        ui.printLine("you don't have anything on your list right now!");
+        return;
+      }
+      const tagOrder = [];
+      const tagGroups = new Map();
+      const untagged = [];
+      for (const task of this.tasks) {
+        if (!task.tag) untagged.push(task);
+        else {
+          if (!tagGroups.has(task.tag)) {
+            tagGroups.set(task.tag, []);
+            tagOrder.push(task.tag);
+          }
+          tagGroups.get(task.tag).push(task);
+        }
+      }
+      ui.printLine('tasks organized by tag:');
+      let displayNumber = DISPLAY_INDEX_OFFSET;
+      for (const tag of tagOrder) {
+        ui.printLine('');
+        ui.printLine('[' + tag + ']:');
+        for (const task of tagGroups.get(tag)) {
+          ui.printLine(displayNumber + '. ' + taskToString(task));
+          displayNumber++;
+        }
+      }
+      if (untagged.length) {
+        ui.printLine('');
+        ui.printLine('[untagged]:');
+        for (const task of untagged) {
+          ui.printLine(displayNumber + '. ' + taskToString(task));
+          displayNumber++;
+        }
+      }
+    }
+
+    printTasksOrganisedByDeadline(ui) {
+      if (!this.tasks.length) {
+        ui.printLine("you don't have anything on your list right now!");
+        return;
+      }
+      const deadlines = this.tasks.filter((t) => t.kind === 'deadline');
+      const events = this.tasks.filter((t) => t.kind === 'event');
+      const todos = this.tasks.filter((t) => t.kind === 'todo');
+      deadlines.sort((a, b) => a.by.getTime() - b.by.getTime());
+      events.sort((a, b) => a.from.getTime() - b.from.getTime());
+      ui.printLine('tasks organized by deadline:');
+      let displayNumber = DISPLAY_INDEX_OFFSET;
+      if (deadlines.length) {
+        ui.printLine('');
+        ui.printLine('deadlines:');
+        for (const d of deadlines) {
+          ui.printLine(displayNumber + '. ' + taskToString(d));
+          displayNumber++;
+        }
+      }
+      if (events.length) {
+        ui.printLine('');
+        ui.printLine('events:');
+        for (const e of events) {
+          ui.printLine(displayNumber + '. ' + taskToString(e));
+          displayNumber++;
+        }
+      }
+      if (todos.length) {
+        ui.printLine('');
+        ui.printLine('todos:');
+        for (const t of todos) {
+          ui.printLine(displayNumber + '. ' + taskToString(t));
+          displayNumber++;
+        }
+      }
+    }
+
+    printTaskList(ui) {
+      if (!this.tasks.length) {
+        ui.printLine("you don't have anything on your list right now!");
+        return;
+      }
+      ui.printLine('here is your to-do list!');
+      for (let i = 0; i < this.tasks.length; i++) {
+        ui.printLine((i + DISPLAY_INDEX_OFFSET) + '. ' + taskToString(this.tasks[i]));
+      }
+    }
+
+    addTaskAndSave(task, ui) {
+      if (containsDuplicateOf(this.tasks, task)) {
+        throw new Error('a task with the same details already exists in the list. use a different description or date.');
+      }
+      this.tasks.push(task);
+      ui.printLine('task added:');
+      ui.printLine('  ' + taskToString(task));
+      ui.printLine('now you have ' + this.tasks.length + ' task(s) in the list.');
+    }
+
+    handleClear(ui) {
+      const count = this.tasks.length;
+      this.tasks.length = 0;
+      ui.printLine('all tasks cleared! (' + count + ' task(s) removed)');
+    }
+
+    getHelp(ui) {
+      ui.printLine('here are the commands available:');
+      ui.printLine('');
+      ui.printLine('todo <description> - add a todo task');
+      ui.printLine('');
+      ui.printLine('deadline <description> /by DDMMYYYY [HHmm] - add a deadline task, time is optional');
+      ui.printLine('');
+      ui.printLine('event <description> /from DDMMYYYY HHmm /to DDMMYYYY HHmm - add an event task');
+      ui.printLine('');
+      ui.printLine('mark <index> - mark a task as done');
+      ui.printLine('');
+      ui.printLine('unmark <index> - mark a task as not done');
+      ui.printLine('');
+      ui.printLine('delete <index> - delete a task');
+      ui.printLine('');
+      ui.printLine('find <keyword> - find tasks by keyword');
+      ui.printLine('');
+      ui.printLine('schedule DDMMYYYY - view tasks on a specific date (or DD, DDMM for partial)');
+      ui.printLine('');
+      ui.printLine('tag <index> <tag> - add a tag to a task');
+      ui.printLine('');
+      ui.printLine('organise tag - organize tasks by tag');
+      ui.printLine('');
+      ui.printLine('organise deadline - organize tasks by deadline');
+      ui.printLine('');
+      ui.printLine('clear - remove all tasks');
+      ui.printLine('');
+      ui.printLine('help - display this list of commands');
+      ui.printLine('');
+      ui.printLine('bye - terminate Ziq');
+    }
+  }
+
+  const chatLog = document.getElementById('chatLog');
+  const chatInput = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('sendBtn');
+  const newSessionBtn = document.getElementById('newSessionBtn');
+  let session = new ZiqSession();
+
+  function appendMsg(className, text) {
+    if (className === 'sys') {
+      const sys = document.createElement('div');
+      sys.className = 'msg sys';
+      sys.textContent = text;
+      chatLog.appendChild(sys);
+      chatLog.scrollTop = chatLog.scrollHeight;
+      return;
+    }
+
+    const row = document.createElement('div');
+    row.className = 'msg-row ' + className;
+
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar';
+    const avatarImg = document.createElement('img');
+    avatarImg.src = className === 'ziq' ? AVATAR_PATHS.ziq : AVATAR_PATHS.user;
+    avatarImg.alt = className === 'ziq' ? 'Ziq profile' : 'User profile';
+    avatar.appendChild(avatarImg);
+
+    const div = document.createElement('div');
+    div.className = 'msg ' + className;
+    div.textContent = text;
+    if (className === 'ziq') {
+      row.appendChild(avatar);
+      row.appendChild(div);
+    } else {
+      row.appendChild(div);
+      row.appendChild(avatar);
+    }
+    chatLog.appendChild(row);
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+
+  function welcome() {
+    appendMsg('ziq', "Hello, I'm Ziq!\nWhat can I do for you?");
+  }
+
+  function runUserLine(text) {
+    appendMsg('user', text);
+    const { text: reply, exit } = session.getResponse(text);
+    if (reply) appendMsg('ziq', reply);
+    if (exit) appendMsg('sys', 'Session ended.');
+  }
+
+  function resetSession() {
+    chatLog.innerHTML = '';
+    session = new ZiqSession();
+    welcome();
+    chatInput.disabled = false;
+    sendBtn.disabled = false;
+    chatInput.focus();
+  }
+
+  function send() {
+    const text = chatInput.value;
+    chatInput.value = '';
+    if (!text.trim()) return;
+    runUserLine(text);
+  }
+
+  sendBtn.addEventListener('click', send);
+  chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') send();
+  });
+  newSessionBtn.addEventListener('click', resetSession);
+  document.querySelectorAll('[data-cmd]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const cmd = (btn.getAttribute('data-cmd') || '').trim();
+      if (!cmd) return;
+      chatInput.value = cmd;
+      chatInput.focus();
+    });
+  });
+
+  resetSession();
+})();
+  </script>
+</body>
+</html>

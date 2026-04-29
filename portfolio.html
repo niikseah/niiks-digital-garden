@@ -5,21 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>projects — niik</title>
   <link rel="stylesheet" href="design-system/colors_and_type.css" />
-  <link rel="stylesheet" href="shared/shell.css" />
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
   <script src="shared/data.js"></script>
   <script src="shared/components.js"></script>
   <style>
+    .page.hero-backdrop::before,
+    .page.hero-backdrop::after {
+      display: none;
+    }
+
     .port-shell {
-      max-width: 1120px;
+      max-width: 1160px;
       margin: 0 auto;
     }
     .port-head {
-      padding: clamp(72px, 8vw, 104px) 0 40px;
-      border-bottom: 1px dashed var(--border-2);
-      margin-bottom: 26px;
+      padding: clamp(58px, 7vw, 92px) 0 28px;
+      border-bottom: 1px solid var(--border-1);
+      margin-bottom: 18px;
     }
     .port-head h1 {
       font-family: var(--font-display);
@@ -42,17 +46,17 @@
     .port-toolbar {
       display: flex; align-items: center; justify-content: space-between;
       gap: 16px; flex-wrap: wrap;
-      margin-bottom: 28px;
-      padding: 12px;
+      margin-bottom: 18px;
+      padding: 10px 12px;
       border: 1px solid var(--border-1);
       border-radius: 14px;
-      background: linear-gradient(120deg, rgba(124,184,255,.08), rgba(124,184,255,.02) 60%, transparent 100%);
+      background: color-mix(in srgb, var(--bg-3) 96%, var(--electric-100) 4%);
     }
     .port-count {
       font-family: var(--font-mono); font-size: var(--step--1); color: var(--fg-3);
     }
     .port-empty {
-      margin-top: 20px;
+      margin-top: 16px;
       padding: 28px;
       border: 1px dashed var(--border-2);
       border-radius: 14px;
@@ -61,15 +65,23 @@
     }
     .port-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: 18px;
+      width: 100%;
+    }
+    .port-column {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
     }
     .port-grid .card {
-      width: auto;
+      width: 100%;
+      max-width: none;
+      height: auto;
       margin: 0;
     }
     /* masonry-ish index (year groups) */
-    .year-group { margin-bottom: 52px; }
+    .year-group { margin-bottom: 48px; }
     .year-group__head {
       display: flex; align-items: baseline; gap: 14px;
       padding: 12px 0 14px;
@@ -87,15 +99,25 @@
     .year-group__count {
       font-family: var(--font-mono); font-size: var(--step--1); color: var(--fg-3);
     }
+    @media (max-width: 1080px) {
+      .port-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
     @media (max-width: 720px) {
+      .port-grid {
+        grid-template-columns: 1fr;
+      }
       .port-head {
-        padding-top: 56px;
+        padding-top: 52px;
       }
       .port-toolbar {
         padding: 10px;
       }
     }
   </style>
+  <link rel="stylesheet" href="shared/shell.css" />
+  <link rel="stylesheet" href="shared/phase1-ds-bridge.css" />
 </head>
 <body>
   <div id="root"></div>
@@ -109,6 +131,11 @@
       const [tweaks, setTweaks] = React.useState(TWEAK_DEFAULTS);
       const [open] = useTweaksHost();
       const update = (k, v) => { setTweaks(t => ({ ...t, [k]: v })); persistTweak(k, v); };
+      const [columnCount, setColumnCount] = React.useState(() => {
+        if (window.innerWidth <= 720) return 1;
+        if (window.innerWidth <= 1080) return 2;
+        return 3;
+      });
 
       const search = new URLSearchParams(window.location.search);
       const initialKind = search.get('kind');
@@ -122,12 +149,23 @@
         const yearMatch = String(project.year || '').match(/\d{4}/);
         return yearMatch ? Number(yearMatch[0]) : 0;
       };
-      const projects = [...(window.PROJECTS_NEW_VERSIONS || [])].sort((a, b) => getProjectYear(b) - getProjectYear(a));
-      const growingCount = projects.filter((p) => {
-        const title = String(p.title || '').toLowerCase();
-        return p.slug === 'telegram-bot-heymax' || title.includes('nus fintech');
-      }).length;
-      const grownCount = projects.length - growingCount;
+      const merged = [...(window.PROJECTS_NEW_VERSIONS || []), ...(window.PROJECTS || [])];
+      const seen = new Set();
+      const projects = merged
+        .filter((project) => {
+          const key = project?.slug || `${project?.title}-${project?.year}`;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        })
+        .sort((a, b) => getProjectYear(b) - getProjectYear(a));
+      const stageCounts = projects.reduce((acc, project) => {
+        const status = ['planted', 'growing', 'grown'].includes(String(project.status || '').toLowerCase())
+          ? String(project.status).toLowerCase()
+          : 'grown';
+        acc[status] += 1;
+        return acc;
+      }, { planted: 0, growing: 0, grown: 0 });
       const filtered = projects.filter((p) => {
         if (filter.mode === 'role') {
           return window.deriveRoleCategory(p.role).key === filter.value;
@@ -135,6 +173,20 @@
         if (filter.value === 'all') return true;
         return p.kind === filter.value;
       });
+      React.useEffect(() => {
+        const onResize = () => {
+          if (window.innerWidth <= 720) setColumnCount(1);
+          else if (window.innerWidth <= 1080) setColumnCount(2);
+          else setColumnCount(3);
+        };
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
+      }, []);
+      const columns = React.useMemo(() => {
+        const bins = Array.from({ length: columnCount }, () => []);
+        filtered.forEach((p, idx) => bins[idx % columnCount].push(p));
+        return bins;
+      }, [filtered, columnCount]);
 
       const byYear = React.useMemo(() => {
         const m = {};
@@ -147,49 +199,26 @@
           <main className="page hero-backdrop">
             <div className="port-shell">
               <header className="port-head">
-                <Eyebrow>
-                  <span className="port-stat">{projects.length}</span> selected projects
+                <Eyebrow style={{ textTransform: 'none' }}>
+                  <span className="port-stat">{projects.length}</span> projects
+                  {' '}🌱 {stageCounts.planted} planted
+                  {' '}🌿 {stageCounts.growing} growing
+                  {' '}💐 {stageCounts.grown} grown
                 </Eyebrow>
-                <h1>things i've <em>designed</em> and <em>built</em>.</h1>
-                <p>
-                  selected case studies. for earlier work, view the archive.
-                </p>
-                <p>
-                  <a href="archive.html">open archive →</a>
-                </p>
+                <h1>Thing's I've <em>designed</em> and <em>built</em></h1>
               </header>
 
-              {filtered.length === 0 && (
-                <div className="port-empty">
-                  nothing in bloom for this filter yet.
-                </div>
-              )}
-
-              {tweaks.layout === 'list' && (
-                <div>
-                  {filtered.map(p => <ListRow key={p.slug} project={p} />)}
-                </div>
-              )}
-
-              {tweaks.layout === 'cards' && (
+              {filtered.length > 0 ? (
                 <div className="port-grid">
-                  {filtered.map(p => <ProjectCard key={p.slug} project={p} />)}
-                </div>
-              )}
-
-              {tweaks.layout === 'years' && (
-                <div>
-                  {byYear.map(group => (
-                    <div className="year-group" key={group.year}>
-                      <div className="year-group__head">
-                        <span className="year-group__year">{group.year}</span>
-                        <span className="year-group__count">{group.items.length} project{group.items.length === 1 ? '' : 's'}</span>
-                      </div>
-                      {group.items.map(p => <ListRow key={p.slug} project={p} />)}
+                  {columns.map((group, colIdx) => (
+                    <div className="port-column" key={`col-${colIdx}`}>
+                      {group.map((p) => (
+                        <ProjectCard key={p.slug} project={p} />
+                      ))}
                     </div>
                   ))}
                 </div>
-              )}
+              ) : null}
 
               <Footer />
             </div>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Homework 3 — Ranked Retrieval Engine | niik</title>
+  <link rel="stylesheet" href="../design-system/colors_and_type.css" />
+  <style>
+    :root {
+      --paper:#fafaf7; --paper-warm:#f4f2ec; --ink:#0f1729; --ink-soft:#3c445a; --ink-mute:#6b7388;
+      --rule:#e4e1d8; --blue:#2e5aac; --blue-tint:#ebf1fb; --ok:#2f7d4a; --warn:#a67512;
+      --display:"Apple Garamond", Georgia, serif; --body:"Helvetica Neue", -apple-system, system-ui, sans-serif; --mono:"JetBrains Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--body); background: var(--paper); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    .badge { border:1px solid var(--rule); border-radius:999px; padding:6px 12px; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft); background:var(--paper-warm); }
+    main { max-width: 1120px; margin: 0 auto; padding: 56px 24px 96px; }
+    h1 { font-family: var(--display); font-size: clamp(44px,6vw,74px); font-weight:400; line-height:.98; letter-spacing:-.03em; margin-bottom:16px; max-width:15ch; }
+    .lede { max-width:72ch; color:var(--ink-soft); font-size:18px; margin-bottom:28px; }
+    .grid { display:grid; grid-template-columns: 1.1fr 1fr; gap:18px; }
+    .panel { border:1px solid var(--rule); border-radius:14px; background:#fff; padding:18px; }
+    .panel h2 { font-family:var(--display); font-size:30px; font-weight:500; margin-bottom:12px; }
+    label { display:block; margin-bottom:6px; font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-mute);}
+    input, button { border:1px solid var(--rule); border-radius:10px; padding:10px 12px; font-size:14px; font-family:var(--body); color:var(--ink); background:#fff; }
+    input { width:100%; }
+    .btn-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+    button { cursor:pointer; background:var(--paper-warm); font-weight:500; }
+    button.primary { background:var(--ink); color:#fff; border-color:var(--ink); }
+    .status { margin-top:10px; font-size:14px; color:var(--ink-mute); }
+    .status.ok { color: var(--ok); } .status.warn { color: var(--warn); }
+    .mono { margin-top:12px; border:1px solid var(--rule); border-radius:10px; background:var(--paper); padding:12px; font-family:var(--mono); font-size:13px; white-space:pre-wrap; word-break:break-word; }
+    .table-wrap { margin-top:12px; max-height:440px; overflow:auto; border:1px solid var(--rule); border-radius:10px; }
+    table { width:100%; min-width:700px; border-collapse:collapse; font-size:13px; }
+    th,td { border-bottom:1px solid var(--rule); padding:8px 10px; text-align:left; vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    thead th { position:sticky; top:0; background:var(--blue-tint); font-family:var(--mono); text-transform:uppercase; letter-spacing:.04em; font-size:11px; }
+    .score { font-family: var(--mono); color: var(--blue); }
+    @media (max-width:980px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+  <link rel="stylesheet" href="../shared/shell.css" />
+  <link rel="stylesheet" href="../shared/phase1-ds-bridge.css" />
+</head>
+<body>
+  <header class="project-topbar">
+    <div class="project-topbar__inner">
+      <a class="project-topbar__back" href="../portfolio.html" onclick="if (window.history.length > 1) { event.preventDefault(); window.history.back(); }">← Back</a>
+      <span class="badge">Homework 3 · CS3245</span>
+    </div>
+  </header>
+  <main>
+    <h1>Homework 3 — Ranked Retrieval Engine</h1>
+    <p class="lede">
+      Mirrors school/cs3245/homework-3 functionality: ranked retrieval with lnc.ltc-style weighting and cosine similarity. 
+      Includes an interactive query runner and replay of your actual <code>sanity-queries.txt</code> and <code>output.txt</code>.
+    </p>
+    <dl class="cs-summary">
+      <div><dt>Course</dt><dd>CS3245 Information Retrieval</dd></div>
+      <div><dt>Focus</dt><dd>Ranked Retrieval</dd></div>
+      <div><dt>Type</dt><dd>Interactive Demo</dd></div>
+      <div><dt>Scope</dt><dd>Query Runner + Replay</dd></div>
+    </dl>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Interactive Ranked Search</h2>
+        <label for="queryInput">Query</label>
+        <input id="queryInput" type="text" value="american analyst assess market" />
+        <div class="btn-row">
+          <button id="runBtn" class="primary" type="button">Run Ranked Search</button>
+          <button id="exampleBtn" type="button">Use Example</button>
+        </div>
+        <div id="engineStatus" class="status">Engine ready.</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Rank</th><th>Doc ID</th><th>Score</th></tr></thead>
+            <tbody id="rankRows"><tr><td colspan="3">Run a query to view top-ranked documents.</td></tr></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>school/cs3245/homework-3 File Replay</h2>
+        <p>Loads and displays query/output pairs from your real school/cs3245/homework-3 folder.</p>
+        <div class="btn-row"><button id="loadSanityBtn" class="primary" type="button">Load Sanity Files</button></div>
+        <div id="sanityStatus" class="status">Not loaded yet.</div>
+        <div class="mono" id="sanityMeta">Queries: —\nOutput lines: —</div>
+      </article>
+    </section>
+
+    <section class="panel" style="margin-top:18px;">
+      <h2>Sanity Query → Output</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Query</th><th>Top docs from output.txt</th></tr></thead>
+          <tbody id="sanityRows"><tr><td colspan="3">Load sanity files to view replay.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="case-footer" aria-label="Project details">
+    <div class="case-footer__inner">
+      <div class="case-footer__grid">
+        <div class="case-footer__mark">
+          <em>tended with love and care 💐</em>
+        </div>
+        <div class="case-footer__meta">
+          <p class="case-footer__row"><span class="case-footer__k">Project Name</span> <span class="case-footer__v">Ranked retrieval engine</span></p>
+          <p class="case-footer__row"><span class="case-footer__k">Course</span> <span class="case-footer__v">CS3245 · Information Retrieval</span></p>
+          <p class="case-footer__row"><span class="case-footer__k">Scope</span> <span class="case-footer__v">Interactive search + sanity file replay</span></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const docs = {
+      101: "american analyst assess market company profit and loss",
+      205: "american consumer market report and revenue growth",
+      311: "company employee profit loss and quarterly sales",
+      418: "govtech csa asit mindef nus ntu collaboration",
+      522: "ranked retrieval cosine similarity vector model",
+      640: "information retrieval indexing dictionary postings",
+      777: "american market sensitive economics and trading outlook",
+      888: "query expansion stemming tokenization language processing"
+    };
+    const paths = {
+      queries: "../school/cs3245/homework-3/sanity-queries.txt",
+      output: "../school/cs3245/homework-3/A0252480J/output.txt"
+    };
+
+    function tokenize(text) {
+      return String(text).toLowerCase().split(/[^a-z0-9\.\-]+/).filter(Boolean);
+    }
+
+    function buildIndex(corpus) {
+      const tfByDoc = {};
+      const postings = {};
+      const docIds = Object.keys(corpus).map(Number);
+
+      for (const id of docIds) {
+        const tf = {};
+        for (const t of tokenize(corpus[id])) tf[t] = (tf[t] || 0) + 1;
+        tfByDoc[id] = tf;
+        for (const [term, f] of Object.entries(tf)) {
+          if (!postings[term]) postings[term] = [];
+          postings[term].push([id, f]);
+        }
+      }
+      for (const t of Object.keys(postings)) postings[t].sort((a,b)=>a[0]-b[0]);
+
+      const docLength = {};
+      for (const id of docIds) {
+        let sum = 0;
+        for (const f of Object.values(tfByDoc[id])) {
+          const w = 1 + Math.log10(f); // lnc
+          sum += w*w;
+        }
+        docLength[id] = Math.sqrt(sum) || 0;
+      }
+      return { postings, tfByDoc, docLength, docCount: docIds.length };
+    }
+
+    const engine = buildIndex(docs);
+
+    function rankedSearch(query, topK = 10) {
+      const qTokens = tokenize(query);
+      const qtf = {};
+      for (const t of qTokens) qtf[t] = (qtf[t] || 0) + 1;
+
+      const qWeights = {};
+      let qsum = 0;
+      for (const [term, tf] of Object.entries(qtf)) {
+        const plist = engine.postings[term];
+        if (!plist || !plist.length) continue;
+        const df = plist.length;
+        const idf = Math.log10(engine.docCount / df);
+        if (idf <= 0) continue;
+        const w = (1 + Math.log10(tf)) * idf; // ltc
+        qWeights[term] = w;
+        qsum += w*w;
+      }
+      if (qsum <= 0) return [];
+      const qNorm = Math.sqrt(qsum);
+
+      const scores = {};
+      for (const [term, wq] of Object.entries(qWeights)) {
+        const plist = engine.postings[term] || [];
+        const normWq = wq / qNorm;
+        for (const [docId, tf] of plist) {
+          const dNorm = engine.docLength[docId] || 0;
+          if (dNorm <= 0) continue;
+          const wd = 1 + Math.log10(tf);
+          scores[docId] = (scores[docId] || 0) + normWq * (wd / dNorm);
+        }
+      }
+      return Object.entries(scores)
+        .map(([docId, score]) => [Number(docId), score])
+        .sort((a,b) => b[1] - a[1] || a[0] - b[0])
+        .slice(0, topK);
+    }
+
+    function runQuery() {
+      const q = document.getElementById("queryInput").value.trim();
+      const rowsEl = document.getElementById("rankRows");
+      const statusEl = document.getElementById("engineStatus");
+      if (!q) {
+        statusEl.textContent = "Enter a query first.";
+        statusEl.className = "status warn";
+        return;
+      }
+      const ranked = rankedSearch(q, 10);
+      if (!ranked.length) {
+        rowsEl.innerHTML = '<tr><td colspan="3">No matching terms produced ranked results.</td></tr>';
+      } else {
+        rowsEl.innerHTML = ranked.map((r, i) =>
+          `<tr><td>${i + 1}</td><td>${r[0]}</td><td class="score">${r[1].toFixed(6)}</td></tr>`
+        ).join("");
+      }
+      statusEl.textContent = "Ranked retrieval run completed (lnc.ltc approximation).";
+      statusEl.className = "status ok";
+    }
+
+    async function loadSanity() {
+      const statusEl = document.getElementById("sanityStatus");
+      const rowsEl = document.getElementById("sanityRows");
+      const metaEl = document.getElementById("sanityMeta");
+      try {
+        statusEl.textContent = "Loading school/cs3245/homework-3 sanity files...";
+        const [qText, oText] = await Promise.all([
+          fetch(paths.queries).then(r => { if (!r.ok) throw new Error("Could not load sanity-queries.txt"); return r.text(); }),
+          fetch(paths.output).then(r => { if (!r.ok) throw new Error("Could not load A0252480J/output.txt"); return r.text(); })
+        ]);
+        const qLines = qText.split(/\r?\n/).filter(Boolean);
+        const oLines = oText.split(/\r?\n/);
+        metaEl.textContent = `Queries: ${qLines.length}\nOutput lines: ${oLines.length}`;
+        rowsEl.innerHTML = qLines.slice(0, 150).map((q, i) =>
+          `<tr><td>${i + 1}</td><td>${q}</td><td>${(oLines[i] || "").trim() || "(empty)"}</td></tr>`
+        ).join("");
+        statusEl.textContent = "Loaded and replayed school/cs3245/homework-3 query-output pairs.";
+        statusEl.className = "status ok";
+      } catch (err) {
+        statusEl.textContent = `Error: ${err.message}`;
+        statusEl.className = "status warn";
+      }
+    }
+
+    document.getElementById("runBtn").addEventListener("click", runQuery);
+    document.getElementById("exampleBtn").addEventListener("click", () => {
+      document.getElementById("queryInput").value = "information retrieval cosine similarity";
+      runQuery();
+    });
+    document.getElementById("loadSanityBtn").addEventListener("click", loadSanity);
+  </script>
+</body>
+</html>

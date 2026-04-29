@@ -1,0 +1,34 @@
+{
+  "trip_context": {
+    "start_date": "2026-11-15",
+    "duration_days": 12,
+    "budget": "2000",
+    "group_size": 5,
+    "city": "Singapore"
+  },
+  "extracted_links": [
+    {
+      "link": {
+        "platform": "instagram_post",
+        "url": "https://www.instagram.com/p/DMahoONtlvF/",
+        "transcript": "How long should your posts be? Instagram posting guide summer 2025 Reels Carousels Stories If youknow what the algorithmis lookingfor, you have amuchhigher chance of your posts being seen so rather than wingingit withyour content,here's howl'dlook to shapeyour: photo posts reels stories Photoposts Single photo postsarehavinga comeback (when they're done righty) Carousels with 2-8 slides generally perform the best: The longer people spend looking atyour carousel, the better: Tellastory that we want to scroll through Nosiness wins! Justbearinmind that nobody reallywants to swipe 19 times, 20 photosisalot! (Unless you've justgotmarried/hadababyetc,cutitdown) Reels For reach Whenit comes to reach, Instagramare still lookingextra closely atyour reels watch time and shares. Foralot ofaccounts, watch time averages sit between6_10 secs In this case |'dtestout two reels lengths: under 9secondgand under 30seconds: Accounts withahigh watch time, test some 30,40and 50 second reels too: Reels Trust community Ifyou want to build trust with your community,look closelyatwhat's driving conversation, aka: your comments and shares What doyour topreelshavein common? Are the comments and shares drivenby your hobbies andinterests, your moansor your loves perhaps?! Andasreachisn'tasimportant here, the reels don'tneed tobeas short: I'dstill andkeep these reels under 45 secs thoughl try Stories The storiesalgorithm is very similar tolast year, but: try tokeep \"talking stories' the individual videos) tounder 30 seconds. engagement triggers like polls, asking questions, addinglots of text (so your audiencehold down toread) canstillhelp to boost views keepaneyeonyour typical 'dropoff point' soyou can keep your views high",
+        "metadata": {},
+        "status": "success"
+      }
+    }
+  ],
+  "extraction_timestamp": "2025-12-17T10:03:48.169812+00:00",
+  "total_links": 1,
+  "platforms_processed": [
+    "instagram_post"
+  ],
+  "summary": {
+    "total_extracted": 1,
+    "by_platform": {
+      "instagram_post": 1
+    },
+    "by_status": {
+      "success": 1
+    }
+  }
+}

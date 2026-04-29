@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../design-system/colors_and_type.css" />
+<title>NUSmart Dining — A Queue Without the Anxiety</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ---------- 60-30-10 SYSTEM ----------
+     60% — Off-white / neutral surface & generous whitespace
+     30% — Brand blues (deep navy + clean azure)
+     10% — Star accents as Easter eggs (gold + soft hover sparkles)
+  -------------------------------------- */
+  :root {
+    /* Neutrals — the 60% */
+    --paper: #fafaf7;
+    --paper-2: #f3f2ec;
+    --ink: #0e1430;
+    --ink-soft: #4a5072;
+    --ink-mute: #8a8fa6;
+    --rule: #e6e4dc;
+
+    /* Blues — the 30% */
+    --navy: #0a2540;
+    --navy-deep: #051a30;
+    --azure: #2f6df1;
+    --azure-soft: #e8eefd;
+    --azure-tint: #f4f7fe;
+
+    /* Stars — the 10% (Easter eggs) */
+    --star: #d4a13a;
+    --star-glow: rgba(212, 161, 58, 0.35);
+
+    --serif: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    --maxw: 760px;
+    --maxw-wide: 1040px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ---------- TYPE SYSTEM ---------- */
+  h1, h2, h3, h4 {
+    font-family: var(--serif);
+    color: var(--ink);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    max-width: var(--maxw-wide);
+    margin: 0 auto;
+    padding: 96px 32px 64px;
+    position: relative;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--azure);
+    margin-bottom: 28px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--azure);
+  }
+  .hero h1 {
+    font-size: clamp(40px, 6vw, 72px);
+    max-width: 800px;
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--azure);
+    font-weight: 400;
+  }
+  .hero-sub {
+    font-size: clamp(17px, 1.6vw, 20px);
+    color: var(--ink-soft);
+    max-width: 620px;
+    line-height: 1.55;
+  }
+
+  /* Hero star — Easter egg #1 */
+  .hero-star {
+    position: absolute;
+    top: 110px;
+    right: 64px;
+    width: 18px;
+    height: 18px;
+    color: var(--star);
+    opacity: 0.7;
+    animation: twinkle 4s ease-in-out infinite;
+  }
+  .hero-star-2 {
+    position: absolute;
+    top: 220px;
+    right: 140px;
+    width: 10px;
+    height: 10px;
+    color: var(--star);
+    opacity: 0.5;
+    animation: twinkle 5s ease-in-out infinite 1.5s;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.9) rotate(0deg); }
+    50% { opacity: 0.9; transform: scale(1.1) rotate(180deg); }
+  }
+
+  /* ---------- META STRIP ---------- */
+  .meta {
+    max-width: var(--maxw-wide);
+    margin: 0 auto;
+    padding: 0 32px 48px;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 32px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 48px;
+  }
+  .meta-item .label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-mute);
+    margin-bottom: 8px;
+  }
+  .meta-item .value {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--ink);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .meta-tool-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .meta-tool-logo {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    color: #050038;
+    background: #ffd02f;
+    border: 1px solid #e3b91f;
+  }
+  @media (max-width: 980px) {
+    .meta { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  }
+  @media (max-width: 720px) {
+    .meta { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  }
+
+  /* ---------- VIEWS ---------- */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ---------- TLDR VIEW ---------- */
+  .tldr {
+    max-width: var(--maxw-wide);
+    margin: 0 auto;
+    padding: 64px 32px 96px;
+  }
+  .tldr-context {
+    max-width: 760px;
+    margin: 0 0 28px;
+    font-size: 20px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    border-left: 2px solid var(--azure);
+    padding-left: 14px;
+  }
+  .tldr-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 48px;
+  }
+  @media (max-width: 800px) {
+    .tldr-grid { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    padding: 36px 32px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .card:hover {
+    border-color: var(--azure);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(10, 37, 64, 0.06);
+  }
+  /* Easter egg star on card hover */
+  .card::after {
+    content: '✦';
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    font-size: 14px;
+    color: var(--star);
+    opacity: 0;
+    transform: scale(0.5) rotate(-45deg);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .card:hover::after {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  .card .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--azure);
+    margin-bottom: 18px;
+    display: block;
+  }
+  .card h3 {
+    font-size: 24px;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .card p {
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* Featured impact card */
+  .impact-hero {
+    background: var(--navy);
+    color: var(--paper);
+    border-radius: 20px;
+    padding: 56px 48px;
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .impact-hero::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, var(--azure) 0%, transparent 70%);
+    opacity: 0.25;
+  }
+  .impact-hero .label {
+    color: var(--azure);
+    opacity: 0.9;
+  }
+  .impact-hero h2 {
+    color: var(--paper);
+    font-size: clamp(28px, 4vw, 40px);
+    max-width: 720px;
+    margin-top: 10px;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+    font-weight: 500;
+  }
+  .impact-hero h2 em {
+    font-style: italic;
+    color: #8db4ff;
+  }
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    padding-top: 32px;
+    position: relative;
+    z-index: 1;
+  }
+  @media (max-width: 720px) {
+    .stat-row { grid-template-columns: 1fr; gap: 20px; }
+  }
+  .stat .num {
+    font-family: var(--serif);
+    font-size: clamp(40px, 5vw, 56px);
+    font-weight: 500;
+    line-height: 1;
+    color: var(--paper);
+    letter-spacing: -0.02em;
+    position: relative;
+    display: inline-block;
+  }
+  .stat .num sup {
+    font-size: 0.4em;
+    color: var(--star);
+    margin-left: 4px;
+    vertical-align: top;
+    top: 0.6em;
+    position: relative;
+  }
+  .stat .label-stat {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 10px;
+    line-height: 1.5;
+    max-width: 220px;
+  }
+
+  /* TLDR Bullets */
+  .quick-list {
+    background: var(--azure-tint);
+    border-radius: 16px;
+    padding: 40px 44px;
+    border: 1px solid var(--azure-soft);
+  }
+  .quick-list .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--azure);
+    margin-bottom: 24px;
+    display: block;
+  }
+  .quick-list ul {
+    list-style: none;
+    display: grid;
+    gap: 14px;
+  }
+  .quick-list li {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .quick-list li::before {
+    content: '→';
+    color: var(--azure);
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .deepdive-cta {
+    margin-top: 48px;
+    text-align: center;
+    padding: 32px;
+  }
+  .deepdive-cta button {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 16px 36px;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.01em;
+  }
+  .deepdive-cta button:hover {
+    background: var(--azure);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(47, 109, 241, 0.25);
+  }
+
+  /* ---------- FULL VIEW ---------- */
+  .full {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 64px 32px 120px;
+  }
+  .section {
+    margin-bottom: 96px;
+    position: relative;
+  }
+  .section-num {
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--azure);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-num::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--azure-soft), transparent);
+  }
+  .section h2 {
+    font-size: clamp(30px, 4vw, 42px);
+    margin-bottom: 28px;
+    max-width: 600px;
+    font-weight: 500;
+  }
+  .section h2 em {
+    font-style: italic;
+    color: var(--azure);
+  }
+  .section p {
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.75;
+    margin-bottom: 20px;
+    max-width: 640px;
+  }
+  .section p.lead {
+    font-size: 20px;
+    color: var(--ink);
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  .design-gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin: 18px 0 28px;
+    max-width: 640px;
+  }
+  .design-gallery figure {
+    margin: 0;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .design-gallery img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .design-gallery figcaption {
+    padding: 8px 10px;
+    font-size: 12px;
+    color: var(--ink-mute);
+    border-top: 1px solid var(--rule);
+  }
+  @media (max-width: 720px) {
+    .design-gallery { max-width: 100%; }
+  }
+  .scenario-compare {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+    max-width: 1040px;
+    margin: 10px 0 24px;
+  }
+  .scenario-column h4 { margin-top: 0; }
+  .scenario-column p { max-width: none; }
+  @media (max-width: 980px) {
+    .scenario-compare { grid-template-columns: 1fr; gap: 20px; }
+  }
+
+  /* Pull quote / callout */
+  .pullquote {
+    border-left: 2px solid var(--azure);
+    padding: 8px 0 8px 28px;
+    margin: 32px 0;
+    max-width: 600px;
+  }
+  .pullquote .q {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+  .pullquote .src {
+    font-size: 13px;
+    color: var(--ink-mute);
+    letter-spacing: 0.02em;
+  }
+
+  /* Why-callout boxes */
+  .why-box {
+    background: var(--paper-2);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin: 32px 0;
+    position: relative;
+    border: 1px solid var(--rule);
+  }
+  .why-box .why-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--azure);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .why-box .why-label::before {
+    content: '✦';
+    color: var(--star);
+    font-size: 12px;
+  }
+  .why-box p {
+    margin-bottom: 0;
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+
+  /* Before/After comparison */
+  .ba-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 36px 0;
+  }
+  @media (max-width: 640px) {
+    .ba-grid { grid-template-columns: 1fr; }
+  }
+  .ba-box {
+    border-radius: 12px;
+    padding: 28px;
+  }
+  .ba-box.before {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+  }
+  .ba-box.after {
+    background: var(--navy);
+    color: var(--paper);
+  }
+  .ba-box .ba-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .ba-box.before .ba-tag { color: var(--ink-mute); }
+  .ba-box.after .ba-tag { color: var(--azure); opacity: 0.9; }
+  .ba-box h4 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: inherit;
+  }
+  .ba-box.after h4 { color: var(--paper); }
+  .ba-box p {
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.6;
+  }
+  .ba-box.before p { color: var(--ink-soft); }
+  .ba-box.after p { color: rgba(255,255,255,0.75); }
+
+  /* Decision list */
+  .decisions {
+    margin: 24px 0;
+  }
+  .decision {
+    padding: 28px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .decision:last-child { border-bottom: 1px solid var(--rule); }
+  .decision-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .decision h4 {
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .decision .tag {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--azure);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--azure-soft);
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+  .decision p {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  /* Reflection / lessons-learned cards */
+  .reflect-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 28px;
+  }
+  @media (max-width: 640px) { .reflect-grid { grid-template-columns: 1fr; } }
+  .reflect-card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 28px;
+  }
+  .reflect-card h4 {
+    font-size: 17px;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .reflect-card p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  /* Hero impact strip on full view */
+  .full-stats {
+    background: var(--azure-tint);
+    border: 1px solid var(--azure-soft);
+    border-radius: 16px;
+    padding: 36px 40px;
+    margin: 32px 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  @media (max-width: 720px) { .full-stats { grid-template-columns: 1fr; } }
+  .full-stats .num {
+    font-family: var(--serif);
+    font-size: 36px;
+    font-weight: 500;
+    color: var(--azure);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .full-stats .lab {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  /* My-role pill row */
+  .role-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 18px 0 4px;
+  }
+  .pill {
+    font-size: 12px;
+    color: var(--ink);
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+
+  /* Hidden Easter-egg star sprinkles in full view (rare, intentional) */
+  .sprinkle {
+    color: var(--star);
+    font-size: 0.7em;
+    margin: 0 2px;
+    opacity: 0.7;
+    display: inline-block;
+    transition: transform 0.4s ease;
+  }
+  .sprinkle:hover { transform: rotate(180deg) scale(1.3); cursor: default; }
+  .hero-tool-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 3px 9px 3px 6px;
+    background: #fff;
+  }
+  .hero-tool-logo {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background: #ffd02f;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-tool-logo::before {
+    content: "";
+    position: absolute;
+    inset: 2px 1px;
+    background:
+      linear-gradient(104deg, transparent 0 22%, #050038 22% 35%, transparent 35% 45%, #050038 45% 58%, transparent 58% 68%, #050038 68% 81%, transparent 81% 100%);
+  }
+  .hero-tool-name { line-height: 1.2; }
+
+  /* Smooth view transitions */
+  .view.active { animation: fadeUp 0.5s ease both; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+  <link rel="stylesheet" href="../shared/shell.css" />
+  <link rel="stylesheet" href="../shared/phase1-ds-bridge.css" />
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="project-topbar">
+  <div class="project-topbar__inner">
+    <a class="project-topbar__back" href="../portfolio.html" onclick="if (window.history.length > 1) { event.preventDefault(); window.history.back(); }">← Back</a>
+    <div class="nav-modes" role="tablist" aria-label="Reading modes">
+      <button type="button" id="btn-tldr" class="mode-btn active" onclick="showView('tldr')">TL;DR</button>
+      <button type="button" id="btn-full" class="mode-btn" onclick="showView('full')">Full read · 6 min</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <svg class="hero-star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.5 9 L22 10.5 L13.5 12 L12 21 L10.5 12 L2 10.5 L10.5 9 Z"/></svg>
+  <svg class="hero-star-2" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.5 9 L22 10.5 L13.5 12 L12 21 L10.5 12 L2 10.5 L10.5 9 Z"/></svg>
+
+  <h1>NUSmart Dining <em>Revamp</em></h1>
+  <p class="hero-sub">Redesigning a 1.7★ campus food-ordering app so 40,000 students can finally trust that their lunch will be ready before their next class.</p>
+  <dl class="cs-summary">
+    <div><dt>Role</dt><dd>UI Designer, UX Researcher</dd></div>
+    <div><dt>Team</dt><dd>4 designers (cross-faculty)</dd></div>
+    <div><dt>Timeline</dt><dd>Sep 2024 (1 month)</dd></div>
+    <div><dt>Focus</dt><dd>UI/UX Design</dd></div>
+    <div>
+      <dt>Tools</dt>
+      <dd>
+        <span class="hero-tool-chip">
+          <span class="hero-tool-logo" aria-hidden="true"></span>
+          <span class="hero-tool-name">Miro</span>
+        </span>
+      </dd>
+    </div>
+  </dl>
+</section>
+
+<!-- ==================== TLDR VIEW ==================== -->
+<div id="view-tldr" class="view active">
+  <section class="tldr">
+    <p class="tldr-context">NUSmart Dining is a mobile app that allows users to pre-order and pre-pay for meals in NUS canteens, saving the trouble of queuing in person. This benefits both stall owners and users by reducing friction and improving convenience. We identified several pain points and focused on one core issue: unclear wait times for orders.</p>
+
+    <!-- Impact hero -->
+    <div class="impact-hero">
+      <span class="label">The bottom line</span>
+      <h2>Diagnosed the core failure mode behind a <em>1.7★ app</em> used by ~40,000 students — and shipped a redesign that turns the queue from a black box into a glanceable signal.</h2>
+      <div class="stat-row">
+        <div class="stat">
+          <div class="num">1.7<sup>★</sup></div>
+          <div class="label-stat">Baseline App Store rating across 106 reviews — the problem we set out to fix</div>
+        </div>
+        <div class="stat">
+          <div class="num">3 of 4</div>
+          <div class="label-stat">Interview participants reported physically walking to stalls to verify their order status</div>
+        </div>
+        <div class="stat">
+          <div class="num">29</div>
+          <div class="label-stat">Users across CIs, interviews & survey — triangulated to one validated pain point</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem / Solution / Impact split -->
+    <div class="tldr-grid">
+      <div class="card">
+        <span class="label">Problem</span>
+        <h3>The queue was lying.</h3>
+        <p>Users picked stalls based on “no. of orders waiting” — a number that excluded walk-ins and ignored stall speed. Result: anxiety, late returns to class, app abandonment.</p>
+      </div>
+      <div class="card">
+        <span class="label">Insight</span>
+        <h3>Trust beats precision.</h3>
+        <p>Students didn't need a perfect ETA. They needed a <em>reliable</em> one — and a way to feel their order moving without walking to the stall to verify it.</p>
+      </div>
+      <div class="card">
+        <span class="label">Solution</span>
+        <h3>From a number to a signal.</h3>
+        <p>Replaced ambiguous order counts with a colour-coded wait-time estimate, a live position-in-queue tracker, and a glanceable lock-screen notification.</p>
+      </div>
+      <div class="card">
+        <span class="label">Loop</span>
+        <h3>The system learns.</h3>
+        <p>Post-collection feedback prompt feeds actual wait times back into the estimate model — closing the data loop that the original app never had.</p>
+      </div>
+    </div>
+
+    <!-- Quick list -->
+    <div class="quick-list">
+      <span class="label">What I owned</span>
+      <ul>
+        <li>Led contextual inquiry methodology — designed the master-apprentice protocol that surfaced the queue-anxiety pattern</li>
+        <li>Synthesised 29 data points across 3 research methods into a single validated pain point (vs. shotgun-fixing all three)</li>
+        <li>Made the call to drop the “customisation” problem — defended the trade-off with a value/effort argument</li>
+        <li>Designed the colour-coded wait-time component and the live-position-in-queue interaction model</li>
+        <li>Articulated the design-system rationale: traffic-light semantics → zero learning curve</li>
+      </ul>
+    </div>
+
+    <div class="deepdive-cta">
+      <button onclick="showView('full')">Read the full case study →</button>
+    </div>
+  </section>
+</div>
+
+<!-- ==================== FULL VIEW ==================== -->
+<div id="view-full" class="view">
+  <article class="full">
+
+    <!-- SITUATION -->
+    <section class="section">
+      <div class="section-num">01 · Situation</div>
+      <h2>A campus app no one <em>wanted</em> to use.</h2>
+      <p class="lead">NUSmart Dining is a mobile app launched in 2020 to relieve canteen queues for ~40,000 students and staff at National University of Singapore. The app enables users to pre-order and pre-pay for meals, saving the trouble of queueing in person. This saves both stallowners' and users' time, increasing convenience, facilitating food ordering to alleviate crowds.</p>
+
+      <p>Students were ordering ahead, walking to the canteen, and discovering their food hadn't been started — or worse, that the “3 orders waiting” signal they trusted was off by an order of magnitude because it didn't count walk-ins.</p>
+
+    </section>
+
+    <!-- ACTION — Research -->
+    <section class="section">
+      <div class="section-num">02 · Action — Research</div>
+      <h2>Triangulating, not just collecting.</h2>
+      <p>I designed a three-method research protocol — chosen specifically so each method's weakness was covered by another's strength:</p>
+
+      <div class="decisions">
+        <div class="decision">
+          <div class="decision-head">
+            <h4>Contextual Inquiry — 2 students, in canteen</h4>
+            <span class="tag">Behaviour</span>
+          </div>
+          <p>Master-apprentice protocol across the full ordering flow. Captured what people <em>did</em>, not what they remembered doing. This is where we caught the “walking to verify” behaviour that surveys completely missed.</p>
+        </div>
+        <div class="decision">
+          <div class="decision-head">
+            <h4>Semi-structured interviews — 2 students</h4>
+            <span class="tag">Emotion</span>
+          </div>
+          <p>“Describe the app in three words” surfaced the affective layer — words like <em>frustrating, unreliable, anxious.</em> These wouldn't come up in observation.</p>
+        </div>
+        <div class="decision">
+          <div class="decision-head">
+            <h4>Survey — 23 students</h4>
+            <span class="tag">Validation</span>
+          </div>
+          <p>Open to non-users too, so we could understand <em>why</em> people had churned. This validated that our 4 deep-research participants weren't outliers.</p>
+        </div>
+      </div>
+
+      <div class="why-box">
+        <div class="why-label">Why this mix?</div>
+        <p>A 23-person survey alone would have given us breadth without depth — we'd have known <em>that</em> people were frustrated, not <em>why</em>. CIs alone (n=2) wouldn't survive a recruiter's “how do you know that's representative?” question. The survey was the validation layer.</p>
+      </div>
+
+      <p>We synthesised everything in Figma using affinity mapping and an empathy map, which surfaced three candidate pain points.</p>
+    </section>
+
+    <!-- ACTION — The hard call -->
+    <section class="section">
+      <div class="section-num">03 · Action — The hard call</div>
+      <h2>Picking <em>one</em> problem to solve.</h2>
+      <p>Several pain points in using NUSmart Dining have been identified, including unclear order status updates and confusing error messages. Users express frustration with the difficulty of communicating with stall owners and the lack of feedback on order statuses. Additionally, stalls serving food like economical rice offer limited customisation options, which complicates the ordering process.</p>
+      <p>Three pain points emerged. Junior teams try to fix all three. I made the case for cutting two:</p>
+
+      <div class="decisions">
+        <div class="decision">
+          <div class="decision-head">
+            <h4>① Order status updates from stallholders</h4>
+            <span class="tag" style="background: #fde8e8; color: #c43838;">Cut — out of scope</span>
+          </div>
+          <p>High user value, but the fix lives on the stallholder side of the app — a stakeholder we couldn't access in 3 weeks. Designing in a vacuum here would have been theatre.</p>
+        </div>
+        <div class="decision">
+          <div class="decision-head">
+            <h4>② Wait-time clarity across stalls</h4>
+            <span class="tag">Picked</span>
+          </div>
+          <p>High value, addressable on the user side, and testable with a paper prototype. Sweet spot.</p>
+        </div>
+        <div class="decision">
+          <div class="decision-head">
+            <h4>③ Customisation flexibility</h4>
+            <span class="tag" style="background: #fde8e8; color: #c43838;">Cut — narrow value</span>
+          </div>
+          <p>Real frustration, but only for stalls that require customisation (caifan, mala). Solving it wouldn't move the needle on the central trust problem.</p>
+        </div>
+      </div>
+
+      <div class="why-box">
+        <div class="why-label">The PM lesson here</div>
+        <p>A scope cut you can defend is more valuable than a scope you can't ship. I used a simple value-vs-feasibility argument to align the team — the same kind of trade-off framing I'd use in a roadmap review.</p>
+      </div>
+    </section>
+
+    <!-- ACTION — Design -->
+    <section class="section">
+      <div class="section-num">04 · Action — Design decisions</div>
+      <h2>Three decisions, one philosophy.</h2>
+      <p class="lead">The throughline: <em>turn an ambiguous number into a trustworthy signal.</em></p>
+
+      <div class="decisions">
+        <div class="decision">
+          <div class="decision-head">
+            <h4>Killed “no. of orders waiting”</h4>
+            <span class="tag">Information design</span>
+          </div>
+          <p>Users couldn't tell what the number meant — did it include walk-ins? Did it weight stall speed? We replaced it with a direct minute estimate.</p>
+        </div>
+        <div class="decision">
+          <div class="decision-head">
+            <h4>Traffic-light colour coding (green &lt;5 min, yellow 5-9, red 10+)</h4>
+            <span class="tag">Design system</span>
+          </div>
+          <p>Chose semantic colours users already know from traffic lights, crowd-level indicators, and Apple Maps. Zero learning curve, glanceable in 1 second — critical when a student is choosing a stall between classes.</p>
+        </div>
+        <div class="decision">
+          <div class="decision-head">
+            <h4>Live position-in-queue + lock-screen notification</h4>
+            <span class="tag">Mental model</span>
+          </div>
+          <p>Mirrored the physical queue mental model — orders ahead of you visibly leave the screen as they're prepared. The lock-screen widget means students can stop opening the app every 90 seconds.</p>
+        </div>
+        <div class="decision">
+          <div class="decision-head">
+            <h4>Post-collection feedback loop</h4>
+            <span class="tag">System design</span>
+          </div>
+          <p>One question after pickup: “How long did you actually wait?” This crowdsources ground truth, so the estimate model improves over time without needing stallholder input — addressing the original constraint.</p>
+        </div>
+      </div>
+
+      <!-- Before/After conceptual -->
+      <div class="ba-grid">
+        <div class="ba-box before">
+          <span class="ba-tag">Before</span>
+          <h4>“3 orders waiting”</h4>
+          <p>Decontextualised, excluded walk-ins, ignored stall speed, no progress feedback after order.</p>
+        </div>
+        <div class="ba-box after">
+          <span class="ba-tag">After</span>
+          <h4>“~12 min · you're 4th”</h4>
+          <p>Direct minute estimate · live queue position · lock-screen tracking · feedback loop closes itself.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section class="section">
+      <div class="section-num">05 · Result</div>
+      <h2>What we shipped — and how I'd measure it.</h2>
+      <p>A redesigned NUSmart Dining to improve communication between users and stall owners for orderly and timely updates on the queue situation at canteens and their orders for a seamless meal experience.</p>
+      <p>The deliverable was a hi-fi prototype validated through paper prototyping and a redesigned user journey. Because this was a course-scoped project, I can't claim shipped-app metrics — but I can be specific about what success would look like and how I'd instrument it.</p>
+
+      <div class="full-stats">
+        <div>
+          <div class="num">1.7★ → 3.5★+</div>
+          <div class="lab">Target App Store rating after 6 months — measurable, public, comparable</div>
+        </div>
+        <div>
+          <div class="num">−60%</div>
+          <div class="lab">Target reduction in “walked to verify” incidents (measured via post-collection survey)</div>
+        </div>
+        <div>
+          <div class="num">±3 min</div>
+          <div class="lab">Target accuracy of estimated wait time vs. actual, after 4 weeks of feedback-loop data</div>
+        </div>
+      </div>
+
+      <div class="why-box">
+        <div class="why-label">Why these metrics</div>
+        <p>App Store rating is the proxy users themselves chose to score the app — fixing it is the public-facing success signal. The “walked to verify” metric maps directly to the behaviour we observed in CIs. Estimate accuracy is the leading indicator that tells us whether the feedback loop is actually working before ratings move.</p>
+      </div>
+    </section>
+
+    <!-- REFLECTION -->
+    <section class="section">
+      <h2>Design Process</h2>
+      <h3>Empathise: User Research</h3>
+      <p>We conducted three types of user research: <strong>Contextual Inquiries</strong> (CIs) on 2 individuals, <strong>Interviews</strong> on 2 individuals, and <strong>Surveys</strong> on 23 individuals, to discover more about our primary users' (NUS students) journey in using NUSmart Dining - to understand their experience and identify any pain points.</p>
+
+      <h4>Pain Points</h4>
+      <ol class="resume-list">
+        <li>NUS students need accurate and timely order updates and communication from stall owners because unclear and unreliable order tracking forces them to physically check on their orders.</li>
+        <li><strong>NUS students need a clear understanding of wait time across stalls to make informed choices about where to order.</strong></li>
+        <li>NUS students need greater flexibility in customising their food because the current options are limited, which makes it hard for them to order items to their liking.</li>
+      </ol>
+      <p>The scope of the project required the group to work on 1 pain point, and we chose to focus on creating a clearer understanding of wait times across stalls (<strong>Problem 2</strong>).</p>
+
+      <h3><strong>Define: Processing of User Research</strong></h3>
+      <p>Following our research process, we visualised the data collected using <strong>empathy maps</strong> and organised them into common themes via <strong>affinity mapping</strong>.</p>
+      <div class="design-gallery">
+        <figure><img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXff08BdWBEkowZERw8wX5sco3eSoenXed9-h-QwSGCybYVm6Dlt8PNPnh3bL9EhmAMsXe3Zo_xQBtgMlCiToWqBziQVbqL7MwHhPFZK10mO_V7FnnMQT-h02AAKK2wAibwWbTqWmjAoOMVt1r6xCJMDy9ou?key=RcCPODpHMwt8_8865z6Gew" alt="Empathy Map 1" loading="lazy" decoding="async" /><figcaption>Empathy Map 1</figcaption></figure>
+        <figure><img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXfX6tj9dTasb0qlaKsEIwQKYXnUCDZBr8nz_N21a7a5GIVBufbAGqVLeQTa8YXYQ2HDdSjLIrS4rrorDhlVu9zYiInN5W6CObz4ulDITJFRbfzppTb1dI3YzHLZuDF7wk4oj4TjqhXe77VI_zYM3wh15eLP?key=RcCPODpHMwt8_8865z6Gew" alt="Empathy Map 4" loading="lazy" decoding="async" /><figcaption>Empathy Map 4</figcaption></figure>
+        <figure><img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXfBQlPcIhgiLtIcJvaUVbdZ3M6k4Ewy3OlrgDndWdxwuEvXpF8f9R-XyvL4bwqGhsgsQXLs5a1rxgd0XDfsDUVIlKRug_PRt43YBB5QeK9EEkHEglkAKsLFY8nlIl-BJjVo6mHLEBhLyd4cMeyYOrWpMjf8?key=RcCPODpHMwt8_8865z6Gew" alt="Empathy Map 2" loading="lazy" decoding="async" /><figcaption>Empathy Map 2</figcaption></figure>
+        <figure><img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXcD43DVPNFmANsf6ivS1fgIUBp0JmbrjpJ73GTR3I_MVFoNCUNFF0TWNU2P-m-XLAbBfiwuGLQifEAPAhf1OwiK7m1gCt52yIHv76GjMWB7pEInCFY4rBfGEhCHby8QE4irHm77XySM49mMKWTGz9tMN19h?key=RcCPODpHMwt8_8865z6Gew" alt="Empathy Map 3" loading="lazy" decoding="async" /><figcaption>Empathy Map 3</figcaption></figure>
+        <figure><img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXdQNDF430drbMNy9acmq6I03snKnanvBGOb6vLvj-QI8St7XLzFtCjd94z1kBQvpPizIde3wCZRhp6G2LpIkUOMVKLoWOjvF0xYhirwx4jv-d1Bh2WKzu67hfF9pdunmcwb3n_ZUOc2eazDjUpKg_escwl8?key=RcCPODpHMwt8_8865z6Gew" alt="Affinity Diagram" loading="lazy" decoding="async" /><figcaption>Affinity Diagram</figcaption></figure>
+      </div>
+
+      <h4>Overarching Issues</h4>
+      <ol class="resume-list">
+        <li>Uncertainty regarding waiting time at stalls and one's order due to factors like a lack of transparency and understanding about order progress.</li>
+        <li>Inconsistency and unreliability in information that depended heavily on stallholders' updates.</li>
+        <li>Concerns about availability — users reported that some stalls were stated as “closed” and unavailable for ordering on the app despite being open for orders in person.</li>
+        <li>Difficulties encountered when attempting to customise their orders.</li>
+      </ol>
+
+      <p>With the problems identified, we identified a <strong>persona</strong>, Zach, and his <strong>user journey</strong>, to allow us to better visualise the user profile we were designing for.</p>
+      <div class="design-gallery">
+        <figure><img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXdLbh5OabxsAxoVCLbuK2C-9glz-0h0dnFIH3PKYwDPIr_3vElglBOBknZoTEX778goom2BeHw8svIKvVLbTnvYAX00-kqgqzrmuTJBw3wO7nL1X4Eu7ox_RoXqStLa716SUvE3MVXNJVNWxiTPbL-yvV73?key=RcCPODpHMwt8_8865z6Gew" alt="Persona" loading="lazy" decoding="async" /><figcaption>Persona</figcaption></figure>
+        <figure><img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXfTvlIW3ZDwZlWsuhb8_U5Xbu7FQTNYEBSMIAs-Q8cGnoHuiHg6aT0Z5Gmr9s1jYY2ooabLRy5aSgDRzlKUZJ53xyzST6DOSrThuOCCQfVAxHJzW-FGh66BWfffjX3ozhYHriHuFl0iU1z8d49XLL9Wt6s?key=RcCPODpHMwt8_8865z6Gew" alt="User Journey" loading="lazy" decoding="async" /><figcaption>User Journey</figcaption></figure>
+      </div>
+
+      <div class="scenario-compare">
+        <div class="scenario-column">
+          <h4>Current Scenario</h4>
+          <p>Zach takes his phone out 10 minutes before class ends, and opens the NUSmart Dining Application before peak lunch hours. His next class is in less than an hour, and he needs to get his lunch before it starts. He looks through the list of canteens and picks The Deck, which the app states is the canteen closest to his classroom.</p>
+          <p>He looks through the list of stalls at The Deck on the application and looks at the <strong>“no. of orders waiting”</strong> at each stall, hoping to look for one that can get him his food the fastest. <strong>Seeing that the Japanese stall has only three orders waiting, he orders from the stall. However, once he reached the Deck canteen, he noticed a spiralling queue of about 10 people in front of the Japanese store he ordered from.</strong></p>
+          <p>At first, he felt a sense of relief since he already placed his order on the application so he sat down at an empty table and proceeded to wait while <strong>periodically checking his order status on the application. However, 15 minutes passed, and he realised that his order status had still remained as “processing” and the people he saw previously in the queue had started to collect their food.</strong></p>
+          <p>So he headed down to the stall to check on the status of his order. <strong>This is when he realised that the stall had not started on his order, wanting to prioritise those who queued up physically.</strong> Zach gets agitated and seeing this, the aunty tells him that she will make his order now. He collects his order and rushes to finish his food. He could not enjoy his meal since he was rushing. He then proceeded to his class but was about 5 minutes late. <strong>The next day when he wants to get his lunch again, he is reminded of his previous experience and decides to skip his lunch instead.</strong></p>
+        </div>
+        <div class="scenario-column">
+          <h4>Proposed Scenario</h4>
+          <p>Zach takes his phone out 10 minutes before class ends and opens the NUSmart Dining Application before peak lunch hours. His next class is in less than an hour, and he needs to get his lunch before it starts. He looks through canteens and picks The Deck.</p>
+          <p><strong>He looks through the list of stalls and uses estimated waiting time with colour coding to scan quickly.</strong> Seeing that the Japanese stall has around 15 minutes of waiting time, he orders from the stall hoping he can collect food when class ends. <strong>Once ordered, the app displays orders before him and estimated completion time.</strong></p>
+          <p><strong>After class, he notices a queue in person but does not feel anxious because the app clearly states that his order is next to be prepared.</strong> He talks to a friend and <strong>occasionally glances at lock-screen notifications that show live progress.</strong> Once ready, the phone vibrates and he collects his order.</p>
+          <p><strong>After collecting his food, the app asks how long he waited.</strong> He answers, finishes his meal peacefully, and still has time before class.</p>
+        </div>
+      </div>
+
+      <p>With the persona and user journey fleshed out, we identified “How Might We?” opportunities:</p>
+      <ul class="resume-list">
+        <li>How might we allow users to make <strong>better-informed decisions</strong> on which stall to order from?</li>
+        <li>How might we make waiting times on the application more <strong>accurate</strong>?</li>
+        <li>How might we make order tracking more <strong>seamless</strong> across classroom, walking, and canteen?</li>
+      </ul>
+      <div class="design-gallery">
+        <figure><img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXeC0KjB6pEy2ZYO6qa3DHkYB1lgH8srPL8vSmb2SAO7alIZNW1T4Eaaf1NQDrxp0aCwDLOL1ipAcji-RkL0KBVsSNakNyG6hQrHD5qymRqfS0JG6YyeifVf8YfImFvPgCjvUQLiGllD8T_mfarkRO3mu9I?key=RcCPODpHMwt8_8865z6Gew" alt="Storyboard" loading="lazy" decoding="async" /><figcaption>Storyboard</figcaption></figure>
+      </div>
+
+      <h2><strong>Ideating &amp; Prototyping</strong></h2>
+      <h3><strong>Crazy 8's</strong></h3>
+      <p>During ideation, we drafted possible wireframes:</p>
+      <div class="design-gallery">
+        <figure><img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXeX9bon7rSkE2JCmwNmzhbHbSjyGJGtWun0RZv4Ly6k-WlwkcO5ku4TniHjh_S1r94JYrarH9piLYK9oFbhkXNRzWIAWaH-5yvoCKjYh80wwV-DPZUjISYIZQvDVnartqWIYtFhSRmwmKbc37Heni-x_z4?key=RcCPODpHMwt8_8865z6Gew" alt="Crazy 8 (1)" loading="lazy" decoding="async" /><figcaption>Crazy 8 (1)</figcaption></figure>
+        <figure><img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXfrhNNtvvD22E-UYX5xLzir7EaQqR4NA1I-bYm0YO_NdRa1EkLm95_em15-nzk70TAbrzGhYCq8MhB-TRVBsSR623hVsrjr-vbGzgLgf03EZK8PrX4P4aXj-7pD_wPzy6QmWyXraPS5BGWSsQago-X_q_I?key=RcCPODpHMwt8_8865z6Gew" alt="Crazy 8 (2)" loading="lazy" decoding="async" /><figcaption>Crazy 8 (2)</figcaption></figure>
+      </div>
+      <h4><strong>Design Features:</strong></h4>
+      <ul class="resume-list">
+        <li>Green for shorter waits, red for longer waits.</li>
+        <li>User queue position represented by a moving human figure.</li>
+        <li>Notifications include estimated completion time.</li>
+        <li>Lock-screen progress updates.</li>
+        <li>Completion + feedback loop to calibrate estimates.</li>
+      </ul>
+
+      <p><a href="https://lh7-rt.googleusercontent.com/docsz/AD_4nXez6DTvU8PTXKNfN12bb8oFwRXDws_RAnh6IZP7Kly5x51ToCMuLFN0E7Dxjq60j7n8p0ANvJwArMoVlihp0NYGKHOsr1M788HQOldeWQVCxkdZWK_J16euphmYQazZ7DDVKSieIP8OAWdkbPO6zv1zjwg?key=RcCPODpHMwt8_8865z6Gew" target="_blank" rel="noopener noreferrer">Wireframe (1)</a></p>
+      <p>The above wireframe introduces exact queue position and shows orders moving off-screen one by one, with the user's order glowing green when ready.</p>
+
+      <p><a href="https://lh7-rt.googleusercontent.com/docsz/AD_4nXdZqfkBtTgBMTUonMMpyHPGbWqdCvaY2rwgjlxSdsJVyJXXnGk61UKaNa_3rGTUKLpsc0IovfNrj_HsBDIKDIuIVqmStLuqdWyq_QeMyVNHZCRv0IqnJtUh8JQ025EABVLKoFBJniahGcjpbSAa9EReH-ik?key=RcCPODpHMwt8_8865z6Gew" target="_blank" rel="noopener noreferrer">Wireframe (2)</a></p>
+      <p>This variant surfaces estimated wait time by stall and then shows orders ahead + time to completion after ordering, including lock-screen estimate notifications.</p>
+
+      <h3><strong>Paper Prototype</strong></h3>
+      <p>Using the ideation above, we consolidated ideas into a quick paper prototype to test the flow: <a href="https://www.youtube.com/watch?v=k2OHNUo7AWM" target="_blank" rel="noopener noreferrer">watch here</a>.</p>
+
+      <h3><strong>Lo-Fi Wireframes</strong></h3>
+      <p><a href="https://lh7-rt.googleusercontent.com/docsz/AD_4nXdFpHy5iIYk49MSDAqKth0PoGOsEWHR1KsNzgpMNPw8-3PKEFeBCs4vT41RQF4BpyMfXiTV7ebNrCuWu8FQoL8jG44MmIFVUd8GCjsBRmLTgYXTB7gEO9t9xvMEzgrLC6WCGKgxkyopHR-irYkT8--7Aaw?key=RcCPODpHMwt8_8865z6Gew" target="_blank" rel="noopener noreferrer">Figure 1: Canteens</a> ·
+      <a href="https://lh7-rt.googleusercontent.com/docsz/AD_4nXdjeuoOkfuQsaex1vT-2xI0RDLfQBll--UmMRAnCdYbp85CKLtU--Fauj5-Bdh2mAJSnXhwXM2rEVP6i3o06LNzDzxGP4uMS4OQz_TpmbPq_69e50sLTU4DtMbNz-jhryUYMbHja37rEQ2-WelKzP-nW0Jv?key=RcCPODpHMwt8_8865z6Gew" target="_blank" rel="noopener noreferrer">Figure 2: Stalls</a> ·
+      <a href="https://lh7-rt.googleusercontent.com/docsz/AD_4nXfHLmycUaGQoyZh1-hMIcPV6GMr52H_jBInooKyW9PP7poVWCmoYtMLPQQFrlNSDqjKfXW51kOArh5-xP7caGvS7Q6KpKtFuTEFaqTAYVNO-NFk1-t017bnco2Ji4Nn9vIuLm04UVvdGYGPfjEn7bBuMQSC?key=RcCPODpHMwt8_8865z6Gew" target="_blank" rel="noopener noreferrer">Figure 3: Food Selection</a> ·
+      <a href="https://lh7-rt.googleusercontent.com/docsz/AD_4nXcyVtSj3SXk4AQBcBPWwIQ852jMeqO_fEIwmeFW_Xn2cEO97RgdzdNz-G5aqFWxsVri16qRUelcEpMOmno9kcUEVYtxRDokfiEhQzbXjV0He4-5OU3CPTjGQWd5tDcAd8BRYNZOF0-LvXOZiekUe3HpK54q?key=RcCPODpHMwt8_8865z6Gew" target="_blank" rel="noopener noreferrer">Figure 4: Payment</a></p>
+
+      <ol class="resume-list">
+        <li>Users first see nearby canteens.</li>
+        <li>Users then see stalls with estimated wait times (green/yellow/red).</li>
+      </ol>
+      <p>We removed “no. of orders waiting” because users found it unclear and inconsistent across stalls with different prep speeds.</p>
+
+      <p><a href="https://lh7-rt.googleusercontent.com/docsz/AD_4nXdmd8DZVdXQDsSpzpvqMxKeFkQE7H4wwhk7UjxHtq0XHNLKabm5KrJVfRAKvZBRJ8AiWTrpuO46iLEdkufsG9Yv61PCrmD__Nd2D26SfT_9xZtb3ULgS09AWf2D1-R502HtoeeHR2YcqOVNFkt62u1S_g8S?key=RcCPODpHMwt8_8865z6Gew" target="_blank" rel="noopener noreferrer">Order Tracking</a></p>
+      <p>Users can see queue position and order movement, improving transparency and reducing anxiety.</p>
+      <p><a href="https://lh7-rt.googleusercontent.com/docsz/AD_4nXd6brYP7uQvPoNUbdBWXg5w7gFli5CbYxakKoauhskR8PYNtsIURktQ6YRgyXa5e9IMI8LrqkrovHIAIzlhcXsBYPBY7I_-_BZz4mOSvAHAkABU0ies1447gRLVvCQrmoia57r8XYE9ObhfFMH7WaYqX2Rr?key=RcCPODpHMwt8_8865z6Gew" target="_blank" rel="noopener noreferrer">Notification</a></p>
+      <p>Lock-screen notifications provide glanceable updates for users commuting or in class.</p>
+      <p><a href="https://lh7-rt.googleusercontent.com/docsz/AD_4nXdjN3jZJPI6LdOqTQcWIsQdXH6Mb1vetFlEgAtxmpj80S2HLXa0tXott3aBWF7U3pDBe6Y97sAxzdIRm3iKnlWx-k6Z2JqSL_DqRcugCsLcV4zoClDy-zSMQtcKroDYGM3KirJgIQfAXgwGa07q6FXbqU1B?key=RcCPODpHMwt8_8865z6Gew" target="_blank" rel="noopener noreferrer">Notification (Completed)</a> ·
+      <a href="https://lh7-rt.googleusercontent.com/docsz/AD_4nXewZwFkq3C4sEgUXkRcGSUgMat04GA69Li2xeRerHhpF0YF-DXzmkcRVxDAIB335QJEG5absqsU7eh3_WY2hS_Ov9Kfa6QR855V_eJqU1-TLLWTkKDr7Ck2GgeiKTDkzjqGTxQ15hrcMa-UgSh-kTSDW8g_?key=RcCPODpHMwt8_8865z6Gew" target="_blank" rel="noopener noreferrer">Order Tracking (Completed)</a> ·
+      <a href="https://lh7-rt.googleusercontent.com/docsz/AD_4nXem5CFI07M_Tc2BrkypOtAVQyyvR4R0ZNQTx8S7WfDQeaOcDJ9XownL-cvFfHJ1V80qyvpAHpZeJ-LtlA5F580uUK68DyVA0qADsZ273xLTP7vh-yZ6-iJuUZ__Jc5PoFE3NOK9nOggG9ql4oaz0j2kSOE?key=RcCPODpHMwt8_8865z6Gew" target="_blank" rel="noopener noreferrer">Feedback</a></p>
+      <p>Users are prompted to share actual waiting time, creating a feedback loop to improve estimate quality.</p>
+      <p><a href="https://lh7-rt.googleusercontent.com/docsz/AD_4nXd3UcNnUhmJYpYxXfnHfrjr_ZwmWRP46sk2o9Krv23b4OFPdOuQ0z91n0jDVs2U18P-p1j-hoFtwzUcfhal9adflfv2ij59-Gq7gA4ehMlLshSsr2l0smCbmI7NCH2keXaPwEpHkrlIoDfMUJcIjKZwAvs?key=RcCPODpHMwt8_8865z6Gew" target="_blank" rel="noopener noreferrer">Zach's new user journey</a></p>
+
+      <h2><strong>Cost of Work</strong></h2>
+      <p>We estimated project cost based on experience level, complexity, scope, device target, and timeline urgency.</p>
+      <p>As entry-level designers, we scoped for a lower rate. Complexity was moderate-low (focused redesign of one pain point). Scope included affinity diagramming, empathy maps (x4), scenarios (x2), user journey maps (x2), navigation flows (x2), interviews (x2), surveys (~20), CIs (x2), wireframes, Crazy 8s, and paper prototypes.</p>
+      <p>We invested about 10 hours/week for 3 weeks (30 hours total). Using an entry-level benchmark of $20–$40/hour, the estimated cost range is approximately <strong>$600 to $1200</strong>, primarily labour for research, synthesis, and ideation.</p>
+      <p>If progressed further, additional costs would include feature expansion, user testing rounds, and iterative revisions, likely billed hourly.</p>
+      <div class="section-num">06 · Reflection</div>
+      <h2>What I'd do differently.</h2>
+
+      <div class="reflect-grid">
+        <div class="reflect-card">
+          <h4>Talk to stallholders earlier <span class="sprinkle">✦</span></h4>
+          <p>We scoped them out for time reasons — but even one 30-min interview would have stress-tested whether our crowdsourced-feedback model is actually realistic, or whether stallholders would resent yet another data input.</p>
+        </div>
+        <div class="reflect-card">
+          <h4>Run a usability test on the hi-fi</h4>
+          <p>We tested the paper prototype but not the final wireframes. With one more week, I'd have run a 5-user test on the live-queue interaction specifically — that's the most novel pattern, and the most likely to confuse.</p>
+        </div>
+        <div class="reflect-card">
+          <h4>Accessibility audit on the colour system</h4>
+          <p>Traffic-light semantics carry real risk for the ~8% of male users with red-green colour deficiency. The fix is small (add an icon or shape modifier alongside colour) — but it should have been in v1, not v2.</p>
+        </div>
+        <div class="reflect-card">
+          <h4>Pressure-test the estimate model</h4>
+          <p>“Crowdsource accurate wait times from users” sounds clean on a slide. In practice, response rates drop fast — I'd want to model what happens to the estimate when only ~15% of users complete the feedback prompt.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAKEAWAY -->
+    <section class="section" style="margin-bottom: 0;">
+      <div class="section-num">07 · Takeaway</div>
+      <h2>The transferable principle.</h2>
+      <p class="lead">When a product loses user trust, the instinct is to add features. The harder, better move is to find the <em>one signal users have already stopped believing</em> — and rebuild that signal end-to-end. <span class="sprinkle">✦</span></p>
+      <p>For NUSmart Dining, that signal was the queue. Everything else — the customisation gripes, the UI complaints — flowed from the fact that users couldn't trust the app to tell them the truth about waiting. Fix the truth-telling, and the rest gets cheaper to fix.</p>
+    </section>
+
+  </article>
+</div>
+
+<!-- FOOTER -->
+<footer class="case-footer" aria-label="Project details">
+  <div class="case-footer__inner">
+    <div class="case-footer__grid">
+      <div class="case-footer__mark">
+        <em>tended with love and care 💐</em>
+      </div>
+      <div class="case-footer__meta">
+        <p class="case-footer__row"><span class="case-footer__k">Role</span> <span class="case-footer__v">UI Designer, UX Researcher</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">Team</span> <span class="case-footer__v">4 designers (cross-faculty)</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">Timeline</span> <span class="case-footer__v">Sep 2024 (1 month)</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">Focus</span> <span class="case-footer__v">UI/UX Design</span></p>
+        <p class="case-footer__row"><span class="case-footer__k">Tools</span> <span class="case-footer__v">Miro</span></p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function showView(which) {
+    document.getElementById('view-tldr').classList.toggle('active', which === 'tldr');
+    document.getElementById('view-full').classList.toggle('active', which === 'full');
+    document.getElementById('btn-tldr').classList.toggle('active', which === 'tldr');
+    document.getElementById('btn-full').classList.toggle('active', which === 'full');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>

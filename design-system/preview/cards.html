@@ -1,0 +1,26 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>body{margin:0;background:var(--bg-1);color:var(--fg-1);padding:22px 24px;font-family:var(--font-body);font-size:13px}
+.card{background:var(--midnight-850);border:1px solid var(--border-1);border-radius:14px;padding:18px;transition:all .2s var(--ease-out)}
+.card.hover{border-color:var(--border-2);box-shadow:var(--glow-sm)}
+.eyebrow{font-family:var(--font-body);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3);margin-bottom:6px}
+.title{font-family:var(--font-display);font-size:22px;line-height:1.1;letter-spacing:-.015em;font-weight:400;color:var(--fg-1)}
+.meta{font-family:var(--font-mono);font-size:11px;color:var(--fg-4);margin-top:8px;display:flex;gap:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.l{font-family:var(--font-mono);font-size:10px;color:var(--fg-3);margin-bottom:8px;letter-spacing:.1em;text-transform:uppercase}
+  <link rel="stylesheet" href="../../shared/shell.css" />
+  <link rel="stylesheet" href="../../shared/phase1-ds-bridge.css" />
+</head><body>
+<div class="l">Note card — default &amp; hover</div>
+<div class="grid">
+  <div class="card">
+    <div class="eyebrow">§ Seedling</div>
+    <div class="title"><em>Three notes</em> becoming an essay</div>
+    <div class="meta"><span>two Tuesdays ago</span><span>·</span><span>4 min</span></div>
+  </div>
+  <div class="card hover">
+    <div class="eyebrow" style="color:var(--electric-glow)">✺ Evergreen</div>
+    <div class="title">On the pleasure of unfinishing</div>
+    <div class="meta"><span>tended weekly</span><span>·</span><span>since '23</span></div>
+  </div>
+</div>
+</body></html>
